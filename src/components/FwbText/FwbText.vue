@@ -41,7 +41,6 @@ import { twMerge } from "tailwind-merge";
 import { useInputClasses } from "./composables/useInputClasses";
 import {
   type InputSize,
-  type InputType,
   type ValidationStatus,
   validationStatusMap,
 } from "./types";
@@ -52,7 +51,6 @@ interface InputProps {
   modelValue: string;
   required?: boolean;
   size?: InputSize;
-  type?: InputType;
   validationStatus?: ValidationStatus;
 }
 
@@ -62,7 +60,6 @@ const props = withDefaults(defineProps<InputProps>(), {
   modelValue: "",
   required: false,
   size: "md",
-  type: "text",
   validationStatus: undefined,
 });
 

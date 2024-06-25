@@ -1,6 +1,6 @@
 export type InputSize = "sm" | "md" | "lg"; 
 
-export type InputType =
+/* export type InputType =
   | "button"
   | "checkbox"
   | "color"
@@ -22,7 +22,7 @@ export type InputType =
   | "text"
   | "time"
   | "url"
-  | "week";
+  | "week"; */
 
 export const validationStatusMap = {
   Success: "success",

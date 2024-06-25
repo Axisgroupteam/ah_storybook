@@ -10,6 +10,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     label: { control: 'text' },
+    disabled: { control: 'boolean', default: false },
   },
   args: {}
 } satisfies Meta<typeof FwbCheckbox>
