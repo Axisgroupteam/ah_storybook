@@ -9,8 +9,7 @@
     <div class="file-upload-wrapper" @click="triggerFileInput">     
         <div class="flex relative">
            <div
-              v-if="$slots.prefix"
-              :class="inputClasses"
+              v-if="$slots.prefix"             
               class="w-24 flex absolute inset-y-0 left-0 items-center overflow-hidden  justify-center rounded-tl-lg rounded-bl-lg h-full"
               :style="{ backgroundColor: validationStatus== 'error' ? '#B91C1C' : color }"
             >
