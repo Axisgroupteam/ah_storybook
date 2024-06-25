@@ -27,3 +27,18 @@ type Story = StoryObj<typeof meta>
         content: 'Default message'
     }
  }
+
+ export const Error: Story = {
+    args:  {
+      status: 'error',
+      content: 'Default message'
+    }
+ }
+
+ export const Warning: Story = {
+  args:  {
+    status: 'warning',
+    content: 'Default message'
+  }
+}
+

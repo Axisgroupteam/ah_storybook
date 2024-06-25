@@ -1,7 +1,7 @@
 <template>
     <div
       id="notification"
-      class="flex justify-between items-center p-4  m-0 gap-2 w-full rounded-md min-w-[327px]  bg-white dark:bg-[#262626]"
+      class="flex justify-between items-center p-4  m-0 gap-2  max-w-full rounded-md w-[400px]  bg-white dark:bg-[#262626]"
     >
       <div class="flex gap-2 justify-center items-center">
         
@@ -13,8 +13,8 @@
           >{{ content }}</span
         >
       </div>
-      <div class="flex">
-        <!-- <component :is="getFBIcon('close')" /> -->
+      <div class="flex cursor-pointer">
+        <component :is="getFBIcon('close')" />
       </div>
     </div>
   </template>
