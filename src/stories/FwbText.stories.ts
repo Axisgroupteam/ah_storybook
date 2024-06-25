@@ -27,7 +27,7 @@ type Story = StoryObj<typeof meta>
 
 export const Disabled: Story = {
   args: {
-    label: "Opinion: ",
+    label: "Comments: ",
     disabled: true,
   }
 }
