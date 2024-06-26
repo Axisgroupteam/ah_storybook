@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 import FwbInput from '@/components/FwbInput/FwbInput.vue'
-import { action } from '@storybook/addon-actions'
-import { ref } from 'vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: 'Example/FwbInput',
+  title: 'Example/FwbInputNumber',
   component: FwbInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -30,24 +28,29 @@ type Story = StoryObj<typeof meta>
  */
 
 export const Normal: Story = {
-  args: {}
+  args: {
+    type: 'number'
+  }
 }
 
 export const Disabled: Story = {
   args: {
+    type: 'number',
     disabled: true
   }
 }
 
 export const Required: Story = {
   args: {
+    type: 'number',
     required: true
   }
 }
 
 export const Medium: Story = {
   args: {
-    size: 'md'
+    size: 'md',
+    type: 'number'
   }
 }
 
@@ -66,6 +69,7 @@ export const ErrorStatus: Story = {
     `
   }),
   args: {
+    type: 'number',
     validationStatus: 'error'
   }
 }
