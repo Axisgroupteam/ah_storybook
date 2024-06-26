@@ -1,8 +1,8 @@
 <template>
-  <div ref="wrapper" class="inline-flex relative">
+  <div ref="wrapper"  class="inline-flex relative" >
     <div class="inline-flex items-center">
-      <fwb-slot-listener @click="onToggle">
-        <button v-if="$slots.trigger" class="ring-[3px] ring-black">          
+      <fwb-slot-listener @click="onToggle" class="cursor-pointer">
+             
           <slot   name="trigger">
             <fwb-button color="primary" size="xl">
               {{ text }}
@@ -24,7 +24,7 @@
               </template>
             </fwb-button>
           </slot>
-        </button>
+ 
       </fwb-slot-listener>
     </div>
     <transition :name="transitionName">
@@ -33,7 +33,7 @@
         ref="content"
         :class="[contentClasses]"
         :style="contentStyles"
-        @mouseleave="onToggle"
+     
       >
         <fwb-slot-listener @click="onToggle"> 
     
@@ -57,10 +57,8 @@ const emit = defineEmits(["toogle"]);
 
 const visible = ref(false);
 const onHide = () => {
-  if (props.closeInside) {
     visible.value = false;
     emit("toogle", false);
-  }
 };
 const onToggle = () => {
   visible.value = !visible.value;
@@ -110,6 +108,8 @@ onClickOutside(wrapper, () => {
   visible.value = false;
   emit("toogle", false);
 });
+ 
+
 </script>
 
 <style scoped>
