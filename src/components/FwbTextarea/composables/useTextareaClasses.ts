@@ -14,6 +14,8 @@ const errorTextAreaClasses =
 
 const disabledTextAreaClasses = 'cursor-not-allowed bg-gray-100'
 
+const disabledLClasses = ' text-neutral-400 dark:text-neutral-500'
+
 export function useTextareaClasses(
   custom: boolean,
   validationStatus: ValidationStatus | undefined,
@@ -39,7 +41,9 @@ export function useTextareaClasses(
         ? 'text-red-700 dark:text-red-500'
         : 'text-neutral-900 dark:text-white'
 
-    return twMerge(textareaLabelClasses, classByStatus)
+        const isDisabled =  disabled ? disabledLClasses : ''
+
+    return twMerge(textareaLabelClasses, classByStatus, isDisabled)
   })
   const wrapperClasses = computed(() => (custom ? textareaWrapperClasses : ''))
 
