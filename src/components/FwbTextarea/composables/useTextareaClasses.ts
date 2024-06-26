@@ -10,7 +10,7 @@ const textareaDefaultClasses =
 const textareaLabelClasses = 'block mb-2 text-sm font-medium text-neutral-900 dark:text-white'
 
 const errorTextAreaClasses =
-  'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500'
+  'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 placeholder:text-sm'
 
 const disabledTextAreaClasses = 'cursor-not-allowed bg-gray-100 placeholder-neutral-400 dark:placeholder-neutral-500'
 
