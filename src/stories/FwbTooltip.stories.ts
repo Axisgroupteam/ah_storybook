@@ -27,6 +27,13 @@ const meta = {
         , "left-start"
         , "left-end"] }
   },
+  decorators: [()=>({
+    template: `
+      <div class="w-full py-[100px] flex items-center justify-center">
+        <story />
+      </div>
+    `
+  })],
   args: {}
 } satisfies Meta<typeof FwbTooltip>
 
@@ -45,10 +52,10 @@ export const BootomHover: Story = {
       setup() {
         return { args }
       },
-      template: `<div class="w-full pt-[200px] flex items-center justify-center">
+      template: `
         <FwbTooltip v-bind="args">        
           <template #trigger>
-            <div class="w-[90px] h-[35px] pl-3 items-center bg-lime-500 flex rounded-md text-neutral-500 cursor-pointer" >
+            <div class="w-[90px] h-[35px] pl-3 items-center bg-neutral-700 flex rounded-md text-neutral-100 cursor-pointer" >
                 <span >Hover Me<span>
             </div>
           </template>       
@@ -56,7 +63,7 @@ export const BootomHover: Story = {
             <span class="text-sm font-semibold leading-tight text-neutral-900 dark:text-white whitespace-nowrap">Bottom placement</span>
           </template> 
         </FwbTooltip>
-      </div>
+ 
       `
     }),
     args: {
@@ -69,10 +76,10 @@ export const BootomHover: Story = {
       setup() {
         return { args }
       },
-      template: `<div class="w-full pt-[200px] flex items-center justify-center">
+      template: ` 
         <FwbTooltip v-bind="args">        
           <template #trigger>
-            <div class="w-[90px] h-[35px] pl-3 items-center bg-lime-500 flex rounded-md text-neutral-500 cursor-pointer" >
+            <div class="w-[90px] h-[35px] pl-3 items-center bg-neutral-700 flex rounded-md text-neutral-100 cursor-pointer" >
                 <span >Hover Me<span>
             </div>
           </template>       
@@ -80,7 +87,7 @@ export const BootomHover: Story = {
             <span class="text-sm font-semibold leading-tight text-neutral-900 dark:text-white whitespace-nowrap">Top placement</span>
           </template> 
         </FwbTooltip>
-      </div>
+   
       `
     }),
     args: {
@@ -94,10 +101,10 @@ export const BootomHover: Story = {
       setup() {
         return { args }
       },
-      template: `<div class="w-full pt-[200px] flex items-center justify-center">
+      template: ` 
         <FwbTooltip v-bind="args">        
           <template #trigger>
-            <div class="w-[90px] h-[35px] pl-3 items-center bg-lime-500 flex rounded-md text-neutral-500 cursor-pointer" >
+            <div class="w-[90px] h-[35px] pl-3 items-center bg-neutral-700 flex rounded-md text-neutral-100 cursor-pointer" >
                 <span >Hover Me<span>
             </div>
           </template>       
@@ -105,7 +112,7 @@ export const BootomHover: Story = {
             <span class="text-sm font-semibold leading-tight text-neutral-900 dark:text-white whitespace-nowrap">Left placement</span>
           </template> 
         </FwbTooltip>
-      </div>
+    
       `
     }),
     args: {
@@ -119,10 +126,10 @@ export const BootomHover: Story = {
       setup() {
         return { args }
       },
-      template: `<div class="w-full pt-[200px] flex items-center justify-center">
+      template: ` 
         <FwbTooltip v-bind="args">        
           <template #trigger>
-            <div class="w-[90px] h-[35px] pl-3 items-center bg-lime-500 flex rounded-md text-neutral-500 cursor-pointer" >
+            <div class="w-[90px] h-[35px] pl-3 items-center bg-neutral-700 flex rounded-md text-neutral-100 cursor-pointer" >
                 <span >Hover Me<span>
             </div>
           </template>       
@@ -130,7 +137,7 @@ export const BootomHover: Story = {
             <span class="text-sm font-semibold leading-tight text-neutral-900 dark:text-white whitespace-nowrap">Right placement</span>
           </template> 
         </FwbTooltip>
-      </div>
+ 
       `
     }),
     args: {
@@ -144,18 +151,18 @@ export const BootomHover: Story = {
       setup() {
         return { args }
       },
-      template: `<div class="w-full pt-[200px] flex items-center justify-center">
+      template: ` 
         <FwbTooltip v-bind="args">        
           <template #trigger>
-            <div class="w-[90px] h-[35px] pl-3 items-center bg-lime-500 flex rounded-md text-neutral-500 cursor-pointer" >
+            <div class="w-[90px] h-[35px] pl-3 items-center bg-neutral-700 flex rounded-md text-neutral-100 cursor-pointer" >
                 <span >Hover Me<span>
             </div>
           </template>       
           <template #content>
-            <span class="text-sm font-semibold leading-tight text-neutral-900 dark:text-white whitespace-nowrap">Right placement</span>
+            <span class="text-sm font-semibold leading-tight text-neutral-900 dark:text-white whitespace-nowrap">Hovering after click</span>
           </template> 
         </FwbTooltip>
-      </div>
+     
       `
     }),
     args: {
