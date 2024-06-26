@@ -12,7 +12,9 @@ const textareaLabelClasses = 'block mb-2 text-sm font-medium text-neutral-900 da
 const errorTextAreaClasses =
   'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500'
 
-const disabledTextAreaClasses = 'cursor-not-allowed bg-gray-100'
+const disabledTextAreaClasses = 'cursor-not-allowed bg-gray-100 placeholder-neutral-400 dark:placeholder-neutral-500'
+
+const disabledLClasses = ' text-neutral-400 dark:text-neutral-500'
 
 export function useTextareaClasses(
   custom: boolean,
@@ -39,7 +41,9 @@ export function useTextareaClasses(
         ? 'text-red-700 dark:text-red-500'
         : 'text-neutral-900 dark:text-white'
 
-    return twMerge(textareaLabelClasses, classByStatus)
+        const isDisabled =  disabled ? disabledLClasses : ''
+
+    return twMerge(textareaLabelClasses, classByStatus, isDisabled)
   })
   const wrapperClasses = computed(() => (custom ? textareaWrapperClasses : ''))
 

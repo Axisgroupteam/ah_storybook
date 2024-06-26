@@ -66,9 +66,10 @@ const model = computed({
   }
 })
 
+///////const disabledTAClasses='cursor-not-allowed bg-gray-100'
 const validationWrapperClasses = computed(() =>
   twMerge(
-    'mt-2 text-sm',
+    'text-sm',
     props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
   )
 )
