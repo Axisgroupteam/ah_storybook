@@ -10,7 +10,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     label: { control: 'text' },
-    disabled: { control: 'boolean', default: false },
+    customClass: { table: { disable: true } }
   },
   args: {}
 } satisfies Meta<typeof FwbCheckbox>
@@ -22,10 +22,27 @@ type Story = StoryObj<typeof meta>
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
+export const Normal: Story = {
+  args: {}
+}
 
 export const Disabled: Story = {
   args: {
-    label: "Checkbox text",
-    disabled: true,
+    disabled: true
+  }
+}
+
+export const CustomBackgroundColor: Story = {
+  render: (args) => ({
+    components: { FwbCheckbox },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbCheckbox v-bind="args" />                      
+    `
+  }),
+  args: {
+    customClass: 'bg-neutral-500 dark:bg-neutral-800'
   }
 }

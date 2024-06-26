@@ -1,74 +1,61 @@
 <template>
-  <label class="flex gap-3 items-center justify-start bg-neutra">
+  <label class="flex gap-3 items-center justify-start">
     <input
       v-model="model"
       class="bg-neutral"
-      :class="checkboxClasses"
+      :class="[checkboxClasses, customClass ? customClass : '']"
       :disabled="disabled"
       type="checkbox"
+      @change="toggleRing"
+      :style="{
+        boxShadow: ring ? '' : 'none'
+      }"
     />
-    <span v-if="label" :class="labelClasses" @click.stop
-      >{{ label }}<span class="hidden">{{ isActive }}</span></span
-    >
+    <span v-if="label" :class="labelClasses">{{ label }}</span>
     <slot />
   </label>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
-import { useCheckboxClasses } from "./composables/useCheckboxClasses";
-/* import useAuthStore from "@/new_design/auth/stores/auth";
-import { storeToRefs } from "pinia"; */
-
-/* const auth = useAuthStore();
-
-const { dark } = storeToRefs(auth); */
+import { computed, ref, watch } from 'vue'
+import { useCheckboxClasses } from './composables/useCheckboxClasses'
 
 interface CheckboxProps {
-  disabled?: boolean;
-  label?: string;
-  modelValue?: boolean;
-  optionalBackgroundColor?: string;
+  disabled?: boolean
+  label?: string
+  modelValue?: boolean
+  customClass?: string
 }
 const props = withDefaults(defineProps<CheckboxProps>(), {
   disabled: false,
-  label: "",
+  label: 'Title',
   modelValue: false,
-  optionalBackgroundColor: "rgb(64,64,64)",
-});
+  customClass: ''
+})
 
-const isActive = ref(false);
+const ring = ref(false)
 
-function activateRing() {
-  isActive.value = true;
-  setTimeout(() => {
-    isActive.value = false;
-  }, 200);
+const toggleRing = () => {
+  ring.value = !ring.value
 }
 
-const emit = defineEmits(["update:modelValue"]);
+watch(ring, (newValue) => {
+  if (newValue) {
+    setTimeout(() => {
+      ring.value = false
+    }, 300)
+  }
+})
+
+const emit = defineEmits(['update:modelValue'])
 const model = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(val) {
-    emit("update:modelValue", val);
-  },
-});
-
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    activateRing();
+    emit('update:modelValue', val)
   }
-);
+})
 
-const { checkboxClasses, labelClasses } = useCheckboxClasses();
+const { checkboxClasses, labelClasses } = useCheckboxClasses()
 </script>
-
-<style scoped>
-input:focus {
-  outline: none !important;
-  box-shadow: none;
-}
-</style>

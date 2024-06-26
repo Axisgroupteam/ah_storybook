@@ -2155,6 +2155,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@popperjs/core@npm:^2.9.3":
+  version: 2.11.8
+  resolution: "@popperjs/core@npm:2.11.8"
+  checksum: 10c0/4681e682abc006d25eb380d0cf3efc7557043f53b6aea7a5057d0d1e7df849a00e281cd8ea79c902a35a414d7919621fc2ba293ecec05f413598e0b23d5a1e63
+  languageName: node
+  linkType: hard
+
 "@radix-ui/primitive@npm:1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/primitive@npm:1.1.0"
@@ -3768,6 +3775,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/web-bluetooth@npm:^0.0.20":
+  version: 0.0.20
+  resolution: "@types/web-bluetooth@npm:0.0.20"
+  checksum: 10c0/3a49bd9396506af8f1b047db087aeeea9fe4301b7fad4fe06ae0f6e00d331138caae878fd09e6410658b70b4aaf10e4b191c41c1a5ff72211fe58da290c7d003
+  languageName: node
+  linkType: hard
+
 "@types/yauzl@npm:^2.9.1":
   version: 2.10.3
   resolution: "@types/yauzl@npm:2.10.3"
@@ -4347,6 +4361,34 @@ __metadata:
   version: 0.5.1
   resolution: "@vue/tsconfig@npm:0.5.1"
   checksum: 10c0/cf4049c0daf26579e42803eca661809f95f9196323b4a6aec1714ac3c80df37b44d3878468f56e2f3d1fe64640fe9cb42f20db42509ef858ab059fe05e0dd862
+  languageName: node
+  linkType: hard
+
+"@vueuse/core@npm:^10.11.0":
+  version: 10.11.0
+  resolution: "@vueuse/core@npm:10.11.0"
+  dependencies:
+    "@types/web-bluetooth": "npm:^0.0.20"
+    "@vueuse/metadata": "npm:10.11.0"
+    "@vueuse/shared": "npm:10.11.0"
+    vue-demi: "npm:>=0.14.8"
+  checksum: 10c0/5cb0f8858123237d2dff12e7175c80f8752d6b5ed52217cef294f1ca287c0ee4fef45dbb4b0895c541266a2a85b280fd4c7c56ca95c9410918fa4c1ea61f77a4
+  languageName: node
+  linkType: hard
+
+"@vueuse/metadata@npm:10.11.0":
+  version: 10.11.0
+  resolution: "@vueuse/metadata@npm:10.11.0"
+  checksum: 10c0/5a252d6da6ecaa2ac125a722f4635edea99c09d22ef656f7d4516e34ea4a603f2635c89e011352f81beff01e0f114d37fa512d90f5beb1a7af324b724cb568d5
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:10.11.0":
+  version: 10.11.0
+  resolution: "@vueuse/shared@npm:10.11.0"
+  dependencies:
+    vue-demi: "npm:>=0.14.8"
+  checksum: 10c0/9ea0bf86d316ff0e4dcf8dd1c1cbdc07a5b26437fd404ebbb91ff9b1d4d5a718c5db602a2fbd4627be3377e2f763b5b5c1b0aec0169fdb3bf93ce143201de34a
   languageName: node
   linkType: hard
 
@@ -7149,6 +7191,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flowbite@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "flowbite@npm:2.3.0"
+  dependencies:
+    "@popperjs/core": "npm:^2.9.3"
+    mini-svg-data-uri: "npm:^1.4.3"
+  checksum: 10c0/2e1d1c6efe44686b039301af28464440b21957c939c520d6bb358c313ce252aae63604415efe59c1f16aefd0704a8346a800834b74e04a536718fd0078b638b4
+  languageName: node
+  linkType: hard
+
 "follow-redirects@npm:^1.15.6":
   version: 1.15.6
   resolution: "follow-redirects@npm:1.15.6"
@@ -9166,6 +9218,15 @@ __metadata:
   version: 1.0.1
   resolution: "min-indent@npm:1.0.1"
   checksum: 10c0/7e207bd5c20401b292de291f02913230cb1163abca162044f7db1d951fa245b174dc00869d40dd9a9f32a885ad6a5f3e767ee104cf278f399cb4e92d3f582d5c
+  languageName: node
+  linkType: hard
+
+"mini-svg-data-uri@npm:^1.4.3":
+  version: 1.4.4
+  resolution: "mini-svg-data-uri@npm:1.4.4"
+  bin:
+    mini-svg-data-uri: cli.js
+  checksum: 10c0/24545fa30b5a45449241bf19c25b8bc37594b63ec06401b3d563bd1c2e8a6abb7c18741f8b354e0064baa63c291be214154bf3a66f201ae71dfab3cc1a5e3191
   languageName: node
   linkType: hard
 
@@ -11719,6 +11780,7 @@ __metadata:
     "@vue/eslint-config-typescript": "npm:^13.0.0"
     "@vue/test-utils": "npm:^2.4.6"
     "@vue/tsconfig": "npm:^0.5.1"
+    "@vueuse/core": "npm:^10.11.0"
     autoprefixer: "npm:^10.4.19"
     classnames: "npm:^2.5.1"
     cypress: "npm:^13.12.0"
@@ -11726,6 +11788,7 @@ __metadata:
     eslint-plugin-cypress: "npm:^3.3.0"
     eslint-plugin-storybook: "npm:^0.8.0"
     eslint-plugin-vue: "npm:^9.23.0"
+    flowbite: "npm:^2.3.0"
     jsdom: "npm:^24.1.0"
     npm-run-all2: "npm:^6.2.0"
     pinia: "npm:^2.1.7"
@@ -12920,7 +12983,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:>=0.14.5":
+"vue-demi@npm:>=0.14.5, vue-demi@npm:>=0.14.8":
   version: 0.14.8
   resolution: "vue-demi@npm:0.14.8"
   peerDependencies:
