@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "@storybook/addon-postcss": "^2.0.0",
+    "@vueuse/core": "^10.11.0",
     "classnames": "^2.5.1",
+    "lodash-es": "^4.17.21",
     "pinia": "^2.1.7",
     "tailwind-merge": "^2.3.0",
     "vite-svg-loader": "^4.0.0",
