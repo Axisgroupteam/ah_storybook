@@ -23,6 +23,7 @@
     "classnames": "^2.5.1",
     "pinia": "^2.1.7",
     "tailwind-merge": "^2.3.0",
+    "vite-svg-loader": "^4.0.0",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
