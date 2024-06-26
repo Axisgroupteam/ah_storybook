@@ -1,15 +1,14 @@
 <template>
-  <div class="flex items-start" :class="expanded ? 'w-full' : ''">
+  <div class="flex items-start" >
     <tooltip
       ref="tool_ref"
-      :class="expanded ? 'w-full' : ''"
       :placement="placement"
       :triggers="[trigger]"
       theme="default"
       :disabled="!active ? true : false"
-      :distance="10"
+      :distance="distance"
     >
-      <slot name="trigger" :class="expanded ? 'w-full' : ''" />
+      <slot name="trigger"  />
       <template #popper>
         <slot v-if="active" name="content" />
       </template>
@@ -18,24 +17,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+
 import { Tooltip } from "floating-vue";
 import type { TooltipPlacement, TooltipStyle, TooltipTrigger } from "./types";
 import "floating-vue/dist/style.css";
 
 interface TooltipProps {
   placement?: TooltipPlacement;
- 
+  distance?: number; 
   trigger?: TooltipTrigger;
   active?: boolean;
-  expanded?: boolean;
 }
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: "top",
- 
+  distance: 10,
   trigger: "hover",
   active: true,
-  expanded: false,
 });
  
 </script>
