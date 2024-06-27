@@ -9,11 +9,7 @@ const meta = {
   component: FwbFileInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  argTypes: {
-    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
-    //color: { control: 'select', options: ['primary', 'secondary', 'terciary'] },   
-    validationStatus: { control: 'select', options: ['success', 'error']  },
-  },
+  argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbFileInput>
 
@@ -25,8 +21,7 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-
-export const DefaultSlot: Story = {
+export const Normal: Story = {
   render: (args) => ({
     components: { FwbFileInput },
     setup() {
@@ -34,53 +29,40 @@ export const DefaultSlot: Story = {
     },
     template: `
       <FwbFileInput v-bind="args">
-        <template #prefix>
-          <label for="file-input"  class="text-white text-xs md:text-sm">
-            Examinar...
-          </label>
-        </template>             
+        
       </FwbFileInput>
     `
   }),
-  args: {  
-    label: "Upload file" ,
-    required: true,
-    size: 'md',
-    type: 'file' ,
-    validationStatus: ""   
-  }
+  args: {}
 }
 
-
-export const WithError: Story = {
+export const Required: Story = {
   render: (args) => ({
     components: { FwbFileInput },
     setup() {
       return { args }
     },
     template: `
-      <FwbFileInput v-bind="args">
-        <template #prefix>
-          <label for="file-input"  class="text-white text-xs md:text-sm">
-            Examinar...
-          </label>
-        </template> 
-        <template #validationMessage>
-               There was an error with your file upload
-          </template>             
-      </FwbFileInput>
+      <FwbFileInput v-bind="args" />
     `
   }),
-  args: {  
-    label: "Upload file" ,
-    required: true,
-    size: 'md',    
-    validationStatus: "error"   ,
-    errors: {
-      application: "There was an error with your file upload"
-    }
-    
+  args: {
+    required: true
   }
 }
 
-
+export const Dropzone: Story = {
+  render: (args) => ({
+    components: { FwbFileInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbFileInput v-bind="args" />
+    `
+  }),
+  args: {
+    label: 'Upload file',
+    dropzone: true
+  }
+}

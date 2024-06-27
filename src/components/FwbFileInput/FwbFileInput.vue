@@ -1,135 +1,141 @@
-
-
 <template>
   <div>
-     <label v-if="label" :class="labelClassesComputed"
-      >{{ label }} <span v-if="required" class="text-red-500">* </span></label
+    <div v-if="!dropzone">
+      <label>
+        <span :class="labelClasses"
+          >{{ label }}<span class="text-red-500" v-if="required"> *</span></span
+        >
+        <input
+          :class="fileInpClasses"
+          :multiple="multiple"
+          type="file"
+          :accept="accept"
+          @change="handleChange"
+        />
+      </label>
+      <slot />
+    </div>
+    <div
+      v-else
+      class="flex items-center justify-center"
+      @change="handleChange"
+      @dragover="dragOverHandler"
+      @drop="dropFileHandler"
     >
-  
-    <div class="file-upload-wrapper" @click="triggerFileInput">     
-        <div class="flex relative">
-           <div
-              v-if="$slots.prefix"             
-              class="w-24 flex absolute inset-y-0 left-0 items-center overflow-hidden  justify-center rounded-tl-lg rounded-bl-lg h-full"
-              :style="{ backgroundColor: validationStatus== 'error' ? '#B91C1C' : color }"
-            >
-              <slot name="prefix" />
+      <label :class="dropzoneLabelClasses">
+        <div :class="dropzoneWrapClasses">
+          <component
+            class="text-neutral-500 dark:text-neutral-400 mb-2"
+            :is="getFBIcon('upload')"
+          />
+          <div v-if="!model">
+            <div :class="dropzoneTextClasses">
+              <span><span class="font-semibold">Click to upload</span> or drag and drop</span>
+              <span> SVG, PNG, JPG or GIF (MAX. 800x400px) </span>
             </div>
-            <input 
-              id="file-input"
-              v-bind="$attrs"
-              :value="fileNameSelected"
-              :disabled="disabled"        
-              :required="required"
-              class="focus:outline-none"
-              :class="[
-                inputClasses,
-                $slots.prefix ? 'pl-28' : '',
-                dark ? 'autofill-text' : '',
-              ]"
-              :readonly="readonly"
-              />
-            <div
-              v-if="$slots.suffix"
-              class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0"
-              @click="toggle"
-            >
-              <slot name="suffix" />
-            </div>
+            <slot />
           </div>
-          <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
-            <slot name="validationMessage" />
-          </p>        
-      <input type="file" ref="fileInput" @change="handleFileChange" style="display: none;" />
+          <p v-else>File: {{ dropZoneText }}</p>
+        </div>
+        <input :multiple="multiple" type="file" :accept="accept" class="hidden" />
+      </label>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, toRefs } from "vue";
-  import {
-    validationStatusMap,
-    type InputSize,
-    type InputType,
-    type ValidationStatus,   
-  } from "./types";
-  import { useInputClasses } from "./composables/useInputClasses";
-import { twMerge } from "tailwind-merge";
+import { computed } from 'vue'
+import { isArray } from 'lodash-es'
+import { useFileInputClasses } from './composables/useFileInputClasses'
+import { getFBIcon } from '@/utils/getAssets'
 
-  interface InputProps {
-    disabled?: boolean;
-    label?: string;
-    modelValue: string;
-    required?: boolean;
-    size?: InputSize;
-    type?: InputType;
-    validationStatus?: ValidationStatus;
-    readonly?: boolean;
-    color?: string;
+interface FileInputProps {
+  dropzone?: boolean
+  label?: string
+  modelValue?: File | File[] | null
+  multiple?: boolean
+  accept?: string
+  required?: boolean
+}
+
+const props = withDefaults(defineProps<FileInputProps>(), {
+  dropzone: false,
+  label: 'Upload file',
+  modelValue: null,
+  multiple: false,
+  accept: '',
+  required: false
+})
+
+const dropZoneText = computed(() => {
+  if (isArray(props.modelValue)) {
+    return props.modelValue.map((el) => el.name).join(', ')
+  } else if (props.modelValue instanceof FileList) {
+    return Array.from(props.modelValue)
+      .map((el) => el.name)
+      .join(',')
+  } else if (props.modelValue instanceof File) {
+    return props.modelValue.name || ''
   }
 
-  const props = withDefaults(defineProps<InputProps>(), {
-    disabled: false,
-    label: "",
-    modelValue: "",
-    required: false,
-    size: "md",
-    type: "text",
-    validationStatus: undefined,
-    readonly: false,
-    color: '#262626'
-  });
+  return ''
+})
 
-  const { inputClasses, labelClasses } = useInputClasses(toRefs(props));
+const emit = defineEmits(['update:modelValue'])
+const model = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  }
+})
 
-  const emit = defineEmits(["update:modelValue", "file-selected", "toggleVisibility"]);
-  const fileName = ref("");
-  const fileInput = ref(null);
-  const file = ref([]);
-  const dark = ref(false)
+const handleChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  if (props.multiple) {
+    model.value = Array.from(target.files ?? [])
+  } else {
+    model.value = target.files?.[0] ?? null
+  }
+}
 
-  const labelClassesComputed = computed(() => labelClasses.value);
-
-  const fileNameSelected = computed(() => {
-    return fileName.value ? fileName.value : props.modelValue ? props.modelValue : "No se ha seleccionado ningún archivo.";
-  });
-
-  const validationWrapperClasses = computed(() =>
-  twMerge(
-    "mt-2 text-sm",
-    props.validationStatus === validationStatusMap.Success
-      ? "text-green-600 dark:text-green-500"
-      : "",
-    props.validationStatus === validationStatusMap.Error
-      ? "text-red-600 dark:text-red-500"
-      : ""
-  )
-);
-
-  const toggle = () => {
-    emit("toggleVisibility");
-  };
-
-   const triggerFileInput = () => {
-      fileInput.value?.click();
-    };
-
-    const handleFileChange = (event: any) => {
-      file.value = event.target.files[0];
-      if (file.value) {
-        fileName.value = file.value.name;
-        emit('file-selected', file);
-        emit("update:modelValue", fileName.value);
-      } else {
-        fileName.value = '';
+const dropFileHandler = (event: DragEvent) => {
+  event.preventDefault()
+  const arr: File[] = []
+  if (event.dataTransfer?.items) {
+    Object.values(event.dataTransfer.items).forEach((item: DataTransferItem) => {
+      if (item.kind === 'file') {
+        arr.push(item.getAsFile() as File)
       }
+    })
+    if (props.multiple) {
+      model.value = arr
+    } else {
+      model.value = arr[0]
     }
+  } else if (event.dataTransfer?.files) {
+    Object.values(event.dataTransfer.files).forEach((file: File) => {
+      model.value = file
+    })
+  }
+}
 
+const dragOverHandler = (event: Event) => {
+  event.preventDefault()
+}
 
+const {
+  fileInpClasses,
+  labelClasses,
+  dropzoneLabelClasses,
+  dropzoneWrapClasses,
+  dropzoneTextClasses
+} = useFileInputClasses()
 </script>
 
 <style scoped>
-
-
-
+input[type='file']::-webkit-file-upload-button {
+  @apply text-white bg-neutral-800 dark:bg-neutral-200 dark:text-neutral-800;
+}
 </style>
