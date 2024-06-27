@@ -6,6 +6,9 @@
     :class="wrapperClasses"
     :[linkAttr]="href"
     :disabled="buttonComponent === 'button' && (disabled || loading)"
+    :style="{
+      boxShadow: disabled ? 'none' : ''
+    }"
   >
     <!-- Prefix slot for additional content before the button text -->
     <div v-if="$slots.prefix || loadingPrefix" class="mr-2">
