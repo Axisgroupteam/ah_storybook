@@ -13,7 +13,7 @@ const meta = {
     // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
     tags: ['autodocs'],
     argTypes: {
-      status: { control: 'select', options: ['success', 'error', 'warning'] },
+      status: { control: 'select', options: ['success', 'error', 'warning', 'action', 'info'] },
     },
     args: {}
   } satisfies Meta<typeof BaseNotification>
@@ -40,7 +40,7 @@ type Story = StoryObj<typeof meta>
   }),
   args: {
     status: 'success',
-      content: 'Default message'
+      content: 'Success notification'
   }
 }
 
@@ -59,7 +59,7 @@ export const Error: Story = {
   }),
   args: {
     status: 'error',
-      content: 'Default message'
+      content: 'Error notification'
   }
 }
 
@@ -77,7 +77,43 @@ export const Warning: Story = {
   }),
   args: {
     status: 'warning',
-      content: 'Default message'
+      content: 'Warning notification'
+  }
+}
+
+export const Information: Story = {
+  render: (args) => ({
+    components: { BaseNotification },
+    setup() {
+      return { args }
+    },
+    template: `
+              
+        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+      
+    `
+  }),
+  args: {
+    status: 'info',
+      content: 'Information notification'
+  }
+}
+
+export const Action: Story = {
+  render: (args) => ({
+    components: { BaseNotification },
+    setup() {
+      return { args }
+    },
+    template: `
+              
+        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+      
+    `
+  }),
+  args: {
+    status: 'action',
+      content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe reiciendis vero iste.'
   }
 }
 
