@@ -3371,7 +3371,7 @@ enquirer@^2.3.6, "enquirer@>= 2.3.0 < 3":
     ansi-colors "^4.1.1"
     strip-ansi "^6.0.1"
 
-entities@^4.2.0, entities@^4.4.0, entities@^4.5.0:
+entities@^4.4.0, entities@^4.5.0:
   version "4.5.0"
 
 envinfo@^7.7.3:
@@ -5101,7 +5101,7 @@ npmlog@^5.0.1:
     gauge "^3.0.0"
     set-blocking "^2.0.0"
 
-nth-check@^2.0.1, nth-check@^2.1.1:
+nth-check@^2.1.1:
   version "2.1.1"
   dependencies:
     boolbase "^1.0.0"
@@ -6176,7 +6176,7 @@ slice-ansi@^4.0.0:
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
 
-source-map-js@^1.0.1, source-map-js@^1.2.0:
+source-map-js@^1.2.0:
   version "1.2.0"
 
 source-map-support@^0.5.16, source-map-support@~0.5.20:
@@ -6964,7 +6964,7 @@ vue-tsc@^2.0.21:
     "@vue/language-core" "2.0.22"
     semver "^7.5.4"
 
-"vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.2, vue@^3.2.0, vue@^3.2.25, vue@^3.4.29, vue@>=2, vue@3.4.30:
+"vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.4.29, vue@>=2, vue@3.4.30:
   version "3.4.30"
   dependencies:
     "@vue/compiler-dom" "3.4.30"
