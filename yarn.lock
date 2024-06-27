@@ -1028,6 +1028,11 @@
 "@polka/url@^1.0.0-next.24":
   version "1.0.0-next.25"
 
+"@popperjs/core@^2.9.3":
+  version "2.11.8"
+  resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
+
 "@radix-ui/primitive@1.1.0":
   version "1.1.0"
 
@@ -1573,7 +1578,7 @@
     "@vitest/utils" "^1.3.1"
     util "^0.12.4"
 
-"@storybook/manager-api@8.1.10":
+"@storybook/manager-api@^8.1.10", "@storybook/manager-api@8.1.10":
   version "8.1.10"
   dependencies:
     "@storybook/channels" "8.1.10"
@@ -1664,7 +1669,7 @@
     "@vitest/spy" "^1.3.1"
     util "^0.12.4"
 
-"@storybook/theming@8.1.10":
+"@storybook/theming@^8.1.10", "@storybook/theming@8.1.10":
   version "8.1.10"
   dependencies:
     "@emotion/use-insertion-effect-with-fallbacks" "^1.0.1"
@@ -3892,6 +3897,14 @@ floating-vue@^5.2.2:
 flow-parser@0.*:
   version "0.238.2"
 
+flowbite@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/flowbite/-/flowbite-2.3.0.tgz"
+  integrity sha512-pm3JRo8OIJHGfFYWgaGpPv8E+UdWy0Z3gEAGufw+G/1dusaU/P1zoBLiQpf2/+bYAi+GBQtPVG86KYlV0W+AFQ==
+  dependencies:
+    "@popperjs/core" "^2.9.3"
+    mini-svg-data-uri "^1.4.3"
+
 follow-redirects@^1.15.6:
   version "1.15.6"
 
@@ -4930,6 +4943,11 @@ mimic-fn@^4.0.0:
 
 min-indent@^1.0.0:
   version "1.0.1"
+
+mini-svg-data-uri@^1.4.3:
+  version "1.4.4"
+  resolved "https://registry.npmjs.org/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz"
+  integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
 
 minimatch@^3.0.2, minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"

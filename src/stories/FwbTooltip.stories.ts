@@ -155,7 +155,7 @@ export const BootomHover: Story = {
         <FwbTooltip v-bind="args">        
           <template #trigger>
             <div class="w-[90px] h-[35px] pl-3 items-center bg-neutral-700 flex rounded-md text-neutral-100 cursor-pointer" >
-                <span >Hover Me<span>
+                <span >Click Me<span>
             </div>
           </template>       
           <template #content>
