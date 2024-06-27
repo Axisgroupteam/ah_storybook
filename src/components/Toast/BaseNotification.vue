@@ -12,9 +12,13 @@
       </div>
       <div class="grow pl-12 flex flex-col justify-start ">
         <div class="flex justify-between">
-          <span class="font-bold text-[14px] dark:text-white  text-neutral-900 leading-[24px]">Action notification</span>
-          <div class="flex cursor-pointer">
-            <component :is="getFBIcon('close')" />
+          <span class="font-bold text-[14px] dark:text-white  text-neutral-900 leading-[24px]">{{ actionTitle }}</span>
+          <div class="flex  ">
+            <FwbButton square color="secondary"  class="border-0">        
+            <template #default>
+              <component :is="getFBIcon('close')" />
+            </template>
+            </FwbButton>
           </div>
         </div>
         <p class="text-[14px] leading-[24px] text-neutral-600 dark:text-[#A3A3A3]" >{{ content }}</p>
@@ -25,7 +29,7 @@
                 <span class="px-8">Accept</span>
               </template>        
             </FwbButton>
-            <FwbButton color="secondary" size="md">        
+            <FwbButton color="secondary" size="md"  >        
               <template #default>
                 <span class="px-8">Decline</span>
               </template>        
@@ -49,7 +53,11 @@
         >
       </div>
       <div class="flex cursor-pointer">
-        <component :is="getFBIcon('close')" />
+        <FwbButton square color="secondary"  class="border-0">        
+            <template #default>
+              <component :is="getFBIcon('close')" />
+            </template>
+            </FwbButton>
       </div>
     </div>
   </template>
@@ -61,11 +69,13 @@
     interface IProps {
       status: 'success'| 'warning' | 'error' | 'action' | 'info';
       content: string;
+      actionTitle? : string;
     }
   
     const props = withDefaults(defineProps<IProps>(), {
       status: "error",
       content: "Change password failed!",
+      actionTitle: 'Action Notification',
     });
   
     const bg_icon_classes = {

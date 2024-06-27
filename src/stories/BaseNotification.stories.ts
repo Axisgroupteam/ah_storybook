@@ -6,7 +6,7 @@ const meta = {
     title: 'Example/BaseNotification',
     component: BaseNotification,
     decorators: [()=>({
-      template: `<div class="w-[400px] ">        
+      template: `<div class="w-[400px] rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)]">        
         <story />
       </div>`
     })],
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>
     },
     template: `
               
-        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+        <BaseNotification v-bind="args"  />
       
     `
   }),
@@ -53,7 +53,7 @@ export const Error: Story = {
     },
     template: `
               
-        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+        <BaseNotification v-bind="args"  />
       
     `
   }),
@@ -71,7 +71,7 @@ export const Warning: Story = {
     },
     template: `
               
-        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+        <BaseNotification v-bind="args"  />
       
     `
   }),
@@ -89,7 +89,7 @@ export const Information: Story = {
     },
     template: `
               
-        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+        <BaseNotification v-bind="args"  />
       
     `
   }),
@@ -107,7 +107,7 @@ export const Action: Story = {
     },
     template: `
               
-        <BaseNotification v-bind="args" class="shadow-[0_3px_10px_rgb(0,0,0,0.2)]" />
+        <BaseNotification v-bind="args"  />
       
     `
   }),
