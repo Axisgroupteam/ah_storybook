@@ -26,7 +26,6 @@ import { computed } from 'vue'
 import { useTextareaClasses } from './composables/useTextareaClasses'
 import { twMerge } from 'tailwind-merge'
 import { type ValidationStatus, validationStatusMap } from './types'
-import { useMergeClasses } from '@/composables/userMergeClasses'
 
 interface TextareaProps {
   modelValue?: string
@@ -66,6 +65,7 @@ const model = computed({
   }
 })
 
+///////const disabledTAClasses='cursor-not-allowed bg-gray-100'
 const validationWrapperClasses = computed(() =>
   twMerge(
     'text-sm',
@@ -86,6 +86,10 @@ const wrapperClasses = computed(() => classes.value.wrapperClasses.value)
 
 <style scoped>
 textarea:focus {
-  outline: none;
+  outline: none !important;
+}
+
+textarea {
+  outline: none !important;
 }
 </style>
