@@ -68,7 +68,7 @@ const model = computed({
 
 const validationWrapperClasses = computed(() =>
   twMerge(
-    'mt-2 text-sm',
+    'text-sm',
     props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
   )
 )
