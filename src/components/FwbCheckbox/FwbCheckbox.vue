@@ -57,5 +57,8 @@ const model = computed({
   }
 })
 
-const { checkboxClasses, labelClasses } = useCheckboxClasses(props.disabled)
+const classes = computed(() => useCheckboxClasses(props.disabled))
+
+const checkboxClasses = computed(() => classes.value.checkboxClasses.value)
+const labelClasses = computed(() => classes.value.labelClasses.value)
 </script>

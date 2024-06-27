@@ -10,7 +10,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     label: { control: 'text' },
-    //customClass: { table: { disabled: false } }
+    customClass: { table: { disabled: false } }
     //disabled: { control: 'boolean' },
   },
   args: {}
