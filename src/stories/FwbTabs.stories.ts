@@ -57,7 +57,7 @@ export const Default: Story = {
         return { args, tabs, tabName }
       },
       template: `            
-          <FwbTabs v-model="tabName"   >
+          <FwbTabs v-bind="args" v-model="tabName"   >
                 <FwbTab
                     v-for="(tab, index) in tabs"
                     :key="index"
