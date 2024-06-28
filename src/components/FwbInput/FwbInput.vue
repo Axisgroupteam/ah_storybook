@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   required: false,
   size: 'md',
   type: 'text',
-  validationStatus: undefined,
+  validationStatus: 'normal',
   readonly: false
 })
 
@@ -76,14 +76,14 @@ const toggle = () => {
   emit('toggleVisibility')
 }
 
-const { inputClasses, labelClasses } = useInputClasses(toRefs(props))
+const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
+
+const inputClasses = computed(() => classes.value.inputClasses.value)
+const labelClasses = computed(() => classes.value.labelClasses.value)
 
 const validationWrapperClasses = computed(() =>
   twMerge(
-    'mt-2 text-sm',
-    props.validationStatus === validationStatusMap.Success
-      ? 'text-green-600 dark:text-green-500'
-      : '',
+    'text-sm',
     props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
   )
 )
