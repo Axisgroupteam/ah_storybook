@@ -1,32 +1,34 @@
 <template>
-  <label class="flex gap-3 items-center justify-start">
+  <label class="inline-flex items-center cursor-pointer">
     <input
-      v-model="model"
-      class="bg-neutral"
-      :class="[checkboxClasses, customClass ? customClass : '']"
-      :disabled="disabled"
       type="checkbox"
-      @change="toggleRing"
-      :style="{
-        boxShadow: ring ? '' : 'none'
-      }"
+      class="sr-only peer"
+      v-model="model"
+      :disabled="disabled"    
     />
-    <span v-if="label" :class="labelClasses">{{ label }}</span>
+    <div
+      class="" 
+      @click="toggleRing"
+      :style="{ boxShadow: ring ? '' : 'none' }"
+      :class="[toggleClasses, customClass ? customClass : '']"
+      :disabled="disabled"
+    ></div>
+    <span @click="toggleRing" v-if="label" :class="labelClasses">{{ label }}</span>
     <slot />
   </label>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import { useCheckboxClasses } from './composables/useCheckboxClasses'
+import { useToggleClasses } from './composables/useToggleClasses'
 
-interface CheckboxProps {
+interface ToggleProps {
   disabled?: boolean
   label?: string
   modelValue?: boolean
   customClass?: string
 }
-const props = withDefaults(defineProps<CheckboxProps>(), {
+const props = withDefaults(defineProps<ToggleProps>(), {
   disabled: false,
   label: 'Title',
   modelValue: false,
@@ -43,7 +45,7 @@ watch(ring, (newValue) => {
   if (newValue) {
     setTimeout(() => {
       ring.value = false
-    }, 200)
+    }, 300)
   }
 })
 
@@ -57,8 +59,8 @@ const model = computed({
   }
 })
 
-const classes = computed(() => useCheckboxClasses(props.disabled))
+const classes = computed(() => useToggleClasses(props.disabled))
 
-const checkboxClasses = computed(() => classes.value.checkboxClasses.value)
+const toggleClasses = computed(() => classes.value.toggleClasses.value)
 const labelClasses = computed(() => classes.value.labelClasses.value)
 </script>
