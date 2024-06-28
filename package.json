@@ -22,6 +22,7 @@
     "@storybook/addon-postcss": "^2.0.0",
     "@vueuse/core": "^10.11.0",
     "classnames": "^2.5.1",
+    "floating-vue": "^5.2.2",
     "flowbite": "^2.3.0",
     "pinia": "^2.1.7",
     "tailwind-merge": "^2.3.0",
