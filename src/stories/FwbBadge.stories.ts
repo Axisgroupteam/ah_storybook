@@ -1,128 +1,145 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-
+import { fn } from '@storybook/test'
 import FwbBadge from '@/components/FwbBadge/FwbBadge.vue'
 
 const meta = {
   title: 'Example/FwbBadge',
   component: FwbBadge,
-  decorators: [
-    () => ({
-      template: `<div class="w-[400px] rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)]">        
-        <story />
-      </div>`
-    })
-  ],
-  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {
-    
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    color: { control: 'select', options: ['primary', 'secondary', 'tertiary'] },
+  
   },
-  args: {
-    
-  }
+  args: {}
 } satisfies Meta<typeof FwbBadge>
 
 export default meta
 type Story = StoryObj<typeof meta>
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/api/csf
- * to learn how to use render functions.
- */
-export const Default: Story = {
-  render: (args) => ({
-    components: { FwbBadge },
-    setup() {
-      return { args }
-    },
-    template: `
-              
-        <FwbBadge v-bind="args"  />
-      
-    `
-  }),
+
+export const Primary: Story = {
   args: {
-    
+    color: 'primary'
   }
 }
 
-export const Success: Story = {
-  render: (args) => ({
-    components: { FwbBadge },
-    setup() {
-      return { args }
-    },
-    template: `
-              
-        <FwbBadge v-bind="args"  />
-      
-    `
-  }),
+export const Secondary: Story = {
   args: {
-    
+    color: 'secondary'
   }
 }
 
-export const Error: Story = {
-  render: (args) => ({
-    components: { FwbBadge },
-    setup() {
-      return { args }
-    },
-    template: `
-              
-        <FwbBadge v-bind="args"  />
-      
-    `
-  }),
+export const Terciary: Story = {
   args: {
+    color: 'tertiary'
   }
 }
 
-export const Warning: Story = {
+export const DefaultSlot: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
       return { args }
     },
     template: `
-              
-        <FwbBadge v-bind="args"  />
-      
+      <FwbBadge v-bind="args">
+        <template #default>Default Slot Content</template>        
+      </FwbBadge>
     `
   }),
   args: {
+    color: 'primary',
+    size: 'md',
   }
 }
 
-export const Information: Story = {
+export const PrefixSlots: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
       return { args }
     },
     template: `
-              
-        <FwbBadge v-bind="args"  />
-      
+      <FwbBadge v-bind="args">        
+        <template #preffix>
+          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+          </svg>
+        </template>        
+      </FwbBadge>
     `
   }),
   args: {
+    color: 'primary',
+    size: 'md'
   }
 }
 
-export const Action: Story = {
+export const SuffixSlot: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
       return { args }
     },
     template: `
-              
-        <FwbBadge v-bind="args"  />
-      
+      <FwbBadge v-bind="args">        
+        <template #suffix>
+          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+          </svg>
+        </template>        
+      </FwbBadge>
     `
   }),
   args: {
+    color: 'primary',
+    size: 'md'
+  }
+}
+
+export const Pill: Story = {
+  render: (args) => ({
+    components: { FwbBadge },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbBadge v-bind="args">        
+        <template #default>
+          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+          </svg>
+        </template>        
+      </FwbBadge>
+    `
+  }),
+  args: {
+    color: 'primary',
+    size: 'md',
+    pill: true,
+    square: true
+  }
+}
+
+export const Square: Story = {
+  render: (args) => ({
+    components: { FwbBadge },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbBadge v-bind="args">        
+        <template #default>
+          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+          </svg>
+        </template>        
+      </FwbBadge>
+    `
+  }),
+  args: {
+    color: 'primary',
+    size: 'md',
+    square: true
   }
 }
