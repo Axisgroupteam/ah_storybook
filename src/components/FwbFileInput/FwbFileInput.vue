@@ -15,6 +15,7 @@
       </label>
       <slot />
     </div>
+
     <div
       v-else
       class="flex items-center justify-center"
@@ -22,6 +23,7 @@
       @dragover="dragOverHandler"
       @drop="dropFileHandler"
     >
+    {{ model }}
       <label :class="dropzoneLabelClasses">
         <div :class="dropzoneWrapClasses">
           <component
