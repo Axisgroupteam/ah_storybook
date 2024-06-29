@@ -51,6 +51,55 @@ export const Required: Story = {
   }
 }
 
+export const Disabled: Story = {
+  render: (args) => ({
+    components: { FwbFileInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbFileInput v-bind="args" />
+    `
+  }),
+  args: {
+    disabled: true
+  }
+}
+
+export const Large: Story = {
+  render: (args) => ({
+    components: { FwbFileInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbFileInput v-bind="args" />
+    `
+  }),
+  args: {
+    size: 'lg'
+  }
+}
+
+export const ErrorStatus: Story = {
+  render: (args) => ({
+    components: { FwbFileInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbFileInput v-bind="args">
+        <span>
+          Required Field
+        </span>
+      </FwbFileInput>
+    `
+  }),
+  args: {
+    validationStatus: 'error'
+  }
+}
+
 export const Dropzone: Story = {
   render: (args) => ({
     components: { FwbFileInput },
@@ -64,5 +113,43 @@ export const Dropzone: Story = {
   args: {
     label: 'Upload file',
     dropzone: true
+  }
+}
+
+export const DisabledDropzone: Story = {
+  render: (args) => ({
+    components: { FwbFileInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbFileInput v-bind="args" />
+    `
+  }),
+  args: {
+    label: 'Upload file',
+    dropzone: true,
+    disabled: true
+  }
+}
+
+export const ErrorDropzone: Story = {
+  render: (args) => ({
+    components: { FwbFileInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbFileInput v-bind="args">
+        <template #validationMessage>        
+          Required Field        
+        </template>
+      </FwbFileInput>
+    `
+  }),
+  args: {
+    label: 'Upload file',
+    dropzone: true,
+    validationStatus: 'error'
   }
 }
