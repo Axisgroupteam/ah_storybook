@@ -6,7 +6,7 @@
     <div class="flex relative">
       <div
         v-if="$slots.prefix"
-        class="w-10 flex absolute inset-y-0 left-0 items-center pl-3 overflow-hidden"
+        class="w-10 flex absolute inset-y-0 left-0 items-center pl-0 justify-center overflow-hidden"
       >
         <slot name="prefix" />
       </div>
@@ -23,7 +23,7 @@
       <div
         v-if="$slots.suffix"
         class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0"
-        @click="toggle"
+        @click="!disabled ? toggle : true"
       >
         <slot name="suffix" />
       </div>
