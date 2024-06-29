@@ -6,7 +6,7 @@
   >
     <div class="absolute top-4 flex flex-col justify-start pb-4 pr-4">
       <div :class="bg_icon_class">
-        <component :is="getFBIcon(status)" />
+        <component :is="getFBIcon(status)" class="w-8 h-8" />
       </div>
     </div>
     <div class="grow pl-12 flex flex-col justify-start">
@@ -24,7 +24,7 @@
       </div>
       <p class="text-[14px] leading-[24px] text-neutral-600 dark:text-[#A3A3A3]">{{ content }}</p>
 
-      <div class="flex justify-between pt-4">
+      <div class="flex gap-4 pt-4">
         <FwbButton color="primary" size="md">
           <template #default>
             <span class="px-8">Accept</span>
@@ -43,7 +43,7 @@
     id="notification"
     class="flex justify-between items-center p-4 m-0 gap-2 w-full rounded-md bg-white dark:bg-[#262626]"
   >
-    <div class="flex gap-2 justify-center items-center">
+    <div class="flex gap-4 justify-center items-center">
       <div :class="bg_icon_class">
         <component :is="getFBIcon(status)" />
       </div>
@@ -66,13 +66,13 @@ import FwbButton from '../FwbButton/FwbButton.vue'
 import { computed } from 'vue'
 
 interface IProps {
-  status: 'success' | 'warning' | 'error' | 'action' | 'info'
+  status: 'success' | 'warning' | 'error' | 'action' | 'info' | 'default'
   content: string
   actionTitle?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  status: 'error',
+  status: 'default',
   content: 'Change password failed!',
   actionTitle: 'Action Notification'
 })
@@ -82,7 +82,8 @@ const bg_icon_classes = {
   warning: 'bg-orange-100 dark:bg-orange-700 rounded-lg text-orange-700 dark:text-orange-400',
   error: 'bg-red-100 dark:bg-red-700 rounded-lg text-red-700 dark:text-red-400',
   action: 'bg-red-100 dark:bg-red-700 rounded-lg text-red-700 dark:text-red-400',
-  info: 'bg-blue-100 dark:bg-blue-700 rounded-lg text-blue-700 dark:text-blue-400 '
+  info: 'bg-blue-100 dark:bg-blue-700 rounded-lg text-blue-700 dark:text-blue-400 ',
+  default: 'bg-neutral-100 dark:bg-neutral-700 p-1.5 rounded-lg text-neutral-700 dark:text-neutral-400 ',//this is default
 }
 
 const bg_icon_class = computed(() => bg_icon_classes[props.status])
