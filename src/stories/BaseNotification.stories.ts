@@ -30,20 +30,9 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 export const Default: Story = {
-  render: (args) => ({
-    components: { BaseNotification },
-    setup() {
-      return { args }
-    },
-    template: `
-              
-        <BaseNotification v-bind="args"  />
-      
-    `
-  }),
+
   args: {
-    status: 'success',
-    content: 'Text'
+    content: 'Some message'
   }
 }
 
