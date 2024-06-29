@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 
 <style>
 .v-popper--theme-default .v-popper__wrapper .v-popper__inner {
-  @apply  border-neutral-200 dark:border-neutral-600 rounded-md pt-[6px] pb-[7px] pr-[8px] pl-[6px]  bg-white dark:bg-neutral-700 shadow-md border-[1px];
+  @apply  border-neutral-200 dark:border-neutral-600 rounded-md pt-[2px] pb-[7px] pr-[11px] pl-[11px]  bg-white dark:bg-neutral-700 shadow-md border-[1px];
 }
 
 .v-popper--theme-default .v-popper__arrow-inner {
