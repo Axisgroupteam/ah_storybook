@@ -43,7 +43,13 @@ export const DefaultSlot: Story = {
     },
     template: `
       <FwbBadge v-bind="args">
+        <template #preffix>5</template>        
         <template #default>Default Slot Content</template>        
+        <template #suffix>
+          <button>
+            x
+          </button>
+        </template>        
       </FwbBadge>
     `
   }),
