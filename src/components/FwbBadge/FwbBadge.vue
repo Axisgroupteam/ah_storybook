@@ -1,7 +1,7 @@
 <template>
-  <div :class="wrapperClasses" class="inline-flex gap-1 items-center">
+  <div :class="wrapperClasses" class="inline-flex items-center">
     <!-- Prefix slot for additional content before the badge text -->
-    <div v-if="$slots.preffix" class="">
+    <div v-if="$slots.preffix" class="mr-2">
       <slot name="preffix" />
     </div>
 
@@ -15,7 +15,7 @@
     </span>
 
     <!-- Suffix slot for additional content after the badge text -->
-    <div v-if="$slots.suffix" class="">
+    <div v-if="$slots.suffix" class="ml-2">
       <slot name="suffix" />
     </div>
   </div>
