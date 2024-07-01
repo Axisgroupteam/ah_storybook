@@ -76,6 +76,7 @@
         <slot />
       </div>
     </div>
+
     <div
       v-else
       class="flex items-center justify-center flex-col"
