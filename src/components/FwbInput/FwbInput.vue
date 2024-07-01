@@ -6,7 +6,7 @@
     <div class="flex relative">
       <div
         v-if="$slots.prefix"
-        class="w-10 flex absolute inset-y-0 left-0 items-center pl-3 overflow-hidden"
+        class="w-10 flex absolute inset-y-0 left-0 items-center pl-0 justify-center overflow-hidden"
       >
         <slot name="prefix" />
       </div>
@@ -16,18 +16,14 @@
         :disabled="disabled"
         :type="type"
         :required="required"
-        :class="[
-          inputClasses,
-          $slots.prefix ? 'pl-10' : '',
-          dark ? 'autofill-text' : '',
-        ]"
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
         :readonly="readonly"
         @input="handleInput"
       />
       <div
         v-if="$slots.suffix"
         class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0"
-        @click="toggle"
+        @click="!disabled ? toggle : true"
       >
         <slot name="suffix" />
       </div>
@@ -35,79 +31,62 @@
     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
       <slot name="validationMessage" />
     </p>
-    <p
-      v-if="$slots.helper"
-      class="mt-2 text-sm text-gray-500 dark:text-gray-400"
-    >
+    <p v-if="$slots.helper" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
       <slot name="helper" />
     </p>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRefs } from "vue";
-import { twMerge } from "tailwind-merge";
-import { useInputClasses } from "./composables/useInputClasses";
-import {
-  type InputSize,
-  type InputType,
-  type ValidationStatus,
-  validationStatusMap,
-} from "./types";
-import { storeToRefs } from "pinia";
-//import { useAuthStore } from "@/new_design/auth/stores/auth";
+import { computed, toRefs } from 'vue'
+import { twMerge } from 'tailwind-merge'
+import { useInputClasses } from './composables/useInputClasses'
+import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
 interface InputProps {
-  disabled?: boolean;
-  label?: string;
-  modelValue: string;
-  required?: boolean;
-  size?: InputSize;
-  type?: InputType;
-  validationStatus?: ValidationStatus;
-  readonly?: boolean;
+  disabled?: boolean
+  label?: string
+  modelValue: string
+  required?: boolean
+  size?: InputSize
+  type?: InputType
+  validationStatus?: ValidationStatus
+  readonly?: boolean
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
-  label: "",
-  modelValue: "",
+  label: '',
+  modelValue: '',
   required: false,
-  size: "md",
-  type: "text",
-  validationStatus: undefined,
-  readonly: false,
-});
+  size: 'md',
+  type: 'text',
+  validationStatus: 'normal',
+  readonly: false
+})
 
-const emit = defineEmits(["update:modelValue", "toggleVisibility"]);
+const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 
 const handleInput = (e: Event) => {
-  const value = (e.target as HTMLInputElement).value;
-  emit("update:modelValue", value);
-};
+  const value = (e.target as HTMLInputElement).value
+  emit('update:modelValue', value)
+}
 
 const toggle = () => {
-  emit("toggleVisibility");
-};
+  emit('toggleVisibility')
+}
 
-const { inputClasses, labelClasses } = useInputClasses(toRefs(props));
+const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
+
+const inputClasses = computed(() => classes.value.inputClasses.value)
+const labelClasses = computed(() => classes.value.labelClasses.value)
 
 const validationWrapperClasses = computed(() =>
   twMerge(
-    "mt-2 text-sm",
-    props.validationStatus === validationStatusMap.Success
-      ? "text-green-600 dark:text-green-500"
-      : "",
-    props.validationStatus === validationStatusMap.Error
-      ? "text-red-600 dark:text-red-500"
-      : ""
+    'text-sm',
+    props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
   )
-);
-
-//const authStore = useAuthStore();
-//const { dark } = storeToRefs(authStore);
-
-const dark = ref(false);
+)
 </script>
 
 <style scoped>
