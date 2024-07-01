@@ -1,5 +1,5 @@
 <template>
-  <div :class="wrapperClasses" class="inline-flex gap-1 items-center">
+  <div :class="wrapperClasses">
     <!-- Prefix slot for additional content before the badge text -->
     <div v-if="$slots.preffix" class="">
       <slot name="preffix" />
@@ -8,14 +8,14 @@
     <!-- Button text section -->
     <span :class="spanClasses">
       <!-- Main Badge text slot -->
-      <div>
+      <div class="">
         <slot />
         <span v-if="!$slots.default">Badge</span>
       </div>
     </span>
 
     <!-- Suffix slot for additional content after the badge text -->
-    <div v-if="$slots.suffix" class="">
+    <div v-if="$slots.suffix" class="flex items-center justify-center">
       <slot name="suffix" />
     </div>
   </div>
@@ -40,7 +40,7 @@ interface IBadgeProps {
 const props = withDefaults(defineProps<IBadgeProps>(), {
   color: 'primary',
   class: '',
-  size:'md',
+  size:'sm',
   pill: false,
   square: false,
   href: '',

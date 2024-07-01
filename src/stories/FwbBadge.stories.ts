@@ -12,7 +12,8 @@ const meta = {
     color: { control: 'select', options: ['primary', 'secondary', 'tertiary'] }
   },
   args: {
-    color: 'primary'
+    color: 'primary',
+    size:'sm'
   }
 } satisfies Meta<typeof FwbBadge>
 
@@ -21,13 +22,15 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    color: 'primary'
+    color: 'primary',
+    size:'sm'    
   }
 }
 
 export const Constrast: Story = {
   args: {
-    color: 'tertiary'
+    color: 'tertiary',
+    size:'sm'
   }
 }
 
@@ -39,18 +42,21 @@ export const DefaultSlot: Story = {
     },
     template: `
       <FwbBadge v-bind="args">
-        <template #preffix><span class="inline-flex items-center justify-center w-4 h-4 rounded-full p-1 text-xs">3</span></template>        
-        <template #default>Notifications</template>        
+        <template #preffix><span class="flex items-center justify-items-center">3</span></template>        
+        <template #default><span class="flex items-center justify-items-center">Notifications</span></template>        
         <template #suffix>
-          <button type="button" class="inline-flex items-center justify-center w-4 h-4 hover:bg-red-200 dark:hover:bg-red-800 rounded-full p-1 text-xs">
-            X
+          <button type="button" class="flex items-center justify-center w-3.5 h-3.5 hover:bg-red-200 dark:hover:bg-red-800 rounded-full">
+            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+            </svg>
           </button>
         </template>        
       </FwbBadge>
     `
   }),
   args: {
-    color: 'primary'    
+    color: 'primary',
+    size:'sm' 
   }
 }
 
@@ -87,7 +93,8 @@ export const PrefixSlots: Story = {
     `
   }),
   args: {
-    color: 'primary'    
+    color: 'primary',
+    size: 'sm'
   }
 }
 
@@ -106,7 +113,8 @@ export const SuffixSlot: Story = {
     `
   }),
   args: {
-    color: 'primary'    
+    color: 'primary',
+    size:'sm'
   }
 }
 
@@ -144,6 +152,7 @@ export const Pill: Story = {
   }),
   args: {
     color: 'primary',
+    size: 'sm',
     pill: true,
     square: true
   }
@@ -183,6 +192,7 @@ export const Square: Story = {
   }),
   args: {
     color: 'primary',
-    square: true
+    square: true,
+    size: 'sm',
   }
 }
