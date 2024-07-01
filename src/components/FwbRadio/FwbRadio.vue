@@ -3,9 +3,9 @@
     <input
       v-model="model"
       class="bg-neutral"
-      :class="[checkboxClasses, customClass ? customClass : '']"
+      :class="[radioClasses, customClass ? customClass : '']"
       :disabled="disabled"
-      type="checkbox"
+      type="radio"
       @change="toggleRing"
       :style="{
         boxShadow: ring ? '' : 'none'
@@ -18,15 +18,15 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import { useCheckboxClasses } from './composables/useCheckboxClasses'
+import { useRadioClasses } from './composables/useRadioClasses'
 
-interface CheckboxProps {
+interface RadioProps {
   disabled?: boolean
   label?: string
   modelValue?: boolean
   customClass?: string
 }
-const props = withDefaults(defineProps<CheckboxProps>(), {
+const props = withDefaults(defineProps<RadioProps>(), {
   disabled: false,
   label: 'Title',
   modelValue: false,
@@ -57,8 +57,8 @@ const model = computed({
   }
 })
 
-const classes = computed(() => useCheckboxClasses(props.disabled))
+const classes = computed(() => useRadioClasses(props.disabled))
 
-const checkboxClasses = computed(() => classes.value.checkboxClasses.value)
+const radioClasses = computed(() => classes.value.radioClasses.value)
 const labelClasses = computed(() => classes.value.labelClasses.value)
 </script>

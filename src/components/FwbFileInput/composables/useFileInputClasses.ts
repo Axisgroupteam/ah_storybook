@@ -10,8 +10,10 @@ const fileDropzoneWrapClasses = 'flex flex-col items-center justify-center pt-5 
 const fileDropzoneDefaultTextClasses =
   'flex flex-col justify-center items-center gap-2 !-mb-2 text-sm text-neutral-500 dark:text-neutral-400'
 
-export function useFileInputClasses() {
-  const fileInpClasses = computed(() => simplifyTailwindClasses(fileInpDefaultClasses))
+export function useFileInputClasses(size: string) {
+  const fileInpClasses = computed(() =>
+    simplifyTailwindClasses(fileInpDefaultClasses, 'text-' + size)
+  )
 
   const labelClasses = computed(() => fileInpLabelClasses)
   const dropzoneLabelClasses = computed(() => fileInpDropzoneClasses)
