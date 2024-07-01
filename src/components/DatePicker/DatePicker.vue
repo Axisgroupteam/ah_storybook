@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div data-testid="input-wrapper" class="flex flex-col w-full">
+    <div v-if="label" class="flex justify-start">
+      <span :class="labelClasses">
+        {{ label }}
+        <span v-if="required" class="text-red-500">*</span>
+      </span>
+      <slot name="labelEnd" />
+    </div>
     <div class="relative max-w-sm">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg
@@ -21,17 +28,69 @@
         datepicker-autohide
         datepicker-autoselect-today
         type="text"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
+        class=" block w-full ps-10 p-2.5 "
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
         placeholder="Select date"
+        :value="modelValue"
+        @input="handleInput"
       />
     </div>
+     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
+      <slot name="validationMessage" />
+    </p>
   </div>
 </template>
 <script setup lang="ts">
 import 'flowbite'
 import 'flowbite/dist/flowbite.css'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
+import { twMerge } from 'tailwind-merge'
+import { useInputClasses } from './composables/useInputClasses'
+import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
+
+interface InputProps {
+  disabled?: boolean
+  label?: string
+  modelValue: string
+  required?: boolean
+  size?: InputSize
+  type?: InputType
+  validationStatus?: ValidationStatus
+  readonly?: boolean
+}
+
+const props = withDefaults(defineProps<InputProps>(), {
+  disabled: false,
+  label: '',
+  modelValue: '',
+  required: false,
+  size: 'md',
+  type: 'text',
+  validationStatus: 'normal',
+  readonly: false
+})
+
+const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
+
+const handleInput = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value
+  emit('update:modelValue', value)
+}
+
+
+const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
+
+const inputClasses = computed(() => classes.value.inputClasses.value)
+const labelClasses = computed(() => classes.value.labelClasses.value)
+
+const validationWrapperClasses = computed(() =>
+  twMerge(
+    'text-sm',
+    props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
+  )
+)
+
 onMounted(() => {
   initFlowbite()
 })
@@ -40,7 +99,3 @@ onMounted(() => {
 @import 'flowbite/dist/flowbite.css';
 </style>
 
-button today-btn text-white bg-blue-700 !bg-primary-700 dark:bg-blue-600 dark:!bg-primary-600
-hover:bg-blue-800 hover:!bg-primary-800 dark:hover:bg-blue-700 dark:hover:!bg-primary-700
-focus:ring-4 focus:ring-blue-300 focus:!ring-primary-300 font-medium rounded-lg text-sm px-5 py-2
-text-center w-1/2

@@ -26,17 +26,16 @@ type Story = StoryObj<typeof meta>
 
 
 export const DefaultDatePicker: Story = { 
-
   render: (args) => ({
     components: { DatePicker },
     setup() {
       return { args }
     },
     template: `
-      <DatePicker v-bind="args">        
-          <template #validationMessage>
-            Error in input date
-          </template>
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
       </DatePicker>
     `
   }),
@@ -44,7 +43,10 @@ export const DefaultDatePicker: Story = {
     size: 'md',
     label: 'Date',
     required: true,
+    errorMessage: "",
     validationStatus: '',   
   }
 }
+
+
 
