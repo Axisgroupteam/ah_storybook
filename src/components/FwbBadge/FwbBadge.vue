@@ -15,7 +15,7 @@
     </span>
 
     <!-- Suffix slot for additional content after the badge text -->
-    <div v-if="$slots.suffix" class="flex items-center justify-center">
+    <div v-if="$slots.suffix" class="">
       <slot name="suffix" />
     </div>
   </div>

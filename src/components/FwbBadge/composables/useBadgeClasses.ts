@@ -9,11 +9,11 @@ export type BadgeClassMap<T extends string> = {
 const badgeColorClasses: BadgeClassMap<BadgeVariant> = {
   default: {
     primary:
-      'flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900',
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900',
     secondary:
-      'flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800',
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800',
     tertiary:
-      'flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white'
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white'
   },
 }
 
