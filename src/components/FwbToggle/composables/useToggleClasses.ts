@@ -8,7 +8,7 @@ const disabledLabelClasses = 'text-neutral-400 dark:text-neutral-500'
 
 // TOGGLE
 const defaultToggleClasses =
-  "relative w-11 h-6 bg-neutral-300 border-neutral-500 peer-focus:outline-none peer-focus:ring-red-500 dark:peer-focus:ring-red-600 peer-focus:ring-2 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-neutral-600 peer-checked:bg-red-600"
+  "relative w-11 h-6 bg-neutral-200 border-neutral-300 peer-focus:outline-none peer-focus:ring-red-200 dark:peer-focus:ring-red-600 peer-focus:ring-4 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-neutral-600 peer-checked:bg-red-700"
 
 const disabledToggleClasses = 'cursor-not-allowed'
 
