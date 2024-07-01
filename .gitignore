@@ -30,3 +30,7 @@ coverage
 *.tsbuildinfo
 
 *storybook.log
+
+.yarn
+.yarnrc.yml
+yarn.lock
