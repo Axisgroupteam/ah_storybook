@@ -43,7 +43,7 @@ watch(ring, (newValue) => {
   if (newValue) {
     setTimeout(() => {
       ring.value = false
-    }, 300)
+    }, 200)
   }
 })
 

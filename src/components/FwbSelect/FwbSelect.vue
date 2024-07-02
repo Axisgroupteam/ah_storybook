@@ -32,7 +32,7 @@
       @click.stop
     >
       <PerfectScrollbar>
-        <div class="w-full  max-h-48">
+        <div class="w-full max-h-48">
           <div
             v-for="(op, index) in options"
             :key="index"
@@ -40,10 +40,7 @@
             @click="handleSelect(op)"
           >
             <div v-if="op.icon">
-              <component
-                :is="getFBIcon(op.icon)"
-                class="h-full w-full max-h-3.5 max-w-3.5"
-              />
+              <component :is="getFBIcon(op.icon)" class="h-full w-full max-h-3.5 max-w-3.5" />
             </div>
             {{ op.name }}
           </div>
@@ -59,129 +56,120 @@
     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
       <slot name="validationMessage" />
     </p>
-    <p
-      v-if="$slots.helper"
-      class="mt-2 text-sm text-gray-500 dark:text-gray-400"
-    >
+    <p v-if="$slots.helper" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
       <slot name="helper" />
     </p>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, ref, watch } from "vue";
-import { useVModel } from "@vueuse/core";
-import { twMerge } from "tailwind-merge";
-import { useSelectClasses } from "./composables/useSelectClasses";
-import type { InputSize } from "./../FwbInput/types";
-import {
-  type OptionsType,
-  type ValidationStatus,
-  validationStatusMap,
-} from "./types";
-import FwbInput from "../FwbInput/FwbInput.vue";
-import  {PerfectScrollbar}  from "vue3-perfect-scrollbar";
-import { onClickOutside } from "@vueuse/core";
-import { getFBIcon } from "../../utils/getAssets";
-import FwbSpinner from "../FwbSpinner/FwbSpinner.vue";
+import { computed, toRefs, ref, watch } from 'vue'
+import { useVModel } from '@vueuse/core'
+import { twMerge } from 'tailwind-merge'
+import { useSelectClasses } from './composables/useSelectClasses'
+import type { InputSize } from './../FwbInput/types'
+import { type OptionsType, type ValidationStatus, validationStatusMap } from './types'
+import FwbInput from '../FwbInput/FwbInput.vue'
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
+import { onClickOutside } from '@vueuse/core'
+import { getFBIcon } from '../../utils/getAssets'
+import FwbSpinner from '../FwbSpinner/FwbSpinner.vue'
 
 interface InputProps {
-  modelValue?: string;
-  label?: string;
-  options?: OptionsType[];
-  placeholder?: string;
-  disabled?: boolean;
-  underline?: boolean;
-  size?: InputSize;
-  validationStatus?: ValidationStatus;
-  initialState?: string;
-  loading?: boolean;
+  modelValue?: string
+  label?: string
+  options?: OptionsType[]
+  placeholder?: string
+  disabled?: boolean
+  underline?: boolean
+  size?: InputSize
+  validationStatus?: ValidationStatus
+  initialState?: string
+  loading?: boolean
 }
 const props = withDefaults(defineProps<InputProps>(), {
-  modelValue: "",
-  label: "",
+  modelValue: '',
+  label: '',
   options: () => [],
-  placeholder: "Please select one",
+  placeholder: 'Please select one',
   disabled: false,
   underline: false,
   loading: false,
-  size: "md",
+  size: 'md',
   validationStatus: undefined,
-  initialState: "",
-});
-const emit = defineEmits(["update:modelValue"]);
+  initialState: ''
+})
+const emit = defineEmits(['update:modelValue'])
 
-const model = useVModel(props, "modelValue", emit);
+const model = useVModel(props, 'modelValue', emit)
 
 // Inicializar selectedName con el valor de initialState si está presente
-const selectedName = ref(props.initialState ? props.initialState : "");
+const selectedName = ref(props.initialState ? props.initialState : '')
 
-const visible = ref(false);
+const visible = ref(false)
 
-const wrapper = ref<HTMLDivElement>();
+const wrapper = ref<HTMLDivElement>()
 
 const handleSelect = (op: any) => {
-  model.value = op.value;
-  selectedName.value = op.name;
-  visible.value = false;
-};
+  model.value = op.value
+  selectedName.value = op.name
+  visible.value = false
+}
 
-const { labelClasses } = useSelectClasses(toRefs(props));
+const { labelClasses } = useSelectClasses(toRefs(props))
 
 const validationWrapperClasses = computed(() =>
   twMerge(
-    "mt-2 text-sm",
+    'mt-2 text-sm',
     props.validationStatus === validationStatusMap.Success
-      ? "text-green-600 dark:text-green-500"
-      : "",
-    props.validationStatus === validationStatusMap.Error
-      ? "text-red-600 dark:text-red-500"
-      : ""
+      ? 'text-green-600 dark:text-green-500'
+      : '',
+    props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
   )
-);
+)
 
 const optionCLasses = {
   disabled: {
     visible: 'w-full ',
-    notVisible: 'w-full border-neutral-300 dark:border-neutral-600 focus:border-neutral-500 focus:dark:border-neutral-600'
+    notVisible:
+      'w-full border-neutral-300 dark:border-neutral-600 focus:border-neutral-500 focus:dark:border-neutral-600'
   },
   able: {
     visible: 'w-full border-red-500  cursor-pointer',
-    notVisible: 'w-full border-neutral-300 cursor-pointer dark:border-neutral-600 focus:border-neutral-500 focus:dark:border-red-500'
+    notVisible:
+      'w-full border-neutral-300 cursor-pointer dark:border-neutral-600 focus:border-neutral-500 focus:dark:border-red-500'
   }
-} 
+}
 
-const disabledValue = computed(()=>props.disabled ? 'disabled' : 'able');
-const visibleValue = computed(()=>visible.value3 ? 'visible' : 'notVisible');
+const disabledValue = computed(() => (props.disabled ? 'disabled' : 'able'))
+const visibleValue = computed(() => (visible.value ? 'visible' : 'notVisible'))
 
-const inputClasses = computed(()=>optionCLasses[disabledValue.value][visibleValue.value])
+const inputClasses = computed(() => optionCLasses[disabledValue.value][visibleValue.value])
 
 const optionSvgClasses = {
   disabled: {
-    visible: 'text-neutral-500 dark:text-neutral-400 rotate-0 w-6 h-6 shrink-0 -ml-[2px] cursor-not-allowed',
-    notVisible: 'text-neutral-500 dark:text-neutral-400 rotate-0 w-6 h-6 shrink-0 -ml-[2px] cursor-not-allowed'
+    visible:
+      'text-neutral-500 dark:text-neutral-400 rotate-0 w-6 h-6 shrink-0 -ml-[2px] cursor-not-allowed',
+    notVisible:
+      'text-neutral-500 dark:text-neutral-400 rotate-0 w-6 h-6 shrink-0 -ml-[2px] cursor-not-allowed'
   },
   able: {
     visible: 'text-neutral-900 dark:text-white rotate-180 w-6 h-6 shrink-0 -ml-[2px]',
     notVisible: 'text-neutral-500 dark:text-neutral-400 rotate-0 w-6 h-6 shrink-0 -ml-[2px]'
   }
-} 
-const svgClasses = computed(()=>optionSvgClasses[disabledValue.value][visibleValue.value])
+}
+const svgClasses = computed(() => optionSvgClasses[disabledValue.value][visibleValue.value])
 
-const handleClick = ()=>{
-  if(!props.disabled){
+const handleClick = () => {
+  if (!props.disabled) {
     visible.value = !visible.value
   }
 }
 
- 
-
 onClickOutside(wrapper, () => {
-  if (!visible.value) return;
-  visible.value = false;
-});
+  if (!visible.value) return
+  visible.value = false
+})
 </script>
 
-<style >
-@import 'vue3-perfect-scrollbar/style.css'
-</style>
+<style></style>
