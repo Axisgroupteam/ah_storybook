@@ -54,26 +54,40 @@ type Story = StoryObj<typeof meta>
 
     const index = ref(1);
     
-    function handleSteps (){
-      if(index.value === items.value.length)
+    function handleStepsForward (){
+      if(index.value === items.value.length - 1 )
         return
       items.value[index.value].completed = true;
       index.value ++
     } 
 
-      return { items, handleSteps, index }
+    function handleStepsBack (){
+      if(index.value === 1)
+        return
+      index.value --
+      items.value[index.value].completed = false;
+      
+    } 
+
+      return { items, handleStepsForward, handleStepsBack, index }
     },
     template: `            
         <div class="w-full p-3 flex flex-col items-center">
           <FwbStepper :steps="items"/>
           <div class="w-full flex flex-col h-[350px]">
-            <div class=" h-[300px] flex flex-col justify-center text-center gap-6 items-start">
-            <span class="text-white">content of Step {{index}}</span>
-            <FwbButton color="primary" @click="handleSteps">
-            <span>Next</span>
-            </FwbButton>
-            </div>
+            <div class="w-full h-[300px] flex flex-col justify-center text-center gap-6 items-center">
+            <span class="text-black dark:text-white font-bold text-4xl">Content of Step {{index}}</span>
             
+            </div>
+            <div class="w-full flex justify-between">
+              <FwbButton color="primary" @click="handleStepsBack">
+              <span>Back</span>
+              </FwbButton>
+            
+              <FwbButton color="primary" @click="handleStepsForward">
+              <span>Next</span>
+              </FwbButton>
+            </div>
           </div>
           
         </div>
