@@ -84,7 +84,7 @@ export const PrefixSlots: Story = {
     template: `
       <FwbBadge v-bind="args">        
         <template #preffix>
-          <span>$</span>
+          <span class="w-3 h-3 p-1">3</span>
         </template>        
       </FwbBadge>
     `
