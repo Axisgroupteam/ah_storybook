@@ -1,6 +1,9 @@
 <template>
   <div ref="wrapper" class="relative">
-    <span v-if="label" :class="labelClasses">
+    <span
+      v-if="label"
+      :class="[labelClasses, disabled ? '!text-neutral-400 dark:!text-neutral-500' : '']"
+    >
       {{ label }}
     </span>
     <FwbInput

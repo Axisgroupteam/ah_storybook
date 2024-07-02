@@ -84,6 +84,16 @@
       @dragover="!disabled ? dragOverHandler : true"
       @drop="!disabled ? dropFileHandler : true"
     >
+      <label @click.stop>
+        <span
+          :class="[
+            labelClasses,
+            validationStatus === 'error' ? 'text-red-700 dark:!text-red-500' : '',
+            disabled ? '!text-neutral-400 dark:!text-neutral-500' : ''
+          ]"
+          >{{ label }} <span class="text-red-500" v-if="required"> *</span></span
+        >
+      </label>
       <label
         :class="[
           dropzoneLabelClasses,

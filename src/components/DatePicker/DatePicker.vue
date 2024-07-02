@@ -10,7 +10,7 @@
     <div class="relative max-w-sm">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg
-          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          class="w-4 h-4 text-neutral-500 dark:text-neutral-400"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -28,14 +28,14 @@
         datepicker-autohide
         datepicker-autoselect-today
         type="text"
-        class=" block w-full ps-10 p-2.5 "
+        class="block w-full ps-10 p-2.5"
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
       />
     </div>
-     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
+    <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
       <slot name="validationMessage" />
     </p>
   </div>
@@ -78,7 +78,6 @@ const handleInput = (e: Event) => {
   emit('update:modelValue', value)
 }
 
-
 const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
 
 const inputClasses = computed(() => classes.value.inputClasses.value)
@@ -98,4 +97,3 @@ onMounted(() => {
 <style scoped>
 @import 'flowbite/dist/flowbite.css';
 </style>
-
