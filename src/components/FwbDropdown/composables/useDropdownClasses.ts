@@ -2,8 +2,11 @@ import { computed, nextTick, ref, type Ref, watch } from "vue";
 import classNames from "classnames";
 import type { DropdownAlignment, DropdownPlacement } from "../types";
 
-const defaultDropdownClasses =
+const primaryDropdownClasses =
   "absolute z-10 bg-white divide-y divide-neutral-700 rounded-lg dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700";
+
+const secondaryDropdownClasses = 
+  "absolute z-10 bg-white p-3  rounded-lg dark:bg-neutral-800 shadow-md";
 
 const defaultGapInPx = 8;
 
@@ -19,6 +22,7 @@ export type UseDropdownClassesProps = {
   contentRef: Ref<HTMLDivElement | undefined>;
   visible: Ref<boolean>;
   alignToEnd: Ref<boolean>;
+  type: Ref<"primary" | "secondary">;
 };
 
 const placementCalculators: Record<
@@ -86,7 +90,7 @@ export function useDropdownClasses(props: UseDropdownClassesProps): {
       placement = `${placement}_reverse`;
     }
     return classNames(
-      defaultDropdownClasses,
+      props.type.value === 'primary' ? primaryDropdownClasses : secondaryDropdownClasses,
       placementDropdownAlignmentClasses[placement]
     );
   });

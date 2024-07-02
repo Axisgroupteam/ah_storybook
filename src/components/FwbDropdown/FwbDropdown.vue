@@ -67,6 +67,7 @@ const onToggle = () => {
 const props = withDefaults(
   defineProps<{
     placement?: DropdownPlacement;
+    type: 'primary' | 'secondary';
     text?: string;
     transition?: string;
     closeInside?: boolean;
@@ -78,6 +79,7 @@ const props = withDefaults(
     transition: "",
     closeInside: false,
     alignToEnd: false,
+    type: 'primary'
   }
 );
 
@@ -101,6 +103,7 @@ const { contentClasses, contentStyles } = useDropdownClasses({
   alignToEnd: toRef(props, "alignToEnd"),
   visible,
   contentRef: content,
+  type: toRef(props, "type"),
 });
 
 onClickOutside(wrapper, () => {
