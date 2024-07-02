@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 //import Button from './Button.vue'
 import TimePicker from '@/components/TimePicker/TimePicker.vue'
+import { Disabled } from './FwbButton.stories';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -31,6 +32,45 @@ export const DefaultSlot: Story = {
       return { args }
     },
     template: `
+      <TimePicker v-bind="args">               
+      </TimePicker>
+    `
+  }),
+  args: {    
+    size: 'md',
+    label: 'Time',
+    required: true,
+    validationStatus: '',   
+  }
+}
+
+export const DisabledSlot: Story = {
+  render: (args) => ({
+    components: { TimePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <TimePicker v-bind="args">               
+      </TimePicker>
+    `
+  }),
+  args: {    
+    size: 'md',
+    label: 'Time',
+    required: true,
+    disabled: true,
+    validationStatus: '',   
+  }
+}
+
+export const ErrorTimepicker: Story = {
+  render: (args) => ({
+    components: { TimePicker },
+    setup() {
+      return { args }
+    },
+    template: `
       <TimePicker v-bind="args">
          <template #validationMessage>
             Error in input Time
@@ -42,6 +82,6 @@ export const DefaultSlot: Story = {
     size: 'md',
     label: 'Time',
     required: true,
-    validationStatus: '',   
+    validationStatus: 'error',   
   }
 }
