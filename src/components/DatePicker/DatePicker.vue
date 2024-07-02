@@ -1,5 +1,5 @@
 <template>
-  <div data-testid="input-wrapper" class="flex flex-col w-full">
+  <div data-testid="input-wrapper" class="flex text-white flex-col w-full">
     <div v-if="label" class="flex justify-start">
       <span :class="labelClasses">
         {{ label }}
@@ -41,8 +41,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import 'flowbite'
-import 'flowbite/dist/flowbite.css'
 import { computed, onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import { twMerge } from 'tailwind-merge'
@@ -95,5 +93,7 @@ onMounted(() => {
 })
 </script>
 <style scoped>
-@import 'flowbite/dist/flowbite.css';
+.next-btn {
+  @apply focus:dark:!ring-neutral-700;
+}
 </style>

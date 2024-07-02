@@ -21,7 +21,7 @@
           <div
             class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 rounded-s-lg hover:bg-neutral-200 focus:outline-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-white justify-center border-r-[1px] border-neutral-300 dark:border-neutral-600"
           >
-            <component :is="icons.usa" />
+            <component :is="icons.usa" class="mr-2" />
             +1
             <component :is="icons.caret" class="ml-2.5 w-3 h-3" :class="visible ? 'rotate-180' : 'rotate-0'" />
           </div>
