@@ -9,24 +9,26 @@ export type BadgeClassMap<T extends string> = {
 const badgeColorClasses: BadgeClassMap<BadgeVariant> = {
   default: {
     primary:
-      'active:outline-none text-white bg-red-700 active:ring-4 active:ring-red-200 font-medium rounded-lg dark:bg-red-700 dark:active:ring-red-600',
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900',
     secondary:
-      'font-medium text-neutral-500 active:outline-none bg-white rounded-lg border border-neutral-200 active:z-10 active:ring-4 active:ring-neutral-200 dark:active:ring-neutral-600 dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-600',
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800',
     tertiary:
-      'text-white dark:text-neutral-900 bg-neutral-800 active:outline-none active:ring-4 active:ring-neutral-300 font-medium rounded-lg dark:bg-white dark:active:ring-neutral-600 dark:border-neutral-700'
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white'
   },
 }
 
 const BadgeSizeClasses: Record<BadgeSize, string> = {
-  sm: 'text-sm px-3 py-1.5',
-  md: 'text-sm px-4 py-2',
-  lg: 'text-base px-5 py-2.5'
+  xs: 'text-xs px-2 py-0.5',
+  sm: 'text-xs px-2.5 py-0.5',
+  md: 'text-md px-3 py-1',
+  lg: 'text-base px-3.5 py-1.5'
 }
 
 const badgeSquareSizeClasses: Record<BadgeSize, string> = {
-  sm: 'text-sm p-1.5',
-  md: 'text-sm p-2',
-  lg: 'text-base p-2.5'
+  xs: 'text-xs p-0.5',
+  sm: 'text-xs p-1',
+  md: 'text-md p-1.5',
+  lg: 'text-base p-2'
 }
 
 export type UseBadgeClassesProps = {
@@ -60,7 +62,7 @@ export function useBadgeClasses(props: UseBadgeClassesProps): {
       backgroundClass,
       props.pill.value && '!rounded-full',
       sizeClasses.value,
-      (slots.prefix || slots.suffix) && 'inline-flex items-center',
+      (slots.prefix || slots.suffix || slots.default) && 'inline-flex items-center',
       props.class.value
     ]
       .filter((str) => str)
