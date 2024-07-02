@@ -3,10 +3,10 @@ import classNames from "classnames";
 import type { DropdownAlignment, DropdownPlacement } from "../types";
 
 const primaryDropdownClasses =
-  "absolute z-10 bg-white divide-y divide-neutral-700 rounded-lg dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700";
+  "absolute z-10 bg-neutral-50 divide-y divide-neutral-700 rounded-lg dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700";
 
 const secondaryDropdownClasses = 
-  "absolute z-10 bg-white p-3  rounded-lg dark:bg-neutral-800 shadow-md";
+  "absolute z-10 bg-neutral-50 p-3  rounded-lg dark:bg-neutral-700 shadow-md";
 
 const defaultGapInPx = 8;
 
