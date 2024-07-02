@@ -5,14 +5,15 @@
       :class="tabClasses"
       @click="tryActivateTab"
     >
-      <component :is="computedIcon" class="w-3.5 h-3.5" />
+      <component v-if="computedIcon" :is="computedIcon" class="w-3.5 h-3.5" />
       {{ title }}
+      <div v-if="variant === 'underline'" class="w-[20px] h-[20px] rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900">{{props.count}}</div>
     </div>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { inject, toRef, computed } from "vue";
+import { inject, toRef, computed, type ComputedRef } from "vue";
 import type { TabsVariant } from "./types";
 import { useTabClasses } from "./composables/useTabClasses";
 import {
@@ -42,9 +43,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  count: {
+    type: Number,
+    default: 0,
+  },
+  variant:{
+    type: String,
+    default: "underline"
+  }
 });
-
-const computedIcon = computed(() => getFBIcon(props.icon));
+let computedIcon: ComputedRef<any>
+computedIcon = props.icon ? computed(() => getFBIcon(props.icon)): computed(()=>'');
 
 const variant = inject<TabsVariant>(TAB_STYLE_INJECTION_KEY);
 if (!variant) {
