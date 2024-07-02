@@ -10,6 +10,17 @@ const meta = {
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {},
+  decorators: [
+    () => ({
+      template: `
+    <div class="w-full h-[300px] flex justify-center">
+        <div class="w-full px-6">
+            <story />
+        </div>
+    </div>
+    `
+    })
+  ],
   args: {}
 } satisfies Meta<typeof FwbPhoneInput>
 

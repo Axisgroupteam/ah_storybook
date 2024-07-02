@@ -1,18 +1,39 @@
 <template>
   <form class="max-w-sm mx-auto">
+    {{ target?.clientWidth }}
     <div
       ref="target"
       class="flex items-center border rounded-lg"
       :class="bordered ? 'border-red-500' : 'border-transparent'"
       @click="bordered = true"
     >
-      <div
-        class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 border border-neutral-300 rounded-s-lg hover:bg-neutral-200 focus:ring-4 focus:outline-none focus:ring-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:focus:ring-neutral-700 dark:text-white dark:border-neutral-600"
-      >
-        <component :is="getFBIcon('usa')" />
-        +1
-        <component :is="getFBIcon('caret-down')" />
-      </div>
+      <fwb-dropdown text="asd" placement="bottom" class="rounded-lg">
+        <template #trigger>
+          <div
+            class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 border border-neutral-300 rounded-s-lg hover:bg-neutral-200 focus:ring-4 focus:outline-none focus:ring-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:focus:ring-neutral-700 dark:text-white dark:border-neutral-600 justify-center gap-2"
+          >
+            <component :is="getFBIcon('usa')" />
+            +1
+            <component :is="getFBIcon('caret-down')" />
+          </div>
+        </template>
+        <div
+          class="w-full p-4 shadow-md"
+          style="{
+          width: target?.clientWidth + 'px'
+        }"
+        >
+          <p
+            v-for="(header, index) in 6"
+            :key="header"
+            :class="index === 0 ? 'mt-[8px]' : 'mt-[6px]'"
+            class="text-sm leading-[14px] p-2 rounded-[8px] hover:bg-neutral-100 hover:dark:bg-neutral-700 cursor-pointer max-h-[32px] flex justify-start items-center text-neutral-900 dark:text-white"
+          >
+            {{ 'text' }}
+          </p>
+        </div>
+      </fwb-dropdown>
+
       <label
         for="phone-input"
         class="mb-2 text-sm font-medium text-neutral-900 sr-only dark:text-white"
@@ -38,6 +59,7 @@ import { useFileInputClasses } from './composables/useFileInputClasses'
 import { defineProps, ref, reactive, computed } from 'vue'
 import { getFBIcon } from '@/utils/getAssets'
 import { onClickOutside } from '@vueuse/core'
+import FwbDropdown from '../FwbDropdown/FwbDropdown.vue'
 
 interface Props {
   size?: string
