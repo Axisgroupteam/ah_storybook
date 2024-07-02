@@ -9,6 +9,7 @@
         :name="item.props?.name"
         :title="item.props?.title"
         :icon="item.props?.icon"
+        :variant="variant"
         @click="emitClick"
       />
     </ul>
