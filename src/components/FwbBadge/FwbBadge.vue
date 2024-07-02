@@ -1,5 +1,6 @@
 <template>
-  <div :class="wrapperClasses">
+  <div v-if="indicator" class="h-2 w-2 inline-flex bg-red-100 dark:bg-red-900 rounded-full" />
+  <div v-else :class="wrapperClasses">
     <!-- Prefix slot for additional content before the badge text -->
     <div v-if="$slots.preffix" class="">
       <slot name="preffix" />
@@ -29,6 +30,8 @@ import { useMergeClasses } from '@/composables/userMergeClasses'
 
 
 interface IBadgeProps {
+  indicator: boolean
+  counter: boolean
   class?: string
   color?: BadgeVariant
   size?: BadgeSize
@@ -38,12 +41,14 @@ interface IBadgeProps {
   tag?: string
 }
 const props = withDefaults(defineProps<IBadgeProps>(), {
-  color: 'primary',
-  class: '',
-  size:'sm',
+  indicator: false,
+  counter: false,
+  size:'md',
   pill: false,
   square: false,
   href: '',
+  color: 'primary',
+  class: '',
   tag: 'a',
 })
 

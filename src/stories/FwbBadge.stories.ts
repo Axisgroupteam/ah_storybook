@@ -53,6 +53,12 @@ export const Normal: Story = {
   }
 }
 
+export const Indicator: Story = {
+  args: {
+    indicator: true
+  }
+}
+
 export const CounterPill: Story = {
   render: (args) => ({
     components: { FwbBadge },
