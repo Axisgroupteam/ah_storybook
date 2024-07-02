@@ -1,51 +1,43 @@
 <template>
-  <div>
-    <label @click.stop>
-      <span :class="[labelClasses]"
-        >{{ label }} <span class="text-red-500" v-if="required"> *</span></span
-      >
-    </label>
-    <div class="flex relative" ref="target">
-      <div
-        class="absolute flex items-center justify-start w-[76px] h-full left-0 bottom-0 border-[1px] rounded-lg rounded-r-none bg-red-500"
-        :class="[
-          bordered ? 'border-red-500' : 'border-transparent',
-          disabled ? 'cursor-not-allowed ' : ''
-        ]"
-      >
-        <div class="flex justify-center items-center">
-          <component :is="getFBIcon('usa')" />
-          +1
-        </div>
-      </div>
-      <input
-        :class="[
-          fileInpClasses,
-          disabled ? 'bg-neutral-100 text-neutral-400 dark:text-neutral-500' : '',
-          validationStatus === 'error'
-            ? 'bg-red-50 border-red-500 text-red-900 dark:text-red-500 dark:border-red-500'
-            : ''
-        ]"
-        type="tel"
-        @change="handleChange"
-        :disabled="disabled"
-      />
-    </div>
+  <form class="max-w-sm mx-auto">
     <div
-      :class="
-        validationStatus === 'error' ? 'text-sm text-red-600 border-red-500 dark:text-red-500' : ''
-      "
+      ref="target"
+      class="flex items-center border rounded-lg"
+      :class="bordered ? 'border-red-500' : 'border-transparent'"
+      @click="bordered = true"
     >
-      <slot />
+      <div
+        class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 border border-neutral-300 rounded-s-lg hover:bg-neutral-200 focus:ring-4 focus:outline-none focus:ring-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:focus:ring-neutral-700 dark:text-white dark:border-neutral-600"
+      >
+        <component :is="getFBIcon('usa')" />
+        +1
+        <component :is="getFBIcon('caret-down')" />
+      </div>
+      <label
+        for="phone-input"
+        class="mb-2 text-sm font-medium text-neutral-900 sr-only dark:text-white"
+        >Phone number:</label
+      >
+      <div class="relative w-full">
+        <input
+          type="text"
+          id="phone-input"
+          class="block p-2.5 w-full z-20 text-sm text-neutral-900 bg-neutral-50 rounded-e-lg border-neutral-300 dark:bg-neutral-700 dark:border-s-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white outline-none ring-0 focus:outline-none focus:ring-0 focus:border-transparent"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          placeholder="123-456-7890"
+          required
+        />
+      </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import type { ValidationStatus } from '../FwbInput/types'
 import { useFileInputClasses } from './composables/useFileInputClasses'
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, reactive, computed } from 'vue'
 import { getFBIcon } from '@/utils/getAssets'
+import { onClickOutside } from '@vueuse/core'
 
 interface Props {
   size?: string
@@ -64,6 +56,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const bordered = ref(false)
+const target = ref<HTMLElement | null>(null)
+
+onClickOutside(target, () => (bordered.value = false))
 
 const { fileInpClasses, labelClasses } = useFileInputClasses(props.size)
 </script>
