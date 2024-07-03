@@ -35,17 +35,14 @@ type Story = StoryObj<typeof meta>
     setup() {
       const items = ref([
         {
-            icon: 'ticket',
+            icon: 'home',
             completed: true,
         },
         {
             icon: 'ticket',
             completed: false,
         },
-        {
-          icon: 'ticket',
-          completed: false,
-        },
+     
         {
             icon: 'completedReport',
             completed: false,
@@ -55,7 +52,7 @@ type Story = StoryObj<typeof meta>
     const index = ref(1);
     
     function handleStepsForward (){
-      if(index.value === items.value.length - 1 )
+      if(index.value === items.value.length )
         return
       items.value[index.value].completed = true;
       // items.value[index.value].icon = 'checked';
@@ -87,7 +84,7 @@ type Story = StoryObj<typeof meta>
               </FwbButton>
             
               <FwbButton color="primary" class="w-[80px]" @click="handleStepsForward">
-              <span>{{ index === items.length - 1 ? 'Finish'  : ' Next '}}</span>
+              <span>{{ index === items.length  ? 'Finish'  : ' Next '}}</span>
               </FwbButton>
             </div>
           </div>
