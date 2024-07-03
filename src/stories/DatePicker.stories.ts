@@ -24,8 +24,7 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-
-export const DefaultDatePicker: Story = { 
+export const RequiredDatePicker: Story = { 
   render: (args) => ({
     components: { DatePicker },
     setup() {
@@ -48,5 +47,74 @@ export const DefaultDatePicker: Story = {
   }
 }
 
+export const DisabledDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    size: 'md',
+    label: 'Date',
+    disabled: true,
+    required: false,
+    errorMessage: "",
+    validationStatus: '',   
+  }
+}
 
+export const ErrorDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    size: 'md',
+    label: 'Date',
+    disabled: true,
+    required: false,
+    errorMessage: "This Field is requuired",
+    validationStatus: 'error',   
+  }
+}
+
+export const DefaultDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    size: 'md',
+    label: 'Date',
+    required: false,
+    errorMessage: "",
+    validationStatus: '',   
+  }
+}
 

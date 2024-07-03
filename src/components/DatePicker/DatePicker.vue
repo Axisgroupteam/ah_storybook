@@ -7,7 +7,7 @@
       </span>
       <slot name="labelEnd" />
     </div>
-    <div class="relative max-w-sm">
+    <div class="relative">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg
           class="w-4 h-4 text-neutral-500 dark:text-neutral-400"
@@ -30,6 +30,7 @@
         type="text"
         class="block w-full ps-10 p-2.5"
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
+        :disabled="disabled"
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
