@@ -3,7 +3,7 @@ import { useAccordionState } from "./useAccordionState";
 import { twMerge } from "tailwind-merge";
 
 const baseHeaderClasses =
-  "flex items-center p-5 w-full font-medium text-left border border-neutral-200 dark:border-neutral-700";
+  "flex items-center p-5 w-full  font-medium text-left border border-neutral-200 dark:border-neutral-700";
 const nonFlushHeaderClasses =
   "hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-600";
 
@@ -29,11 +29,11 @@ export function useAccordionHeaderClasses(headerRef: Ref) {
     return twMerge(
       baseHeaderClasses,
       panelState.value.isVisible
-        ? "text-gray-900 dark:text-white"
-        : "text-gray-500 dark:text-gray-400",
+        ? "text-neutral-900   dark:text-white "
+        : "text-neutral-500  dark:text-neutral-400 ",
       panelState.value.isVisible &&
         !accordionState.value.flush &&
-        "bg-neutral-100 dark:bg-neutral-700",
+        "!bg-neutral-200 dark:!bg-neutral-700 ",
       !panelState.value.isVisible && isLastPanel.value && "rounded-b-xl",
       isFirstPanel.value && !accordionState.value.flush && "rounded-t-xl",
       isFirstPanel.value && accordionState.value.flush && "border-t-0",
