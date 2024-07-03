@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-//import { fn } from '@storybook/test'
 import FwbBadge from '@/components/FwbBadge/FwbBadge.vue'
+import {ref} from 'vue'
 
 const meta = {
   title: 'Example/FwbBadge',
@@ -22,21 +22,20 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: (args) => ({
-    components: { FwbBadge },
+    components: { FwbBadge},
+    methods: {
+      closeBadge(): void{
+          this.showBadge = false;
+      }
+    },
     setup() {
-      return { args }
+      return { args, showBadge: ref(false) }
     },
     template: `
       <FwbBadge v-bind="args">
         <template #preffix><span>3</span></template>        
         <template #default>Notifications</template>
-        <template #suffix>
-          <button type="button" class="flex items-center justify-center w-3.5 h-3.5 hover:bg-red-200 dark:hover:bg-red-800 rounded-sm">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-            </svg>
-          </button>
-        </template>     
+        <template #suffix />
       </FwbBadge>
     `
   }),
@@ -134,13 +133,7 @@ export const SuffixSlot: Story = {
     template: `
       <FwbBadge v-bind="args">
         <template #default>Badge</template>
-        <template #suffix>
-          <button type="button" class="flex items-center justify-center w-3.5 h-3.5 hover:bg-red-200 dark:hover:bg-red-800 rounded-sm">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-            </svg>
-          </button>
-        </template>       
+        <template #suffix />
       </FwbBadge>
     `
   }),
