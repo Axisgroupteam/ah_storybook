@@ -8,7 +8,7 @@ const meta = {
     title: 'Example/FwbDropdown',
     component: FwbDropdown,
     decorators: [()=>({
-        template: `<div class="w-full pt-[200px] pb-[100px] pl-[120px]">        
+        template: `<div class="w-full flex items-start h-[200px]">        
           <story />
         </div>`
       })],
@@ -68,7 +68,10 @@ export const PrimaryDropdown: Story = {
               </FwbButton>
               </template>
               <ul>
-                  <li v-for="i in 3" class="px-8 py-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-700 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-700 cursor-pointer first:rounded-t-lg last:rounded-b-lg text-neutral-900 dark:text-white text-sm font-medium">
+                  <li v-for="i in 3" class="px-4 w-[200px] py-4 items-start flex gap-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium">
+                  <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+                  </svg>
                   {{"Element " + i}}
                   </li>
                   
@@ -127,7 +130,12 @@ export const SecondaryDropdown: Story = {
                 </template>
                 <div >
                     <div v-for="i in 3" >
-                      <div class="px-8 py-2 whitespace-nowrap   hover:bg-neutral-100 hover:dark:bg-neutral-700 cursor-pointer rounded-lg text-neutral-900 dark:text-white text-sm font-medium" >{{"Element " + i}}</div>
+                    
+                      <div class="px-2 py-2 whitespace-nowrap  flex gap-2 justify-start w-[250px] items-center   hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer rounded-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium" >
+                        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+                        </svg>
+                        {{"Element " + i}}</div>
                     </div>
                     
                 </div>
