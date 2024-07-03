@@ -50,7 +50,7 @@ function commonToggleItem() {
   const isSelectedVisible = panelState.value.isVisible;
   for (const panelIndex in accordionState.value.panels) {
     const panel = accordionState.value.panels[panelIndex];
-    if (panel.id !== panelId.value) panel.isVisible = false;
+    if (panel?.id !== panelId.value) panel.isVisible = false;
     else panel.isVisible = !isSelectedVisible;
   }
 }
