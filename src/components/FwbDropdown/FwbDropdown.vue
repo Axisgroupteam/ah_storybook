@@ -31,13 +31,13 @@
       <div
         v-if="visible"
         ref="content"
-        :class="[contentClasses]"
+        :class="[contentClasses, 'overflow-clip']"
         :style="contentStyles"
      
       >
-        <fwb-slot-listener @click="onToggle"> 
+        <fwb-slot-listener > 
           <perfect-scrollbar>
-          <div v-if="$slots.default" class="w-full max-h-48 ">
+          <div v-if="$slots.default" class="w-full " :class="max_h" @click="onToggle">
             <slot  />
           </div>
           </perfect-scrollbar>  
@@ -74,6 +74,7 @@ const props = withDefaults(
     transition?: string;
     closeInside?: boolean;
     alignToEnd?: boolean;
+    max_h?: 'string'
   }>(),
   {
     placement: "bottom",
@@ -81,7 +82,8 @@ const props = withDefaults(
     transition: "",
     closeInside: false,
     alignToEnd: false,
-    type: 'primary'
+    type: 'primary',
+    max_h: 'max-h-[156px]'
   }
 );
 
