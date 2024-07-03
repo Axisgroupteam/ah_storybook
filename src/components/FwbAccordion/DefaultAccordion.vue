@@ -3,7 +3,7 @@
       <fwb-accordion class="w-full">
         <fwb-accordion-panel>
           <fwb-accordion-header>
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center ">
               <div class="flex justify-start items-center gap-2">
                 <svg
                   class="text-neutral-900 dark:text-white"
@@ -38,9 +38,9 @@
                     </clipPath>
                   </defs>
                 </svg>
-                First
+                {{title}}
               </div>
-             <p>Otions Firts</p>
+             <p>More</p>
             </div>
           </fwb-accordion-header>
           <fwb-accordion-content>
@@ -56,7 +56,7 @@
                 </fwb-accordion-header>
                 <fwb-accordion-content>
                   <div class="flex flex-col gap-4">
-                    <p>Accordion Content</p>
+                    <p>{{key}}</p>
                   </div>
                 </fwb-accordion-content>
               </fwb-accordion-panel>
@@ -75,11 +75,13 @@ import FwbAccordionHeader from "./FwbAccordionHeader.vue";
 import FwbAccordionPanel from "./FwbAccordionPanel.vue";
 
 interface AccordionProps{
-    groupedObject?: Array 
+    groupedObject?: Array,
+    title?: String 
 }
 
 const props = withDefaults(defineProps<AccordionProps>(), { 
-    groupedObject: ()=> []
+    groupedObject: ()=> [],
+    title: "First Title", 
 })
 </script>
 
