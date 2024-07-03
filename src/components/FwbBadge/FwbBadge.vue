@@ -1,5 +1,8 @@
 <template>
-  <div v-if="indicator" class="h-2 w-2 inline-flex bg-red-100 dark:bg-red-900 rounded-full" />
+  <div v-if="pill" :class="pillClasses">
+    <slot />
+  </div>
+  <div v-else-if="indicator" :class="indicatorClasses" />
   <div v-else :class="wrapperClasses">
     <!-- Prefix slot for additional content before the badge text -->
     <div v-if="$slots.preffix" class="">
@@ -11,7 +14,7 @@
       <!-- Main Badge text slot -->
       <div class="">
         <slot />
-        <span v-if="!$slots.default">Badge</span>
+        <!-- <span v-if="!$slots.default">Badge</span> -->
       </div>
     </span>
 
@@ -56,6 +59,8 @@ const badgeClasses = computed(() => useBadgeClasses(toRefs(props)))
 
 const wrapperClasses = computed(() => useMergeClasses(badgeClasses.value.wrapperClasses))
 const spanClasses = computed(() => useMergeClasses(badgeClasses.value.spanClasses))
+const indicatorClasses = computed(() => useMergeClasses(badgeClasses.value.indicatorClasses))
+const pillClasses = computed(() => useMergeClasses(badgeClasses.value.pillClasses))
 
 </script>
 
