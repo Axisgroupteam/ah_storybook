@@ -36,7 +36,7 @@ type Story = StoryObj<typeof meta>
       const items = ref([
         {
             icon: 'ticket',
-            completed: false,
+            completed: true,
         },
         {
             icon: 'ticket',
@@ -58,6 +58,7 @@ type Story = StoryObj<typeof meta>
       if(index.value === items.value.length - 1 )
         return
       items.value[index.value].completed = true;
+      // items.value[index.value].icon = 'checked';
       index.value ++
     } 
 
@@ -66,6 +67,7 @@ type Story = StoryObj<typeof meta>
         return
       index.value --
       items.value[index.value].completed = false;
+      // items.value[index.value].icon = 'ticket';
       
     } 
 
@@ -74,18 +76,18 @@ type Story = StoryObj<typeof meta>
     template: `            
         <div class="w-full p-3 flex flex-col items-center">
           <FwbStepper :steps="items"/>
-          <div class="w-full flex flex-col h-[350px]">
-            <div class="w-full h-[300px] flex flex-col justify-center text-center gap-6 items-center">
-            <span class="text-black dark:text-white font-bold text-4xl">Content of Step {{index}}</span>
+          <div class="w-full flex flex-col py-6">
+            <div class="w-full h-[100px] flex flex-col justify-center text-center gap-6 items-center">
+            <span class="text-black dark:text-white ">Content of Step {{index}}</span>
             
             </div>
-            <div class="w-full flex justify-between">
-              <FwbButton color="primary" @click="handleStepsBack">
-              <span>Back</span>
+            <div class="w-full flex gap-4">
+              <FwbButton color="secondary" class="w-[80px]"  @click="handleStepsBack">
+              <span>{{ index === 1 ? 'Cancel'  : ' Prev '}}</span>
               </FwbButton>
             
-              <FwbButton color="primary" @click="handleStepsForward">
-              <span>Next</span>
+              <FwbButton color="primary" class="w-[80px]" @click="handleStepsForward">
+              <span>{{ index === items.length - 1 ? 'Finish'  : ' Next '}}</span>
               </FwbButton>
             </div>
           </div>

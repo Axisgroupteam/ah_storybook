@@ -1,5 +1,9 @@
 <template>
-  <div :class="wrapperClasses">
+  <div v-if="pill" :class="pillClasses">
+    <slot />
+  </div>
+  <div v-else-if="indicator" :class="indicatorClasses" />
+  <div v-else :class="wrapperClasses">
     <!-- Prefix slot for additional content before the badge text -->
     <div v-if="$slots.preffix" class="">
       <slot name="preffix" />
@@ -10,7 +14,7 @@
       <!-- Main Badge text slot -->
       <div class="">
         <slot />
-        <span v-if="!$slots.default">Badge</span>
+        <!-- <span v-if="!$slots.default">Badge</span> -->
       </div>
     </span>
 
@@ -29,6 +33,8 @@ import { useMergeClasses } from '@/composables/userMergeClasses'
 
 
 interface IBadgeProps {
+  indicator: boolean
+  counter: boolean
   class?: string
   color?: BadgeVariant
   size?: BadgeSize
@@ -38,12 +44,14 @@ interface IBadgeProps {
   tag?: string
 }
 const props = withDefaults(defineProps<IBadgeProps>(), {
-  color: 'primary',
-  class: '',
-  size:'sm',
+  indicator: false,
+  counter: false,
+  size:'md',
   pill: false,
   square: false,
   href: '',
+  color: 'primary',
+  class: '',
   tag: 'a',
 })
 
@@ -51,6 +59,8 @@ const badgeClasses = computed(() => useBadgeClasses(toRefs(props)))
 
 const wrapperClasses = computed(() => useMergeClasses(badgeClasses.value.wrapperClasses))
 const spanClasses = computed(() => useMergeClasses(badgeClasses.value.spanClasses))
+const indicatorClasses = computed(() => useMergeClasses(badgeClasses.value.indicatorClasses))
+const pillClasses = computed(() => useMergeClasses(badgeClasses.value.pillClasses))
 
 </script>
 

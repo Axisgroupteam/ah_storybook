@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import FwbAccordion from "../components/FwbAccordion/FwbAccordion.vue";
-import FwbAccordionContent from "../components/FwbAccordion//FwbAccordionContent.vue";
-import FwbAccordionHeader from "../components/FwbAccordion//FwbAccordionHeader.vue";
-import FwbAccordionPanel from "../components/FwbAccordion//FwbAccordionPanel.vue";
+import FwbAccordion from '../components/FwbAccordion/FwbAccordion.vue'
+import FwbAccordionContent from '../components/FwbAccordion//FwbAccordionContent.vue'
+import FwbAccordionHeader from '../components/FwbAccordion//FwbAccordionHeader.vue'
+import FwbAccordionPanel from '../components/FwbAccordion//FwbAccordionPanel.vue'
 import { ref } from 'vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -11,16 +11,15 @@ const meta = {
   component: FwbAccordion,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  decorators: [()=>({
-    template: `<div class="w-full pt-[200px] pb-[100px] pl-[120px]">        
+  decorators: [
+    () => ({
+      template: `<div class="w-full pt-[200px] pb-[100px] pl-[120px]">        
       <story />
     </div>`
-  })],
-  argTypes: {
-    
-  },
-  args: {
-  }
+    })
+  ],
+  argTypes: {},
+  args: {}
 } satisfies Meta<typeof FwbAccordion>
 
 export default meta
@@ -31,15 +30,11 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
- export const Simple: Story = {
+export const Simple: Story = {
   render: (args) => ({
-    components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel  },
+    components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel },
     setup() {
-      
-
-       
-
-      return { args, }
+      return { args }
     },
     template: `            
         <fwb-accordion class="w-full">
@@ -57,28 +52,21 @@ type Story = StoryObj<typeof meta>
           </fwb-accordion-header>
           <fwb-accordion-content>
             <fwb-accordion always-open>
-              <span class="text-neutral-900">Description text<span>
+              <span class="text-neutral-900">Description text</span>
             </fwb-accordion>
           </fwb-accordion-content>
         </fwb-accordion-panel>
       </fwb-accordion>
     `
   }),
-  args: {
-
-  }
+  args: {}
 }
-
 
 export const Nested: Story = {
   render: (args) => ({
-    components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel  },
+    components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel },
     setup() {
-      
-
-       
-
-      return { args, }
+      return { args }
     },
     template: `            
          <fwb-accordion class="w-full">
@@ -117,12 +105,5 @@ export const Nested: Story = {
       </fwb-accordion>
     `
   }),
-  args: {
-
-  }
+  args: {}
 }
-
-
-
-
-
