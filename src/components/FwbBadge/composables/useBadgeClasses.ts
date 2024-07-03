@@ -25,7 +25,7 @@ const BadgeSizeClasses: Record<BadgeSize, string> = {
 
 const indicatorBClasses = 'h-2 w-2 bg-red-500 dark:bg-red-500 rounded-full'
 
-const pillBClasses = 'bg-red-100 dark:bg-red-900 text-red-500 inline-flex px-1.5 rounded-full text-sm'
+const pillBClasses = 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 inline-flex px-1.5 rounded-full text-sm font-medium'
 
 const badgeSquareSizeClasses: Record<BadgeSize, string> = {
   xs: 'text-xs p-0.5',
