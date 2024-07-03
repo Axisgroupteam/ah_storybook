@@ -1,17 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 //import Button from './Button.vue'
-import FwbFileInput from '@/components/FwbFileInput/FwbFileInput.vue'
+import FwbPhoneInput from '@/components/FwbPhoneInput/FwbPhoneInput.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: 'Example/FwbFileInput',
-  component: FwbFileInput,
+  title: 'Example/FwbPhoneInput',
+  component: FwbPhoneInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {},
+  decorators: [
+    () => ({
+      template: `
+    <div class="w-full h-[300px] flex justify-center">
+        <div class="w-full px-6">
+            <story />
+        </div>
+    </div>
+    `
+    })
+  ],
   args: {}
-} satisfies Meta<typeof FwbFileInput>
+} satisfies Meta<typeof FwbPhoneInput>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -23,42 +34,29 @@ type Story = StoryObj<typeof meta>
 
 export const Normal: Story = {
   render: (args) => ({
-    components: { FwbFileInput },
+    components: { FwbPhoneInput },
     setup() {
       return { args }
     },
     template: `
-      <FwbFileInput v-bind="args">
+      <FwbPhoneInput v-bind="args">
         
-      </FwbFileInput>
+      </FwbPhoneInput>
     `
   }),
   args: {}
 }
 
-export const Required: Story = {
-  render: (args) => ({
-    components: { FwbFileInput },
-    setup() {
-      return { args }
-    },
-    template: `
-      <FwbFileInput v-bind="args" />
-    `
-  }),
-  args: {
-    required: true
-  }
-}
-
 export const Disabled: Story = {
   render: (args) => ({
-    components: { FwbFileInput },
+    components: { FwbPhoneInput },
     setup() {
       return { args }
     },
     template: `
-      <FwbFileInput v-bind="args" />
+      <FwbPhoneInput v-bind="args">
+        
+      </FwbPhoneInput>
     `
   }),
   args: {
@@ -66,33 +64,52 @@ export const Disabled: Story = {
   }
 }
 
-export const Large: Story = {
+export const Required: Story = {
   render: (args) => ({
-    components: { FwbFileInput },
+    components: { FwbPhoneInput },
     setup() {
       return { args }
     },
     template: `
-      <FwbFileInput v-bind="args" />
+      <FwbPhoneInput v-bind="args">
+        
+      </FwbPhoneInput>
     `
   }),
   args: {
-    size: 'lg'
+    required: true
+  }
+}
+
+export const Medium: Story = {
+  render: (args) => ({
+    components: { FwbPhoneInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbPhoneInput v-bind="args">
+        
+      </FwbPhoneInput>
+    `
+  }),
+  args: {
+    size: 'md'
   }
 }
 
 export const ErrorStatus: Story = {
   render: (args) => ({
-    components: { FwbFileInput },
+    components: { FwbPhoneInput },
     setup() {
       return { args }
     },
     template: `
-      <FwbFileInput v-bind="args">
-        <span>
-          Required Field
-        </span>
-      </FwbFileInput>
+      <FwbPhoneInput v-bind="args">
+        <template #validationMessage>
+        <span>This field is required</span>
+        </template>       
+      </FwbPhoneInput>
     `
   }),
   args: {

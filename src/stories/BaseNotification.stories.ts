@@ -7,7 +7,7 @@ const meta = {
   component: BaseNotification,
   decorators: [
     () => ({
-      template: `<div class="w-[400px] rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)]">        
+      template: `<div class="w-[400px] rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">        
         <story />
       </div>`
     })
@@ -30,7 +30,6 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 export const Default: Story = {
-
   args: {
     content: 'Some message'
   }

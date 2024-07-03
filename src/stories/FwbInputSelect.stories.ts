@@ -43,6 +43,25 @@ export const Disabled: Story = {
   }
 }
 
+export const ErrorStatus: Story = {
+  render: (args) => ({
+    components: { FwbSelect },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbSelect v-bind="args">
+        <template #validationMessage>
+        <span>This field is required</span>
+        </template>       
+      </FwbSelect>
+    `
+  }),
+  args: {
+    validationStatus: 'error'
+  }
+}
+
 export const Options: Story = {
   args: {
     options: [

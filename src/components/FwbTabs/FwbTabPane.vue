@@ -1,19 +1,19 @@
 <template>
   <li>
-    <div
-      class="flex justify-center items-center gap-[6px] max-h-[51px]"
-      :class="tabClasses"
+    <button
+      class="flex justify-center items-center gap-[6px] max-h-[51px] transition-all ease duration-50"
+      :class="tabClasses + (disabled ? ' ' : pillClass)"
       @click="tryActivateTab"
     >
       <component v-if="computedIcon" :is="computedIcon" class="w-3.5 h-3.5" />
       {{ title }}
       <div v-if="variant === 'underline'" class="w-[20px] h-[20px] rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900">{{props.count}}</div>
-    </div>
+  </button>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { inject, toRef, computed, type ComputedRef } from "vue";
+import { inject, toRef, computed, type ComputedRef, ref } from "vue";
 import type { TabsVariant } from "./types";
 import { useTabClasses } from "./composables/useTabClasses";
 import {
@@ -43,6 +43,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  activeNoRing: {
+    type: Boolean,
+    default: false,
+  },
   count: {
     type: Number,
     default: 0,
@@ -69,10 +73,16 @@ if (!onActivate) {
   );
 }
 
+const pillClass = ref(props.variant === 'underline' ? '' : ' focus:ring-4 focus:ring-red-200 dark:focus:ring-red-600')
+
 const tryActivateTab = () => {
+  pillClass.value = props.variant === 'underline' ? '' : ' focus:ring-4 focus:ring-red-200 dark:focus:ring-red-600'
   if (props.disabled) return;
   if (!onActivate) return console.warn("no onActivate");
   onActivate(props.name);
+  setTimeout(()=>{
+    pillClass.value = ''
+  }, 200)
 };
 
 const { tabClasses } = useTabClasses({
@@ -80,4 +90,6 @@ const { tabClasses } = useTabClasses({
   disabled: toRef(props, "disabled"),
   variant,
 });
+
+
 </script>

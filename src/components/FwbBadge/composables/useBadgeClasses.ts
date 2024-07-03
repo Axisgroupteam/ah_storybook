@@ -1,4 +1,3 @@
-//import { ref, computed, type Ref } from 'vue'
 import { computed, type Ref, useSlots } from 'vue'
 import type { BadgeSize, BadgeVariant } from '../types'
 
@@ -24,6 +23,10 @@ const BadgeSizeClasses: Record<BadgeSize, string> = {
   lg: 'text-base px-3.5 py-1.5'
 }
 
+const indicatorBClasses = 'h-2 w-2 bg-red-500 dark:bg-red-500 rounded-full'
+
+const pillBClasses = 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 inline-flex px-1.5 rounded-full text-sm font-medium'
+
 const badgeSquareSizeClasses: Record<BadgeSize, string> = {
   xs: 'text-xs p-0.5',
   sm: 'text-xs p-1',
@@ -33,6 +36,7 @@ const badgeSquareSizeClasses: Record<BadgeSize, string> = {
 
 export type UseBadgeClassesProps = {
   class: Ref<string>
+  indicator: Ref<boolean>
   pill: Ref<boolean>
   size: Ref<BadgeSize>
   square: Ref<boolean>
@@ -40,6 +44,8 @@ export type UseBadgeClassesProps = {
 }
 
 export function useBadgeClasses(props: UseBadgeClassesProps): {
+  indicatorClasses: string
+  pillClasses: string
   wrapperClasses: string
   spanClasses: string
 } {
@@ -48,6 +54,18 @@ export function useBadgeClasses(props: UseBadgeClassesProps): {
   const sizeClasses = computed(() => {
     if (props.square.value) return badgeSquareSizeClasses[props.size.value]
     return BadgeSizeClasses[props.size.value]
+  })
+
+  const pbClasses = computed(() => {
+    if (props.pill.value) return pillBClasses
+
+    return ''
+  })
+
+  const ibClasses = computed(() => {
+    if (props.indicator.value) return indicatorBClasses
+
+    return ''
   })
 
   const bindClasses = computed(() => {
@@ -61,6 +79,8 @@ export function useBadgeClasses(props: UseBadgeClassesProps): {
     return [
       backgroundClass,
       props.pill.value && '!rounded-full',
+      pbClasses,
+      ibClasses,
       sizeClasses.value,
       (slots.prefix || slots.suffix || slots.default) && 'inline-flex items-center',
       props.class.value
@@ -74,6 +94,8 @@ export function useBadgeClasses(props: UseBadgeClassesProps): {
   })
 
   return {
+    indicatorClasses: ibClasses.value,
+    pillClasses:pbClasses.value,
     wrapperClasses: bindClasses.value,
     spanClasses: spanClasses.value
   }
