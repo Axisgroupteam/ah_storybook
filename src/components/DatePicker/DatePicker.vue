@@ -48,6 +48,11 @@ import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
 import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
+//import './css/datepicker.css'
+import './css/flowbite.css'
+import './css/datepicker.scss'
+
+
 interface InputProps {
   disabled?: boolean
   label?: string
@@ -92,9 +97,9 @@ const validationWrapperClasses = computed(() =>
 onMounted(() => {
   initFlowbite()
 })
+
 </script>
 <style scoped>
-.next-btn {
-  @apply focus:dark:!ring-neutral-700;
-}
+
+
 </style>

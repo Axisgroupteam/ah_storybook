@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const RequiredDatePicker: Story = { 
+/*export const RequiredDatePicker: Story = { 
   render: (args) => ({
     components: { DatePicker },
     setup() {
@@ -88,12 +88,12 @@ export const ErrorDatePicker: Story = {
   args: {
     size: 'md',
     label: 'Date',
-    disabled: true,
+    disabled: false,
     required: false,
     errorMessage: "This Field is requuired",
     validationStatus: 'error',   
   }
-}
+}*/
 
 export const DefaultDatePicker: Story = { 
   render: (args) => ({
