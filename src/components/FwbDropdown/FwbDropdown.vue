@@ -36,9 +36,11 @@
      
       >
         <fwb-slot-listener @click="onToggle"> 
-    
+          <perfect-scrollbar>
+          <div v-if="$slots.default" class="w-full max-h-48 ">
             <slot  />
-       
+          </div>
+          </perfect-scrollbar>  
         </fwb-slot-listener>
       </div>
     </transition>
@@ -52,7 +54,7 @@ import type { DropdownPlacement } from "./types";
 import FwbButton from "../FwbButton/FwbButton.vue";
 import FwbSlotListener from "@/utils/FwbSlotListener/FwbSlotListener.vue";
 import { useDropdownClasses } from "./composables/useDropdownClasses";
-
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 const emit = defineEmits(["toogle"]);
 
 const visible = ref(false);
