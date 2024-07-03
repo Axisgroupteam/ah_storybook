@@ -66,6 +66,7 @@ export const Underline: Story = {
                     :name="tab.title"
                     :title="tab.title"
                     :icon="tab.icon"
+                    :disabled="index === 2"
                     class="h-full px-4"
                 >
                     
@@ -111,8 +112,8 @@ export const Pills: Story = {
                     :key="index"
                     :name="tab.title"
                     :title="tab.title"
-                  
-                    class="h-full px-4"
+                    :disabled="index === 2"
+                    class="h-full px-4 "
                 >
                  
                 </FwbTab>
@@ -160,7 +161,7 @@ export const Interactive: Story = {
                     :key="index"
                     :name="tab.title"
                     :title="tab.title"
-              
+                    :disabled="index === 2"
                     class="h-full px-4"
                 >
                     <div class="w-full h-full flex flex-col text-center justify-center pb-4 dark:text-white">

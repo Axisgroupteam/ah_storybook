@@ -5,6 +5,7 @@
         v-for="(item, id) in tabsChildren"
         :key="id"
         :active="modelValueRef === item.props?.name"
+      
         :disabled="item.props?.disabled"
         :name="item.props?.name"
         :title="item.props?.title"
@@ -20,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, toRef, useSlots } from "vue";
+import { computed, provide, toRef, useSlots} from "vue";
 import { flatten } from "../../utils/flatten";
 import { useTabsClasses } from "./composables/useTabsClasses";
 import FwbTabPane from "./FwbTabPane.vue";
@@ -82,4 +83,11 @@ const emitClick = (): void => {
 };
 
 provide(TAB_ACTIVATE_INJECTION_KEY, onActivate);
+
+
+
+
+
+
+
 </script>
