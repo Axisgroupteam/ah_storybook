@@ -85,17 +85,17 @@ export const Nested: Story = {
           <fwb-accordion-content>
             <fwb-accordion always-open>
               <fwb-accordion-panel
-                v-for="i in 1"
+                v-for="i in 3"
                 :key="value"
               >
                 <fwb-accordion-header>
                   <div class="flex justify-between items-center">
-                    Accordion Nested           
+                    Accordion Nested  {{i}}         
                   </div>
                 </fwb-accordion-header>
                 <fwb-accordion-content>
                   <div class="flex dark:text-white flex-col gap-4">
-                    Content Text
+                    Content Text {{i}}
                   </div>
                 </fwb-accordion-content>
               </fwb-accordion-panel>

@@ -33,7 +33,7 @@ export function useAccordionHeaderClasses(headerRef: Ref) {
         : "text-neutral-500  dark:text-neutral-400 ",
       panelState.value.isVisible &&
         !accordionState.value.flush &&
-        "!bg-neutral-200 dark:!bg-neutral-700 ",
+        "!bg-neutral-100 dark:!bg-neutral-700 ",
       !panelState.value.isVisible && isLastPanel.value && "rounded-b-xl",
       isFirstPanel.value && !accordionState.value.flush && "rounded-t-xl",
       isFirstPanel.value && accordionState.value.flush && "border-t-0",
