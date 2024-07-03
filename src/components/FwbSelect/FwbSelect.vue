@@ -1,6 +1,9 @@
 <template>
   <div ref="wrapper" class="relative">
-    <span v-if="label" :class="labelClasses">
+    <span
+      v-if="label"
+      :class="[labelClasses, disabled ? '!text-neutral-400 dark:!text-neutral-500' : '']"
+    >
       {{ label }}
     </span>
     <FwbInput
@@ -11,10 +14,14 @@
       :placeholder="placeholder"
       readonly
       @click.stop="handleClick"
+      :validationStatus="validationStatus === 'error' ? 'error' : 'normal'"
     >
       <template #suffix>
         <svg
-          :class="svgClasses"
+          :class="[
+            svgClasses,
+            validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : ''
+          ]"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +61,7 @@
       <FwbSpinner color="red" />
     </div>
     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
-      <slot name="validationMessage" />
+      <slot name="validationMessage" v-if="!visible" />
     </p>
     <p v-if="$slots.helper" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
       <slot name="helper" />
@@ -120,7 +127,7 @@ const { labelClasses } = useSelectClasses(toRefs(props))
 
 const validationWrapperClasses = computed(() =>
   twMerge(
-    'mt-2 text-sm',
+    'text-sm',
     props.validationStatus === validationStatusMap.Success
       ? 'text-green-600 dark:text-green-500'
       : '',

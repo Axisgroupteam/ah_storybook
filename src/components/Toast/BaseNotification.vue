@@ -2,7 +2,7 @@
   <div
     id="notification"
     v-if="status === 'action'"
-    class="flex justify-between relative items-center p-4 m-0 gap-2 min-h-[155px] w-full rounded-md bg-white dark:bg-[#262626]"
+    class="flex justify-between relative items-center p-4 m-0 gap-2 min-h-[155px] w-full rounded-lg bg-white dark:bg-[#262626]"
   >
     <div class="absolute top-4 flex flex-col justify-start pb-4 pr-4">
       <div :class="bg_icon_class">
@@ -41,7 +41,7 @@
   <div
     v-else
     id="notification"
-    class="flex justify-between items-center p-4 m-0 gap-2 w-full rounded-md bg-white dark:bg-[#262626]"
+    class="flex justify-between items-center p-4 m-0 gap-2 w-full rounded-lg bg-white dark:bg-[#262626]"
   >
     <div class="flex gap-4 justify-center items-center">
       <div :class="bg_icon_class">
@@ -83,7 +83,8 @@ const bg_icon_classes = {
   error: 'bg-red-100 dark:bg-red-700 rounded-lg text-red-700 dark:text-red-400',
   action: 'bg-red-100 dark:bg-red-700 rounded-lg text-red-700 dark:text-red-400',
   info: 'bg-blue-100 dark:bg-blue-700 rounded-lg text-blue-700 dark:text-blue-400 ',
-  default: 'bg-neutral-100 dark:bg-neutral-700 p-1.5 rounded-lg text-neutral-700 dark:text-neutral-400 ',//this is default
+  default:
+    'bg-neutral-100 dark:bg-neutral-700 p-1.5 rounded-lg text-neutral-700 dark:text-neutral-400 ' //this is default
 }
 
 const bg_icon_class = computed(() => bg_icon_classes[props.status])

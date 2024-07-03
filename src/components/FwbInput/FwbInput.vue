@@ -6,7 +6,8 @@
     <div class="flex relative">
       <div
         v-if="$slots.prefix"
-        class="w-10 flex absolute inset-y-0 left-0 items-center pl-0 justify-center overflow-hidden"
+        class="w-10 flex absolute inset-y-0 left-0 items-center pl-0 justify-center overflow-hidden text-neutral-500 dark:text-neutral-400"
+        :class="validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : ''"
       >
         <slot name="prefix" />
       </div>
@@ -22,8 +23,9 @@
       />
       <div
         v-if="$slots.suffix"
-        class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0"
-        @click="!disabled ? toggle : true"
+        class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0 text-neutral-500 dark:text-neutral-400"
+        :class="validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : ''"
+        @click="toggle"
       >
         <slot name="suffix" />
       </div>
@@ -73,7 +75,7 @@ const handleInput = (e: Event) => {
 }
 
 const toggle = () => {
-  emit('toggleVisibility')
+  if (!props.disabled) emit('toggleVisibility')
 }
 
 const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))

@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 //import Button from './Button.vue'
-import FwbImage from '@/components/FwbImage/FwbImage.vue'
+import FwbDropzone from '@/components/FwbDropzone/FwbFileInput.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: 'Example/FwbImage',
-  component: FwbImage,
+  title: 'Example/FwbDropzone',
+  component: FwbDropzone,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {},
   args: {}
-} satisfies Meta<typeof FwbImage>
+} satisfies Meta<typeof FwbDropzone>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -21,60 +21,73 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Normal: Story = {
+export const Dropzone: Story = {
   render: (args) => ({
-    components: { FwbImage },
+    components: { FwbDropzone },
     setup() {
       return { args }
     },
     template: `
-      <FwbImage v-bind="args">
-        
-      </FwbImage>
+      <FwbDropzone v-bind="args" />
     `
   }),
   args: {
-    existingImages: [],
+    label: 'Upload file',
+    dropzone: true
+  }
+}
+
+export const DropzoneRequired: Story = {
+  render: (args) => ({
+    components: { FwbDropzone },
+    setup() {
+      return { args }
+    },
+    template: `
+        <FwbDropzone v-bind="args" />
+      `
+  }),
+  args: {
+    label: 'Upload file',
+    dropzone: true,
     required: true
   }
 }
 
-export const Disabled: Story = {
+export const DisabledDropzone: Story = {
   render: (args) => ({
-    components: { FwbImage },
+    components: { FwbDropzone },
     setup() {
       return { args }
     },
     template: `
-      <FwbImage v-bind="args">
-        
-      </FwbImage>
+      <FwbDropzone v-bind="args" />
     `
   }),
   args: {
-    existingImages: [],
-    required: false,
+    label: 'Upload file',
+    dropzone: true,
     disabled: true
   }
 }
 
-export const StatusError: Story = {
+export const ErrorDropzone: Story = {
   render: (args) => ({
-    components: { FwbImage },
+    components: { FwbDropzone },
     setup() {
       return { args }
     },
     template: `
-      <FwbImage v-bind="args">
-         <template #validationMessage>
-        <span>This field is required</span>
+      <FwbDropzone v-bind="args">
+        <template #validationMessage>        
+          Required Field        
         </template>
-      </FwbImage>
+      </FwbDropzone>
     `
   }),
   args: {
-    existingImages: [],
-    required: true,
+    label: 'Upload file',
+    dropzone: true,
     validationStatus: 'error'
   }
 }
