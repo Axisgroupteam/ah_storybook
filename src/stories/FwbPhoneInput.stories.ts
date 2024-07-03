@@ -46,3 +46,73 @@ export const Normal: Story = {
   }),
   args: {}
 }
+
+export const Disabled: Story = {
+  render: (args) => ({
+    components: { FwbPhoneInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbPhoneInput v-bind="args">
+        
+      </FwbPhoneInput>
+    `
+  }),
+  args: {
+    disabled: true
+  }
+}
+
+export const Required: Story = {
+  render: (args) => ({
+    components: { FwbPhoneInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbPhoneInput v-bind="args">
+        
+      </FwbPhoneInput>
+    `
+  }),
+  args: {
+    required: true
+  }
+}
+
+export const Medium: Story = {
+  render: (args) => ({
+    components: { FwbPhoneInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbPhoneInput v-bind="args">
+        
+      </FwbPhoneInput>
+    `
+  }),
+  args: {
+    size: 'md'
+  }
+}
+
+export const ErrorStatus: Story = {
+  render: (args) => ({
+    components: { FwbPhoneInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbPhoneInput v-bind="args">
+        <template #validationMessage>
+        <span>This field is required</span>
+        </template>       
+      </FwbPhoneInput>
+    `
+  }),
+  args: {
+    validationStatus: 'error'
+  }
+}
