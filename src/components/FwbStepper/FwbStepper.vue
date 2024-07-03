@@ -14,18 +14,19 @@
                        {'bg-neutral-100 dark:bg-neutral-700': (index && !i.completed)} ]"
         >                     
                      <!--<component :is="getFBIcon(iconIni)" v-if="iconIni" class="w-6"/>-->
-                     <component v-if="!i.completed" :is="computedArray[index]" class="w-4 h-4" />
-                     <CheckedIcon v-else class="text-red-600 dark:text-red-400" />
+                     <component   :is="computedArray[index]" :class="[{'w-[26.4px] h-[26.4px]' : refFullSteps[index].icon === 'home'},
+                                                                      {'w-5 h-5' : refFullSteps[index].icon !== 'home'} ]" />
+      
 
                   </span>
         </li>
         <li class="flex items-center ">
                   <span                    
                     class="flex  items-center justify-center w-10 h-10 bg-neutral-100 dark:bg-neutral-700 rounded-full md:h-12 md:w-12 shrink-0 text-[#737373]"
-                    :class="[{'bg-red-100 dark:bg-red-800 text-red-600 dark:text-red-400': refSteps[refSteps.length - 1].completed}]"
+                    :class="[{'bg-red-100 dark:bg-red-800 text-red-600 dark:text-red-400': refFullSteps[refFullSteps.length - 1].completed}]"
                     >                     
                      <!--<component :is="getFBIcon(iconEnd)" v-if="iconEnd" class="w-6"/>-->
-                     <component :is="computedArray[steps.length - 1]" />
+                     <component :is="computedArray[steps.length - 1]"  class="w-5 h-5"/>
                   </span>
             </li>
     </ol>
@@ -34,7 +35,7 @@
 <script setup lang="ts">
 import { getFBIcon } from "../../utils/getAssets";
 import {computed, reactive} from 'vue'
-import CheckedIcon from '@/assets/flowbite_icons/checked.svg'
+
 
 interface Props {
     steps: any
@@ -43,7 +44,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(),{
     steps: [
         {
-            icon: 'checked',
+            icon: 'home',
             completed: true,
         },
         {
