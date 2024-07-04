@@ -23,8 +23,7 @@ type Story = StoryObj<typeof meta>
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-
-/*export const RequiredDatePicker: Story = { 
+export const DefaultDatePicker: Story = { 
   render: (args) => ({
     components: { DatePicker },
     setup() {
@@ -39,6 +38,31 @@ type Story = StoryObj<typeof meta>
     `
   }),
   args: {
+    id:"defaultDatePicker",
+    size: 'md',
+    label: 'Date',
+    required: false,
+    errorMessage: "",
+    validationStatus: '',   
+  }
+}
+
+export const RequiredDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    id:"requiredDatePicker",
     size: 'md',
     label: 'Date',
     required: true,
@@ -62,6 +86,7 @@ export const DisabledDatePicker: Story = {
     `
   }),
   args: {
+    id:"disabledDatePicker",
     size: 'md',
     label: 'Date',
     disabled: true,
@@ -86,6 +111,7 @@ export const ErrorDatePicker: Story = {
     `
   }),
   args: {
+    id:"errorDatePicker",
     size: 'md',
     label: 'Date',
     disabled: false,
@@ -93,28 +119,7 @@ export const ErrorDatePicker: Story = {
     errorMessage: "This Field is requuired",
     validationStatus: 'error',   
   }
-}*/
-
-export const DefaultDatePicker: Story = { 
-  render: (args) => ({
-    components: { DatePicker },
-    setup() {
-      return { args }
-    },
-    template: `
-      <DatePicker v-bind="args"> 
-      <template #validationMessage>
-        <span>{{args.errorMessage}}</span>
-        </template>  
-      </DatePicker>
-    `
-  }),
-  args: {
-    size: 'md',
-    label: 'Date',
-    required: false,
-    errorMessage: "",
-    validationStatus: '',   
-  }
 }
+
+
 

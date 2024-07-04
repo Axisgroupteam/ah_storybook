@@ -22,7 +22,7 @@
         </svg>
       </div>
       <input
-        id="datepicker-actions"
+        :id="id"
         datepicker
         datepicker-buttons
         datepicker-autohide
@@ -50,10 +50,12 @@ import { type InputSize, type InputType, type ValidationStatus, validationStatus
 
 //import './css/datepicker.css'
 import './css/flowbite.css'
-import './css/datepicker.scss'
+//import './css/datepicker.scss'
+import './css/custom.scss'
 
 
 interface InputProps {
+  id:string
   disabled?: boolean
   label?: string
   modelValue: string
