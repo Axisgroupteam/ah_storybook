@@ -7,7 +7,7 @@
       </span>
       <slot name="labelEnd" />
     </div>
-    <div class="relative max-w-sm">
+    <div class="relative">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg
           class="w-4 h-4 text-neutral-500 dark:text-neutral-400"
@@ -22,7 +22,7 @@
         </svg>
       </div>
       <input
-        id="datepicker-actions"
+        :id="id"
         datepicker
         datepicker-buttons
         datepicker-autohide
@@ -30,6 +30,7 @@
         type="text"
         class="block w-full ps-10 p-2.5"
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
+        :disabled="disabled"
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
@@ -47,7 +48,14 @@ import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
 import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
+//import './css/datepicker.css'
+import './css/flowbite.css'
+//import './css/datepicker.scss'
+import './css/custom.scss'
+
+
 interface InputProps {
+  id:string
   disabled?: boolean
   label?: string
   modelValue: string
@@ -91,9 +99,9 @@ const validationWrapperClasses = computed(() =>
 onMounted(() => {
   initFlowbite()
 })
+
 </script>
 <style scoped>
-.next-btn {
-  @apply focus:dark:!ring-neutral-700;
-}
+
+
 </style>

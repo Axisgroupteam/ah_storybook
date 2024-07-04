@@ -23,8 +23,6 @@ type Story = StoryObj<typeof meta>
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-
-
 export const DefaultDatePicker: Story = { 
   render: (args) => ({
     components: { DatePicker },
@@ -40,11 +38,86 @@ export const DefaultDatePicker: Story = {
     `
   }),
   args: {
+    id:"defaultDatePicker",
+    size: 'md',
+    label: 'Date',
+    required: false,
+    errorMessage: "",
+    validationStatus: '',   
+  }
+}
+
+export const RequiredDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    id:"requiredDatePicker",
     size: 'md',
     label: 'Date',
     required: true,
     errorMessage: "",
     validationStatus: '',   
+  }
+}
+
+export const DisabledDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    id:"disabledDatePicker",
+    size: 'md',
+    label: 'Date',
+    disabled: true,
+    required: false,
+    errorMessage: "",
+    validationStatus: '',   
+  }
+}
+
+export const ErrorDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    id:"errorDatePicker",
+    size: 'md',
+    label: 'Date',
+    disabled: false,
+    required: false,
+    errorMessage: "This Field is requuired",
+    validationStatus: 'error',   
   }
 }
 
