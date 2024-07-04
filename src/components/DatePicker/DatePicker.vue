@@ -53,9 +53,8 @@ import './css/flowbite.css'
 //import './css/datepicker.scss'
 import './css/custom.scss'
 
-
 interface InputProps {
-  id:string
+  id: string
   disabled?: boolean
   label?: string
   modelValue: string
@@ -97,11 +96,7 @@ const validationWrapperClasses = computed(() =>
 )
 
 onMounted(() => {
-  initFlowbite()
+  //initFlowbite()
 })
-
 </script>
-<style scoped>
-
-
-</style>
+<style scoped></style>
