@@ -49,9 +49,9 @@ import { useInputClasses } from './composables/useInputClasses'
 import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
 //import './css/datepicker.css'
-import './css/flowbite.css'
+//import './css/flowbite.css'
 //import './css/datepicker.scss'
-import './css/custom.scss'
+//import './css/custom.scss'
 
 interface InputProps {
   id: string
