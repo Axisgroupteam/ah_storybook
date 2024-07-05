@@ -8,9 +8,11 @@
       <slot name="labelEnd" />
     </div>
     <div class="relative">
-      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+      <div 
+      class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+      :class="validationWrapperClassesIcon ">
         <svg
-          class="w-4 h-4 text-neutral-500 dark:text-neutral-400"
+          class="w-4 h-4 "
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -34,15 +36,17 @@
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
+        @click="handleError"
+        @blur="handleError"
       />
     </div>
     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
-      <slot name="validationMessage" />
+      <slot v-if="showValidationMessage"  name="validationMessage" />
     </p>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { initFlowbite } from 'flowbite'
 import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
@@ -78,6 +82,8 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 
+const showValidationMessage = ref(true);
+
 const handleInput = (e: Event) => {
   const value = (e.target as HTMLInputElement).value
   emit('update:modelValue', value)
@@ -94,6 +100,17 @@ const validationWrapperClasses = computed(() =>
     props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
   )
 )
+
+const validationWrapperClassesIcon = computed(() =>
+  twMerge(
+    'text-sm',
+    props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : 'text-neutral-500 dark:text-neutral-400'
+  )
+)
+
+const handleError = () =>{
+  showValidationMessage.value = !showValidationMessage.value;
+}
 
 onMounted(() => {
   initFlowbite()
