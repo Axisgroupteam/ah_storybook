@@ -17,8 +17,6 @@ $red-600: #DC2626;
 $red-700: #B91C1C;
 $red-800: #991B1B;
 
-
-
 $grey-dark: lighten($black, 25%) !default;
 $grey-light: darken($light, 25%) !default;
 $grey-lighter: darken($light, 10%) !default;
@@ -104,11 +102,6 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
 
 .datepicker-main {
   padding: 2px;
-}
-
-.datepicker-footer {
-  //box-shadow: inset 0 1px 1px rgba($black, 0.1);
-  //background-color: $dp-footer-background-color;
 }
 
 %flex-container {
@@ -281,9 +274,29 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
       border: 1px solid $neutral-200;
       box-shadow: 0 0 0 4px $neutral-200;
     }
+
+    button.today-btn{
+      border: 1px solid $red-700 !important;
+      background-color: $red-700 !important;
+      //margin-right: 16px;
+   }
+   
+   button.today-btn:hover{
+      border: 1px solid $red-800 !important;
+      background-color: $red-800 !important;
+   }
+   
+   button.today-btn:active{
+     box-shadow: 0 0 0 4px $red-200;
+   }
+   
+   
+   button.clear-btn:active {
+     /* Estilos que quieres aplicar al botón con la clase bg-white */
+     box-shadow: 0 0 0 4px $neutral-200;
+   }
  
-}
- 
+} 
   
 :is(.dark ){  
   .datepicker-picker {
@@ -320,29 +333,15 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
      box-shadow: 0 0 0 4px $neutral-400;
   }
 
+  button.today-btn:hover{
+    border: 1px solid $red-800 !important;
+    background-color: $red-800 !important;
+  }
+
   button.today-btn:active{
   box-shadow: 0 0 0 4px $red-600;
   }
 }
-
-button.today-btn{
-   background-color: $red-700 !important;
-}
-
-button.today-btn:hover{
-   background-color: $red-800 !important;
-}
-
-button.today-btn:active{
-  box-shadow: 0 0 0 4px $red-200;
-}
-
-
-button.clear-btn:active {
-  /* Estilos que quieres aplicar al botón con la clase bg-white */
-  box-shadow: 0 0 0 4px $neutral-200;
-}
-
 
 
 .datepicker-view {
@@ -436,7 +435,7 @@ button.clear-btn:active {
     }
   }
 
-  &.today {
+  &.today {   
     &:not(.selected) {
       background-color: $red-500;//$dp-cell-today-background-color;
 

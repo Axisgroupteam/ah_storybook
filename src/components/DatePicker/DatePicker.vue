@@ -49,9 +49,9 @@ import { useInputClasses } from './composables/useInputClasses'
 import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
 //TODO
-// ESTO ESTA COMENTADO PORQUE LA CARGA GLOBAL DE ESTOS ESTILOS AFECTA LOS DEMAS COMPONENTES
-//import './css/flowbite.css'
-//import './css/custom.scss'
+// LA CARGA GLOBAL DE ESTOS ESTILOS AFECTA LOS DEMAS COMPONENTES
+import './css/flowbite.css'
+import './css/custom.scss'
 
 interface InputProps {
   id: string
@@ -99,4 +99,5 @@ onMounted(() => {
   initFlowbite()
 })
 </script>
-<style scoped></style>
+<style scoped>
+</style>
