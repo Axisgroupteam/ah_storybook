@@ -48,12 +48,10 @@ import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
 import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
-
 //TODO
 // LA CARGA GLOBAL DE ESTOS ESTILOS AFECTA LOS DEMAS COMPONENTES
 import './css/flowbite.css'
 import './css/custom.scss'
-
 
 interface InputProps {
   id: string
@@ -98,9 +96,8 @@ const validationWrapperClasses = computed(() =>
 )
 
 onMounted(() => {
-  //initFlowbite()
+  initFlowbite()
 })
 </script>
 
 <style scoped></style>
-
