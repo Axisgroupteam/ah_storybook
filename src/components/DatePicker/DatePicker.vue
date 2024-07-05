@@ -48,10 +48,12 @@ import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
 import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
 
-//import './css/datepicker.css'
-//import './css/flowbite.css'
-//import './css/datepicker.scss'
-//import './css/custom.scss'
+
+//TODO
+// LA CARGA GLOBAL DE ESTOS ESTILOS AFECTA LOS DEMAS COMPONENTES
+import './css/flowbite.css'
+import './css/custom.scss'
+
 
 interface InputProps {
   id: string
@@ -99,4 +101,6 @@ onMounted(() => {
   //initFlowbite()
 })
 </script>
+
 <style scoped></style>
+
