@@ -36,8 +36,8 @@
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
-        @click="handleError"
-        @blur="handleError"
+        @click="desactiveError"
+        @blur="enabledError"
       />
     </div>
     <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
@@ -108,8 +108,12 @@ const validationWrapperClassesIcon = computed(() =>
   )
 )
 
-const handleError = () =>{
-  showValidationMessage.value = !showValidationMessage.value;
+const enabledError = () =>{
+  showValidationMessage.value = true;
+}
+
+const desactiveError = () =>{
+  showValidationMessage.value = false;
 }
 
 onMounted(() => {

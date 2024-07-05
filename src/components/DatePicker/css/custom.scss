@@ -525,13 +525,6 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
   }
 }
 
-.datepicker-input.in-edit {
-  border-color: $dp-input-in-edit-border-color;
 
-  &:focus,
-  &:active {
-    box-shadow: $dp-input-in-edit-focus-box-shadow-size rgba($dp-input-in-edit-border-color, 0.2);
-  }
-}
 
 
