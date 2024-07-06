@@ -1,45 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import FwbAvatar from '@/components/FwbAvatar/FwbAvatar.vue'
+import FwbAvatar from '@/components/FwbAvatar/FwbAvatarBtn.vue'
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: 'Example/FwbAvatar',
   component: FwbAvatar,
-  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  argTypes: {
-    //status: { control: 'select', options: ['normal', 'expanded'] },
-    size: {
-      control: 'select',
-      options: [
-        'xs',
-        'sm',
-        'md',
-        'lg',
-        'lx',
-        'xl',
-      ]
-    }
-  },
-  /* decorators: [
-    () => ({
-      template: `
-      <div class="inline-flex items-center justify-center">
-        <story />
-      </div>
-    `
-    }) 
-  ],*/
+  argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbAvatar>
 
 export default meta
 type Story = StoryObj<typeof meta>
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/api/csf
- * to learn how to use render functions.
- */
 
  export const Default: Story = {
   render: (args) => ({
@@ -48,10 +19,125 @@ type Story = StoryObj<typeof meta>
       return { args }
     },
     template: `
-        <FwbAvatar v-bind="args">        
-          
-        </FwbAvatar>
+        <FwbAvatar v-bind="args" />
       `
   }),
-  args: {}
+  args: {
+    size: 'sm',
+    rounded: true,
+    initials: '',
+    img: 'avatar.png',
+    stacked: false,
+    maxInStack: 0,
+    totalStacked: 0,
+    imgStacks: [],
+    fullName: '',
+    email: '',
+    options: [{'icon': '', 'label': '', 'link': ''}],
+  }
+}
+
+export const PlaceholderIcon: Story = {
+  render: (args) => ({
+    components: { FwbAvatar },
+    setup() {
+      return { args }
+    },
+    template: `
+        <FwbAvatar v-bind="args" />
+      `
+  }),
+  args: {
+    size: 'sm',
+    rounded: true,
+    initials: '',
+    img: '',
+    stacked: false,
+    maxInStack: 0,
+    imgStacks: [],
+    totalStacked: 0,
+    fullName: '',
+    email: '',
+    options: [{'icon': '', 'label': '', 'link': ''}],
+  }
+}
+
+export const PlaceholderInitials: Story = {
+  render: (args) => ({
+    components: { FwbAvatar },
+    setup() {
+      return { args }
+    },
+    template: `
+        <FwbAvatar v-bind="args" />
+      `
+  }),
+  args: {
+    size: 'sm',
+    rounded: true,
+    initials: 'ME',
+    img: '',
+    stacked: false,
+    maxInStack: 0,
+    imgStacks: [],
+    totalStacked: 0,
+    fullName: 'Mas Esnt',
+    email: '',
+    options: [{'icon': '', 'label': '', 'link': ''}],
+  }
+}
+
+export const StackedCounter: Story = {
+  render: (args) => ({
+    components: { FwbAvatar },
+    setup() {
+      return { args }
+    },
+    template: `
+        <FwbAvatar v-bind="args" />
+      `
+  }),
+  args: {
+    size: 'sm',
+    rounded: true,
+    initials: '',
+    img: 'avatar.png',
+    stacked: true,
+    maxInStack: 4,
+    imgStacks: ['avatar.png','avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png', 'avatar5.png', 'avatar6.png'],
+    totalStacked: 5,
+    fullName: '',
+    email: '',
+    options: [{'icon': '', 'label': '', 'link': ''}],
+  }
+}
+
+export const UserDropdown: Story = {
+  render: (args) => ({
+    components: { FwbAvatar },
+    setup() {
+      return { args }
+    },
+    template: `
+      <div class="h-64 mb-auto">
+        <FwbAvatar v-bind="args" />
+      </div>
+      `
+  }),
+  args: {
+    size: 'sm',
+    rounded: true,
+    initials: 'ME',
+    img: 'avatar2.png',
+    stacked: false,
+    maxInStack: 0,
+    imgStacks: [],
+    totalStacked: 0,
+    fullName: 'Luis Enrique Bauza Pena de la Torriente',
+    email: 'contact@detooo.com',
+    options: [
+      {'icon': 'user', 'label': 'Profile', 'link': 'profile'},
+      {'icon': 'arrow-right-to-bracket', 'label': 'Logout', 'link': 'logout'},
+    ],
+  }
 }
