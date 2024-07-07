@@ -23,18 +23,8 @@ type Story = StoryObj<typeof meta>
       `
   }),
   args: {
-    size: 'sm',
-    rounded: true,
-    bordered:false,
-    initials: '',
     img: 'avatar.png',
-    stacked: false,
-    maxInStack: 0,
-    totalStacked: 0,
-    imgStacks: [],
-    fullName: '',
-    email: '',
-    options: [{'icon': '', 'label': '', 'link': ''}],
+    disabled: true
   }
 }
 
@@ -49,18 +39,7 @@ export const PlaceholderIcon: Story = {
       `
   }),
   args: {
-    size: 'sm',
-    rounded: true,
-    bordered:false,
-    initials: '',
-    img: '',
-    stacked: false,
-    maxInStack: 0,
-    imgStacks: [],
-    totalStacked: 0,
-    fullName: '',
-    email: '',
-    options: [{'icon': '', 'label': '', 'link': ''}],
+    disabled: true
   }
 }
 
@@ -75,18 +54,8 @@ export const PlaceholderInitials: Story = {
       `
   }),
   args: {
-    size: 'sm',
-    rounded: true,
-    bordered:false,
-    initials: 'ME',
-    img: '',
-    stacked: false,
-    maxInStack: 0,
-    imgStacks: [],
-    totalStacked: 0,
-    fullName: 'Pedro Perez',
-    email: '',
-    options: [{'icon': '', 'label': '', 'link': ''}],
+    fullName: 'Master Employee',
+    disabled: true
   }
 }
 
@@ -101,18 +70,12 @@ export const StackedCounter: Story = {
       `
   }),
   args: {
-    size: 'md',
-    rounded: true,
-    bordered:false,
-    initials: '',
     img: 'avatar.png',
+    size: 'md',
     stacked: true,
     maxInStack: 4,
     imgStacks: ['avatar.png','avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png', 'avatar5.png', 'avatar6.png'],
     totalStacked: 5,
-    fullName: '',
-    email: '',
-    options: [{'icon': '', 'label': '', 'link': ''}],
   }
 }
 
@@ -129,11 +92,8 @@ export const UserDropdown: Story = {
       `
   }),
   args: {
-    size: 'md',
-    rounded: true,
-    bordered: false,
     img: 'avatar2.png',
     fullName: 'Luis Enrique Bauza Pena de la Torriente',
-    email: 'contact@detooo.com',
+    email: 'contact@detooo.com',    
   }
 }

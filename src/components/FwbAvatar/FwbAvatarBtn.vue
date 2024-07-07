@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<FwbDropdown v-if="!stacked" :type="type" :max_h="max_h" :bordered="bordered">
+		<FwbDropdown v-if="!stacked" :type="type" :max_h="max_h">
 			<template #trigger>
-				<ContainerButton class="rounded-full">
+				<ContainerButton :disabled="disabled">
 					<template #default>
-						<FwbAvatar :rounded="rounded" :size="size" :initials="(initials) ? initials : ''" :img="(img) ? img : ''" />
+						<FwbAvatar :rounded="rounded" :size="size" :img="(img) ? img : ''" :initials="(initials) ? initials : ''" />
 					</template>
 				</ContainerButton>
 			</template>
@@ -45,7 +45,7 @@
 				</li>
 			</ul>
 		</FwbDropdown>
-		<FwbAvatarStack v-else>
+		<FwbAvatarStack v-else-if="stacked">
 			<FwbAvatar v-for="(stack, index) in maxInStack" :key="index" :img="imgStacks[index]" :size="size"
 				:rounded="rounded" :stacked="stacked" />
 			<FwbAvatarStackCounter :size="size" href="#" :total="totalStacked" />
@@ -56,23 +56,21 @@
 
 <script setup lang="ts">
 	import { computed, defineProps, ref } from 'vue';
+	import { type AvatarSize } from "./types";
+	import { getFBIcon } from './getAsset';
 	import ContainerButton from './ContainerButton.vue';
 	import FwbAvatar from "./FwbAvatar.vue";
 	import FwbAvatarStack from "./FwbAvatarStack.vue";
 	import FwbAvatarStackCounter from './FwbAvatarStackCounter.vue';
 	import FwbDropdown from '../FwbDropdown/FwbDropdown.vue';
-	import { type AvatarSize } from "./types";
-	import { getFBIcon } from './getAsset';
-	import { useDotsActions } from './composables/UseDotsActions'
-	import { onClickOutside } from '@vueuse/core'
 
 	const props = withDefaults(
 		defineProps<{
 			type?: 'primary' | 'secondary'
 			bordered?: boolean
+			disabled?: boolean
 			size?: AvatarSize
 			rounded?: boolean
-			initials?: string
 			img?: string
 			stacked?: boolean
 			totalStacked?: number
@@ -86,30 +84,23 @@
 			fullName?: string
 			email?: string
 			max_h?: string,
-		}>(), {
-		size: 'sm',
-		type: 'primary',
-		bordered: false,
-		rounded: true,
-		initials: '',
-		img: '',
-		stacked: false,
-		totalStacked: 0,
-		maxInStack: 0,
-		imgStacks: () => [],
-		options: () => [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
-		fullName: '',
-		email: '',
-		max_h: "max-h-[160px]",
-	});
-
-	const pflButton = ref(null)
-	const { _active, _class } = useDotsActions()
-
-	onClickOutside(pflButton, () => {
-		_active.value = false
-		_class.value = 'focus:ring-0 focus:bg-neutral-100 dark:focus:bg-transparent'
-	})
+		}>(),{
+			size: 'sm',
+			type: 'primary',
+			bordered: false,
+			rounded: true,
+			initials: '',
+			img: '',
+			stacked: false,
+			totalStacked: 0,
+			maxInStack: 0,
+			imgStacks: () => [],
+			options: () => [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
+			fullName: '',
+			email: '',
+			max_h: "max-h-[160px]",
+		}
+	);
 
 	function getInitials(name: string): string {
 		const nameParts = name.split(' ')
@@ -124,6 +115,12 @@
 			return initials.toUpperCase()
 		}
 	}
+	
+	const fullName = computed(() => props.fullName)
+	const email = computed(() => props.email)
 	const initials = computed(() => getInitials(props.fullName))
+	const disabled = computed(() => props.disabled)
+	const size = computed(() => props.size)
+
 
 </script>
