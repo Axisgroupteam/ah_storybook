@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>
   args: {
     size: 'sm',
     rounded: true,
+    bordered:false,
     initials: '',
     img: 'avatar.png',
     stacked: false,
@@ -50,6 +51,7 @@ export const PlaceholderIcon: Story = {
   args: {
     size: 'sm',
     rounded: true,
+    bordered:false,
     initials: '',
     img: '',
     stacked: false,
@@ -75,13 +77,14 @@ export const PlaceholderInitials: Story = {
   args: {
     size: 'sm',
     rounded: true,
+    bordered:false,
     initials: 'ME',
     img: '',
     stacked: false,
     maxInStack: 0,
     imgStacks: [],
     totalStacked: 0,
-    fullName: 'Mas Esnt',
+    fullName: 'Pedro Perez',
     email: '',
     options: [{'icon': '', 'label': '', 'link': ''}],
   }
@@ -98,8 +101,9 @@ export const StackedCounter: Story = {
       `
   }),
   args: {
-    size: 'sm',
+    size: 'md',
     rounded: true,
+    bordered:false,
     initials: '',
     img: 'avatar.png',
     stacked: true,
@@ -125,19 +129,11 @@ export const UserDropdown: Story = {
       `
   }),
   args: {
-    size: 'sm',
+    size: 'md',
     rounded: true,
-    initials: 'ME',
+    bordered: false,
     img: 'avatar2.png',
-    stacked: false,
-    maxInStack: 0,
-    imgStacks: [],
-    totalStacked: 0,
     fullName: 'Luis Enrique Bauza Pena de la Torriente',
     email: 'contact@detooo.com',
-    options: [
-      {'icon': 'user', 'label': 'Profile', 'link': 'profile'},
-      {'icon': 'arrow-right-to-bracket', 'label': 'Logout', 'link': 'logout'},
-    ],
   }
 }
