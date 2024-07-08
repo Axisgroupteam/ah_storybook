@@ -116,7 +116,7 @@ export const ErrorDatePicker: Story = {
     label: 'Date',
     disabled: false,
     required: false,
-    errorMessage: "This Field is requuired",
+    errorMessage: "This field is required",
     validationStatus: 'error',   
   }
 }

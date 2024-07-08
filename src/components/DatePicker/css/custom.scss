@@ -7,6 +7,7 @@ $link: #B91C1C !default; // red/700
 $red-500: #EF4444 !default; // red/500
 $neutral-50: #FAFAFA;
 $neutral-200: #E5E5E5;
+$neutral-300: #D4D4D4;
 $neutral-400: #A3A3A3;
 $neutral-500: #737373;
 $neutral-600: #525252;
@@ -16,8 +17,6 @@ $red-200: #FECACA;
 $red-600: #DC2626;
 $red-700: #B91C1C;
 $red-800: #991B1B;
-
-
 
 $grey-dark: lighten($black, 25%) !default;
 $grey-light: darken($light, 25%) !default;
@@ -62,7 +61,7 @@ $dp-input-in-edit-focus-box-shadow-size: 0 0 0.25em 0.25em !default;
 
 //== non-configurable variables ==//
 $dp-cell-shrink-threshold: $dp-cell-size-base * 10;  // = 8 * 1.25
-$dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
+$dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base * 7 / 8;
 
 //== mixins ==//
 @import 'mixins';
@@ -85,6 +84,7 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
   display: inline-block;
   border-radius: $dp-border-radius;
   background-color: $neutral-50;
+  margin-top: 8px;
 
   .datepicker-dropdown & {
     box-shadow: $dp-dropdown-shadow;
@@ -106,11 +106,6 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
   padding: 2px;
 }
 
-.datepicker-footer {
-  //box-shadow: inset 0 1px 1px rgba($black, 0.1);
-  //background-color: $dp-footer-background-color;
-}
-
 %flex-container {
   display: flex;
 }
@@ -120,7 +115,7 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
 }
 
 %flex-basis-day {
-  flex-basis: percentage(1 / 7);
+  flex-basis: percentage(calc(1 / 7));
 }
 
 %flex-basis-month-year {
@@ -144,7 +139,10 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
   @extend %flex-container;
 
   .datepicker-header & {
-    padding: 2px 2px 0;
+    padding: 0px 0px 0;
+    display: flex;    
+    justify-content: space-between;
+    gap: 8px;
   }
 
   @if mixin-exists(dp-button) {
@@ -259,7 +257,7 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
       //padding-right: 0.175rem;
       //padding-left: 0.375rem;
       width: $dp-cell-size-base;   
-      margin-inline: 5px; 
+      //margin-inline: 5px; 
       align-items: center;
       justify-content: center; 
       background-color: $neutral-50;
@@ -279,11 +277,31 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
 
     button:active {
       border: 1px solid $neutral-200;
-      box-shadow: 0 0 0 4px $neutral-200;
+      box-shadow: 0 0 0 4px $neutral-300;
     }
+
+    button.today-btn{
+      border: 1px solid $red-700 !important;
+      background-color: $red-700 !important;
+      //margin-right: 16px;
+   }
+   
+   button.today-btn:hover{
+      border: 1px solid $red-800 !important;
+      background-color: $red-800 !important;
+   }
+   
+   button.today-btn:active{
+     box-shadow: 0 0 0 4px $red-200;
+   }
+   
+   
+   button.clear-btn:active {
+     /* Estilos que quieres aplicar al botón con la clase bg-white */
+     box-shadow: 0 0 0 4px $neutral-300;
+   }
  
-}
- 
+} 
   
 :is(.dark ){  
   .datepicker-picker {
@@ -320,29 +338,15 @@ $dp-cell-shrinked-width: $dp-cell-size-base * 7 / 8;
      box-shadow: 0 0 0 4px $neutral-400;
   }
 
+  button.today-btn:hover{
+    border: 1px solid $red-800 !important;
+    background-color: $red-800 !important;
+  }
+
   button.today-btn:active{
   box-shadow: 0 0 0 4px $red-600;
   }
 }
-
-button.today-btn{
-   background-color: $red-700 !important;
-}
-
-button.today-btn:hover{
-   background-color: $red-800 !important;
-}
-
-button.today-btn:active{
-  box-shadow: 0 0 0 4px $red-200;
-}
-
-
-button.clear-btn:active {
-  /* Estilos que quieres aplicar al botón con la clase bg-white */
-  box-shadow: 0 0 0 4px $neutral-200;
-}
-
 
 
 .datepicker-view {
@@ -356,7 +360,7 @@ button.clear-btn:active {
     @extend %flex-basis-day;
     height: $dp-font-size-normal * $dp-line-height-base;
     line-height: $dp-font-size-normal * $dp-line-height-base;
-    font-size: ($dp-font-size-small + $dp-font-size-normal) / 2;
+    font-size:  calc(($dp-font-size-small + $dp-font-size-normal) / 2);
     font-weight: $dp-font-weight-bold;
   }
 
@@ -388,22 +392,25 @@ button.clear-btn:active {
 .datepicker-cell {
   @extend %datepicker-cell-height;
 
+  //hover de los días del mes
   &:not(.disabled):hover {
     background-color: $link;//darken($dp-background-color, 2.5%);
     color: $dp-cell-selected-color;
     cursor: pointer;
   }
 
+  //día seleccionado
   &.focused:not(.selected) {
     background-color: $red-500;//$dp-cell-focus-background-color;
     color: $dp-cell-selected-color;
   }
 
+  //día seleccionado
   &.selected {
     &,
     &:hover {
       background-color: $red-500;//$dp-cell-selected-background-color;
-      color: $dp-cell-selected-color;
+      color: $dp-cell-selected-color;//$dp-cell-selected-color;
       font-weight: $dp-cell-selected-font-weight;
     }
   }
@@ -414,13 +421,14 @@ button.clear-btn:active {
 
   &.prev,
   &.next {
-    &:not(.disabled) {
+    //para los días que corresponden a otro mes
+    /*&:not(.disabled) {
       color: $dp-cell-prevnext-color;
-    }
+    }*/
 
-    &.selected {
+    /*&.selected {
       color: darken($dp-cell-selected-color, 10%);
-    }
+    }*/
   }
 
   &.highlighted:not(.selected):not(.range):not(.today) {
@@ -436,7 +444,7 @@ button.clear-btn:active {
     }
   }
 
-  &.today {
+  &.today {   
     &:not(.selected) {
       background-color: $red-500;//$dp-cell-today-background-color;
 
@@ -517,13 +525,6 @@ button.clear-btn:active {
   }
 }
 
-.datepicker-input.in-edit {
-  border-color: $dp-input-in-edit-border-color;
 
-  &:focus,
-  &:active {
-    box-shadow: $dp-input-in-edit-focus-box-shadow-size rgba($dp-input-in-edit-border-color, 0.2);
-  }
-}
 
 
