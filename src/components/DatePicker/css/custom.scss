@@ -322,6 +322,14 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
       box-shadow: 0 0 0 4px $neutral-400;
     }
   }
+
+  .datepicker-cell {
+    &.range {
+    border-radius: 0;
+    //para el color de los intervalos
+    background-color: $neutral-500;//$dp-range-background-color;
+    }
+  }
     
   button.clear-btn {
     /* Estilos que quieres aplicar al botón con la clase bg-white */
@@ -345,7 +353,7 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
 
   button.today-btn:active{
   box-shadow: 0 0 0 4px $red-600;
-  }
+  } 
 }
 
 
@@ -459,7 +467,8 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
   }
 
   &%range-start-end-common {
-    background-color: $dp-range-start-end-background-color;
+    //color position final range
+    background-color: $red-500;//$dp-range-start-end-background-color;
     color: $dp-range-start-end-color;
   }
 
@@ -480,7 +489,7 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
   }
 
   &.range-end {
-    border-radius: 0 $dp-border-radius $dp-border-radius 0;
+    border-radius: 0 $dp-border-radius $dp-border-radius 0;    
 
     &:not(.selected) {
       @extend %range-start-end-common;
@@ -493,10 +502,12 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
 
   &.range {
     border-radius: 0;
-    background-color: $dp-range-background-color;
+    //para el color de los intervalos
+    background-color: $neutral-200;//$dp-range-background-color;
 
+    //cuando se pasa el mouse por encima de un intervalo
     &:not(.disabled):not(.focused):not(.today):hover {
-      background-color: darken($dp-range-background-color, 2.5%);
+      background-color: $red-700;//darken($dp-range-background-color, 2.5%);
     }
 
     &.disabled {
