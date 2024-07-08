@@ -1,5 +1,5 @@
 <template>
-  <div data-testid="input-wrapper" class="flex text-white flex-col w-full">
+  <div v-if="typeCalendar === 'simple'" data-testid="input-wrapper" class="flex text-white flex-col w-full">
     <div v-if="label" class="flex justify-start">
       <span :class="labelClasses">
         {{ label }}
@@ -44,13 +44,60 @@
       <slot v-if="showValidationMessage"  name="validationMessage" />
     </p>
   </div>
+  
+
+<div v-else-if="typeCalendar === 'range'" id="date-range-picker" date-rangepicker class="flex items-center w-full " >
+  <div class="relative w-full">
+    <div 
+      class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+      :class="validationWrapperClassesIcon ">
+        <svg
+          class="w-4 h-4 "
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+          />
+        </svg>
+    </div>
+    <input 
+      id="datepicker-range-start" 
+      name="start" 
+      type="text" 
+      class="block w-full ps-10 p-2.5"
+      :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
+      placeholder="Select date start">
+  </div>
+  <span class="mx-4 text-gray-500">to</span>
+  <div class="relative w-full">
+    <div 
+      class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+      :class="validationWrapperClassesIcon ">
+         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+        </svg>
+    </div>
+    <input 
+      id="datepicker-range-end" 
+      name="end" 
+      type="text" 
+      class="block w-full ps-10 p-2.5"
+        :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
+      placeholder="Select date end">
+</div>
+</div>
+
+
 </template>
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { initFlowbite } from 'flowbite'
 import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
-import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
+import { type InputSize, type InputType, type ValidationStatus, validationStatusMap, type TypeCalendar } from './types'
 
 //TODO
 // LA CARGA GLOBAL DE ESTOS ESTILOS AFECTA LOS DEMAS COMPONENTES
@@ -67,6 +114,7 @@ interface InputProps {
   type?: InputType
   validationStatus?: ValidationStatus
   readonly?: boolean
+  typeCalendar?: TypeCalendar
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -77,7 +125,8 @@ const props = withDefaults(defineProps<InputProps>(), {
   size: 'md',
   type: 'text',
   validationStatus: 'normal',
-  readonly: false
+  readonly: false,
+  typeCalendar: 'simple'
 })
 
 const emit = defineEmits(['update:modelValue', 'toggleVisibility'])

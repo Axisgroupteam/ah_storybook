@@ -8,3 +8,5 @@ export const validationStatusMap = {
 } as const
 
 export type ValidationStatus = (typeof validationStatusMap)[keyof typeof validationStatusMap]
+
+export type TypeCalendar = 'simple' | 'range'
