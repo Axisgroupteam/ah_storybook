@@ -1,5 +1,5 @@
 <template>
-  <form class="max-w-sm mx-auto">
+  <form class="mx-auto " >
     <label @click.stop>
       <span
         :class="[
@@ -28,16 +28,17 @@
           </div>
         </template>
         <div
-          class="w-full p-4 shadow-md rounded-lg"
+          class="w-full shadow-md rounded-lg h-full"
           v-if="!disabled"
           :style="{
             width: target?.clientWidth + 'px'
           }"
         >
+          <div class="p-3">
           <p
-            v-for="(header, index) in 4"
+            v-for="(header, index) in 3"
             :key="header"
-            class="text-sm leading-[14px] p-2 rounded-[8px] hover:bg-neutral-100 hover:dark:bg-neutral-700 cursor-pointer max-h-[32px] flex justify-start items-center text-neutral-900 dark:text-white"
+            class="px-2 py-2 whitespace-nowrap flex gap-2 justify-start items-center hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer rounded-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium w-full"
           >
             <div type="button">
               <span class="inline-flex items-center">
@@ -46,6 +47,7 @@
               </span>
             </div>
           </p>
+          </div>
         </div>
       </fwb-dropdown>
       <div class="relative w-full">

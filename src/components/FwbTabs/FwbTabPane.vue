@@ -7,89 +7,88 @@
     >
       <component v-if="computedIcon" :is="computedIcon" class="w-3.5 h-3.5" />
       {{ title }}
-      <div v-if="variant === 'underline'" class="w-[20px] h-[20px] rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900">{{props.count}}</div>
-  </button>
+      <div
+        v-if="variant === 'underline'"
+        class="w-[20px] h-[20px] rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900"
+      >
+        {{ props.count }}
+      </div>
+    </button>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { inject, toRef, computed, type ComputedRef, ref } from "vue";
-import type { TabsVariant } from "./types";
-import { useTabClasses } from "./composables/useTabClasses";
-import {
-  TAB_ACTIVATE_INJECTION_KEY,
-  TAB_STYLE_INJECTION_KEY,
-} from "./injection/config";
-import { getFBIcon } from "@/utils/getAssets";
+import { inject, toRef, computed, type ComputedRef, ref } from 'vue'
+import type { TabsVariant } from './types'
+import { useTabClasses } from './composables/useTabClasses'
+import { TAB_ACTIVATE_INJECTION_KEY, TAB_STYLE_INJECTION_KEY } from './injection/config'
+import { getFBIcon } from '@/utils/getAssets'
 
 const props = defineProps({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   title: {
     type: String,
-    default: "",
+    default: ''
   },
   icon: {
     type: String,
-    default: "",
+    default: ''
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: false
   },
   active: {
     type: Boolean,
-    default: false,
+    default: false
   },
   activeNoRing: {
     type: Boolean,
-    default: false,
+    default: false
   },
   count: {
     type: Number,
-    default: 0,
+    default: 0
   },
-  variant:{
+  variant: {
     type: String,
-    default: "underline"
+    default: 'underline'
   }
-});
+})
 let computedIcon: ComputedRef<any>
-computedIcon = props.icon ? computed(() => getFBIcon(props.icon)): computed(()=>'');
+computedIcon = props.icon ? computed(() => getFBIcon(props.icon)) : computed(() => '')
 
-const variant = inject<TabsVariant>(TAB_STYLE_INJECTION_KEY);
+const variant = inject<TabsVariant>(TAB_STYLE_INJECTION_KEY)
 if (!variant) {
-  console.warn(
-    "you can't use Tab outside of Tabs component. No tab style injection found"
-  );
+  console.warn("you can't use Tab outside of Tabs component. No tab style injection found")
 }
 
-const onActivate = inject<(value: string) => void>(TAB_ACTIVATE_INJECTION_KEY);
+const onActivate = inject<(value: string) => void>(TAB_ACTIVATE_INJECTION_KEY)
 if (!onActivate) {
-  console.warn(
-    "you can't use Tab outside of Tabs component. No tab activate injection found"
-  );
+  console.warn("you can't use Tab outside of Tabs component. No tab activate injection found")
 }
 
-const pillClass = ref(props.variant === 'underline' ? '' : ' focus:ring-4 focus:ring-red-200 dark:focus:ring-red-600')
+const pillClass = ref(
+  props.variant === 'underline' ? '' : ' focus:ring-4 focus:ring-red-200 dark:focus:ring-red-600'
+)
 
 const tryActivateTab = () => {
-  pillClass.value = props.variant === 'underline' ? '' : ' focus:ring-4 focus:ring-red-200 dark:focus:ring-red-600'
-  if (props.disabled) return;
-  if (!onActivate) return console.warn("no onActivate");
-  onActivate(props.name);
-  setTimeout(()=>{
+  pillClass.value =
+    props.variant === 'underline' ? '' : ' focus:ring-4 focus:ring-red-200 dark:focus:ring-red-600'
+  if (props.disabled) return
+  if (!onActivate) return console.warn('no onActivate')
+  onActivate(props.name)
+  setTimeout(() => {
     pillClass.value = ''
   }, 200)
-};
+}
 
 const { tabClasses } = useTabClasses({
-  active: toRef(props, "active"),
-  disabled: toRef(props, "disabled"),
-  variant,
-});
-
-
+  active: toRef(props, 'active'),
+  disabled: toRef(props, 'disabled'),
+  variant
+})
 </script>

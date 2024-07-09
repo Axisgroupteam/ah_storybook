@@ -116,8 +116,33 @@ export const ErrorDatePicker: Story = {
     label: 'Date',
     disabled: false,
     required: false,
-    errorMessage: "This Field is requuired",
+    errorMessage: "This field is required",
     validationStatus: 'error',   
+  }
+}
+
+export const RangeDatePicker: Story = { 
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    id:"requiredDatePicker",
+    size: 'md',
+    label: 'Date',
+    required: false,
+    errorMessage: "",
+    validationStatus: '', 
+    typeCalendar: 'range'
   }
 }
 

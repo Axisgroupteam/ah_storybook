@@ -20,7 +20,8 @@
         <svg
           :class="[
             svgClasses,
-            validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : ''
+            validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : '',
+            disabled ? '!text-neutral-400 dark:!text-neutral-500' : ''
           ]"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -35,19 +36,19 @@
     </FwbInput>
     <div
       v-if="visible && !loading"
-      class="bg-white dark:bg-neutral-700 z-10 top-full mt-2 p-3 shadow-md rounded-lg border-neutral-200 absolute w-full"
+      class="bg-neutral-50 dark:bg-neutral-700 z-10 top-full mt-2 p-3 shadow-md rounded-lg border-neutral-200 absolute w-full"
       @click.stop
     >
       <PerfectScrollbar>
-        <div class="w-full max-h-48">
+        <div class="w-full max-h-[144px]">
           <div
             v-for="(op, index) in options"
             :key="index"
-            class="px-4 py-2 border-b-neutral-200 dark:border-b-neutral-700 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer rounded-lg text-neutral-500 dark:text-neutral-300 text-sm font-medium flex justify-start items-center gap-3"
+            class="px-2 py-2 whitespace-nowrap flex gap-2 justify-start items-center hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer rounded-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium w-full"
             @click="handleSelect(op)"
           >
             <div v-if="op.icon">
-              <component :is="getFBIcon(op.icon)" class="h-full w-full max-h-3.5 max-w-3.5" />
+              <component :is="getFBIcon(op.icon)" class="h-full w-full max-h-5 max-w-5" />
             </div>
             {{ op.name }}
           </div>
@@ -56,7 +57,7 @@
     </div>
     <div
       v-if="visible && loading"
-      class="bg-white dark:bg-neutral-700 z-10 top-full mt-2 p-3 shadow-md rounded-lg border-neutral-200 absolute w-full flex justify-center items-center"
+      class="bg-neutral-50 dark:bg-neutral-700 z-10 top-full mt-2 p-3 shadow-md rounded-lg border-neutral-200 absolute w-full flex justify-center items-center"
     >
       <FwbSpinner color="red" />
     </div>
