@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import NewDrawerMenu from "../components/Sidebar/presentation/Drawer.vue";
+import NewDrawerMenu from "../components/Drawer/presentation/Drawer.vue";
 import { ref, watch, computed, onMounted } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import FwbButton from '../components/FwbButton/FwbButton.vue'

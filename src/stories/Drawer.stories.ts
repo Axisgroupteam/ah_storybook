@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import AppLayout from '@/components/Sidebar/temp/Layout.vue'
-
+import {ref} from 'vue'
+//import Button from './Button.vue'
+import Drawer from '@/components/Drawer/presentation/Drawer.vue'
+import AppLayout from '@/layouts/AppLayout.vue'
 import { boolean, object } from 'yup'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: 'Example/Sidebar',
+  title: 'Example/Drawer',
   component: AppLayout,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
