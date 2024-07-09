@@ -94,7 +94,7 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
     display: block;
     flex: 1;
     border: 0;
-    border-radius: $dp-border-radius;
+    //border-radius: $dp-border-radius;
     cursor: default;
     text-align: center;
     -webkit-touch-callout: none;
@@ -477,7 +477,7 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
   }
 
   &.range-start {
-    border-radius: $dp-border-radius 0 0 $dp-border-radius;
+   // border-radius: $dp-border-radius 0 0 $dp-border-radius;
 
     &:not(.selected) {
       @extend %range-start-end-common;
@@ -489,7 +489,7 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
   }
 
   &.range-end {
-    border-radius: 0 $dp-border-radius $dp-border-radius 0;    
+    //border-radius: 0 $dp-border-radius $dp-border-radius 0;    
 
     &:not(.selected) {
       @extend %range-start-end-common;

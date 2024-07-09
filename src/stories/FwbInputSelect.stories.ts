@@ -66,17 +66,17 @@ export const Options: Story = {
   args: {
     options: [
       {
-        name: 'first',
+        name: 'Element 1',
         value: '1',
         icon: ''
       },
       {
-        name: 'second',
+        name: 'Element 2',
         value: '2',
         icon: ''
       },
       {
-        name: 'third',
+        name: 'Element 3',
         value: '4',
         icon: ''
       }
@@ -89,33 +89,28 @@ export const OptionsWithIcons: Story = {
     label: 'Options with icons',
     options: [
       {
-        name: 'primero',
+        name: 'Element 1',
         value: '1',
         icon: 'home'
       },
       {
-        name: 'segundo',
+        name: 'Element 2',
         value: '2',
         icon: 'home'
       },
       {
-        name: 'tercero',
+        name: 'Element 3',
         value: '3',
         icon: 'home'
       },
       {
-        name: 'first',
+        name: 'Element 4',
         value: '1',
         icon: 'home'
       },
       {
-        name: 'second',
+        name: 'Element 5',
         value: '2',
-        icon: 'home'
-      },
-      {
-        name: 'third',
-        value: '3',
         icon: 'home'
       }
     ]

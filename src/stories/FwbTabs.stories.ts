@@ -5,7 +5,6 @@ import FwbTab from '@/components/FwbTabs/FwbTab.vue'
 import { action } from '@storybook/addon-actions'
 import { ref } from 'vue'
 
-
 const meta = {
   title: 'Example/FwbTabs',
   component: FwbTabs,
@@ -21,44 +20,37 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     variant: { control: 'select', options: ['default', 'underline', 'pills'] },
-    directive: { control: 'select', options: ['if', 'show'] },
-    
+    directive: { control: 'select', options: ['if', 'show'] }
   }
 } satisfies Meta<typeof FwbTabs>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-
-
-
 export const Underline: Story = {
-    render: (args) => ({
-      components: { FwbTabs, FwbTab },
-      setup() {
-        const tabs = [
-            {
-              icon: "test",
-              title: "Underline 1",
-    
-            },
-            {
-              icon: "test",
-              title: "Underline 2",
-    
-            },
-            {
-                icon: "test",
-                title: "Underline 3",
-      
-              },
-          ];
+  render: (args) => ({
+    components: { FwbTabs, FwbTab },
+    setup() {
+      const tabs = [
+        {
+          icon: 'test',
+          title: 'Underline 1'
+        },
+        {
+          icon: 'test',
+          title: 'Underline 2'
+        },
+        {
+          icon: 'test',
+          title: 'Underline 3'
+        }
+      ]
 
-          const tabName = ref(tabs[0].title)
+      const tabName = ref(tabs[0].title)
 
-        return { args, tabs, tabName }
-      },
-      template: `            
+      return { args, tabs, tabName }
+    },
+    template: `            
           <FwbTabs v-model="tabName" v-bind="args"   >
                 <FwbTab
                     v-for="(tab, index) in tabs"
@@ -73,39 +65,36 @@ export const Underline: Story = {
                 </FwbTab>
             </FwbTabs>
       `
-    }),
-    args: {
-      variant: 'underline',
-    }
+  }),
+  args: {
+    variant: 'underline'
+  }
 }
 
 export const Pills: Story = {
-    render: (args) => ({
-      components: { FwbTabs, FwbTab },
-      setup() {
-        const tabs = [
-            {
-              icon: "test",
-              title: "Pills 1",
-    
-            },
-            {
-              icon: "test",
-              title: "Pills 2",
-    
-            },
-            {
-                icon: "test",
-                title: "Pills 3",
-      
-              },
-          ];
+  render: (args) => ({
+    components: { FwbTabs, FwbTab },
+    setup() {
+      const tabs = [
+        {
+          icon: 'test',
+          title: 'Pills 1'
+        },
+        {
+          icon: 'test',
+          title: 'Pills 2'
+        },
+        {
+          icon: 'test',
+          title: 'Pills 3'
+        }
+      ]
 
-          const tabName = ref(tabs[0].title)
+      const tabName = ref(tabs[0].title)
 
-        return { args, tabs, tabName }
-      },
-      template: `            
+      return { args, tabs, tabName }
+    },
+    template: `            
           <FwbTabs v-model="tabName" v-bind="args"  >
                 <FwbTab
                     v-for="(tab, index) in tabs"
@@ -119,42 +108,36 @@ export const Pills: Story = {
                 </FwbTab>
             </FwbTabs>
       `
-    }),
-    args: {
-      variant: 'pills',
-    }
+  }),
+  args: {
+    variant: 'pills'
+  }
 }
 
-
 export const Interactive: Story = {
-    render: (args) => ({
-      components: { FwbTabs, FwbTab },
-      setup() {
-        const tabs = [
-            {
-              icon: "test",
-              title: "Pills 1",
-    
-            },
-            {
-              icon: "test",
-              title: "Pills 2",
-    
-            },
-            {
-                icon: "test",
-                title: "Pills 3",
-      
-              },
-          ];
+  render: (args) => ({
+    components: { FwbTabs, FwbTab },
+    setup() {
+      const tabs = [
+        {
+          icon: 'test',
+          title: 'Pills 1'
+        },
+        {
+          icon: 'test',
+          title: 'Pills 2'
+        },
+        {
+          icon: 'test',
+          title: 'Pills 3'
+        }
+      ]
 
-          const tabName = ref(tabs[0].title)
+      const tabName = ref(tabs[0].title)
 
-          
-
-        return { args, tabs, tabName }
-      },
-      template: `            
+      return { args, tabs, tabName }
+    },
+    template: `            
           <FwbTabs v-model="tabName" v-bind="args"   >
                 <FwbTab
                     v-for="(tab, index) in tabs"
@@ -172,9 +155,8 @@ export const Interactive: Story = {
                 </FwbTab>
             </FwbTabs>
       `
-    }),
-    args: {
-      variant: 'pills',
-  
-    }
+  }),
+  args: {
+    variant: 'pills'
+  }
 }
