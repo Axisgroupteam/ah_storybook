@@ -7,6 +7,7 @@
       theme="default"
       :disabled="!active ? true : false"
       :distance="distance"
+      :class="expanded ? 'w-full': ''"
     >
       <slot name="trigger"  />
       <template #popper>
@@ -27,12 +28,14 @@ interface TooltipProps {
   distance?: number; 
   trigger?: TooltipTrigger;
   active?: boolean;
+  expanded?: boolean
 }
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: "top",
   distance: 10,
   trigger: "hover",
   active: true,
+  expanded: false
 });
  
 </script>
