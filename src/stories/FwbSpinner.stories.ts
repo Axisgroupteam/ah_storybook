@@ -35,3 +35,25 @@ export const Size: Story = {
   }),
   args: {}
 }
+
+export const Colors: Story = {
+  render: (args) => ({
+    components: { FwbSpinner },
+    setup() {
+      return { args }
+    },
+    template: `
+        <div class="flex justify-center items-center gap-4">
+            <FwbSpinner color="white" />            
+            <FwbSpinner color="blue" />
+            <FwbSpinner color="gray" />
+            <FwbSpinner color="green" />
+            <FwbSpinner color="pink" />
+            <FwbSpinner color="purple" />
+            <FwbSpinner color="red" />
+            <FwbSpinner color="yellow" />
+        </div>              
+        `
+  }),
+  args: {}
+}
