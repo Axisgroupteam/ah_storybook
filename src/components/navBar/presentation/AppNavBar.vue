@@ -21,13 +21,13 @@
 
     <div class="flex gap-2 items-center">
     <!-- report -->
-    <fwb-button square color="secondary" class="border-0">  
+    <fwb-button v-if="!temp" square color="secondary" class="border-0">  
       <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 0.5C8.02219 0.5 6.08879 1.08649 4.4443 2.1853C2.79981 3.28412 1.51809 4.8459 0.761209 6.67316C0.00433284 8.50042 -0.1937 10.5111 0.192152 12.4509C0.578004 14.3907 1.53041 16.1725 2.92894 17.5711C4.32746 18.9696 6.10929 19.922 8.0491 20.3078C9.98891 20.6937 11.9996 20.4957 13.8268 19.7388C15.6541 18.9819 17.2159 17.7002 18.3147 16.0557C19.4135 14.4112 20 12.4778 20 10.5C19.9971 7.84873 18.9426 5.30688 17.0679 3.43215C15.1931 1.55741 12.6513 0.502912 10 0.5ZM10 15.5C9.80222 15.5 9.60888 15.4413 9.44443 15.3315C9.27998 15.2216 9.15181 15.0654 9.07612 14.8827C9.00044 14.7 8.98063 14.4989 9.01922 14.3049C9.0578 14.1109 9.15304 13.9327 9.2929 13.7929C9.43275 13.653 9.61093 13.5578 9.80491 13.5192C9.99889 13.4806 10.2 13.5004 10.3827 13.5761C10.5654 13.6518 10.7216 13.78 10.8315 13.9444C10.9414 14.1089 11 14.3022 11 14.5C11 14.7652 10.8946 15.0196 10.7071 15.2071C10.5196 15.3946 10.2652 15.5 10 15.5ZM11 11.5C11 11.7652 10.8946 12.0196 10.7071 12.2071C10.5196 12.3946 10.2652 12.5 10 12.5C9.73479 12.5 9.48043 12.3946 9.2929 12.2071C9.10536 12.0196 9 11.7652 9 11.5V6.5C9 6.23478 9.10536 5.98043 9.2929 5.79289C9.48043 5.60536 9.73479 5.5 10 5.5C10.2652 5.5 10.5196 5.60536 10.7071 5.79289C10.8946 5.98043 11 6.23478 11 6.5V11.5Z" fill="currentColor"/>
       </svg>
     </fwb-button> 
     <!-- notification -->
-      <fwb-dropdown align-to-end>
+      <fwb-dropdown  align-to-end>
         <template #trigger>
           <fwb-button square color="secondary" class="border-0">
             <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,20 +49,20 @@
         square
         color="secondary"
         class="border-0"
-      
+        v-if="!temp"
       >
       <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M17.9693 15.7123C16.8385 15.6858 15.7239 15.432 14.6893 14.9652C13.6547 14.4985 12.7204 13.828 11.9398 12.9922C11.1592 12.1564 10.5477 11.1716 10.1403 10.0942C9.7328 9.01675 9.53738 7.86787 9.5652 6.71326C9.59711 5.56909 9.85039 4.44267 10.3104 3.39888C10.7705 2.35509 11.4282 1.41455 12.2458 0.631426C11.8257 0.562404 11.4017 0.520658 10.9765 0.50644C9.68546 0.459104 8.39804 0.673088 7.18837 1.13606C5.9787 1.59904 4.8707 2.30186 3.92821 3.20402C2.98572 4.10619 2.22736 5.18987 1.69684 6.39263C1.16631 7.59539 0.874099 8.89346 0.837038 10.2121C0.799978 11.5306 1.0188 12.8437 1.4809 14.0755C1.943 15.3074 2.63923 16.4337 3.5295 17.3896C4.41977 18.3455 5.48647 19.112 6.66814 19.6451C7.84982 20.1781 9.12311 20.4671 10.4147 20.4955C12.1622 20.5488 13.8925 20.1287 15.4296 19.2781C16.9668 18.4274 18.256 17.1765 19.1663 15.6523C18.7692 15.7006 18.3692 15.7207 17.9693 15.7123Z" fill="currentColor"/>
       </svg>
       </fwb-button>
 
-      <FwbButton class="border-0" color="secondary" size="md" pill square>        
-        <template #default>
-          CP
-        </template>        
-      </FwbButton>
+      <FwbAvatar v-bind="{
+        img: 'avatar2.png',
+        fullName: 'Luis Enrique Bauza Pena de la Torriente',
+        email: 'contact@detooo.com',    
+      }" />
 
-      <FwbDropdown :alignToEnd="true" >
+      <FwbDropdown v-if="temp" maxx_h="max-h-fit" :alignToEnd="true" >
         <template #trigger>
           <fwb-button
             square
@@ -77,11 +77,14 @@
           </fwb-button>
         </template>
         <ul>
-          <li v-for="i in 7" class="px-4 overflow-x-clip w-[200px] py-4 items-start flex gap-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium">
-            <svg class="w-5 h-5"  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/>
+          <li v-for="i in 2" class="px-4 overflow-x-clip w-[200px] py-4 items-start flex gap-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium">
+            <svg v-if="i === 1" width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 0.5C8.02219 0.5 6.08879 1.08649 4.4443 2.1853C2.79981 3.28412 1.51809 4.8459 0.761209 6.67316C0.00433284 8.50042 -0.1937 10.5111 0.192152 12.4509C0.578004 14.3907 1.53041 16.1725 2.92894 17.5711C4.32746 18.9696 6.10929 19.922 8.0491 20.3078C9.98891 20.6937 11.9996 20.4957 13.8268 19.7388C15.6541 18.9819 17.2159 17.7002 18.3147 16.0557C19.4135 14.4112 20 12.4778 20 10.5C19.9971 7.84873 18.9426 5.30688 17.0679 3.43215C15.1931 1.55741 12.6513 0.502912 10 0.5ZM10 15.5C9.80222 15.5 9.60888 15.4413 9.44443 15.3315C9.27998 15.2216 9.15181 15.0654 9.07612 14.8827C9.00044 14.7 8.98063 14.4989 9.01922 14.3049C9.0578 14.1109 9.15304 13.9327 9.2929 13.7929C9.43275 13.653 9.61093 13.5578 9.80491 13.5192C9.99889 13.4806 10.2 13.5004 10.3827 13.5761C10.5654 13.6518 10.7216 13.78 10.8315 13.9444C10.9414 14.1089 11 14.3022 11 14.5C11 14.7652 10.8946 15.0196 10.7071 15.2071C10.5196 15.3946 10.2652 15.5 10 15.5ZM11 11.5C11 11.7652 10.8946 12.0196 10.7071 12.2071C10.5196 12.3946 10.2652 12.5 10 12.5C9.73479 12.5 9.48043 12.3946 9.2929 12.2071C9.10536 12.0196 9 11.7652 9 11.5V6.5C9 6.23478 9.10536 5.98043 9.2929 5.79289C9.48043 5.60536 9.73479 5.5 10 5.5C10.2652 5.5 10.5196 5.60536 10.7071 5.79289C10.8946 5.98043 11 6.23478 11 6.5V11.5Z" fill="currentColor"/>
             </svg>
-            <span >{{"Element " + i}}</span>
+            <svg v-else width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.9693 15.7123C16.8385 15.6858 15.7239 15.432 14.6893 14.9652C13.6547 14.4985 12.7204 13.828 11.9398 12.9922C11.1592 12.1564 10.5477 11.1716 10.1403 10.0942C9.7328 9.01675 9.53738 7.86787 9.5652 6.71326C9.59711 5.56909 9.85039 4.44267 10.3104 3.39888C10.7705 2.35509 11.4282 1.41455 12.2458 0.631426C11.8257 0.562404 11.4017 0.520658 10.9765 0.50644C9.68546 0.459104 8.39804 0.673088 7.18837 1.13606C5.9787 1.59904 4.8707 2.30186 3.92821 3.20402C2.98572 4.10619 2.22736 5.18987 1.69684 6.39263C1.16631 7.59539 0.874099 8.89346 0.837038 10.2121C0.799978 11.5306 1.0188 12.8437 1.4809 14.0755C1.943 15.3074 2.63923 16.4337 3.5295 17.3896C4.41977 18.3455 5.48647 19.112 6.66814 19.6451C7.84982 20.1781 9.12311 20.4671 10.4147 20.4955C12.1622 20.5488 13.8925 20.1287 15.4296 19.2781C16.9668 18.4274 18.256 17.1765 19.1663 15.6523C18.7692 15.7006 18.3692 15.7207 17.9693 15.7123Z" fill="currentColor"/>
+            </svg>
+            <span >{{ i === 1 ? "Report" : "Theme" }}</span>
           </li>
             
         </ul>
@@ -92,7 +95,7 @@
 
 <script setup lang="ts">
 import FwbDropdown from '../../FwbDropdown/FwbDropdown.vue'
-
+import FwbAvatar from '@/components/FwbAvatar/FwbAvatarBtn.vue'
 import HubSmall from "@/assets/flowbite_icons/hub_icon_small.svg";
 import FwbButton from "@/components/FwbButton/FwbButton.vue";
 
@@ -100,6 +103,7 @@ import FwbButton from "@/components/FwbButton/FwbButton.vue";
 
 const props = defineProps({
   drawer: { type: Boolean, default: false },
+  temp: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(["drawer", "update:drawer"]);

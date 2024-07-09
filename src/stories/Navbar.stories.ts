@@ -31,3 +31,9 @@ export const Default: Story = {
     // moduleData: []
   }
 }
+
+export const DotActions: Story = {
+  args: {
+    temp: true
+  }
+}
