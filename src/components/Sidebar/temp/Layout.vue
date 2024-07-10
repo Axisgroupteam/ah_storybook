@@ -16,9 +16,26 @@
         class="h-full p-4 flex pt-20"
       >
         <div class="flex grow">
-          <div class="w-full h-full border-dashed border-[2px] border-neutral-900 dark:border-neutral-500 rounded-lg bg-neutral-200 dark:bg-neutral-700">
-            
-          </div>
+          <div class="p-4 h-full bg-neutral-100  dark:bg-neutral-900  w-full">
+         
+         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+           <div
+             class="border-2 border-dashed border-neutral-300 rounded-lg dark:border-neutral-600 h-32 md:h-64"
+           ></div>
+           <div
+             class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+           ></div>
+           <div
+             class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+           ></div>
+           <div
+             class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+           ></div>
+         </div>
+         <div
+           class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-60 mb-4"
+         ></div>
+       </div>
         </div>
       </main>
     </div>
@@ -60,7 +77,7 @@
     const clickedElement = event.target as HTMLElement;
     // Verifica si el elemento clickeado es el botón del menú o parte de él
     if (!clickedElement.closest("#module-select")) {
-      if (drawer.value && window.innerWidth < 1280) {
+      if (drawer.value ) {
         drawer.value = false;
       }
     }

@@ -44,7 +44,7 @@
                         !showDrawer   ? 'text-transparent' : ' text-neutral-900 dark:text-white'
                       "
                       class="text-xl font-medium "
-                      >Modue 1</span
+                      >Module 1</span
                     >
                 </div>
               </div>

@@ -44,7 +44,7 @@
                         !showDrawer   ? 'text-transparent' : ' text-neutral-900 dark:text-white'
                       "
                       class="text-xl font-medium "
-                      >Modue 1</span
+                      >Module 1</span
                     >
                 </div>
               </div>
@@ -139,12 +139,7 @@
 
 
   const dark = true;
-  const menuItems = props.moduleObject.length ? [ {
-          icon: "dashboard",
-          title: "Drawer Item 1",
-          name: "mDashboard",
- 
-        },] : [
+  const menuItems = [
         {
           icon: "dashboard",
           title: "Drawer Item 1",
@@ -217,7 +212,6 @@
           name: "manager",
  
         },
-      
       ]
   
  
