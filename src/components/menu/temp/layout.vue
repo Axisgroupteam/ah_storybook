@@ -1,19 +1,18 @@
 <template>
     <div
-      class="bg-neutral-100  dark:bg-neutral-900 min-h-full h-screen max-h-screen"
-        
+      class="bg-neutral-100  dark:bg-neutral-900 min-h-full h-screen max-h-screen"  
     >
       <div class="flex justify-start pl-2 items-center h-[64px] w-full   fixed left-0 right-0 top-0 z-30 bg-white  border-b dark:border-neutral-700   dark:bg-neutral-800" >
         <FwbButton color="secondary" class="text-neutral-500" @click="toogleDrawer">
           Click me
-         
         </FwbButton>
       </div>
   
       <!---->
-      <Sidebar ref="target" :value="drawer" :module-object="moduleData" />
+      <FwbMenu ref="target" :value="drawer" :module-object="moduleData" />
       <main
         class="h-full p-4 flex pt-20"
+        :class="drawer && (width > 1279) ? 'ml-[250px]' : 'ml-[60px]'"
       >
         <div class="flex grow max-h-full overflow-clip">
           <div class="p-4 h-full bg-neutral-100  dark:bg-neutral-900  w-full">
@@ -29,7 +28,7 @@
              class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
            ></div>
            <div
-             class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+             class="border-2 border-dashed rounded-lg  border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
            ></div>
          </div>
          <div
@@ -42,12 +41,10 @@
   </template>
   
   <script setup lang="ts">
-  import Sidebar from "@/components/Sidebar/presentation/Sidebar.vue";
+  import FwbMenu from "../FwbMenu.vue";
   import { ref, watch, computed, onMounted } from "vue";
   import { onClickOutside } from "@vueuse/core";
   import FwbButton from '@/components/FwbButton/FwbButton.vue'
-  import { storeToRefs } from "pinia";
-  import { useRoute } from "vue-router";
   import { useWindowSize } from "@vueuse/core";
   
   
@@ -77,7 +74,7 @@
     const clickedElement = event.target as HTMLElement;
     // Verifica si el elemento clickeado es el botón del menú o parte de él
     if (!clickedElement.closest("#module-select")) {
-      if (drawer.value ) {
+      if (drawer.value && window.innerWidth < 1280) {
         drawer.value = false;
       }
     }

@@ -17,7 +17,7 @@
       :class="drawer ? 'ml-[250px]' : 'ml-[60px]'"
     >
       
-      <div class="flex grow " >
+      <div class="flex grow max-h-full overflow-clip" >
         <div class="p-4 h-full bg-neutral-100  dark:bg-neutral-900  w-full">
          
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
