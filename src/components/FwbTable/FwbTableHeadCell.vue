@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useTableHeadCellClasses } from "./composables/useTableHeadCellClasses";
+import { useTableHeadCellClasses } from './composables/useTableHeadCellClasses'
 
-const { tableHeadCellClasses } = useTableHeadCellClasses();
+const { tableHeadCellClasses } = useTableHeadCellClasses()
 </script>
