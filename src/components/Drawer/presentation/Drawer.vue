@@ -135,12 +135,7 @@
 
 
   const dark = true;
-  const menuItems = props.moduleObject.length ? [ {
-          icon: "dashboard",
-          title: "Drawer Item 1",
-          name: "mDashboard",
- 
-        },] : [
+  const menuItems = [
         {
           icon: "dashboard",
           title: "Drawer Item 1",
@@ -213,7 +208,6 @@
           name: "manager",
  
         },
-      
       ]
   
   // watch(showDrawer, (newVal, oldVal))
