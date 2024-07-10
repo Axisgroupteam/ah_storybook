@@ -42,65 +42,59 @@ export const Default: Story = {
       FwbTableRow
     },
     setup() {
-      return { args }
+    const items = [
+        { name: 'Apple MacBook Pro 17"', color: 'Silver', category: 'Laptop', price: '$2999' },
+        { name: 'Microsoft Surface Pro', color: 'White', category: 'Laptop PC', price: '$1999' },
+        { name: 'Magic Mouse 2', color: 'Black', category: 'Accessories', price: '$99' }
+      ]
+      return { args, items }
     },
     template: `
-        <div>
-  <FwbTable>
-    <FwbTableHead>
-      <FwbTableHeadCell>
-        <template #suffix>
+                <div>
+          <FwbTable>
+            <FwbTableHead>
+              <FwbTableHeadCell>
+                <template #suffix>
+                    <svg class="w-[12px] h-[12px] text-neutral-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                </svg>
+                </template>            
+                Product name
+              </FwbTableHeadCell>
+              <FwbTableHeadCell>
+                <template #suffix>
                     <svg class="w-[12px] h-[12px] text-neutral-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
                 </svg>
                 </template> 
-        Product name
-      </FwbTableHeadCell>
-      <FwbTableHeadCell>
-        <template #suffix>
+                Color
+              </FwbTableHeadCell>
+              <FwbTableHeadCell>
+                <template #suffix>
                     <svg class="w-[12px] h-[12px] text-neutral-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
                 </svg>
                 </template> 
-        Color
-      </FwbTableHeadCell>
-      <FwbTableHeadCell>
-        <template #suffix>
+                Category
+              </FwbTableHeadCell>
+              <FwbTableHeadCell>
+                <template #suffix>
                     <svg class="w-[12px] h-[12px] text-neutral-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
                 </svg>
                 </template> 
-        Category
-      </FwbTableHeadCell>
-      <FwbTableHeadCell>
-        <template #suffix>
-                    <svg class="w-[12px] h-[12px] text-neutral-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
-                </svg>
-                </template> 
-        Price
-      </FwbTableHeadCell>      
-    </FwbTableHead>
-    <FwbTableBody>
-      <FwbTableRow>
-        <FwbTableCell>Apple MacBook Pro 17"</FwbTableCell>
-        <FwbTableCell>Sliver</FwbTableCell>
-        <FwbTableCell>Laptop</FwbTableCell>
-        <FwbTableCell>$2999</FwbTableCell>        
-      </FwbTableRow>
-      <FwbTableRow>
-        <FwbTableCell>Microsoft Surface Pro</FwbTableCell>
-        <FwbTableCell>White</FwbTableCell>
-        <FwbTableCell>Laptop PC</FwbTableCell>
-        <FwbTableCell>$1999</FwbTableCell>        
-      </FwbTableRow>      
-        <FwbTableCell>Magic Mouse 2</FwbTableCell>
-        <FwbTableCell>Black</FwbTableCell>
-        <FwbTableCell>Accessories</FwbTableCell>
-        <FwbTableCell>$99</FwbTableCell>        
-      </FwbTableRow>
-    </FwbTableBody>
-  </FwbTable>
+                Price
+              </FwbTableHeadCell>              
+            </FwbTableHead>
+            <FwbTableBody>
+              <FwbTableRow v-for="item in items" :key="item.name">
+                <FwbTableCell>{{ item.name }}</FwbTableCell>
+                <FwbTableCell>{{ item.color }}</FwbTableCell>
+                <FwbTableCell>{{ item.category }}</FwbTableCell>
+                <FwbTableCell>{{ item.price }}</FwbTableCell>                
+              </FwbTableRow>
+            </FwbTableBody>
+          </FwbTable>
 </div>
     `
   }),
