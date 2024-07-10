@@ -1,8 +1,7 @@
-import { reactive, computed, ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue";
+
 
 export const container = () => {
-  const route = useRoute();
 
   const _class = ref("");
 
@@ -14,7 +13,6 @@ export const container = () => {
     }, 200);
   };
   return {
-    route,
     _class,
     handleRing,
   };

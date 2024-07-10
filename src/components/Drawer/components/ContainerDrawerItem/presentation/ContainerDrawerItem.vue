@@ -17,7 +17,7 @@ import { container } from "../domain/containerDrawerItem";
 const props = defineProps({
   reference: { type: String, default: "" },
 });
-const { route, handleRing, _class } = container();
+const {  handleRing, _class } = container();
 </script>
 
 <style scoped>

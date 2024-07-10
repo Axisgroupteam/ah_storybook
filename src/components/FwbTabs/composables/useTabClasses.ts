@@ -34,10 +34,10 @@ const underlineTabClasses: TabClassMap  = {
 }
 const pillsTabClasses: TabClassMap = {
   default:
-    'cursor-pointer inline-block py-3 px-4 rounded-lg hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-white',
-  active: 'cursor-pointer inline-block py-3 px-4 text-white bg-red-700 rounded-lg active ',
+    'cursor-pointer inline-block py-2 px-4 rounded-lg hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-white',
+  active: 'cursor-pointer inline-block py-2 px-4 text-white bg-red-700 rounded-lg active ',
   
-  disabled: 'inline-block py-3 px-4 text-neutral-400 cursor-not-allowed dark:text-neutral-500'
+  disabled: 'inline-block py-2 px-4 text-neutral-400 cursor-not-allowed dark:text-neutral-500'
 }
 
 export function useTabClasses(props: UseTabClassesProps): {

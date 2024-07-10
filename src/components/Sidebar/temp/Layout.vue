@@ -1,6 +1,6 @@
 <template>
     <div
-      class="bg-neutral-100  dark:bg-neutral-900 min-h-screen h-screen max-h-screen"
+      class="bg-neutral-100  dark:bg-neutral-900 min-h-full h-screen max-h-screen"
         
     >
       <div class="flex justify-start pl-2 items-center h-[64px] w-full   fixed left-0 right-0 top-0 z-30 bg-white  border-b dark:border-neutral-700   dark:bg-neutral-800" >

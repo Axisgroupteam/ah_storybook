@@ -1,7 +1,7 @@
 <template>
     <aside
       id="drawer-navigation"
-      class="fixed top-0  left-0 z-50 w-[250px]   bg-white border-r border-gray-200 dark:bg-neutral-800 dark:border-neutral-700 transition-all"
+      class="fixed top-0   left-0 z-50 w-[250px]   bg-white border-r border-gray-200 dark:bg-neutral-800 dark:border-neutral-700 transition-all"
       :class="
         showDrawer
           ? 'translate-x-0 max-w-[1000px]'
@@ -102,9 +102,9 @@
         </PerfectScrollbar>
       </div>
     </aside>
-    <div
+    <div id="backG"
     v-if="showDrawer"
-        class="fixed w-screen xl:hidden h-screen top-0 z-[40] bg-neutral-900 opacity-50"
+        class="fixed w-full  top-0 z-[40] bg-neutral-900 opacity-50"
     ></div>
    
   </template>
@@ -224,8 +224,8 @@
   </script>
   
 <style scoped>
-#drawer-navigation {
-  height: 100vh
+#drawer-navigation, #backG {
+  height: calc(100vh + 64px)
 }
 </style>
   
