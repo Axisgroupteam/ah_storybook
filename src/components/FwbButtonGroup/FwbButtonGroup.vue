@@ -1,5 +1,5 @@
 <template>
-  <div class="fwb-button-group inline-flex rounded-md shadow-sm">
+  <div class="fwb-button-group inline-flex rounded-lg">
     <slot />
   </div>
 </template>

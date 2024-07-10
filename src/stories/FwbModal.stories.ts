@@ -24,7 +24,7 @@ const meta = {
     () => ({
       template: `
     <div class="w-full h-[500px] flex justify-center">
-        <div class="w-full px-6">
+        <div class="w-full">
             <story />
         </div>
     </div>

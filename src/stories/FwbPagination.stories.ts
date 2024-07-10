@@ -46,7 +46,7 @@ export const Default: Story = {
   decorators: [
     () => ({
       template:
-        '<div class="w-full p-4 shadow-md border-t mt-32 dark:border-t-neutral-700 border-neutral-200"><story /></div>'
+        '<div class="w-full p-4 shadow-md border-t mt-32 rounded-b-lg dark:border-t-neutral-700 border-neutral-200"><story /></div>'
     })
   ],
   args: {}
