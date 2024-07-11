@@ -33,7 +33,7 @@
               >
               
           </div>
-          <Darrow v-show="showDrawer" class="dark:text-white text-neutral-500"/>
+          <Darrow v-show="showDrawer" class="dark:text-white text-neutral-900"/>
         </div>
         </template>
         <template #content>

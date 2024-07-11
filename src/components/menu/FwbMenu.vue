@@ -1,17 +1,16 @@
 <template>
     <aside
-      id="drawer-navigation"
-      class="fixed top-0   left-0 z-50 w-[250px]   bg-white border-r border-gray-200 dark:bg-neutral-800 dark:border-neutral-700 transition-all"
+      :id="width < 1280 ? 'drawer-navigation': 'drawer-navigation-wide'"
+      class="fixed top-0 xl:top-[64px] left-0 z-50 w-[250px]   bg-white border-r border-gray-200 dark:bg-neutral-800 dark:border-neutral-700 transition-all"
       :class="
         showDrawer
           ? 'translate-x-0 max-w-[1000px]'
-          : '-translate-x-full'
+          : '-translate-x-full xl:-translate-x-0 xl:max-w-[60px]'
       "
       aria-label="Sidenav"
     >
       <div
         class="pb-5 pt-[7px] h-full dark:bg-neutral-800 gap-3 flex flex-col max-h-screen "
-
       >
         <div
           class="flex flex-col   px-3  min-w-[36px] pt-[20px] gap-[24px]"
@@ -103,7 +102,7 @@
       </div>
     </aside>
     <div id="backG"
-    v-if="showDrawer"
+    v-if="showDrawer && width < 1280"
         class="fixed w-full  top-0 z-[40] bg-neutral-900 opacity-50"
     ></div>
    
@@ -111,8 +110,7 @@
   
   <script setup lang="ts">
   import { computed, ref, watch } from "vue";
-  import AppSelectDropBox from "../../AppSelectDropBox/presentation/AppSelectDropBox.vue";
-//   import { useDrawerMenu } from "../domain/drawerMenu";
+  import AppSelectDropBox from "../AppSelectDropBox/presentation/AppSelectDropBox.vue";
   import DrawerMenuItems from "@/components/Drawer/components/presentation/DrawerMenuItem.vue";
   import { useWindowSize } from "@vueuse/core";
   import { PerfectScrollbar } from "vue3-perfect-scrollbar";
@@ -221,5 +219,10 @@
 #drawer-navigation, #backG {
   height: calc(100vh + 64px)
 }
+
+#drawer-navigation-wide {
+  height: calc(100vh - 40px)
+}
+
 </style>
   

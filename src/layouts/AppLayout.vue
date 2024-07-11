@@ -16,11 +16,33 @@
       class="h-full p-4 flex pt-20"
       :class="drawer ? 'ml-[250px]' : 'ml-[60px]'"
     >
-      <div class="flex grow">
-        <div class="w-full h-full border-dashed border-[2px] border-neutral-900 dark:border-neutral-500 rounded-lg bg-neutral-200 dark:bg-neutral-700">
-          
-        </div>
+      
+      <div class="flex grow max-h-full overflow-clip" >
+        <div class="p-4 h-full bg-neutral-100  dark:bg-neutral-900  w-full">
+         
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div
+          class="border-2 border-dashed border-neutral-300 rounded-lg dark:border-neutral-600 h-32 md:h-64"
+        ></div>
+        <div
+          class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+        ></div>
+        <div
+          class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+        ></div>
+        <div
+          class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-32 md:h-64"
+        ></div>
       </div>
+      <div
+        class="border-2 border-dashed rounded-lg border-neutral-300 dark:border-neutral-600 h-60 mb-4"
+      ></div>
+      
+   
+    </div>
+  
+  </div>
+    
     </main>
   </div>
 </template>
@@ -30,8 +52,7 @@ import NewDrawerMenu from "../components/Drawer/presentation/Drawer.vue";
 import { ref, watch, computed, onMounted } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import FwbButton from '../components/FwbButton/FwbButton.vue'
-import { storeToRefs } from "pinia";
-import { useRoute } from "vue-router";
+import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { useWindowSize } from "@vueuse/core";
 
 
