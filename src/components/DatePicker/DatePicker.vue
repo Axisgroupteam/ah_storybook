@@ -297,7 +297,6 @@ const clearDate = (type: string) => {
   }
 }
 
-const dateStartComputed = computed(() => dateInputStart.value.value)
 
 const eventHandlerStart = (e: Event) => {
   const target = e.target as HTMLInputElement
