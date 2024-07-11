@@ -36,7 +36,7 @@
   import type { ProgressLabelPosition, ProgressSize, ProgressVariant } from './types'
   
   interface IProgressProps {
-    color?: ProgressVariant
+    color?: 'red'
     label?: string
     labelPosition?: ProgressLabelPosition
     labelProgress?: boolean
@@ -45,7 +45,7 @@
   }
   
   const props = withDefaults(defineProps<IProgressProps>(), {
-    color: 'default',
+    color: 'red',
     label: '',
     labelPosition: 'none',
     labelProgress: false,

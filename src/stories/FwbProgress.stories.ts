@@ -11,7 +11,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
-    color: { control: 'select', options: ['default', 'dark', 'green', 'red'] },
+    // color: { control: 'select', options: ['default', 'dark', 'green', 'red'] },
     labelPosition: { control: 'select', options: ['outside', 'inside'] }
   },
   args: {}
@@ -24,9 +24,9 @@ type Story = StoryObj<typeof meta>
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
+export const Default: Story = {
   args: {
-    color: 'red',
+    // color: 'red',
     size: 'lg',
     label: "Progress Bar",
     progress: 50,
@@ -34,9 +34,18 @@ export const Primary: Story = {
   }
 }
 
-export const Secondary: Story = {
+export const LabelInside: Story = {
     args: {
-      color: 'green',
+      size: 'lg',
+      label: "Progress Bar",
+      progress: 50,
+      labelPosition: 'inside',
+      labelProgress: true
+    }
+  }
+
+  export const LabelOutside: Story = {
+    args: {
       size: 'lg',
       label: "Progress Bar",
       progress: 50,
