@@ -18,7 +18,7 @@ const outsideTextColorClasses = {
   // blue: 'text-blue-700 dark:text-blue-500',
   // dark: 'dark:text-white',
   // green: 'text-green-700 dark:text-green-500',
-  red: 'text-red-700 dark:text-red-500',
+  red: 'text-red-700 dark:text-white',
   // yellow: 'text-yellow-700 dark:text-yellow-500',
   // indigo: 'text-indigo-700 dark:text-indigo-500',
   // purple: 'text-purple-700 dark:text-purple-500',
