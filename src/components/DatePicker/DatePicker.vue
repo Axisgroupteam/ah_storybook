@@ -54,9 +54,17 @@
     v-else-if="typeCalendar === 'range'"
     id="date-range-picker"
     date-rangepicker
-    class="flex items-center w-full"
+    class="flex  w-full"
   >
-    <div class="relative w-full">
+    <div class="w-full">
+      <div class="flex justify-start">
+        <span :class="labelClasses">
+          Start Date
+          <span class="text-red-500">*</span>
+        </span>
+        <slot name="labelEnd" />
+      </div>
+      <div class="relative w-full">
       <div
         class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
         :class="validationWrapperClassesIcon"
@@ -85,7 +93,6 @@
         @click="desactiveError"
         @blur="enabledError"
       />
-
       <div
         v-if="dateStart"
         class="absolute inset-y-0 end-0 flex items-center pe-3 cursor-pointer"
@@ -112,14 +119,26 @@
         </svg>
       </div>
     </div>
-    <span class="mx-4 text-gray-500">to</span>
-    <div class="relative w-full">
+    <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
+      <slot v-if="showValidationMessageStart" name="validationMessage" />
+    </p>
+    </div>
+    <span class="mt-9 mx-4 text-gray-500">to</span>
+    <div class="w-full">     
+      <div class="flex justify-start">
+        <span :class="labelClasses">
+          End Date
+          <span class="text-red-500">*</span>
+        </span>
+        <slot name="labelEnd" />
+      </div>
+      <div class="relative w-full">
       <div
         class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
         :class="validationWrapperClassesIcon"
       >
         <svg
-          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          class="w-4 h-4"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -164,6 +183,10 @@
           />
         </svg>
       </div>
+    </div>
+    <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
+      <slot v-if="showValidationMessageEnd" name="validationMessage" />
+    </p>
     </div>
   </div>
 </template>
@@ -214,6 +237,9 @@ const props = withDefaults(defineProps<InputProps>(), {
 const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 
 const showValidationMessage = ref(true)
+const showValidationMessageStart = ref(true)
+const showValidationMessageEnd = ref(true)
+
 const dateInputStart = ref<HTMLElement | null>(null)
 const dateStart = ref()
 
@@ -251,10 +277,14 @@ const validationWrapperClassesIcon = computed(() =>
 
 const enabledError = () => {
   showValidationMessage.value = true
+  showValidationMessageStart.value = true
+  showValidationMessageEnd.value = true
 }
 
 const desactiveError = () => {
   showValidationMessage.value = false
+  showValidationMessageStart.value = false
+  showValidationMessageEnd.value = false
 }
 
 const clearDate = (type: string) => {
