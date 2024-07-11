@@ -76,8 +76,8 @@ export const StackedCounter: Story = {
     img: 'avatar.png',
     stacked: true,
     maxInStack: 4,
-    imgStacks: ['Avatar_40_2.png','Avatar_40_3.png', 'Avatar_40_4.png', 'Avatar_40_5.png', 'Avatar_40_6.png', 'Avatar_40_1.png'],
-    totalStacked: 5,
+    imgStacks: ['Avatar_40_1.png', 'Avatar_40_2.png', 'Avatar_40_3.png', 'Avatar_40_4.png','Avatar_40_5.png','Avatar_40_6.png'],
+    totalStacked: 99,
     size: 'md'
   }
 }
@@ -98,6 +98,6 @@ export const UserDropdown: Story = {
     img: 'Avatar_40_1.png',
     fullName: 'Luis Enrique Bauza Pena de la Torriente',
     email: 'contact@detooo.com',
-    size: 'md'    
+    size: 'md'   
   }
 }

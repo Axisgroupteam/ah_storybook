@@ -44,12 +44,12 @@ const avatarStatusDotPositionClasses: Record<
   "bottom-left-default": "-bottom-1.5 left-0 transform -translate-x-1/2 ",
 };
 
-const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-gray-400";
+const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-green-400";
 const avatarPlaceholderWrapperDefaultClasses =
   "flex overflow-hidden relative justify-center items-center";
 const avatarPlaceholderWrapperBackgroundClasses =
-  "bg-neutral-600 dark:bg-neutral-100";
-const avatarPlaceholderInitialsDefaultClasses = "font-medium !text-neutral-400 ";
+  "bg-neutral-100 dark:bg-neutral-600";///////colisionan bg y fg en avatar-icon?
+const avatarPlaceholderInitialsDefaultClasses = "font-medium text-neutral-600 dark:text-neutral-300";
 const avatarPlaceholderSizes = {
   xs: "bottom-0",
   sm: "absolute !-bottom-[6px]",
@@ -81,7 +81,7 @@ export function useAvatarClasses(props: UseAvatarClassesProps): {
       avatarSizeClasses[props.size.value],
       avatarTypeClasses[props.rounded.value ? "rounded" : "default"],
       props.bordered.value ? avatarBorderedClasses : "",
-      //props.stacked.value ? "border-2 border-white dark:border-gray-800" : "",
+      props.stacked.value ? "border-2 border-white dark:border-gray-800" : "",
     ])
   );
   const avatarDotClasses = computed<string>(() => {

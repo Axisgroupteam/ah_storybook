@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<FwbDropdown v-if="!stacked" :type="type" :max_h="max_h">
+		<FwbDropdown v-if="!stacked" :placement="placement" :type="type" :max_h="max_h">
 			<template #trigger>
 				<ContainerButton :disabled="disabled">
 					<template #default>
@@ -46,7 +46,11 @@
 			</ul>
 		</FwbDropdown>
 		<FwbAvatarStack v-else-if="stacked">
-			<FwbAvatar v-for="(stack, index) in maxInStack" :key="index" :img="imgStacks[index]" :size="size"
+			<FwbAvatar v-for="(stack, index) in maxInStack" 
+				:key="index" 
+				:img="imgStacks[index]" 
+				:size="size"
+				:bordered="bordered"
 				:rounded="rounded" :stacked="stacked" />
 			<FwbAvatarStackCounter :size="size" href="#" :total="totalStacked" />
 		</FwbAvatarStack>
@@ -71,6 +75,7 @@
 			disabled?: boolean
 			size?: AvatarSize
 			rounded?: boolean
+			placement?: string
 			img?: string
 			stacked?: boolean
 			totalStacked?: number
@@ -88,6 +93,7 @@
 			size: 'sm',
 			type: 'primary',
 			bordered: false,
+			placement: 'left',
 			rounded: true,
 			initials: '',
 			img: '',

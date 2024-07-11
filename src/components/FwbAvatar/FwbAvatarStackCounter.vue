@@ -1,5 +1,5 @@
 <template>
-  <a class="relative flex justify-center items-center text-xs font-medium text-white bg-gray-700 rounded-full  hover:bg-gray-600"
+  <a class="relative flex justify-center items-center text-xs font-medium text-white border-2 border-white dark:border-neutral-800 rounded-full bg-neutral-700 hover:border-neutral-600"
     :class="ssize" href="#">+{{ total }}</a>
 </template>
 
