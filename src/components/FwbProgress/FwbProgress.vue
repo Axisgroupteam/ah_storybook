@@ -15,7 +15,7 @@
       </template>
       <div
         :class="outerClasses"
-        class="w-full bg-gray-200 rounded-full dark:bg-gray-700"
+        class="w-full bg-neutral-200 rounded-full dark:bg-neutral-700"
       >
         <div
           :class="innerClasses"
