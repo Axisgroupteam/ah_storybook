@@ -3,7 +3,7 @@
   <!-- Main button component -->
   <component
     :is="buttonComponent"
-    :class="wrapperClasses"
+    :class="[wrapperClasses, ring ? `ring-4 ring-${color}` : 'ring-0']"
     :[linkAttr]="href"
     :disabled="buttonComponent === 'button' && (disabled || loading)"
     :style="{
@@ -27,7 +27,7 @@
     </span>
 
     <!-- Suffix slot for additional content after the button text -->
-    <div v-if="$slots.suffix || loadingSuffix" class="ml-2">
+    <div v-if="$slots.suffix || loadingSuffix" class="ml-2 w-full">
       <!-- Display spinner if loading or custom suffix slot -->
       <fwb-spinner v-if="loadingSuffix" :color="spinnerColor" :size="spinnerSize" />
       <slot v-else name="suffix" />
@@ -55,6 +55,7 @@ interface IButtonProps {
   disabled?: boolean
   href?: string
   tag?: string
+  ring: boolean
 }
 
 // Set default prop values and handle prop validation
@@ -68,7 +69,8 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   loadingPosition: 'prefix',
   disabled: false,
   href: '',
-  tag: 'a'
+  tag: 'a',
+  ring: false
 })
 
 // Compute button classes based on props
@@ -87,3 +89,17 @@ const linkComponent = props.tag !== 'a' ? resolveComponent(props.tag) : 'a'
 const buttonComponent = props.href ? linkComponent : 'button'
 const linkAttr = props.tag === 'router-link' || props.tag === 'nuxt-link' ? 'to' : 'href'
 </script>
+
+<style scoped>
+.ring-primary {
+  @apply ring-red-200 dark:ring-red-600;
+}
+
+.ring-secondary {
+  @apply ring-neutral-200 dark:ring-neutral-600;
+}
+
+.ring-terciary {
+  @apply ring-neutral-300 dark:ring-neutral-600;
+}
+</style>
