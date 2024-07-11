@@ -28,7 +28,7 @@ interface ISpinnerProps {
 }
 
 const props = withDefaults(defineProps<ISpinnerProps>(), {
-  color: 'red',
+  color: 'primary',
   size: '4'
 })
 

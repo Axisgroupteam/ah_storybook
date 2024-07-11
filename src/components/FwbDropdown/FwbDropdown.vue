@@ -83,7 +83,7 @@ const props = withDefaults(
     closeInside: false,
     alignToEnd: false,
     type: 'primary',
-    max_h: 'max-h-[158px]'
+    max_h: 'max-h-[156px]'
   }
 );
 

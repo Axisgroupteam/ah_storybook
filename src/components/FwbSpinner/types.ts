@@ -1,12 +1,4 @@
-export type SpinnerColor =
-  | 'blue'
-  | 'gray'
-  | 'green'
-  | 'red'
-  | 'yellow'
-  | 'pink'
-  | 'purple'
-  | 'white'
+export type SpinnerColor = 'primary'
 
 export type SpinnerSize =
   | '0'

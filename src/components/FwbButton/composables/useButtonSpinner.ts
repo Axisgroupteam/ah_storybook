@@ -22,11 +22,7 @@ export function useButtonSpinner(props: UseButtonSpinnerProps): {
   const size = computed<SpinnerSize>(() => btnSizeSpinnerSizeMap[props.size.value])
 
   const color = computed<SpinnerColor>(() => {
-    if (props.color.value === 'primary') {
-      return 'white'
-    } else {
-      return 'gray'
-    }
+    return 'primary'
   })
 
   return {
