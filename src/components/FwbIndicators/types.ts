@@ -1,5 +1,5 @@
 export type IndicatorColor =
-  | 'gray'
+  | 'neutral'
   | 'dark'
   | 'blue'
   | 'green'
@@ -8,5 +8,6 @@ export type IndicatorColor =
   | 'indigo'
   | 'yellow'
   | 'teal'
+  | 'carousel'
 
 export type IndicatorVariant = 'default' | 'with-text' | 'contained-text' | 'pill'

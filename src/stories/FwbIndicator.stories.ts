@@ -19,7 +19,7 @@ export const Default: Story = {
       return { args }
     },
     template: `
-        <FwbIndicator color="gray" />        
+        <FwbIndicator color="neutral" />        
         <FwbIndicator color="dark" />        
         <FwbIndicator color="blue" />        
         <FwbIndicator color="green" />        
@@ -47,10 +47,9 @@ export const WithText: Story = {
       return { args }
     },
     template: `
-        <FwbIndicator variant="with-text" color="blue">Visitors</FwbIndicator>
-        <FwbIndicator variant="with-text" color="purple">Sessions</FwbIndicator>
-        <FwbIndicator variant="with-text" color="indigo">Customers</FwbIndicator>
-        <FwbIndicator variant="with-text" color="teal">Revenue</FwbIndicator>
+        <FwbIndicator variant="with-text" color="blue">Blue</FwbIndicator>
+        <FwbIndicator variant="with-text" color="red">Red</FwbIndicator>
+        <FwbIndicator variant="with-text" color="green">Green</FwbIndicator>        
         `
   }),
   decorators: [
