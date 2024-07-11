@@ -89,7 +89,7 @@ export const UserDropdown: Story = {
       return { args }
     },
     template: `
-      <div class="h-64 mb-auto">
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto">
         <FwbAvatar v-bind="args" />
       </div>
       `
