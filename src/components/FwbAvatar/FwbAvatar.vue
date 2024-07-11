@@ -3,13 +3,13 @@
     <div :class="avatarPlaceholderWrapperClasses">
       <img v-if="img && !imageError" :alt="alt" :class="avatarClasses" :src="getImage(img)" @error="setImageError" />
       <div v-else-if="!initials && hasPlaceholder" :class="avatarPlaceholderClasses">
-        <slot name="placeholder" />
+        <slot name="placeholder" /> {{ hasPlaceholder }}
       </div>
-      <svg v-else-if="!img && !initials" :class="avatarPlaceholderClasses" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg" fill="#c9c9c9"> 
-        <path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd" />
+      <svg v-else-if="!img && !initials" :class="avatarPlaceholderClasses" class=" w-9 h-9 " viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+        <path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
       </svg>
-      <div v-else :class="avatarPlaceholderInitialsClasses" class="dark:text-neutral-800">
+      <div v-else :class="avatarPlaceholderInitialsClasses" class="dark:text-neutral-800 text-sm">
         {{ initials }}
       </div>
     </div>
@@ -79,5 +79,5 @@
     avatarPlaceholderWrapperClasses,
   } = useAvatarClasses(toRefs(props));
 
-  
+
 </script>

@@ -12,7 +12,6 @@ const avatarSizeClasses: Record<AvatarSize, string> = {
   xs: "w-6 h-6",
   sm: "w-8 h-8",
   md: "w-10 h-10",
-  lx: "w-[72px] h-[72px]",
   lg: "w-20 h-20",
   xl: "w-36 h-36",
 };
@@ -49,15 +48,14 @@ const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-gray-400";
 const avatarPlaceholderWrapperDefaultClasses =
   "flex overflow-hidden relative justify-center items-center";
 const avatarPlaceholderWrapperBackgroundClasses =
-  "bg-neutral-500 dark:bg-neutral-400";
-const avatarPlaceholderInitialsDefaultClasses = "font-medium text-white ";
+  "bg-neutral-600 dark:bg-neutral-100";
+const avatarPlaceholderInitialsDefaultClasses = "font-medium !text-neutral-400 ";
 const avatarPlaceholderSizes = {
   xs: "bottom-0",
-  sm: "-bottom-1",
-  md: "-bottom-1",
-  lg: "-bottom-2",
-  lx: "-bottom-3",
-  xl: "-bottom-4",
+  sm: "absolute !-bottom-[6px]",
+  md: "absolute !-bottom-[6px]",
+  lg: "absolute !-bottom-2",
+  xl: "absolute !-bottom-4",
 };
 
 export type UseAvatarClassesProps = {
@@ -83,7 +81,7 @@ export function useAvatarClasses(props: UseAvatarClassesProps): {
       avatarSizeClasses[props.size.value],
       avatarTypeClasses[props.rounded.value ? "rounded" : "default"],
       props.bordered.value ? avatarBorderedClasses : "",
-      props.stacked.value ? "border-2 border-white dark:border-gray-800" : "",
+      //props.stacked.value ? "border-2 border-white dark:border-gray-800" : "",
     ])
   );
   const avatarDotClasses = computed<string>(() => {
