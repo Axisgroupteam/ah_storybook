@@ -20,7 +20,7 @@
         <div
           :class="innerClasses"
           :style="{ width: progress + '%' }"
-          class="rounded-full font-medium text-blue-100 text-center p-0.5"
+          class="rounded-full font-medium text-white text-center p-0.5"
         >
           <template v-if="labelProgress && labelPosition === 'inside'">
             {{ progress }}%

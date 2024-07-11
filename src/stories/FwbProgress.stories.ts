@@ -27,8 +27,8 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     // color: 'red',
-    size: 'lg',
-    label: "Progress Bar",
+    // size: 'lg',
+    // label: "Progress Bar",
     progress: 50,
     // labelPosition: 'inside'
   }
@@ -37,7 +37,7 @@ export const Default: Story = {
 export const LabelInside: Story = {
     args: {
       size: 'lg',
-      label: "Progress Bar",
+    //   label: "Progress Bar",
       progress: 50,
       labelPosition: 'inside',
       labelProgress: true
@@ -46,7 +46,7 @@ export const LabelInside: Story = {
 
   export const LabelOutside: Story = {
     args: {
-      size: 'lg',
+    //   size: 'lg',
       label: "Progress Bar",
       progress: 50,
       labelPosition: 'outside',
