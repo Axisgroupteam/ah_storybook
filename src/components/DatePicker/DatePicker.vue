@@ -46,7 +46,7 @@
   </div>
   
 
-<div v-else-if="typeCalendar === 'range'" id="date-range-picker" date-rangepicker class="flex items-center w-full " >
+<div v-else-if="typeCalendar === 'range'" id="date-range-picker" date-rangepicker class="flex items-center w-full " > 
   <div class="relative w-full">
     <div 
       class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -63,13 +63,36 @@
           />
         </svg>
     </div>
-    <input 
-      id="datepicker-range-start" 
+    <input   
+      ref="dateInputStart"    
+      id="datepicker-range-start"       
       name="start" 
       type="text" 
       class="block w-full ps-10 p-2.5"
       :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
-      placeholder="Select date start">
+      placeholder="Select date start"
+       @input="handleInput"
+       @click="desactiveError"
+       @blur="enabledError"  
+      >
+
+      <div      
+      class="absolute inset-y-0 end-0 flex items-center pe-3 cursor-pointer"
+      :class="validationWrapperClassesIcon "
+       @click.stop="clearDate('start')">      
+        <svg 
+          v-if="showTrash"
+          class="w-6 h-6 " 
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          fill="none" 
+          viewBox="0 0 24 24"
+          >
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+        </svg>
+    </div>
   </div>
   <span class="mx-4 text-gray-500">to</span>
   <div class="relative w-full">
@@ -80,13 +103,32 @@
           <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
         </svg>
     </div>
-    <input 
-      id="datepicker-range-end" 
+    <input   
+      ref="dateInputEnd"    
+      id="datepicker-range-end"       
       name="end" 
       type="text" 
       class="block w-full ps-10 p-2.5"
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
-      placeholder="Select date end">
+      placeholder="Select date end"
+      >
+      <div       
+      class="absolute inset-y-0 end-0 flex items-center pe-3 cursor-pointer"
+      :class="validationWrapperClassesIcon "
+       @click.stop="clearDate('end')">      
+        <svg 
+          v-if="showTrash"
+          class="w-6 h-6 " 
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          fill="none" 
+          viewBox="0 0 24 24"
+          >
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+        </svg>
+    </div>
 </div>
 </div>
 
@@ -103,6 +145,7 @@ import { type InputSize, type InputType, type ValidationStatus, validationStatus
 // LA CARGA GLOBAL DE ESTOS ESTILOS AFECTA LOS DEMAS COMPONENTES
 import './css/flowbite.css'
 import './css/custom.scss'
+import { watch } from 'fs'
 
 interface InputProps {
   id: string
@@ -132,10 +175,18 @@ const props = withDefaults(defineProps<InputProps>(), {
 const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 
 const showValidationMessage = ref(true);
+const dateInputStart = ref<HTMLElement | null>(null)
+const dateStart = ref();
+
+const dateInputEnd = ref<HTMLElement | null>(null)
+const dateEnd = ref();
+
+const showTrash = ref(true)
 
 const handleInput = (e: Event) => {
   const value = (e.target as HTMLInputElement).value
-  emit('update:modelValue', value)
+  console.log("HAGO CLICK EN EL INPUT", value);
+  emit('update:modelValue', value)  
 }
 
 const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
@@ -164,6 +215,19 @@ const enabledError = () =>{
 const desactiveError = () =>{
   showValidationMessage.value = false;
 }
+
+const clearDate = (type: string) => {  
+  if (type === 'start') {
+    dateInputStart.value.value = '';
+    
+  } else if (type === 'end') {
+    dateInputEnd.value.value = '';
+    
+  }
+}
+
+const dateStartComputed = computed(() => dateInputStart.value.value );
+
 
 onMounted(() => {
   initFlowbite()
