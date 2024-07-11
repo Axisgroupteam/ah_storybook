@@ -10,16 +10,12 @@ export default {
   theme: {
     extend: {
       screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1366px",
-        xl: "1280px",
-        "2xl": "1536px",      
-      },
-      colors: ({ colors }) => ({
-        //primary: colors.red,
-        gray: colors.neutral
-      })
+        sm: '640px',
+        md: '768px',
+        lg: '1366px',
+        xl: '1280px',
+        '2xl': '1536px'
+      }
     }
   },
   plugins: [require('flowbite/plugin')]
