@@ -1,4 +1,4 @@
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "lx" | "xl";
+export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type AvatarStatus = "away" | "busy" | "offline" | "online";
 export type AvatarStatusPosition =
   | "top-right"

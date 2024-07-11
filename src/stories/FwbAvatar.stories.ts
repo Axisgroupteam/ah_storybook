@@ -23,8 +23,9 @@ type Story = StoryObj<typeof meta>
       `
   }),
   args: {
-    img: 'avatar.png',
-    disabled: true
+    img: 'Avatar_40_1.png',
+    disabled: true,
+    size: 'md'
   }
 }
 
@@ -39,7 +40,8 @@ export const PlaceholderIcon: Story = {
       `
   }),
   args: {
-    disabled: true
+    disabled: true,
+    size: 'md'
   }
 }
 
@@ -55,7 +57,8 @@ export const PlaceholderInitials: Story = {
   }),
   args: {
     fullName: 'Master Employee',
-    disabled: true
+    disabled: true,
+    size: 'md'
   }
 }
 
@@ -71,11 +74,11 @@ export const StackedCounter: Story = {
   }),
   args: {
     img: 'avatar.png',
-    size: 'md',
     stacked: true,
     maxInStack: 4,
-    imgStacks: ['avatar.png','avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png', 'avatar5.png', 'avatar6.png'],
+    imgStacks: ['Avatar_40_2.png','Avatar_40_3.png', 'Avatar_40_4.png', 'Avatar_40_5.png', 'Avatar_40_6.png', 'Avatar_40_1.png'],
     totalStacked: 5,
+    size: 'md'
   }
 }
 
@@ -92,8 +95,9 @@ export const UserDropdown: Story = {
       `
   }),
   args: {
-    img: 'avatar2.png',
+    img: 'Avatar_40_1.png',
     fullName: 'Luis Enrique Bauza Pena de la Torriente',
-    email: 'contact@detooo.com',    
+    email: 'contact@detooo.com',
+    size: 'md'    
   }
 }
