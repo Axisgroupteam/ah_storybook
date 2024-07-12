@@ -38,6 +38,6 @@ export const Default: Story = {
     setup() {
       return { args }
     },
-    template: '<FwbCarousel v-bind="args" />'
+    template: `<FwbCarousel v-bind="args" />`
   })
 }

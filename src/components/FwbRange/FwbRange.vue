@@ -77,4 +77,28 @@ input[type='range']::-moz-range-thumb {
   background-color: #c81e1e; /* Red thumb color */
   cursor: pointer;
 }
+
+/* Estilos para el thumb deshabilitado */
+input[type='range']:disabled::-webkit-slider-thumb {
+  /* Chrome/Safari */
+  @apply bg-neutral-400 dark:bg-neutral-500 cursor-not-allowed;
+}
+
+input[type='range']:disabled::-moz-range-thumb {
+  /* Firefox */
+  @apply bg-neutral-400 dark:bg-neutral-500 cursor-not-allowed;
+}
+
+/* Estilos para el tema oscuro */
+@media (prefers-color-scheme: dark) {
+  input[type='range']:disabled::-webkit-slider-thumb {
+    /* Chrome/Safari */
+    background-color: #737373; /* Neutral/500 para tema oscuro */
+  }
+
+  input[type='range']:disabled::-moz-range-thumb {
+    /* Firefox */
+    background-color: #737373; /* Neutral/500 para tema oscuro */
+  }
+}
 </style>
