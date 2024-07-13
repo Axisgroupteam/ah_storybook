@@ -1,5 +1,5 @@
 <template>
-  <div
+ <div
     v-if="typeCalendar === 'simple'"
     data-testid="input-wrapper"
     class="flex text-white flex-col w-full"
@@ -41,7 +41,7 @@
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
-        @click="desactiveError"
+        @click="desactiveError('picker')"
         @blur="enabledError"
       />
     </div>
@@ -50,10 +50,12 @@
     </p>
   </div>
 
+
+  <!-- RENGE DATEPICKER-->
   <div
     v-else-if="typeCalendar === 'range'"
     id="date-range-picker"
-    date-rangepicker
+    ref="datePickerRange"
     class="flex  w-full"
   >
     <div class="w-full">
@@ -82,7 +84,7 @@
         </svg>
       </div>
       <input
-        ref="dateInputStart"
+        ref="rangePickerStart"
         id="datepicker-range-start"
         name="start"
         type="text"
@@ -90,7 +92,7 @@
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
         placeholder="Select date start"
         @input="handleInput"
-        @click="desactiveError"
+        @click="desactiveError('start')"
         @blur="enabledError"
       />
       <div
@@ -150,7 +152,7 @@
         </svg>
       </div>
       <input
-        ref="dateInputEnd"
+        ref="rangePickerEnd"
         id="datepicker-range-end"
         name="end"
         type="text"
@@ -189,10 +191,60 @@
     </p>
     </div>
   </div>
+
+  <!-- 
+    <div ref="datePickerRange" class="flex gap-4">
+    <div class="relative max-w-sm">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+        <svg
+          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+          />
+        </svg>
+      </div>
+      <input
+        ref="rangePickerStart"
+        type="text"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Select date"
+        @click="datePickerStart?.show()"
+      />
+    </div>
+    <div class="relative max-w-sm">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+        <svg
+          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+          />
+        </svg>
+      </div>
+      <input
+        ref="rangePickerEnd"
+        type="text"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Select date"
+        @click="datePickerEnd?.show()"
+      />
+    </div>
+  </div>
+   -->
 </template>
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { initFlowbite } from 'flowbite'
+import { initFlowbite, type DatepickerOptions } from 'flowbite'
+import { DateRangePicker } from 'flowbite-datepicker'
 import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
 import {
@@ -208,6 +260,10 @@ import {
 import './css/flowbite.css'
 import './css/custom.scss'
 import { nextTick } from 'vue'
+
+const datePickerRange = ref()
+const rangePickerStart = ref()
+const rangePickerEnd = ref()
 
 interface InputProps {
   id: string
@@ -239,11 +295,7 @@ const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 const showValidationMessage = ref(true)
 const showValidationMessageStart = ref(true)
 const showValidationMessageEnd = ref(true)
-
-const dateInputStart = ref<HTMLElement | null>(null)
 const dateStart = ref()
-
-const dateInputEnd = ref<HTMLElement | null>(null)
 const dateEnd = ref()
 
 const showTrash = ref(true)
@@ -277,26 +329,41 @@ const validationWrapperClassesIcon = computed(() =>
 
 const enabledError = () => {
   showValidationMessage.value = true
-  showValidationMessageStart.value = true
-  showValidationMessageEnd.value = true
 }
 
-const desactiveError = () => {
-  showValidationMessage.value = false
-  showValidationMessageStart.value = false
-  showValidationMessageEnd.value = false
+const desactiveError = (type: "start" | "end" | "picker") => {
+  if(type === "picker") showValidationMessage.value = false
+  else if(type === "start") showValidationMessageStart.value = false
+  else if(type === "end") showValidationMessageEnd.value = false
 }
 
 const clearDate = (type: string) => {
-  if (type === 'start') {
+  /*if (type === 'start') {
     ;(dateInputStart.value as HTMLInputElement).value = ''
     dateStart.value = ''
   } else if (type === 'end') {
     ;(dateInputEnd.value as HTMLInputElement).value = ''
     dateEnd.value = ''
-  }
+  }*/
+  datePickerRangeCmp.value?.setDates({clear: true}) 
+  showValidationMessageStart.value = true
+  showValidationMessageEnd.value = true
 }
 
+// optional options with default values and callback functions
+const options: DatepickerOptions = {
+  defaultDatepickerId: null,
+  autohide: true,
+  format: 'mm/dd/yyyy',
+  maxDate: null,
+  minDate: null,
+  orientation: 'bottom',
+  buttons: false,
+  title: null,
+  rangePicker: true
+}
+
+const datePickerRangeCmp = ref<DateRangePicker>()
 
 const eventHandlerStart = (e: Event) => {
   const target = e.target as HTMLInputElement
@@ -310,26 +377,32 @@ const eventHandlerEnd = (e: Event) => {
 
 onMounted(() => {
   nextTick(() => {
-    const elSt = document.getElementById('datepicker-range-start')
-    const elEn = document.getElementById('datepicker-range-end')
-    if (elSt) {
-      elSt?.addEventListener('changeDate', eventHandlerStart)
+    datePickerRangeCmp.value = new DateRangePicker(datePickerRange.value, options)
+    if (rangePickerStart.value) {
+      rangePickerStart.value?.addEventListener('changeDate', eventHandlerStart)
     }
-    if (elEn) {
-      elEn?.addEventListener('changeDate', eventHandlerEnd)
+    if (rangePickerEnd.value) {
+      rangePickerEnd.value?.addEventListener('changeDate', eventHandlerEnd)
     }
+
+    /*setTimeout(() => {
+      const datst = new Date()
+      datst.setDate(-10)
+      const datend = new Date()
+      datend.setDate(10)
+      datePickerRangeCmp.value?.setDates([datst.toISOString(), datend.toISOString()])
+    }, 1000)*/
   })
+
   initFlowbite()
 })
 
 onBeforeUnmount(() => {
-  const elSt = document.getElementById('datepicker-range-start')
-  const elEn = document.getElementById('datepicker-range-end')
-  if (elSt) {
-    elSt?.removeEventListener('changeDate', eventHandlerStart)
+  if (rangePickerStart.value) {
+    rangePickerStart.value?.removeEventListener('changeDate', eventHandlerStart)
   }
-  if (elEn) {
-    elEn?.removeEventListener('changeDate', eventHandlerEnd)
+  if (rangePickerEnd.value) {
+    rangePickerEnd.value?.removeEventListener('changeDate', eventHandlerEnd)
   }
 })
 </script>
