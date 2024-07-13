@@ -1,5 +1,5 @@
 <template>
-  <!-- <div
+ <div
     v-if="typeCalendar === 'simple'"
     data-testid="input-wrapper"
     class="flex text-white flex-col w-full"
@@ -41,7 +41,7 @@
         placeholder="Select date"
         :value="modelValue"
         @input="handleInput"
-        @click="desactiveError"
+        @click="desactiveError('picker')"
         @blur="enabledError"
       />
     </div>
@@ -50,13 +50,23 @@
     </p>
   </div>
 
+
+  <!-- RENGE DATEPICKER-->
   <div
     v-else-if="typeCalendar === 'range'"
-    date-rangepicker
-    class="flex items-center w-full"
-    ref="rangePicker"
+    id="date-range-picker"
+    ref="datePickerRange"
+    class="flex  w-full"
   >
-    <div class="relative w-full">
+    <div class="w-full">
+      <div class="flex justify-start">
+        <span :class="labelClasses">
+          Start Date
+          <span class="text-red-500">*</span>
+        </span>
+        <slot name="labelEnd" />
+      </div>
+      <div class="relative w-full">
       <div
         class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
         :class="validationWrapperClassesIcon"
@@ -74,19 +84,17 @@
         </svg>
       </div>
       <input
-        ref="dateInputStart"
-        id="datepicker-custom-range-start"
-        datepicker-range-autohide
+        ref="rangePickerStart"
+        id="datepicker-range-start"
         name="start"
         type="text"
         class="block w-full ps-10 p-2.5"
         :class="[inputClasses, $slots.prefix ? 'pl-10' : '']"
         placeholder="Select date start"
         @input="handleInput"
-        @click="desactiveError"
+        @click="desactiveError('start')"
         @blur="enabledError"
       />
-
       <div
         v-if="dateStart"
         class="absolute inset-y-0 end-0 flex items-center pe-3 cursor-pointer"
@@ -113,14 +121,26 @@
         </svg>
       </div>
     </div>
-    <span class="mx-4 text-gray-500">to</span>
-    <div class="relative w-full">
+    <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
+      <slot v-if="showValidationMessageStart" name="validationMessage" />
+    </p>
+    </div>
+    <span class="mt-9 mx-4 text-gray-500">to</span>
+    <div class="w-full">     
+      <div class="flex justify-start">
+        <span :class="labelClasses">
+          End Date
+          <span class="text-red-500">*</span>
+        </span>
+        <slot name="labelEnd" />
+      </div>
+      <div class="relative w-full">
       <div
         class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
         :class="validationWrapperClassesIcon"
       >
         <svg
-          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          class="w-4 h-4"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -132,8 +152,8 @@
         </svg>
       </div>
       <input
-        ref="dateInputEnd"
-        id="datepicker-custom-range-start"
+        ref="rangePickerEnd"
+        id="datepicker-range-end"
         name="end"
         type="text"
         class="block w-full ps-10 p-2.5"
@@ -166,8 +186,14 @@
         </svg>
       </div>
     </div>
-  </div> -->
-  <div ref="datePickerRange" class="flex gap-4">
+    <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
+      <slot v-if="showValidationMessageEnd" name="validationMessage" />
+    </p>
+    </div>
+  </div>
+
+  <!-- 
+    <div ref="datePickerRange" class="flex gap-4">
     <div class="relative max-w-sm">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
         <svg
@@ -213,11 +239,12 @@
       />
     </div>
   </div>
+   -->
 </template>
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { initFlowbite, type DatepickerOptions } from 'flowbite'
-import { DateRangePicker, type Datepicker } from 'flowbite-datepicker'
+import { DateRangePicker } from 'flowbite-datepicker'
 import { twMerge } from 'tailwind-merge'
 import { useInputClasses } from './composables/useInputClasses'
 import {
@@ -266,10 +293,9 @@ const props = withDefaults(defineProps<InputProps>(), {
 const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 
 const showValidationMessage = ref(true)
-const dateInputStart = ref<HTMLElement | null>(null)
+const showValidationMessageStart = ref(true)
+const showValidationMessageEnd = ref(true)
 const dateStart = ref()
-
-const dateInputEnd = ref<HTMLElement | null>(null)
 const dateEnd = ref()
 
 const showTrash = ref(true)
@@ -305,21 +331,24 @@ const enabledError = () => {
   showValidationMessage.value = true
 }
 
-const desactiveError = () => {
-  showValidationMessage.value = false
+const desactiveError = (type: "start" | "end" | "picker") => {
+  if(type === "picker") showValidationMessage.value = false
+  else if(type === "start") showValidationMessageStart.value = false
+  else if(type === "end") showValidationMessageEnd.value = false
 }
 
 const clearDate = (type: string) => {
-  if (type === 'start') {
+  /*if (type === 'start') {
     ;(dateInputStart.value as HTMLInputElement).value = ''
     dateStart.value = ''
   } else if (type === 'end') {
     ;(dateInputEnd.value as HTMLInputElement).value = ''
     dateEnd.value = ''
-  }
+  }*/
+  datePickerRangeCmp.value?.setDates({clear: true}) 
+  showValidationMessageStart.value = true
+  showValidationMessageEnd.value = true
 }
-
-const dateStartComputed = computed(() => dateInputStart.value.value)
 
 // optional options with default values and callback functions
 const options: DatepickerOptions = {
@@ -338,7 +367,6 @@ const datePickerRangeCmp = ref<DateRangePicker>()
 
 const eventHandlerStart = (e: Event) => {
   const target = e.target as HTMLInputElement
-
   dateStart.value = target.value
 }
 
@@ -357,13 +385,13 @@ onMounted(() => {
       rangePickerEnd.value?.addEventListener('changeDate', eventHandlerEnd)
     }
 
-    setTimeout(() => {
+    /*setTimeout(() => {
       const datst = new Date()
       datst.setDate(-10)
       const datend = new Date()
       datend.setDate(10)
       datePickerRangeCmp.value?.setDates([datst.toISOString(), datend.toISOString()])
-    }, 1000)
+    }, 1000)*/
   })
 
   initFlowbite()
