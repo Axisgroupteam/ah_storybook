@@ -30,8 +30,9 @@
             "
             :src="picture.src"
             :alt="picture.alt"
-            class="w-full h-full object-contain transition-all duration-300 ease-in-out"
+            class="w-full h-full transition-all duration-300 ease-out"
             :style="{
+              objectFit: 'contain',
               transform: `scale(${zoomLevel}) translate(${panX / zoomLevel}px, ${panY / zoomLevel}px) rotate(${rotation}deg)`,
               cursor: isPanning ? 'grabbing' : 'grab'
             }"
@@ -411,62 +412,19 @@ const zoom = (event: WheelEvent) => {
 }
 
 const zoomIn = () => {
-  animateZoom(Math.min(5, zoomLevel.value * 1.1))
+  zoomLevel.value = Math.min(5, zoomLevel.value * 1.1)
 }
 
 const zoomOut = () => {
-  animateZoom(Math.max(1, zoomLevel.value / 1.1))
-}
-
-const animateZoom = (targetZoom: number) => {
-  const start = performance.now()
-  const startZoom = zoomLevel.value
-  const duration = 300 // duración de la animación en milisegundos
-
-  function step(timestamp: number) {
-    const progress = (timestamp - start) / duration
-    if (progress < 1) {
-      zoomLevel.value = startZoom + (targetZoom - startZoom) * easeInOutCubic(progress)
-      requestAnimationFrame(step)
-    } else {
-      zoomLevel.value = targetZoom
-    }
-  }
-
-  requestAnimationFrame(step)
+  zoomLevel.value = Math.max(1, zoomLevel.value / 1.1)
 }
 
 const rotateLeft = () => {
   rotation.value = (rotation.value - 90) % 360
-  animateRotation(-90)
 }
 
 const rotateRight = () => {
   rotation.value = (rotation.value + 90) % 360
-  animateRotation(90)
-}
-
-const animateRotation = (degrees: number) => {
-  const start = performance.now()
-  const startRotation = rotation.value - degrees
-  const duration = 300 // duración de la animación en milisegundos
-
-  function step(timestamp: number) {
-    const progress = (timestamp - start) / duration
-    if (progress < 1) {
-      rotation.value = startRotation + degrees * easeInOutCubic(progress)
-      requestAnimationFrame(step)
-    } else {
-      rotation.value = startRotation + degrees
-    }
-  }
-
-  requestAnimationFrame(step)
-}
-
-// Función de easing para una animación más suave
-const easeInOutCubic = (t: number): number => {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
 const startMoveCrop = (event: MouseEvent) => {
@@ -475,16 +433,11 @@ const startMoveCrop = (event: MouseEvent) => {
   lastMouseY.value = event.clientY
 }
 
-const constrainCrop = () => {
-  if (!imageContainer.value) return
-
-  const containerRect = imageContainer.value.getBoundingClientRect()
-
-  cropLeft.value = Math.max(0, Math.min(cropLeft.value, containerRect.width - cropWidth.value))
-  cropTop.value = Math.max(0, Math.min(cropTop.value, containerRect.height - cropHeight.value))
-  cropWidth.value = Math.max(50, Math.min(cropWidth.value, containerRect.width - cropLeft.value))
-  cropHeight.value = Math.max(50, Math.min(cropHeight.value, containerRect.height - cropTop.value))
-}
+watch([zoomLevel, rotation], async () => {
+  if (isCropping.value) {
+    await constrainCrop()
+  }
+})
 
 const moveCrop = (event: MouseEvent) => {
   if (isMovingCrop.value) {
@@ -560,16 +513,77 @@ const getHandleStyle = (handle: string) => {
   return styles[handle as keyof typeof styles]
 }
 
-const ensureImageLoaded = () => {
-  return new Promise<void>((resolve) => {
+const ensureImageLoaded = (): Promise<{
+  naturalWidth: number
+  naturalHeight: number
+  displayWidth: number
+  displayHeight: number
+  imageLeft: number
+  imageTop: number
+}> => {
+  return new Promise((resolve) => {
     const currentImage = images.value[currentIndex.value]
     if (currentImage && currentImage.complete) {
-      resolve()
+      const containerRect = imageContainer.value?.getBoundingClientRect()
+      if (!containerRect) return
+
+      const imageAspectRatio = currentImage.naturalWidth / currentImage.naturalHeight
+      const containerAspectRatio = containerRect.width / containerRect.height
+
+      let displayWidth, displayHeight, imageLeft, imageTop
+
+      if (imageAspectRatio > containerAspectRatio) {
+        displayWidth = containerRect.width
+        displayHeight = containerRect.width / imageAspectRatio
+        imageLeft = 0
+        imageTop = (containerRect.height - displayHeight) / 2
+      } else {
+        displayHeight = containerRect.height
+        displayWidth = containerRect.height * imageAspectRatio
+        imageTop = 0
+        imageLeft = (containerRect.width - displayWidth) / 2
+      }
+
+      resolve({
+        naturalWidth: currentImage.naturalWidth,
+        naturalHeight: currentImage.naturalHeight,
+        displayWidth,
+        displayHeight,
+        imageLeft,
+        imageTop
+      })
     } else {
       const img = new Image()
       img.onload = () => {
         images.value[currentIndex.value] = img
-        resolve()
+        const containerRect = imageContainer.value?.getBoundingClientRect()
+        if (!containerRect) return
+
+        const imageAspectRatio = img.naturalWidth / img.naturalHeight
+        const containerAspectRatio = containerRect.width / containerRect.height
+
+        let displayWidth, displayHeight, imageLeft, imageTop
+
+        if (imageAspectRatio > containerAspectRatio) {
+          displayWidth = containerRect.width
+          displayHeight = containerRect.width / imageAspectRatio
+          imageLeft = 0
+          imageTop = (containerRect.height - displayHeight) / 2
+        } else {
+          displayHeight = containerRect.height
+          displayWidth = containerRect.height * imageAspectRatio
+          imageTop = 0
+          imageLeft = (containerRect.width - displayWidth) / 2
+        }
+
+        resolve({
+          naturalWidth: img.naturalWidth,
+          naturalHeight: img.naturalHeight,
+          displayWidth,
+          displayHeight,
+          imageLeft,
+          imageTop
+        })
       }
       img.src = props.pictures[currentIndex.value].src
     }
@@ -577,34 +591,50 @@ const ensureImageLoaded = () => {
 }
 
 const startCrop = async () => {
-  await ensureImageLoaded()
+  const { displayWidth, displayHeight, imageLeft, imageTop } = await ensureImageLoaded()
   if (!imageContainer.value) return
-  const currentImage = images.value[currentIndex.value]
-  if (!currentImage) return
 
-  const containerRect = imageContainer.value.getBoundingClientRect()
-  const imageRect = currentImage.getBoundingClientRect()
-
-  // Calculamos el tamaño máximo del crop (80% del tamaño de la imagen o del contenedor, el que sea menor)
-  const maxSize = Math.min(
-    imageRect.width * 0.8,
-    imageRect.height * 0.8,
-    containerRect.width * 0.8,
-    containerRect.height * 0.8
-  )
+  // Calculamos el tamaño máximo del crop (80% del tamaño visible de la imagen)
+  const maxSize = (Math.min(displayWidth, displayHeight) * 0.8) / zoomLevel.value
 
   cropWidth.value = maxSize + 12 // Añade 12px para compensar las bolitas
   cropHeight.value = maxSize + 12
 
   // Calculamos la posición para centrar el crop
-  cropLeft.value = (containerRect.width - cropWidth.value) / 2 - 6 // Resta 6px para compensar
-  cropTop.value = (containerRect.height - cropHeight.value) / 2 - 6
+  cropLeft.value =
+    imageLeft +
+    (displayWidth / zoomLevel.value - cropWidth.value) / 2 -
+    panX.value / zoomLevel.value
+  cropTop.value =
+    imageTop +
+    (displayHeight / zoomLevel.value - cropHeight.value) / 2 -
+    panY.value / zoomLevel.value
 
   isCropping.value = true
+  await constrainCrop()
+}
+
+const constrainCrop = async () => {
+  if (!imageContainer.value) return
+  const { displayWidth, displayHeight, imageLeft, imageTop } = await ensureImageLoaded()
+
+  const containerRect = imageContainer.value.getBoundingClientRect()
+
+  // Ajustar los límites del recorte considerando el zoom
+  const minLeft = imageLeft - panX.value / zoomLevel.value
+  const minTop = imageTop - panY.value / zoomLevel.value
+  const maxLeft = minLeft + displayWidth / zoomLevel.value - cropWidth.value
+  const maxTop = minTop + displayHeight / zoomLevel.value - cropHeight.value
+
+  cropLeft.value = Math.max(minLeft, Math.min(cropLeft.value, maxLeft))
+  cropTop.value = Math.max(minTop, Math.min(cropTop.value, maxTop))
+
+  // Asegurarse de que el crop no sea más grande que la imagen visible
+  cropWidth.value = Math.min(cropWidth.value, displayWidth / zoomLevel.value)
+  cropHeight.value = Math.min(cropHeight.value, displayHeight / zoomLevel.value)
 }
 
 const finishCrop = () => {
-  isCropping.value = false
   // Aquí puedes agregar la lógica para aplicar el recorte
   saveImage()
 }
@@ -614,7 +644,9 @@ const cancelCrop = () => {
   // Restablecer los valores de recorte a sus valores iniciales si es necesario
 }
 
-const saveImage = () => {
+const saveImage = async () => {
+  const { naturalWidth, naturalHeight, displayWidth, displayHeight, imageLeft, imageTop } =
+    await ensureImageLoaded()
   const img = new Image()
   img.crossOrigin = 'anonymous'
   img.onload = () => {
@@ -622,41 +654,69 @@ const saveImage = () => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Set canvas size to cropped size
-    canvas.width = cropWidth.value
-    canvas.height = cropHeight.value
+    const containerRect = imageContainer.value?.getBoundingClientRect()
+    if (!containerRect) return
 
-    // Translate and rotate canvas
-    ctx.translate(canvas.width / 2, canvas.height / 2)
-    ctx.rotate((rotation.value * Math.PI) / 180)
-    ctx.scale(zoomLevel.value, zoomLevel.value)
+    const scaleX = naturalWidth / displayWidth
+    const scaleY = naturalHeight / displayHeight
 
-    // Draw the image
-    ctx.drawImage(
-      img,
-      -img.width / 2 + (panX.value - cropLeft.value) / zoomLevel.value,
-      -img.height / 2 + (panY.value - cropTop.value) / zoomLevel.value,
-      img.width,
-      img.height
-    )
+    if (isCropping.value) {
+      canvas.width = cropWidth.value - 12
+      canvas.height = cropHeight.value - 12
 
-    // Get the cropped image
-    const croppedImageData = ctx.getImageData(0, 0, cropWidth.value, cropHeight.value)
+      // Calcular el centro de la imagen
+      const centerX = displayWidth / 2
+      const centerY = displayHeight / 2
 
-    // Create a new canvas for the cropped image
-    const croppedCanvas = document.createElement('canvas')
-    croppedCanvas.width = cropWidth.value
-    croppedCanvas.height = cropHeight.value
-    const croppedCtx = croppedCanvas.getContext('2d')
-    if (croppedCtx) {
-      croppedCtx.putImageData(croppedImageData, 0, 0)
+      // Calcular la posición del recorte relativa al centro
+      const cropCenterX = cropLeft.value + (cropWidth.value - 12) / 2 - imageLeft - centerX
+      const cropCenterY = cropTop.value + (cropHeight.value - 12) / 2 - imageTop - centerY
+
+      // Rotar las coordenadas del recorte
+      const angle = (rotation.value * Math.PI) / 180
+      const rotatedX = cropCenterX * Math.cos(angle) - cropCenterY * Math.sin(angle)
+      const rotatedY = cropCenterX * Math.sin(angle) + cropCenterY * Math.cos(angle)
+
+      // Calcular la nueva posición del recorte
+      const newCropLeft = centerX + rotatedX - (cropWidth.value - 12) / 2
+      const newCropTop = centerY + rotatedY - (cropHeight.value - 12) / 2
+
+      // Aplicar zoom a las coordenadas
+      const sourceX = (newCropLeft * scaleX) / zoomLevel.value + panX.value * scaleX
+      const sourceY = (newCropTop * scaleY) / zoomLevel.value + panY.value * scaleY
+      const sourceWidth = ((cropWidth.value - 12) * scaleX) / zoomLevel.value
+      const sourceHeight = ((cropHeight.value - 12) * scaleY) / zoomLevel.value
+
+      ctx.drawImage(
+        img,
+        sourceX,
+        sourceY,
+        sourceWidth,
+        sourceHeight,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      )
+    } else {
+      canvas.width = naturalWidth
+      canvas.height = naturalHeight
+
+      ctx.save()
+      ctx.translate(canvas.width / 2, canvas.height / 2)
+      ctx.rotate((rotation.value * Math.PI) / 180)
+      ctx.scale(1 / zoomLevel.value, 1 / zoomLevel.value)
+      ctx.translate(-canvas.width / 2, -canvas.height / 2)
+
+      ctx.drawImage(img, -panX.value * scaleX, -panY.value * scaleY, naturalWidth, naturalHeight)
+
+      ctx.restore()
     }
 
-    // Convert canvas to blob and download
-    croppedCanvas.toBlob((blob) => {
+    canvas.toBlob((blob) => {
       if (blob) {
         const link = document.createElement('a')
-        link.download = 'cropped_image.png'
+        link.download = isCropping.value ? 'cropped_image.png' : 'image.png'
         link.href = URL.createObjectURL(blob)
         link.click()
       }
