@@ -36,7 +36,7 @@ export const decorators = [
   }),
   (story) => ({
     components: { story },
-    template: '<div style="background-color: var(--bg-color); padding: 24px"><story /></div>'
+    template: '<div style="background-color: var(--bg-color); "><story /></div>'
   })
 ]
 

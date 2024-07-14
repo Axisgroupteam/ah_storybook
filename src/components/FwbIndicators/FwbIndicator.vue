@@ -26,7 +26,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  color: 'gray',
+  color: 'neutral',
   variant: 'default'
 })
 
