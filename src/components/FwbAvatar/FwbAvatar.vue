@@ -5,7 +5,7 @@
       <div v-else-if="!initials && hasPlaceholder" :class="avatarPlaceholderClasses">
         <slot name="placeholder" /> {{ hasPlaceholder }}
       </div>
-      <svg v-else-if="!img && !initials" :class="avatarPlaceholderClasses" class=" w-9 h-9 " viewBox="0 0 20 20"
+      <svg v-else-if="!img && !initials" :class="avatarPlaceholderClasses" class=" w-9 h-9 !text-neutral-400" viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg" fill="currentColor">
         <path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
       </svg>

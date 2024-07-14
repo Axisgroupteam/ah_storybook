@@ -11836,6 +11836,7 @@ __metadata:
     eslint-plugin-vue: "npm:^9.23.0"
     floating-vue: "npm:^5.2.2"
     flowbite: "npm:^2.3.0"
+    flowbite-datepicker: "npm:^1.3.0"
     jsdom: "npm:^24.1.0"
     lodash-es: "npm:^4.17.21"
     npm-run-all2: "npm:^6.2.0"
