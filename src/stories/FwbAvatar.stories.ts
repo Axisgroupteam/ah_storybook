@@ -102,6 +102,7 @@ export const UserDropdown: Story = {
     img: 'Avatar_40_1.png',
     fullName: 'Master Employee',
     email: 'contact@detooo.com',
-    size: 'md'   
+    size: 'md',
+    placement: 'left'  
   }
 }
