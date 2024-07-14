@@ -44,11 +44,11 @@ const avatarStatusDotPositionClasses: Record<
   "bottom-left-default": "-bottom-1.5 left-0 transform -translate-x-1/2 ",
 };
 
-const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-green-400";
+const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-neutral-400";
 const avatarPlaceholderWrapperDefaultClasses =
   "flex overflow-hidden relative justify-center items-center";
 const avatarPlaceholderWrapperBackgroundClasses =
-  "bg-neutral-100 dark:bg-neutral-600";///////colisionan bg y fg en avatar-icon?
+  "bg-neutral-100 dark:bg-neutral-600";
 const avatarPlaceholderInitialsDefaultClasses = "font-medium text-neutral-600 dark:text-neutral-300";
 const avatarPlaceholderSizes = {
   xs: "bottom-0",

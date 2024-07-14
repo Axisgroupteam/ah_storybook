@@ -5,8 +5,12 @@ const meta = {
   title: 'Example/FwbAvatar',
   component: FwbAvatar,
   tags: ['autodocs'],
-  argTypes: {},
-  args: {}
+  argTypes: {
+    placement: { control: 'select', options: ['bottom', 'left', 'right'] }
+  },
+  args: {
+    placement: 'top',
+  }
 } satisfies Meta<typeof FwbAvatar>
 
 export default meta
@@ -96,7 +100,7 @@ export const UserDropdown: Story = {
   }),
   args: {
     img: 'Avatar_40_1.png',
-    fullName: 'Luis Enrique Bauza Pena de la Torriente',
+    fullName: 'Master Employee',
     email: 'contact@detooo.com',
     size: 'md'   
   }
