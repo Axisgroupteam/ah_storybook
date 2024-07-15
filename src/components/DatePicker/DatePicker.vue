@@ -353,7 +353,7 @@ const clearDate = (type: string) => {
 // optional options with default values and callback functions
 const options: DatepickerOptions = {
   defaultDatepickerId: null,
-  autohide: true,
+  autohide: false,
   format: 'mm/dd/yyyy',
   maxDate: null,
   minDate: null,
@@ -385,13 +385,17 @@ onMounted(() => {
       rangePickerEnd.value?.addEventListener('changeDate', eventHandlerEnd)
     }
 
-    /*setTimeout(() => {
+    setTimeout(() => {
       const datst = new Date()
       datst.setDate(-10)
       const datend = new Date()
       datend.setDate(10)
-      datePickerRangeCmp.value?.setDates([datst.toISOString(), datend.toISOString()])
-    }, 1000)*/
+      
+      const datst_convert = formatDateToDMYYYY(datst.toISOString());
+      const datend_convert = formatDateToDMYYYY(datend.toISOString());
+      
+      datePickerRangeCmp.value?.setDates([datst_convert, datend_convert])
+    }, 1000)
   })
 
   initFlowbite()
@@ -405,6 +409,49 @@ onBeforeUnmount(() => {
     rangePickerEnd.value?.removeEventListener('changeDate', eventHandlerEnd)
   }
 })
+
+function formatDateToDMYYYY(dateString: string) {
+    // Crear un objeto de fecha a partir del string ISO
+    const date = new Date(dateString);
+
+    // Extraer el día, mes y año
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1; // Los meses van de 0 a 11
+    const year = date.getUTCFullYear();
+
+    // Formatear día y mes con dos dígitos
+    const formattedDay = day.toString().padStart(2, '0');
+    const formattedMonth = month.toString().padStart(2, '0');
+
+    // Retornar la fecha en el formato deseado
+    return `${formattedDay}/${formattedMonth}/${year}`;
+}
+
+function getPreviousSaturday(dateString: string) {
+    // Crear un objeto de fecha a partir del string ISO
+    const date = new Date(dateString);
+
+    // Obtener el día de la semana (0 es domingo, 6 es sábado)
+    const dayOfWeek = date.getUTCDay();
+
+    // Calcular la diferencia en días hasta el sábado anterior
+    const daysToPreviousSaturday = dayOfWeek === 6 ? 0 : dayOfWeek + 1;
+
+    // Restar los días necesarios para llegar al sábado anterior
+    date.setUTCDate(date.getUTCDate() - daysToPreviousSaturday);
+
+    // Extraer el día, mes y año
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1; // Los meses van de 0 a 11
+    const year = date.getUTCFullYear();
+
+    // Formatear día y mes con dos dígitos
+    const formattedDay = day.toString().padStart(2, '0');
+    const formattedMonth = month.toString().padStart(2, '0');
+
+    // Retornar la fecha en el formato deseado
+    return `${formattedDay}/${formattedMonth}/${year}`;
+}
 </script>
 
 <style scoped></style>
