@@ -139,18 +139,15 @@ export const Default: Story = {
           v-bind="args"           
           @click-image="openModal"
         />
-        <FwbModal v-if="showModal" size="screen" @close="closeModal" clsass="h-full">
+        <FwbModal v-if="showModal" size="screen" @close="closeModal">
           <template #header>
-            {{args.images[currentImageIndex].alt}}            
+            {{args?.images[currentImageIndex]?.alt}}            
           </template>
-          <template #body>                      
-          
+          <template #body>                                
           <FwbCarousel               
               :pictures="args.images" 
               @update-index="updateCurrentIndex"
-            />
-
-            
+            />            
           </template>                    
         </FwbModal>
       </div>
@@ -202,11 +199,10 @@ export const WithDelete: Story = {
         />
         <FwbModal v-if="showModal" @close="closeModal" size="screen">
           <template #header>
-            {{args.images[currentImageIndex].alt}}
+            {{args?.images[currentImageIndex]?.alt}}            
           </template>
           <template #body>
-            <FwbCarousel 
-              class="!h-full"
+            <FwbCarousel               
               :pictures="args.images" 
               @update-index="updateCurrentIndex"
             />
