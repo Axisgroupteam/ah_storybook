@@ -5,8 +5,13 @@ import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbButtonGroup from '@/components/FwbButtonGroup/FwbButtonGroup.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Button groups are a set of buttons sticked together in a horizontal line.
+ *
+ * The button group component can be used to stack together multiple buttons and links inside a single element.
+ */
 const meta = {
-  title: 'Example/FwbButtonGroup',
+  title: 'Example/ButtonGroupX',
   component: FwbButtonGroup,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -22,6 +27,9 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
+/**
+ * Use the following variant to stack together buttons into a single group.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: { FwbButton, FwbButtonGroup },
@@ -45,7 +53,10 @@ export const Default: Story = {
   args: {}
 }
 
-export const WithIcons: Story = {
+/**
+ * You can also use SVG icons inside the grouped buttons.
+ */
+export const Icon: Story = {
   render: (args) => ({
     components: { FwbButton, FwbButtonGroup },
     setup() {
