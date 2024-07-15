@@ -5,13 +5,18 @@ import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbDropdown from '@/components/FwbDropdown/FwbDropdown.vue'
 import FwbAvatar from '@/components/FwbAvatar/FwbAvatarBtn.vue'
 
+/**
+ * Use the navbar component as a central anchor to organize the navigation hierarchy between interfaces.
+ *
+ * The navbar contains elements of great importance for the hierarchy of different interfaces, it serves as a central navigation anchor.
+ */
 const meta = {
-  title: 'Example/FwbNavbar',
+  title: 'Example/NavbarX',
   component: FwbNavbar,
-  
+
   tags: ['autodocs'],
 
-decorators: [
+  decorators: [
     () => ({
       template: `
       <div class=" flex flex-col justify-start  w-full h-screen bg-neutral-200 dark:bg-neutral-950">
@@ -26,15 +31,16 @@ decorators: [
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use this navigation bar that contains a menu navigation switcher, logo, icon buttons, and user avatar for hierarchy primary interfaces.
+ */
 export const Primary: Story = {
-    render: (args) => ({
-      components: { FwbNavbar, FwbButton, FwbDropdown, FwbAvatar },
-      setup() {
-       
-  
-        return { args, }
-      },
-      template: `            
+  render: (args) => ({
+    components: { FwbNavbar, FwbButton, FwbDropdown, FwbAvatar },
+    setup() {
+      return { args }
+    },
+    template: `            
           <fwb-navbar>
             <template #left-corner>
                 <fwb-button
@@ -119,21 +125,20 @@ export const Primary: Story = {
             </FwbDropdown>
           </fwb-navbar>
         `
-    }),
-    args: {
-  
-    }
+  }),
+  args: {}
 }
 
+/**
+ * Use this navigation bar that contains a back navigation button, logo, icon buttons, and user avatar for hierarchy secondary interfaces.
+ */
 export const Secondary: Story = {
-    render: (args) => ({
-      components: { FwbNavbar, FwbButton },
-      setup() {
-       
-  
-        return { args, }
-      },
-      template: `            
+  render: (args) => ({
+    components: { FwbNavbar, FwbButton },
+    setup() {
+      return { args }
+    },
+    template: `            
           <fwb-navbar>
             <template #left-corner>
                 <fwb-button
@@ -164,8 +169,6 @@ export const Secondary: Story = {
              
           </fwb-navbar>
         `
-    }),
-    args: {
-  
-    }
-  }
+  }),
+  args: {}
+}

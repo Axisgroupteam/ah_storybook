@@ -4,8 +4,13 @@ import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbToggle from '@/components/FwbToggle/FwbToggle.vue'
 
+/**
+ * Use the modal component to show interactive dialogs and notifications to your website users available in multiple sizes.
+ *
+ * The modal component can be used as an interactive dialog on top of the main content area of the website to show notifications and gather information using form elements from your website users.
+ */
 const meta = {
-  title: 'Example/FwbModal',
+  title: 'Example/ModalX',
   component: FwbModal,
   tags: ['autodocs'],
   argTypes: {
@@ -37,6 +42,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use this example of modal component as an interactive dialog, show notifications and gather information using form elements.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: { FwbModal, FwbButton },
@@ -83,6 +91,9 @@ export const Default: Story = {
   args: {}
 }
 
+/**
+ * You can use four different modal sizing options starting from small to extra large, but keep in mind that the width of these modals will remain the same when browsing on smaller devices.
+ */
 export const Sizes: Story = {
   render: () => ({
     components: { FwbModal, FwbButton },
@@ -133,6 +144,9 @@ export const Sizes: Story = {
   })
 }
 
+/**
+ * Use this example whether or not you want to close the modal component with the Esc key.
+ */
 export const Escapable: Story = {
   render: (args) => ({
     components: { FwbModal, FwbButton, FwbToggle },
@@ -191,7 +205,10 @@ export const Escapable: Story = {
   }
 }
 
-export const Persistent: Story = {
+/**
+ * Use the following example to prevent the modal from closing when clicking outside of it. This can be used with situations where you want to force the user to choose an option such as a cookie notice or when taking a survey.
+ */
+export const Persist: Story = {
   render: (args) => ({
     components: { FwbModal, FwbButton },
     setup() {
