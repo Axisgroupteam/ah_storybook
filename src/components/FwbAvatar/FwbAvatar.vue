@@ -2,7 +2,7 @@
   <div class="relative">
     <div :class="avatarPlaceholderWrapperClasses">
       <img v-if="img && !imageError" :alt="alt" :class="avatarClasses" :src="getImage(img)" @error="setImageError" />
-      <div v-else-if="!initials && hasPlaceholder" :class="avatarPlaceholderClasses">
+      <div v-else-if="!initials && hasPlaceholder" class="dark:!text-neutral-300" :class="avatarPlaceholderClasses">
         <slot name="placeholder" /> {{ hasPlaceholder }}
       </div>
       <svg v-else-if="!img && !initials" :class="avatarPlaceholderClasses" class=" w-9 h-9 !text-neutral-400" viewBox="0 0 20 20"
