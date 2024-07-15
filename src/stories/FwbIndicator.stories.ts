@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbIndicator from '@/components/FwbIndicators/FwbIndicator.vue'
 
+/**
+ * Use the indicator component to show a number count, account status, or as a label.
+ *
+ * The indicator component can be used as a small element positioned absolutely relative to another component such as a button or card and show a number count, account status (red for offline, green for online) and other useful information.
+ */
 const meta = {
-  title: 'Example/FwbIndicator',
+  title: 'Example/IndicatorX',
   component: FwbIndicator,
   tags: ['autodocs'],
   argTypes: {},
@@ -12,6 +17,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use this example to create a simple indicator with multiple colors and position it anywhere on the website.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: { FwbIndicator },
@@ -40,7 +48,10 @@ export const Default: Story = {
   args: {}
 }
 
-export const WithText: Story = {
+/**
+ * This example can be used as a legend indicator for charts to also add a text next to the bullet point.
+ */
+export const Text: Story = {
   render: (args) => ({
     components: { FwbIndicator },
     setup() {
@@ -62,6 +73,9 @@ export const WithText: Story = {
   args: {}
 }
 
+/**
+ * This example can be used to show a number count inside the indicator and position it relative to a button or other component.
+ */
 export const Count: Story = {
   render: (args) => ({
     components: { FwbIndicator },
@@ -84,7 +98,10 @@ export const Count: Story = {
   args: {}
 }
 
-export const Pill: Story = {
+/**
+ * This example can be used to add an indicator inside of a badge component.
+ */
+export const Badge: Story = {
   render: (args) => ({
     components: { FwbIndicator },
     setup() {
