@@ -6,8 +6,13 @@ import FwbAccordionPanel from '../components/FwbAccordion//FwbAccordionPanel.vue
 import { ref } from 'vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the accordion component to show hidden information based on the collapse and expand state of the child elements.
+ *
+ * The accordion component is a collection of vertically collapsing header and body elements that can be used to show and hide information.
+ */
 const meta = {
-  title: 'Example/FwbAccordion',
+  title: 'Example/AccordionX',
   component: FwbAccordion,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -30,7 +35,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Simple: Story = {
+/**
+ * Use this variant to open and collapse child elements and keep previously opened accordion elements unchanged.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel },
     setup() {
@@ -62,6 +70,9 @@ export const Simple: Story = {
   args: {}
 }
 
+/**
+ * Use this variant to nested accordions as a child element.
+ */
 export const Nested: Story = {
   render: (args) => ({
     components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel },

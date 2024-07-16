@@ -1,9 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbBadge from '@/components/FwbBadge/FwbBadge.vue'
-import {ref} from 'vue'
+import { ref } from 'vue'
 
+/**
+ * Use badges as elements to show counts or labels separately or inside other components.
+ *
+ * The badge component can be used to complement other elements such as buttons or text elements as a label or to show the count of a given data, such as the number of comments for an article or how much time has passed by since a comment has been made.
+ */
 const meta = {
-  title: 'Example/FwbBadge',
+  title: 'Example/BadgeX',
   component: FwbBadge,
 
   tags: ['autodocs'],
@@ -13,19 +18,22 @@ const meta = {
   },
   args: {
     color: 'primary',
-    size:'sm'
+    size: 'sm'
   }
 } satisfies Meta<typeof FwbBadge>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use the following badge variant to indicate a count and label, the close button is useful to dismiss the current badge.
+ */
 export const Default: Story = {
   render: (args) => ({
-    components: { FwbBadge},
+    components: { FwbBadge },
     methods: {
-      closeBadge(): void{
-          this.showBadge = false;
+      closeBadge(): void {
+        this.showBadge = false
       }
     },
     setup() {
@@ -41,10 +49,13 @@ export const Default: Story = {
   }),
   args: {
     color: 'primary',
-    size:'sm' 
+    size: 'sm'
   }
 }
 
+/**
+ * Use the following badge variant to indicate labels.
+ */
 export const Normal: Story = {
   render: (args) => ({
     components: { FwbBadge },
@@ -61,11 +72,14 @@ export const Normal: Story = {
   }),
   args: {
     color: 'primary',
-    size: 'sm',
+    size: 'sm'
   }
 }
 
-export const CounterPill: Story = {
+/**
+ * Use this example to add a badge variant for a count indicator.
+ */
+export const Counter: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
@@ -82,10 +96,13 @@ export const CounterPill: Story = {
   args: {
     color: 'primary',
     size: 'sm',
-    pill: true,
+    pill: true
   }
 }
 
+/**
+ * Use this example to add a badge variant for a simple color indicator.
+ */
 export const Indicator: Story = {
   render: (args) => ({
     components: { FwbBadge },
@@ -99,11 +116,14 @@ export const Indicator: Story = {
   }),
   args: {
     size: 'sm',
-    indicator: true,
+    indicator: true
   }
 }
 
-export const PrefixSlots: Story = {
+/**
+ * Use this example to add a badge variant that has a counter as a prefix.
+ */
+export const Prefix: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
@@ -124,7 +144,10 @@ export const PrefixSlots: Story = {
   }
 }
 
-export const SuffixSlot: Story = {
+/**
+ * Use this example to add a badge variant that has a close button as a suffix.
+ */
+export const Suffix: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
@@ -139,6 +162,6 @@ export const SuffixSlot: Story = {
   }),
   args: {
     color: 'primary',
-    size:'sm'
+    size: 'sm'
   }
 }

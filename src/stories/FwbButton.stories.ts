@@ -4,8 +4,13 @@ import { fn } from '@storybook/test'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the button component inside forms, as links, social login, payment options, etc.
+ *
+ * The button component is probably the most widely used element in any user interface or website as it can be used to launch an action but also to link to other pages.
+ */
 const meta = {
-  title: 'Example/FwbButton',
+  title: 'Example/ButtonX',
   component: FwbButton,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -24,6 +29,10 @@ type Story = StoryObj<typeof meta>
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
+
+/**
+ * Use these button styles to indicate the most important action or link within your website.
+ */
 export const Primary: Story = {
   args: {
     color: 'primary',
@@ -31,56 +40,56 @@ export const Primary: Story = {
   }
 }
 
+/**
+ *  Use these button styles to indicate a commonly used action or link within your website.
+ */
 export const Secondary: Story = {
   args: {
     color: 'secondary'
   }
 }
 
+/**
+ * Use these button styles to indicate the less important action or link within your website.
+ */
 export const Terciary: Story = {
   args: {
     color: 'terciary'
   }
 }
 
+/**
+ * Use the following examples for a disabled component case.
+ */
 export const Disabled: Story = {
   args: {
     disabled: true
   }
 }
 
-export const LoadingPrefix: Story = {
+/**
+ * Use the following examples to add a spinner loading animation inside the button on the left side.
+ */
+export const SpinnerPrefix: Story = {
   args: {
     loading: true,
     loadingPosition: 'prefix'
   }
 }
 
-export const LoadingSuffix: Story = {
+/**
+ * Use the following examples to add a spinner loading animation inside the button on the right side.
+ */
+export const SpinnerSuffix: Story = {
   args: {
     loading: true,
     loadingPosition: 'suffix'
   }
 }
 
-export const DefaultSlot: Story = {
-  render: (args) => ({
-    components: { FwbButton },
-    setup() {
-      return { args }
-    },
-    template: `
-      <FwbButton v-bind="args">
-        <template #default>Default Slot Content</template>        
-      </FwbButton>
-    `
-  }),
-  args: {
-    color: 'primary',
-    size: 'md'
-  }
-}
-
+/**
+ * Use the following examples to add a SVG icon inside the button on the left side.
+ */
 export const PrefixSlots: Story = {
   render: (args) => ({
     components: { FwbButton },
@@ -103,6 +112,9 @@ export const PrefixSlots: Story = {
   }
 }
 
+/**
+ * Use the following examples to add a SVG icon inside the button on the right side.
+ */
 export const SuffixSlot: Story = {
   render: (args) => ({
     components: { FwbButton },
@@ -125,6 +137,9 @@ export const SuffixSlot: Story = {
   }
 }
 
+/**
+ * The button pills can be used as an alternative style by using fully rounded edges.
+ */
 export const Pill: Story = {
   render: (args) => ({
     components: { FwbButton },
@@ -149,6 +164,9 @@ export const Pill: Story = {
   }
 }
 
+/**
+ * The button square can be used as an alternative style by using square with rounded edges.
+ */
 export const Square: Story = {
   render: (args) => ({
     components: { FwbButton },

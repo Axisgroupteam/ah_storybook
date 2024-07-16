@@ -1,21 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbAvatar from '@/components/FwbAvatar/FwbAvatarBtn.vue'
 
+/**
+ * Use the avatar component to show a visual representation of a user profile using an image element or SVG object based on multiple styles.
+ *
+ * The avatar component can be used as a visual identifier for a user profile on your website.
+ */
 const meta = {
-  title: 'Example/FwbAvatar',
+  title: 'Example/AvatarX',
   component: FwbAvatar,
   tags: ['autodocs'],
-  argTypes: {
-  },
+  argTypes: {},
   args: {
-    placement: 'left-bottom',
+    placement: 'left-bottom'
   }
 } satisfies Meta<typeof FwbAvatar>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
- export const Default: Story = {
+/**
+ * Use this example to create a circle avatar on an image element.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { FwbAvatar },
     setup() {
@@ -34,7 +41,10 @@ type Story = StoryObj<typeof meta>
   }
 }
 
-export const PlaceholderIcon: Story = {
+/**
+ * Use this example as a placeholder icon for the user profile when there is no custom image available.
+ */
+export const Icon: Story = {
   render: (args) => ({
     components: { FwbAvatar },
     setup() {
@@ -52,7 +62,10 @@ export const PlaceholderIcon: Story = {
   }
 }
 
-export const PlaceholderInitials: Story = {
+/**
+ * This example can be used to show the initials of the user’s first and last name as a placeholder when no profile picture is available.
+ */
+export const Initials: Story = {
   render: (args) => ({
     components: { FwbAvatar },
     setup() {
@@ -71,7 +84,10 @@ export const PlaceholderInitials: Story = {
   }
 }
 
-export const StackedCounter: Story = {
+/**
+ * Use this example if you want to stack a group of users by overlapping the avatar components.
+ */
+export const Stacked: Story = {
   render: (args) => ({
     components: { FwbAvatar },
     setup() {
@@ -87,13 +103,23 @@ export const StackedCounter: Story = {
     img: 'avatar.png',
     stacked: true,
     maxInStack: 4,
-    imgStacks: ['Avatar_40_1.png', 'Avatar_40_2.png', 'Avatar_40_3.png', 'Avatar_40_4.png','Avatar_40_5.png','Avatar_40_6.png'],
+    imgStacks: [
+      'Avatar_40_1.png',
+      'Avatar_40_2.png',
+      'Avatar_40_3.png',
+      'Avatar_40_4.png',
+      'Avatar_40_5.png',
+      'Avatar_40_6.png'
+    ],
     totalStacked: 99,
     size: 'md'
   }
 }
 
-export const UserDropdown: Story = {
+/**
+ * Use this example if you want to show a dropdown menu when clicking on the avatar component.
+ */
+export const Dropdown: Story = {
   render: (args) => ({
     components: { FwbAvatar },
     setup() {

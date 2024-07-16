@@ -4,8 +4,13 @@ import FwbGallery from '@/components/FwbGallery/FwbGallery.vue'
 import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbCarousel from '@/components/FwbCarousel/FwbCarousel.vue'
 
+/**
+ * Use the image gallery component based on a single row layout to show multiple pictures.
+ *
+ * The gallery component can be used to show multiple images inside a single row layout to show a collection of pictures to your users.
+ */
 const meta = {
-  title: 'Example/FwbGallery',
+  title: 'Example/GalleryX',
   component: FwbGallery,
   tags: ['autodocs'],
   argTypes: {
@@ -111,6 +116,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use this variant to show a collection of images inside a gallery on a single row.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: { FwbGallery, FwbModal, FwbCarousel },
@@ -139,18 +147,15 @@ export const Default: Story = {
           v-bind="args"           
           @click-image="openModal"
         />
-        <FwbModal v-if="showModal" size="screen" @close="closeModal" clsass="h-full">
+        <FwbModal v-if="showModal" size="screen" @close="closeModal">
           <template #header>
-            {{args.images[currentImageIndex].alt}}            
+            {{args?.images[currentImageIndex]?.alt}}            
           </template>
-          <template #body>                      
-          
+          <template #body>                                
           <FwbCarousel               
               :pictures="args.images" 
               @update-index="updateCurrentIndex"
-            />
-
-            
+            />            
           </template>                    
         </FwbModal>
       </div>
@@ -158,7 +163,10 @@ export const Default: Story = {
   })
 }
 
-export const WithDelete: Story = {
+/**
+ * Use this variant to show a collection of images on a single row that will be created inside a gallery.
+ */
+export const Create: Story = {
   render: (args) => ({
     components: { FwbGallery, FwbModal, FwbCarousel },
     setup() {
@@ -202,11 +210,10 @@ export const WithDelete: Story = {
         />
         <FwbModal v-if="showModal" @close="closeModal" size="screen">
           <template #header>
-            {{args.images[currentImageIndex].alt}}
+            {{args?.images[currentImageIndex]?.alt}}            
           </template>
           <template #body>
-            <FwbCarousel 
-              class="!h-full"
+            <FwbCarousel               
               :pictures="args.images" 
               @update-index="updateCurrentIndex"
             />

@@ -2,8 +2,13 @@ import { ref } from 'vue'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbPagination from '@/components/FwbPagination/FwbPagination.vue'
 
+/**
+ * Use the pagination element to filter and indicate a series of content on multiple pages in the data tables or other components.
+ *
+ * The pagination component can be used to filter and navigate through a number of multiple pages contents in data tables or other components.
+ */
 const meta = {
-  title: 'Example/FwbPagination',
+  title: 'Example/PaginationX',
   component: FwbPagination,
   tags: ['autodocs'],
   argTypes: {},
@@ -13,6 +18,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use this pagination that contains a filter option and navigation buttons for data tables or other components.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: {
