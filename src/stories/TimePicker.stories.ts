@@ -2,17 +2,22 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 //import Button from './Button.vue'
 import TimePicker from '@/components/TimePicker/TimePicker.vue'
-import { Disabled } from './FwbButton.stories';
+import { Disabled } from './FwbButton.stories'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the timepicker component from Flowbite to select the time of the day in terms of hours, minutes and even seconds using an input selector.
+ *
+ * The timepicker component can be used to choose the hours and minutes of a given day through the usage of input fields.
+ */
 const meta = {
-  title: 'Example/TimePicker',
+  title: 'Example/TimepickerX',
   component: TimePicker,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
-    validationStatus: { control: 'select', options: ['error', 'success', ''] },    
+    validationStatus: { control: 'select', options: ['error', 'success', ''] }
   },
   args: {}
 } satisfies Meta<typeof TimePicker>
@@ -25,7 +30,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const DefaultSlot: Story = {
+/**
+ * Use this variant to input a single time.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
@@ -36,15 +44,18 @@ export const DefaultSlot: Story = {
       </TimePicker>
     `
   }),
-  args: {    
+  args: {
     size: 'md',
     label: 'Time',
     required: true,
-    validationStatus: '',   
+    validationStatus: ''
   }
 }
 
-export const DisabledSlot: Story = {
+/**
+ * Use this contextual variant for a disabled component case.
+ */
+export const Disabled: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
@@ -55,16 +66,19 @@ export const DisabledSlot: Story = {
       </TimePicker>
     `
   }),
-  args: {    
+  args: {
     size: 'md',
     label: 'Time',
     required: true,
     disabled: true,
-    validationStatus: '',   
+    validationStatus: ''
   }
 }
 
-export const ErrorTimepicker: Story = {
+/**
+ * Use this contextual variant for a component error case.
+ */
+export const Error: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
@@ -78,10 +92,10 @@ export const ErrorTimepicker: Story = {
       </TimePicker>
     `
   }),
-  args: {    
+  args: {
     size: 'md',
     label: 'Time',
     required: true,
-    validationStatus: 'error',   
+    validationStatus: 'error'
   }
 }
