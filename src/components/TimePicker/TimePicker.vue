@@ -38,17 +38,18 @@
        </div>  
        <div 
         v-else
-        class="absolute flex items-center justify-center w-[40px] h-full  bg-transparent right-[1px] bottom-0 text-neutral-500 dark:text-neutral-400"
-        :class="[!disabled ? 'cursor-pointer' : 'cursor-none']"
+        class="absolute flex items-center justify-center w-[40px] h-full  bg-transparent right-[1px] bottom-0 "
+        :class="[!disabled ? 'cursor-pointer' : 'cursor-none', validationWrapperClassesIcon]"       
         @click="toggleDropdown">
-             <svg 
-               class="w-4 h-4 text-gray-500 dark:text-gray-400" 
-               aria-hidden="true" 
-               xmlns="http://www.w3.org/2000/svg" 
-               fill="currentColor" 
-               viewBox="0 0 24 24">
-                 <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
-             </svg>
+          <svg 
+            class="w-4 h-4 " 
+            aria-hidden="true" 
+            xmlns="http://www.w3.org/2000/svg" 
+            fill="currentColor"
+            stroke="currentColor" 
+            viewBox="0 0 24 24">
+              <path fill="currentColor" fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+          </svg>
        </div>    
      </div>
      <div 
@@ -56,7 +57,6 @@
       v-if="showDropdown" 
       class="absolute mt-2 w-40 bg-neutral-50 dark:bg-neutral-700 border-[1px] text-xs font-bold text-neutral-900 dark:text-white border-neutral-200 dark:border-neutral-600 rounded-lg shadow-lg z-10 transition ease-in-out delay-75"
       >
-      {{ positionHourSelected }} {{ positionMinuteSelected }}
        <div class="grid grid-cols-3 gap-2 p-2">
         <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">   
           <div class="column" @scroll="() => onScroll('hours')" ref="hoursColumn">
@@ -106,7 +106,7 @@
  </template>
  
  <script lang="ts" setup>
- import { computed, nextTick, ref } from "vue";
+ import { computed, nextTick, onMounted, ref } from "vue";
  import { useInputClasses } from "./composables/useInputClasses";
  import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from "./types";
  import { twMerge } from "tailwind-merge";
@@ -150,6 +150,15 @@
      props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
    )
  )
+
+ const validationWrapperClassesIcon = computed(() =>
+  twMerge(
+    'text-sm',
+    props.validationStatus === validationStatusMap.Error
+      ? 'text-red-600 dark:text-red-500'
+      : 'text-neutral-500 dark:text-neutral-400'
+  )
+)
  
  const wrapper = ref<HTMLDivElement>();
  
@@ -216,15 +225,16 @@
    if (!showDropdown.value) return;
    showDropdown.value = false;  
 
-   hoursStartIndex.value = positionHourSelected.value;  
-   minutesStartIndex.value = positionMinuteSelected.value;  
-   periodsStartIndex.value = positionPeriodSelected.value;
- 
   // Asegurar que las otras columnas también se actualicen
   updateAllColumns();
+  
  });
 
  const updateAllColumns = () => {
+  hoursStartIndex.value = +(selectedHour.value) -1;//positionHourSelected.value;  
+  minutesStartIndex.value = +(selectedMinute.value);//positionMinuteSelected.value;  
+  periodsStartIndex.value = positionPeriodSelected.value;
+
   const hoursColumnEl = hoursColumn.value;
   const minutesColumnEl = minutesColumn.value;
   const periodsColumnEl = periodsColumn.value;
@@ -285,6 +295,11 @@ const decrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
     periodsStartIndex.value = (periodsStartIndex.value - 1 + periods.length) % periods.length;
   }
 };
+
+
+onMounted(() => {
+  updateAllColumns();
+})
  
  </script>
  
