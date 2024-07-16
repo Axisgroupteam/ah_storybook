@@ -26,7 +26,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-    <div class="w-full h-screen flex justify-center">
+    <div class="w-full h-screen flex justify-center p-4">
         <div class="w-full h-full">
             <story />
         </div>
@@ -228,6 +228,9 @@ export const Create: Story = {
   })
 }
 
+/**
+ * Use this variant to show a collection of images on a single row that will be edited inside a gallery.
+ */
 export const Edit: Story = {
   render: (args) => ({
     components: { FwbGallery, FwbModal, FwbCarousel },

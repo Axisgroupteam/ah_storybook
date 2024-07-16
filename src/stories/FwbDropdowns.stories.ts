@@ -13,8 +13,11 @@ const meta = {
   component: FwbDropdown,
   decorators: [
     () => ({
-      template: `<div class="w-full flex items-start h-[200px]">        
+      template: `
+        <div class="p-4">
+        <div class="w-full flex items-start h-[300px]">        
           <story />
+        </div>
         </div>`
     })
   ],

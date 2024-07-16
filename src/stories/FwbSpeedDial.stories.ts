@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import {ref} from 'vue'
+import { ref } from 'vue'
 import SpeedDial from '@/components/FwbSpeedDial/FwbSpeedDial.vue'
 import FwbTooltip from '@/components/FwbTooltip/FwbTooltip.vue'
 import FwbSpeedDial from '@/components/FwbSpeedDial/FwbSpeedDial.vue'
@@ -12,12 +12,12 @@ const meta = {
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {
-    placement: {control: 'select', options: ['vertical', 'horizontal']}
+    placement: { control: 'select', options: ['vertical', 'horizontal'] }
   },
   decorators: [
     () => ({
       template: `
-      <div class="w-full h-[300px] flex items-center justify-center">
+      <div class="w-full h-[400px] flex items-center justify-center p-4">
         <story />
       </div>
     `
@@ -94,7 +94,6 @@ export const Default: Story = {
   }),
   args: {
     // moduleData: [
-      
     // ]
   }
 }

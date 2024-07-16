@@ -34,7 +34,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-      <div class="w-full py-[100px] flex items-center justify-center">
+      <div class="w-full py-[100px] flex items-center justify-center p-4">
         <story />
       </div>
     `

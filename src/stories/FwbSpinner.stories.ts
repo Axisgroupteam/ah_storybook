@@ -6,6 +6,16 @@ const meta = {
   title: 'Example/FwbSpinner',
   component: FwbSpinner,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbSpinner>

@@ -18,6 +18,16 @@ const meta = {
   //   `
   // })],
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     variant: { control: 'select', options: ['default', 'underline', 'pills'] },
     directive: { control: 'select', options: ['if', 'show'] }

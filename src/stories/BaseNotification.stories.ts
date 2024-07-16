@@ -12,8 +12,11 @@ const meta = {
   component: BaseNotification,
   decorators: [
     () => ({
-      template: `<div class="w-[400px] rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">        
+      template: `
+      <div class="w-full p-4">
+      <div class="w-[400px] rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">        
         <story />
+      </div>
       </div>`
     })
   ],

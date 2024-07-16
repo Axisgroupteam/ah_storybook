@@ -10,6 +10,16 @@ const meta = {
   title: 'Example/AvatarX',
   component: FwbAvatar,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     placement: { control: 'select', options: ['bottom', 'left', 'right'] }
   },
@@ -120,7 +130,7 @@ export const Dropdown: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto">
+      <div class="flex justify-center w-full h-40 mb-auto ml-auto">
         <FwbAvatar v-bind="args" />
       </div>
       `

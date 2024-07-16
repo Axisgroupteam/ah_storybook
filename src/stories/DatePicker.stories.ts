@@ -14,6 +14,16 @@ const meta = {
   component: DatePicker,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4 h-[500px]">
+    
+        <story />
+    
+      </div>`
+    })
+  ],
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
     validationStatus: { control: 'select', options: ['error', 'success', ''] }
@@ -31,6 +41,32 @@ type Story = StoryObj<typeof meta>
 /**
  * Use this variant to input a single date, clicking on the today button will browse back to the current day/month/year, and clicking on the clear button will reset all selections.
  */
+export const DocsOnly: Story = {
+  parameters: {},
+  render: (args) => ({
+    components: { DatePicker },
+    setup() {
+      return { args }
+    },
+    template: `
+      <DatePicker v-bind="args"> 
+      <template #validationMessage>
+        <span>{{args.errorMessage}}</span>
+        </template>  
+      </DatePicker>
+    `
+  }),
+  args: {
+    id: 'test',
+    size: 'md',
+    label: 'Date',
+    required: false,
+    errorMessage: '',
+    validationStatus: ''
+  },
+  tags: ['!autodocs']
+}
+
 export const Default: Story = {
   render: (args) => ({
     components: { DatePicker },
