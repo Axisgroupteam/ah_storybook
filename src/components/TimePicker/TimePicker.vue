@@ -86,7 +86,7 @@
         <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">
           <div class="column" @scroll="() => onScroll('periods')" ref="periodsColumn">
             <div 
-              v-for="(period, index) in periodsToShow" 
+              v-for="(period, index) in periods" 
               :key="'period-' + index"
               @click="selectPeriod(period, index)"
               :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': period === selectedPeriod, 'cursor-pointer p-2': true}"
@@ -169,7 +169,7 @@
 
  const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
  const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
- const periods = ['AM', 'PM'];
+ const periods = ref(['AM', 'PM']);
  
  const hoursStartIndex = ref(0);
  const minutesStartIndex = ref(0);
@@ -183,8 +183,7 @@
  const formattedTime = computed(() => {
    return `${selectedHour.value}:${selectedMinute.value} ${selectedPeriod.value}`;
  });
- 
- 
+  
  
  const toggleDropdown = () => {
    if(!props.disabled){
@@ -202,6 +201,7 @@
    }
   }
  };
+
  
  const selectHour = (hour: string, index: number) => {
    selectedHour.value = hour;
@@ -234,6 +234,8 @@
   hoursStartIndex.value = +(selectedHour.value) -1;//positionHourSelected.value;  
   minutesStartIndex.value = +(selectedMinute.value);//positionMinuteSelected.value;  
   periodsStartIndex.value = positionPeriodSelected.value;
+
+  periods.value = [selectedPeriod.value, ...periods.value.filter(period => period !== selectedPeriod.value)]
 
   const hoursColumnEl = hoursColumn.value;
   const minutesColumnEl = minutesColumn.value;
