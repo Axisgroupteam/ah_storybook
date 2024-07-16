@@ -26,7 +26,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-    <div class="w-full h-screen flex justify-center">
+    <div class="w-full h-screen flex justify-center p-4">
         <div class="w-full h-full">
             <story />
         </div>
@@ -155,6 +155,7 @@ export const Default: Story = {
           <FwbCarousel               
               :pictures="args.images" 
               @update-index="updateCurrentIndex"
+              :index="currentImageIndex"
             />            
           </template>                    
         </FwbModal>
@@ -213,9 +214,75 @@ export const Create: Story = {
             {{args?.images[currentImageIndex]?.alt}}            
           </template>
           <template #body>
-            <FwbCarousel               
+            <FwbCarousel    
+              type="create"           
               :pictures="args.images" 
               @update-index="updateCurrentIndex"
+              :index="currentImageIndex"
+            />
+          </template>          
+          
+        </FwbModal>
+      </div>
+    `
+  })
+}
+
+/**
+ * Use this variant to show a collection of images on a single row that will be edited inside a gallery.
+ */
+export const Edit: Story = {
+  render: (args) => ({
+    components: { FwbGallery, FwbModal, FwbCarousel },
+    setup() {
+      const showModal = ref(false)
+      const currentImageIndex = ref(0)
+
+      const onDeleteImage = (index: number) => {
+        args.images.splice(index, 1)
+      }
+
+      const openModal = (index: number) => {
+        currentImageIndex.value = index
+        showModal.value = true
+      }
+
+      const closeModal = () => {
+        showModal.value = false
+      }
+
+      const updateCurrentIndex = (index: number) => {
+        currentImageIndex.value = index
+      }
+
+      return {
+        args,
+        onDeleteImage,
+        showModal,
+        currentImageIndex,
+        openModal,
+        closeModal,
+        updateCurrentIndex
+      }
+    },
+    template: `
+      <div>
+        <FwbGallery 
+          v-bind="args" 
+          @deleteImage="onDeleteImage"
+          @click-image="openModal"
+          can-delete
+        />
+        <FwbModal v-if="showModal" @close="closeModal" size="screen">
+          <template #header>
+            {{args?.images[currentImageIndex]?.alt}}            
+          </template>
+          <template #body>
+            <FwbCarousel    
+              type="edit"           
+              :pictures="args.images" 
+              @update-index="updateCurrentIndex"
+              :index="currentImageIndex"
             />
           </template>          
           

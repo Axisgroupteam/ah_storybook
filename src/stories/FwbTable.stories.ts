@@ -22,7 +22,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-    <div class="w-full h-[300px] flex justify-center">
+    <div class="w-full h-[300px] flex justify-center p-4">
         <div class="w-full">        
             <story />        
         </div>

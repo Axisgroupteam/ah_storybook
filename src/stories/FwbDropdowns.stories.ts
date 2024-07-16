@@ -13,8 +13,11 @@ const meta = {
   component: FwbDropdown,
   decorators: [
     () => ({
-      template: `<div class="w-full flex items-start h-[200px]">        
+      template: `
+        <div class="p-4">
+        <div class="w-full flex items-start h-[300px]">        
           <story />
+        </div>
         </div>`
     })
   ],
@@ -52,6 +55,7 @@ export const Primary: Story = {
               <FwbButton
                  size="md"
                   color="secondary"
+                  class="whitespace-nowrap"
       
               >
                  
@@ -115,6 +119,7 @@ export const Secondary: Story = {
                             
                     color="secondary"
                     size="md"
+                    class="whitespace-nowrap"
                 >
                     
                         Click me

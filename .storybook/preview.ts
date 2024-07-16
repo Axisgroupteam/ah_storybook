@@ -4,6 +4,7 @@ import { withThemeByClassName } from '@storybook/addon-themes'
 import { themes } from '@storybook/theming'
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
     docs: {
       theme: themes.dark
@@ -36,7 +37,7 @@ export const decorators = [
   }),
   (story) => ({
     components: { story },
-    template: '<div style="background-color: var(--bg-color); "><story /></div>'
+    template: '<div class="h-fit" style="background-color: var(--bg-color); "><story /></div>'
   })
 ]
 

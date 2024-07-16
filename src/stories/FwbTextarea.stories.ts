@@ -16,6 +16,16 @@ const meta = {
   argTypes: {
     validationStatus: { control: 'radio', options: ['normal', 'error'] }
   },
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   args: {}
 } satisfies Meta<typeof FwbTextarea>
 

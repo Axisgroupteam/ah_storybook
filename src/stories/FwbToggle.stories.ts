@@ -13,6 +13,16 @@ const meta = {
   component: FwbToggle,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     label: { control: 'text' },
     customClass: { table: { disabled: false } }
