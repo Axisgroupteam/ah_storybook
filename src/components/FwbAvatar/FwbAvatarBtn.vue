@@ -66,7 +66,7 @@
 	import FwbAvatar from "./FwbAvatar.vue";
 	import FwbAvatarStack from "./FwbAvatarStack.vue";
 	import FwbAvatarStackCounter from './FwbAvatarStackCounter.vue';
-	import FwbDropdown from '../FwbDropdown/FwbDropdown.vue';
+	import FwbDropdown from './FwbDropdown.vue';
 
 	const props = withDefaults(
 		defineProps<{
@@ -127,6 +127,7 @@
 	const initials = computed(() => getInitials(props.fullName))
 	const disabled = computed(() => props.disabled)
 	const size = computed(() => props.size)
+	const placement = computed(() => props.placement)
 
 
 </script>

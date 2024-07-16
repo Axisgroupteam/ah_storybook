@@ -6,10 +6,10 @@ const meta = {
   component: FwbAvatar,
   tags: ['autodocs'],
   argTypes: {
-    placement: { control: 'select', options: ['bottom', 'left', 'right'] }
+    placement: { control: 'select', options: ['bottom-left', 'bottom-center', 'bottom-right'] }
   },
   args: {
-    placement: 'top',
+    placement: 'left-bottom',
   }
 } satisfies Meta<typeof FwbAvatar>
 
@@ -23,7 +23,9 @@ type Story = StoryObj<typeof meta>
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -40,7 +42,9 @@ export const PlaceholderIcon: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -56,7 +60,9 @@ export const PlaceholderInitials: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -73,7 +79,9 @@ export const StackedCounter: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -93,7 +101,7 @@ export const UserDropdown: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto">
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
       </div>
       `
