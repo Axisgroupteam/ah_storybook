@@ -5,7 +5,7 @@ import TimePicker from '@/components/TimePicker/TimePicker.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: 'Example/TimePicker',
+  title: 'Example/TimePickerX',
   component: TimePicker,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -16,7 +16,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-      <div class="p-4 h-[400px]">
+      <div class="p-4 h-[300px]">
     
         <story />
       

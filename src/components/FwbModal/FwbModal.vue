@@ -39,7 +39,7 @@
           <PerfectScrollbar>
             <div
               :class="$slots.header ? '' : 'pt-0'"
-              class="p-5 py-0"
+              class="p-4 py-0"
               :style="{
                 maxHeight: height - 172 + 'px'
               }"
@@ -50,7 +50,7 @@
             </div>
           </PerfectScrollbar>
           <!-- Modal footer -->
-          <div :class="$slots.footer ? 'p-5' : 'p-[34px]'">
+          <div :class="$slots.footer ? 'p-4' : 'p-[34px]'">
             <div v-if="$slots.footer" ref="footer">
               <slot name="footer" />
             </div>

@@ -55,6 +55,7 @@ export const Primary: Story = {
               <FwbButton
                  size="md"
                   color="secondary"
+                  class="whitespace-nowrap"
       
               >
                  
@@ -118,6 +119,7 @@ export const Secondary: Story = {
                             
                     color="secondary"
                     size="md"
+                    class="whitespace-nowrap"
                 >
                     
                         Click me

@@ -24,7 +24,7 @@
           >
             <component :is="icons.usa"  />
             +1
-            <component :is="icons.caret" class="m-2 w-3 h-3" :class="visible ? 'rotate-180' : 'rotate-0'" />
+            <component :is="icons.caret" class="ml-2 w-3 h-3" :class="visible ? 'rotate-180' : 'rotate-0'" />
           </div>
         </template>
         <div

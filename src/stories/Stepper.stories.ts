@@ -16,7 +16,6 @@ const meta = {
   component: FwbStepper,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-<<<<<<< HEAD
   decorators: [
     () => ({
       template: `
@@ -27,8 +26,6 @@ const meta = {
       </div>`
     })
   ],
-=======
->>>>>>> origin/dev
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbStepper>
@@ -41,22 +38,16 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-<<<<<<< HEAD
-=======
 /**
  * This example can be used to show the progress of the stepper component based only on icons.
  */
->>>>>>> origin/dev
 export const Progress: Story = {
   args: {}
 }
 
-<<<<<<< HEAD
-=======
 /**
  * Use this example to show the stepper component next to a form layout and change the content based on which currently step you are completing.
  */
->>>>>>> origin/dev
 export const Form: Story = {
   render: (args) => ({
     components: { FwbStepper, FwbButton },
@@ -96,14 +87,14 @@ export const Form: Story = {
       return { items, handleStepsForward, handleStepsBack, index }
     },
     template: `            
-        <div class="w-full p-3 flex flex-col items-center">
+        <div class="w-full pb-0 flex flex-col items-center">
           <FwbStepper :steps="items"/>
-          <div class="w-full flex flex-col py-6">
+          <div class="w-full flex flex-col ">
             <div class="w-full h-[100px] flex flex-col justify-center text-center gap-6 items-center">
             <span class="text-black dark:text-white ">Content of Step {{index}}</span>
             
             </div>
-            <div class="w-full flex gap-4">
+            <div class="w-full flex gap-4 ">
               <FwbButton color="secondary" class="w-[80px]"  @click="handleStepsBack">
               <span>{{ index === 1 ? 'Cancel'  : ' Prev '}}</span>
               </FwbButton>

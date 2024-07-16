@@ -10,7 +10,6 @@ const meta = {
   title: 'Example/AvatarX',
   component: FwbAvatar,
   tags: ['autodocs'],
-<<<<<<< HEAD
   decorators: [
     () => ({
       template: `
@@ -24,9 +23,6 @@ const meta = {
   argTypes: {
     placement: { control: 'select', options: ['bottom', 'left', 'right'] }
   },
-=======
-  argTypes: {},
->>>>>>> origin/dev
   args: {
     placement: 'left-bottom'
   }
@@ -45,7 +41,7 @@ export const Default: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
+      <div class="flex justify-center w-full  mb-auto ml-auto">
         <FwbAvatar v-bind="args" />
       </div>
       `
@@ -67,7 +63,7 @@ export const Icon: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
+      <div class="flex justify-center w-full  mb-auto ml-auto ">
         <FwbAvatar v-bind="args" />
       </div>
       `
@@ -88,7 +84,7 @@ export const Initials: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
+      <div class="flex justify-center w-full  mb-auto ml-auto">
         <FwbAvatar v-bind="args" />
       </div>
       `
@@ -110,7 +106,7 @@ export const Stacked: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
+      <div class="flex justify-center w-full mb-auto ml-auto">
         <FwbAvatar v-bind="args" />
       </div>
       `
@@ -142,11 +138,7 @@ export const Dropdown: Story = {
       return { args }
     },
     template: `
-<<<<<<< HEAD
-      <div class="flex justify-center w-full h-40 mb-auto ml-auto">
-=======
-      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
->>>>>>> origin/dev
+      <div class="flex justify-center w-full h-52 mb-auto ml-auto">
         <FwbAvatar v-bind="args" />
       </div>
       `

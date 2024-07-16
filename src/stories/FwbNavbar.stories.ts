@@ -96,7 +96,7 @@ export const Primary: Story = {
                 email: 'contact@detooo.com',    
             }" />
 
-            <FwbDropdown class="block lg:hidden" maxx_h="max-h-fit" :alignToEnd="true" >
+            <FwbDropdown class="block lg:hidden" maxx_h="max-h-fit" :alignToEnd="true" placement="bottom" >
                 <template #trigger>
                 <fwb-button
                     square

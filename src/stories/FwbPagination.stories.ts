@@ -15,7 +15,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-      <div class="p-4">
+      <div class="p-4 pt-6">
     
         <story />
       
