@@ -43,7 +43,7 @@
 
     <!-- Indicators -->
     <div
-      v-if="!noIndicators"
+      v-if="!noIndicators && !isCropping"
       class="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-3"
     >
       <FwbIndicator
@@ -61,7 +61,7 @@
     </div>
 
     <!-- Controls -->
-    <template v-if="!noControls">
+    <template v-if="!noControls && !isCropping">
       <FwbButton
         color="secondary"
         square
@@ -89,8 +89,8 @@
     </template>
 
     <!-- Image editing controls -->
-    <div class="absolute top-4 left-4 flex space-x-2">
-      <FwbButton square color="secondary" @click="startCrop"
+    <div class="absolute top-4 left-4 flex space-x-2" v-if="!isCropping">
+      <FwbButton v-if="type !== 'info'" square color="secondary" @click="startCrop"
         ><svg
           class="w-6 h-6"
           aria-hidden="true"
@@ -109,7 +109,12 @@
           />
         </svg>
       </FwbButton>
-      <FwbButton square color="secondary" @click="saveImage">
+      <FwbButton
+        v-if="type !== 'info' && type !== 'create'"
+        square
+        color="secondary"
+        @click="saveImage"
+      >
         <svg
           class="w-6 h-6"
           aria-hidden="true"
@@ -128,7 +133,12 @@
           />
         </svg>
       </FwbButton>
-      <FwbButton square color="secondary" @click="saveImage">
+      <FwbButton
+        v-if="type !== 'create' && type !== 'edit'"
+        square
+        color="secondary"
+        @click="saveImage"
+      >
         <svg
           class="w-6 h-6"
           aria-hidden="true"
@@ -148,7 +158,7 @@
         </svg>
       </FwbButton>
     </div>
-    <div class="absolute top-4 right-4 flex space-x-2">
+    <div class="absolute top-4 right-4 flex space-x-2" v-if="!isCropping">
       <FwbButton square color="secondary" @click="zoomIn">
         <svg
           class="w-6 h-6"
@@ -246,6 +256,65 @@
         </svg>
       </FwbButton>
     </div>
+    <div class="absolute top-4 right-4 flex space-x-2 z-[100]" v-else>
+      <FwbButton square color="secondary" @click="rotateLeft">
+        <svg
+          class="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 9h13a5 5 0 0 1 0 10H7M3 9l4-4M3 9l4 4"
+          />
+        </svg>
+      </FwbButton>
+      <FwbButton square color="secondary" @click="rotateRight">
+        <svg
+          class="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 9H8a5 5 0 0 0 0 10h9m4-10-4-4m4 4-4 4"
+          />
+        </svg>
+      </FwbButton>
+      <FwbButton square color="secondary" @click="resetImage">
+        <svg
+          class="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"
+          />
+        </svg>
+      </FwbButton>
+    </div>
 
     <!-- Crop overlay -->
     <div v-if="isCropping" class="absolute inset-0 bg-black bg-opacity-30 crop-overlay">
@@ -301,19 +370,23 @@ const props = withDefaults(
     noControls?: boolean
     slide?: boolean
     slideInterval?: number
+    index?: number
+    type?: 'info' | 'create' | 'edit'
   }>(),
   {
     pictures: () => [],
     noIndicators: false,
     noControls: false,
     slide: false,
-    slideInterval: 3000
+    slideInterval: 3000,
+    index: 0,
+    type: 'info'
   }
 )
 
 const emit = defineEmits(['updateIndex'])
 
-const currentIndex = ref(0)
+const currentIndex = ref(props.index)
 let intervalId: number | null = null
 
 const imageContainer = ref<HTMLDivElement | null>(null)
