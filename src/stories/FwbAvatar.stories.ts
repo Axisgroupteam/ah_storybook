@@ -6,7 +6,6 @@ const meta = {
   component: FwbAvatar,
   tags: ['autodocs'],
   argTypes: {
-    placement: { control: 'select', options: ['bottom-left', 'bottom-center', 'bottom-right'] }
   },
   args: {
     placement: 'left-bottom',
@@ -111,6 +110,7 @@ export const UserDropdown: Story = {
     fullName: 'Master Employee',
     email: 'contact@detooo.com',
     size: 'md',
-    placement: 'left'  
+    alignToEnd: true,
+    placement: 'bottom'
   }
 }

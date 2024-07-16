@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<FwbDropdown v-if="!stacked" :placement="placement" :type="type" :max_h="max_h">
+		<FwbDropdown v-if="!stacked" :alignToEnd="alignToEnd" :placement="placement" :type="type" :max_h="max_h">
 			<template #trigger>
 				<ContainerButton :disabled="disabled">
 					<template #default>
@@ -66,12 +66,13 @@
 	import FwbAvatar from "./FwbAvatar.vue";
 	import FwbAvatarStack from "./FwbAvatarStack.vue";
 	import FwbAvatarStackCounter from './FwbAvatarStackCounter.vue';
-	import FwbDropdown from './FwbDropdown.vue';
+	import FwbDropdown from '../FwbDropdown/FwbDropdown.vue';
 
 	const props = withDefaults(
 		defineProps<{
 			type?: 'primary' | 'secondary'
 			bordered?: boolean
+			alignToEnd?: boolean
 			disabled?: boolean
 			size?: AvatarSize
 			rounded?: boolean
@@ -94,12 +95,14 @@
 			type: 'primary',
 			bordered: false,
 			placement: 'left',
+			alignToEnd: true,
+      disabled: false,
+      stacked: false,
+      totalStacked: 0,
+      maxInStack: 0,
 			rounded: true,
 			initials: '',
 			img: '',
-			stacked: false,
-			totalStacked: 0,
-			maxInStack: 0,
 			imgStacks: () => [],
 			options: () => [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
 			fullName: '',
@@ -128,6 +131,7 @@
 	const disabled = computed(() => props.disabled)
 	const size = computed(() => props.size)
 	const placement = computed(() => props.placement)
+	const alignToEnd = computed(() => props.alignToEnd)
 
 
 </script>

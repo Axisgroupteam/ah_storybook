@@ -8,12 +8,3 @@ export type AvatarStatusPosition =
 export type AvatarType = "default" | "rounded";
 export type avatarDotIndicatorPositionClasses =
   `${AvatarStatusPosition}-${AvatarType}`;
-
-  export type DropdownPlacement = "top" | "bottom" | "left" | "right" ;
-  export type DropdownAlignment =
-    | "horizontal"
-    | "vertical"
-    | "horizontal_reverse"
-    | "vertical_reverse";
-
-/* | "bLeft" | "bCenter" | "bRight" */
