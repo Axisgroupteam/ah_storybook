@@ -56,55 +56,48 @@
       v-if="showDropdown" 
       class="absolute mt-2 w-40 bg-neutral-50 dark:bg-neutral-700 border-[1px] text-xs font-bold text-neutral-900 dark:text-white border-neutral-200 dark:border-neutral-600 rounded-lg shadow-lg z-10 transition ease-in-out delay-75"
       >
+      {{ positionHourSelected }} {{ positionMinuteSelected }}
        <div class="grid grid-cols-3 gap-2 p-2">
-         <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">                
-           <div
-             v-for="hour in reorderedHours"
-             :key="hour"
-             @click="selectHour(hour)"
-             :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': hour === selectedHour, 'cursor-pointer p-2': true}"
-             class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center my-[2px] active:bg-red-700"
-           >
-             {{ hour }}
-           </div>
-         </div>
-         <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">
-           <div
-             v-for="minute in reorderedMinutes"
-             :key="minute"
-             @click="selectMinute(minute)"
-             :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': minute === selectedMinute, 'cursor-pointer p-2': true}"
-             class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center my-[2px]"
-           >
-             {{ minute }}
-           </div>
-         </div>
-         <!--<div class="flex flex-col items-center">
-           <div
-             @click="selectPeriod('AM')"
-             :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': selectedPeriod === 'AM', 'cursor-pointer p-2': true}"
-           >
-             AM
-           </div>
-           <div
-             @click="selectPeriod('PM')"
-             :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': selectedPeriod === 'PM', 'cursor-pointer p-2': true}"
-           >
-             PM
-           </div>
-         </div>-->
-         <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">
-           <div
-             v-for="period in reorderedPeriod"
-             :key="period"
-             @click="selectPeriod(period)"
-             :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': period === selectedPeriod, 'cursor-pointer p-2': true}"
-             class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center my-[2px]"
-           >
-             {{ period }}
-           </div>
-         </div>
+        <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">   
+          <div class="column" @scroll="() => onScroll('hours')" ref="hoursColumn">
+            <div 
+              v-for="(hour, index) in hoursToShow" 
+              :key="'hour-' + index"
+              @click="selectHour(hour, index)"
+              :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': hour === selectedHour, 'cursor-pointer p-2': true}"
+              class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center active:bg-red-700">
+              {{ hour }}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">
+          <div class="column" @scroll="() => onScroll('minutes')" ref="minutesColumn">
+            <div 
+              v-for="(minute, index) in minutesToShow" 
+              :key="'minute-' + index"
+              @click="selectMinute(minute, index)"
+              :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': minute === selectedMinute, 'cursor-pointer p-2': true}"
+              class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center my-[2px]"
+              >
+              {{ minute }}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">
+          <div class="column" @scroll="() => onScroll('periods')" ref="periodsColumn">
+            <div 
+              v-for="(period, index) in periodsToShow" 
+              :key="'period-' + index"
+              @click="selectPeriod(period, index)"
+              :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': period === selectedPeriod, 'cursor-pointer p-2': true}"
+              class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center my-[2px]"
+              >
+              {{ period }}
+            </div>
+          </div>
+        </div>
        </div>
+       
      </div>
      <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
        <slot name="validationMessage" />
@@ -164,33 +157,25 @@
  const selectedHour = ref('12');
  const selectedMinute = ref('00');
  const selectedPeriod = ref('AM');
- 
+
  const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
- const minutes = Array.from({ length: 60 }, (_, i) => String(i * 1).padStart(2, '0'));
- const periods = ["AM", "PM"];
+ const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
+ const periods = ['AM', 'PM'];
+ 
+ const hoursStartIndex = ref(0);
+ const minutesStartIndex = ref(0);
+ const periodsStartIndex = ref(0);
+
+ const positionHourSelected = ref(0);
+ const positionMinuteSelected = ref(0);
+ const positionPeriodSelected = ref(0);
+
  
  const formattedTime = computed(() => {
    return `${selectedHour.value}:${selectedMinute.value} ${selectedPeriod.value}`;
  });
  
- /* reorderedHours = computed(() => {
-   //return [selectedHour.value, ...hours.filter(hour => hour !== selectedHour.value)];
-   return [...hours];
- });*/
-
- let reorderedHours = ref([...hours]);
  
- /*const reorderedMinutes = computed(() => {
-   //return [selectedMinute.value, ...minutes.filter(minute => minute !== selectedMinute.value)];
-   return [...minutes]
- });*/
- let reorderedMinutes = ref([...minutes]);
- 
- /*const reorderedPeriod = computed(() => {
-   //return [selectedPeriod.value, ...periods.filter(period => period !== selectedPeriod.value)];
-   return [...periods];
- });*/
- let reorderedPeriod = ref([...periods]);
  
  const toggleDropdown = () => {
    if(!props.disabled){
@@ -209,32 +194,109 @@
   }
  };
  
- const selectHour = (hour: string) => {
+ const selectHour = (hour: string, index: number) => {
    selectedHour.value = hour;
+   positionHourSelected.value = index;
    //showDropdown.value = false;
  };
  
- const selectMinute = (minute: string) => {
+ const selectMinute = (minute: string, index: number) => {
    selectedMinute.value = minute;
+   positionMinuteSelected.value = index;
    //showDropdown.value = false;
  };
  
- const selectPeriod = (period: string) => {
+ const selectPeriod = (period: string, index: number) => {
    selectedPeriod.value = period;
+   positionPeriodSelected.value = index;
    //showDropdown.value = false;
  };
  
  onClickOutside(wrapper, () => {
    if (!showDropdown.value) return;
-   showDropdown.value = false;
-   reorderedHours.value = [selectedHour.value, ...hours.filter(hour => hour !== selectedHour.value)];
-   reorderedMinutes.value =[selectedMinute.value, ...minutes.filter(minute => minute !== selectedMinute.value)];
-   reorderedPeriod.value = [selectedPeriod.value, ...periods.filter(period => period !== selectedPeriod.value)];
+   showDropdown.value = false;  
+
+   hoursStartIndex.value = positionHourSelected.value;  
+   minutesStartIndex.value = positionMinuteSelected.value;  
+   periodsStartIndex.value = positionPeriodSelected.value;
+ 
+  // Asegurar que las otras columnas también se actualicen
+  updateAllColumns();
  });
+
+ const updateAllColumns = () => {
+  const hoursColumnEl = hoursColumn.value;
+  const minutesColumnEl = minutesColumn.value;
+  const periodsColumnEl = periodsColumn.value;
+
+  if (hoursColumnEl) hoursColumnEl.scrollTop = 0;
+  if (minutesColumnEl) minutesColumnEl.scrollTop = 0;
+  if (periodsColumnEl) periodsColumnEl.scrollTop = 0;
+};
+
+ //////////////////NUEVO PARA CICLO /////////
+
+const itemHeight = 50; // Altura de cada elemento
+
+const hoursColumn = ref<HTMLElement | null>(null);
+const minutesColumn = ref<HTMLElement | null>(null);
+const periodsColumn = ref<HTMLElement | null>(null);
+
+const cyclicArray = (arr: string[], startIndex: number) => {
+  return [...arr.slice(startIndex), ...arr.slice(0, startIndex)];
+};
+
+const hoursToShow = computed(() => cyclicArray(hours, hoursStartIndex.value));
+const minutesToShow = computed(() => cyclicArray(minutes, minutesStartIndex.value));
+const periodsToShow = computed(() => cyclicArray(periods, periodsStartIndex.value));
+
+const onScroll = (type: 'hours' | 'minutes' | 'periods') => {
+  const column = type === 'hours' ? hoursColumn.value : type === 'minutes' ? minutesColumn.value : periodsColumn.value;
+  if (!column) return;
+
+  const { scrollTop, scrollHeight, clientHeight } = column;
+  const maxScrollTop = scrollHeight - clientHeight;
+
+  if (scrollTop >= maxScrollTop) {
+    incrementStartIndex(type);
+    column.scrollTop = 1;
+  } else if (scrollTop <= 0) {
+    decrementStartIndex(type);
+    column.scrollTop = maxScrollTop - 1;
+  }
+};
+
+const incrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
+  if (type === 'hours') {
+    hoursStartIndex.value = (hoursStartIndex.value + 1) % hours.length;
+  } else if (type === 'minutes') {
+    minutesStartIndex.value = (minutesStartIndex.value + 1) % minutes.length;
+  } else if (type === 'periods') {
+    periodsStartIndex.value = (periodsStartIndex.value + 1) % periods.length;
+  }
+};
+
+const decrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
+  if (type === 'hours') {
+    hoursStartIndex.value = (hoursStartIndex.value - 1 + hours.length) % hours.length;
+  } else if (type === 'minutes') {
+    minutesStartIndex.value = (minutesStartIndex.value - 1 + minutes.length) % minutes.length;
+  } else if (type === 'periods') {
+    periodsStartIndex.value = (periodsStartIndex.value - 1 + periods.length) % periods.length;
+  }
+};
  
  </script>
  
  <style scoped>
+ .column {
+  flex: 1;
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+ }
+
+
  /* Ocultar barra de scroll */
  .custom-scroll::-webkit-scrollbar {
    width: 0;  /* Remueve la barra de scroll en navegadores Webkit */
