@@ -49,7 +49,7 @@ const avatarPlaceholderWrapperDefaultClasses =
   "flex overflow-hidden relative justify-center items-center";
 const avatarPlaceholderWrapperBackgroundClasses =
   "bg-neutral-100 dark:bg-neutral-600";
-const avatarPlaceholderInitialsDefaultClasses = "font-medium text-neutral-600 dark:text-neutral-300";
+const avatarPlaceholderInitialsDefaultClasses = "font-medium text-neutral-600 dark:!text-neutral-300";
 const avatarPlaceholderSizes = {
   xs: "bottom-0",
   sm: "absolute !-bottom-[6px]",

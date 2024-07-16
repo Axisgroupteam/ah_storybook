@@ -8,8 +8,8 @@
     border-2 border-white 
     dark:border-neutral-800 
     rounded-full 
-    bg-neutral-700 
-    hover:border-neutral-600" :class="ssize" href="#">+{{ total }}</a>
+    bg-neutral-700
+    hover:bg-neutral-600" :class="ssize" href="#">+{{ total }}</a>
 </template>
 
 <script setup lang="ts">

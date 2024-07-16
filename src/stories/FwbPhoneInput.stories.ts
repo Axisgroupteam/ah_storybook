@@ -4,8 +4,13 @@ import { fn } from '@storybook/test'
 import FwbPhoneInput from '@/components/FwbPhoneInput/FwbPhoneInput.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the input password to set a phone number inside a form field and use a dropdown menu to select the country code.
+ *
+ * The phone number input component an be used to set a phone number inside a form field and also use a dropdown menu to select the country code.
+ */
 const meta = {
-  title: 'Example/FwbPhoneInput',
+  title: 'Example/InputPhoneX',
   component: FwbPhoneInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -32,7 +37,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Normal: Story = {
+/**
+ * This example can be used to select the country code from a dropdown menu and set the phone number inside an input field.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { FwbPhoneInput },
     setup() {
@@ -47,6 +55,9 @@ export const Normal: Story = {
   args: {}
 }
 
+/**
+ * Use this example if you want to apply the disabled state to an input phone.
+ */
 export const Disabled: Story = {
   render: (args) => ({
     components: { FwbPhoneInput },
@@ -64,6 +75,9 @@ export const Disabled: Story = {
   }
 }
 
+/**
+ * Use this example if you want to apply the required state to an input phone.
+ */
 export const Required: Story = {
   render: (args) => ({
     components: { FwbPhoneInput },
@@ -81,6 +95,9 @@ export const Required: Story = {
   }
 }
 
+/**
+ * Use the following example to apply a medium size for the input phone.
+ */
 export const Medium: Story = {
   render: (args) => ({
     components: { FwbPhoneInput },
@@ -98,7 +115,10 @@ export const Medium: Story = {
   }
 }
 
-export const ErrorStatus: Story = {
+/**
+ * Use the following example to apply validation styles for an error case.
+ */
+export const Error: Story = {
   render: (args) => ({
     components: { FwbPhoneInput },
     setup() {

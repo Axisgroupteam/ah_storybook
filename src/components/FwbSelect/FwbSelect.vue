@@ -5,6 +5,7 @@
       :class="[labelClasses, disabled ? '!text-neutral-400 dark:!text-neutral-500' : '']"
     >
       {{ label }}
+      <span v-if="required" class="text-red-500"> * </span>
     </span>
     <FwbInput
       v-model="selectedName"
@@ -94,6 +95,7 @@ interface InputProps {
   validationStatus?: ValidationStatus
   initialState?: string
   loading?: boolean
+  required?: boolean
 }
 const props = withDefaults(defineProps<InputProps>(), {
   modelValue: '',
@@ -105,7 +107,8 @@ const props = withDefaults(defineProps<InputProps>(), {
   loading: false,
   size: 'md',
   validationStatus: undefined,
-  initialState: ''
+  initialState: '',
+  required: false
 })
 const emit = defineEmits(['update:modelValue'])
 

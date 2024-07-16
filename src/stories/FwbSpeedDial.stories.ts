@@ -1,18 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import {ref} from 'vue'
+import { ref } from 'vue'
 import SpeedDial from '@/components/FwbSpeedDial/FwbSpeedDial.vue'
 import FwbTooltip from '@/components/FwbTooltip/FwbTooltip.vue'
 import FwbSpeedDial from '@/components/FwbSpeedDial/FwbSpeedDial.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * The speed dial component can be used as a quick way to show a list of action buttons to a user when clicking on the main trigger element.
+ *
+ * Get started with the speed dial component to show a list of buttons or menu items positioned relative to the body in either corner as a quick way to allow certains actions to be made by your users.
+ */
 const meta = {
-  title: 'Example/FwbSpeedDial',
+  title: 'Example/SpeedDialX',
   component: SpeedDial,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   argTypes: {
-    placement: {control: 'select', options: ['vertical', 'horizontal']}
+    placement: { control: 'select', options: ['vertical', 'horizontal'] }
   },
   decorators: [
     () => ({
@@ -29,6 +34,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * The default alignment of the menu items of the speed dial is vertical.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: { FwbSpeedDial, FwbTooltip, FwbButton },
@@ -94,11 +102,13 @@ export const Default: Story = {
   }),
   args: {
     // moduleData: [
-      
     // ]
   }
 }
 
+/**
+ * This example can be used to horizontally align the speed dial menu items.
+ */
 export const Horizontal: Story = {
   render: (args) => ({
     components: { FwbSpeedDial, FwbTooltip, FwbButton },

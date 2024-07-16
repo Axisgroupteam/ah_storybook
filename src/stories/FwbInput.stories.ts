@@ -5,8 +5,13 @@ import { action } from '@storybook/addon-actions'
 import { ref } from 'vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the input field to start accepting data from the user.
+ *
+ * The input field is an important part of the form element that can be used to create interactive controls to accept data from the user based on multiple input types, such as text, email, URL, and more.
+ */
 const meta = {
-  title: 'Example/FwbInput',
+  title: 'Example/InputFieldX',
   component: FwbInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -29,29 +34,44 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Normal: Story = {
+/**
+ * Use this example to create multiple input fields types such as text, email, URL, and more.
+ */
+export const Default: Story = {
   args: {}
 }
 
+/**
+ * Use this example if you want to apply the disabled state to an input field.
+ */
 export const Disabled: Story = {
   args: {
     disabled: true
   }
 }
 
+/**
+ * Use this example if you want to apply the required state to an input field.
+ */
 export const Required: Story = {
   args: {
     required: true
   }
 }
 
+/**
+ * Use the following example to apply a medium size for the input field.
+ */
 export const Medium: Story = {
   args: {
     size: 'md'
   }
 }
 
-export const ErrorStatus: Story = {
+/**
+ * Use the following example to apply validation styles for an error case.
+ */
+export const Error: Story = {
   render: (args) => ({
     components: { FwbInput },
     setup() {
