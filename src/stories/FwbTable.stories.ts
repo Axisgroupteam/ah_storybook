@@ -9,8 +9,13 @@ import FwbTableRow from '@/components/FwbTable/FwbTableRow.vue'
 import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
+/**
+ * Use the table component to show text, images, links, and other elements inside a structured set of data made up of rows and columns of table cells.
+ *
+ * The table component represents a set of structured elements made up of rows and columns as table cells that can be used to show data sets to your website users.
+ */
 const meta = {
-  title: 'Example/FwbTable',
+  title: 'Example/TableX',
   component: FwbTable,
   tags: ['autodocs'],
   argTypes: {},
@@ -31,6 +36,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Use the following example of a responsive table component to show multiple rows and columns of text data.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: {
@@ -101,6 +109,9 @@ export const Default: Story = {
   args: {}
 }
 
+/**
+ * Use the following example to change the background color of a data row when hovering over the element with the cursor.
+ */
 export const Hoverable: Story = {
   render: (args) => ({
     components: {

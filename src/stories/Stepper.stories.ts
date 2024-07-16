@@ -6,11 +6,17 @@ import FwbStepper from '@/components/FwbStepper/FwbStepper.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the stepper component to show the number of steps required to complete a form inside your application.
+ *
+ * The stepper component can be used to show a numbered list of steps next to a form component to indicate the progress and number of steps that are required to complete and submit the form data.
+ */
 const meta = {
-  title: 'Example/Stepper',
+  title: 'Example/StepperX',
   component: FwbStepper,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+<<<<<<< HEAD
   decorators: [
     () => ({
       template: `
@@ -21,6 +27,8 @@ const meta = {
       </div>`
     })
   ],
+=======
+>>>>>>> origin/dev
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbStepper>
@@ -33,10 +41,22 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
+<<<<<<< HEAD
+=======
+/**
+ * This example can be used to show the progress of the stepper component based only on icons.
+ */
+>>>>>>> origin/dev
 export const Progress: Story = {
   args: {}
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * Use this example to show the stepper component next to a form layout and change the content based on which currently step you are completing.
+ */
+>>>>>>> origin/dev
 export const Form: Story = {
   render: (args) => ({
     components: { FwbStepper, FwbButton },

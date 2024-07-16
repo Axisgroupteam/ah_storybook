@@ -10,6 +10,7 @@ const meta = {
   title: 'Example/AvatarX',
   component: FwbAvatar,
   tags: ['autodocs'],
+<<<<<<< HEAD
   decorators: [
     () => ({
       template: `
@@ -23,8 +24,11 @@ const meta = {
   argTypes: {
     placement: { control: 'select', options: ['bottom', 'left', 'right'] }
   },
+=======
+  argTypes: {},
+>>>>>>> origin/dev
   args: {
-    placement: 'top'
+    placement: 'left-bottom'
   }
 } satisfies Meta<typeof FwbAvatar>
 
@@ -41,7 +45,9 @@ export const Default: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -61,7 +67,9 @@ export const Icon: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -80,7 +88,9 @@ export const Initials: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -100,7 +110,9 @@ export const Stacked: Story = {
       return { args }
     },
     template: `
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
         <FwbAvatar v-bind="args" />
+      </div>
       `
   }),
   args: {
@@ -130,7 +142,11 @@ export const Dropdown: Story = {
       return { args }
     },
     template: `
+<<<<<<< HEAD
       <div class="flex justify-center w-full h-40 mb-auto ml-auto">
+=======
+      <div class="flex justify-center w-full h-64 mb-auto ml-auto p-4">
+>>>>>>> origin/dev
         <FwbAvatar v-bind="args" />
       </div>
       `
@@ -140,6 +156,7 @@ export const Dropdown: Story = {
     fullName: 'Master Employee',
     email: 'contact@detooo.com',
     size: 'md',
-    placement: 'left'
+    alignToEnd: true,
+    placement: 'bottom'
   }
 }

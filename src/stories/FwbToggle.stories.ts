@@ -3,8 +3,13 @@ import { fn } from '@storybook/test'
 import FwbToggle from '@/components/FwbToggle/FwbToggle.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the toggle component to switch between a binary state of true or false using a single click.
+ *
+ * The toggle component can be used to receive a simple “yes” or “no” type of answer from the user by choosing a single option from two options.
+ */
 const meta = {
-  title: 'Example/FwbToggle',
+  title: 'Example/ToggleX',
   component: FwbToggle,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -33,17 +38,27 @@ type Story = StoryObj<typeof meta>
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-export const Normal: Story = {
+
+/**
+ * Get started with the default toggle component example as a checkbox element to receive a true or false selection from the user.
+ */
+export const Default: Story = {
   args: {}
 }
 
+/**
+ * This example can be used for the disabled state of the toggle component.
+ */
 export const Disabled: Story = {
   args: {
     disabled: true
   }
 }
 
-export const CustomBackgroundColor: Story = {
+/**
+ * Use this variant of a toggle item with a custom background color to contrast in a specific case.
+ */
+export const Custom: Story = {
   render: (args) => ({
     components: { FwbToggle },
     setup() {

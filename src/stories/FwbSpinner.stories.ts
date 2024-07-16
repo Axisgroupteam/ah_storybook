@@ -2,8 +2,13 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 import FwbSpinner from '@/components/FwbSpinner/FwbSpinner.vue'
 
+/**
+ * Use the spinner component as a loader indicator in your projects when fetching data based on an animated SVG.
+ *
+ * The spinner component can be used as a loading indicator which comes in multiple colors, sizes, and styles separately or inside elements such as buttons to improve the user experience whenever data is being fetched from your server.
+ */
 const meta = {
-  title: 'Example/FwbSpinner',
+  title: 'Example/SpinnerX',
   component: FwbSpinner,
   tags: ['autodocs'],
   decorators: [
@@ -23,10 +28,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Basic: Story = {
+/**
+ * Use the following SVG element to show a loading animation.
+ */
+export const Default: Story = {
   args: {}
 }
 
+/**
+ * This example can be used to change the size of the spinner component.
+ */
 export const Size: Story = {
   render: (args) => ({
     components: { FwbSpinner },
@@ -46,6 +57,9 @@ export const Size: Story = {
   args: {}
 }
 
+/**
+ * This example can be used to change the colors of the spinner element.
+ */
 export const Colors: Story = {
   render: (args) => ({
     components: { FwbSpinner },
