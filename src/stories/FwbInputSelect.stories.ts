@@ -21,8 +21,8 @@ const meta = {
   decorators: [
     () => ({
       template: `
-    <div class="w-full h-[300px] flex justify-center">
-        <div class="w-full px-6">
+    <div class="w-full h-[300px] flex justify-center p-4">
+        <div class="w-full ">
             <story />
         </div>
     </div>
@@ -41,62 +41,6 @@ type Story = StoryObj<typeof meta>
  * Use this example of an input select trigger to show a dropdown list component.
  */
 export const Default: Story = {
-  args: {}
-}
-
-/**
- * Use this example if you want to apply the disabled state to an input select.
- */
-export const Disabled: Story = {
-  args: {
-    disabled: true
-  }
-}
-
-/**
- * Use this example if you want to apply the required state to an input select.
- */
-export const Required: Story = {
-  args: {
-    required: true
-  }
-}
-
-/**
- * Use the following example to apply a medium size for the input select.
- */
-export const Medium: Story = {
-  args: {
-    size: 'md'
-  }
-}
-
-/**
- *Use the following example to apply validation styles for an error case.
- */
-export const Error: Story = {
-  render: (args) => ({
-    components: { FwbSelect },
-    setup() {
-      return { args }
-    },
-    template: `
-      <FwbSelect v-bind="args">
-        <template #validationMessage>
-        <span>This field is required</span>
-        </template>       
-      </FwbSelect>
-    `
-  }),
-  args: {
-    validationStatus: 'error'
-  }
-}
-
-/**
- * Use this example of an input select component to get a single option selection from a dropdown list.
- */
-export const Dropdown: Story = {
   args: {
     options: [
       {
@@ -119,11 +63,128 @@ export const Dropdown: Story = {
 }
 
 /**
- * Use this example of an input select component to get a single option selection from a dropdown list with icons.
+ * Use this example if you want to apply the disabled state to an input select.
  */
-export const OptionsWithIcons: Story = {
+export const Disabled: Story = {
   args: {
-    label: 'Options with icons',
+    disabled: true,
+    options: [
+      {
+        name: 'Element 1',
+        value: '1',
+        icon: ''
+      },
+      {
+        name: 'Element 2',
+        value: '2',
+        icon: ''
+      },
+      {
+        name: 'Element 3',
+        value: '4',
+        icon: ''
+      }
+    ]
+  }
+}
+
+/**
+ * Use this example if you want to apply the required state to an input select.
+ */
+export const Required: Story = {
+  args: {
+    required: true,
+    options: [
+      {
+        name: 'Element 1',
+        value: '1',
+        icon: ''
+      },
+      {
+        name: 'Element 2',
+        value: '2',
+        icon: ''
+      },
+      {
+        name: 'Element 3',
+        value: '4',
+        icon: ''
+      }
+    ]
+  }
+}
+
+/**
+ * Use the following example to apply a medium size for the input select.
+ */
+export const Medium: Story = {
+  args: {
+    size: 'md',
+    options: [
+      {
+        name: 'Element 1',
+        value: '1',
+        icon: ''
+      },
+      {
+        name: 'Element 2',
+        value: '2',
+        icon: ''
+      },
+      {
+        name: 'Element 3',
+        value: '4',
+        icon: ''
+      }
+    ]
+  }
+}
+
+/**
+ *Use the following example to apply validation styles for an error case.
+ */
+export const Error: Story = {
+  render: (args) => ({
+    components: { FwbSelect },
+    setup() {
+      return { args }
+    },
+    template: `
+      <FwbSelect v-bind="args">
+        <template #validationMessage>
+        <span>This field is required</span>
+        </template>       
+      </FwbSelect>
+    `
+  }),
+  args: {
+    validationStatus: 'error',
+    options: [
+      {
+        name: 'Element 1',
+        value: '1',
+        icon: ''
+      },
+      {
+        name: 'Element 2',
+        value: '2',
+        icon: ''
+      },
+      {
+        name: 'Element 3',
+        value: '4',
+        icon: ''
+      }
+    ]
+  }
+}
+
+/**
+ * Use this example of an input select component to get a single option selection from a dropdown list.
+ */
+export const Dropdown: Story = {
+  args: {
+    label: 'Text',
     options: [
       {
         name: 'Element 1',

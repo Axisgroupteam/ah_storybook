@@ -10,6 +10,16 @@ const meta = {
   title: 'Example/CarouselX',
   component: FwbCarousel,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     pictures: {
       control: 'object',

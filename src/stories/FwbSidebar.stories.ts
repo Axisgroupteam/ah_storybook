@@ -16,6 +16,7 @@ const meta = {
   component: AppLayout,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+
   argTypes: {
     moduleData: object
   },

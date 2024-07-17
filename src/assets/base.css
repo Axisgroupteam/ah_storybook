@@ -6,6 +6,9 @@
 :root {
   --bg-color: #fff;
 }
+div[data-item-id$='--docs-only'] {
+  display: none;
+}
 
 .dark {
   --bg-color: #262626;

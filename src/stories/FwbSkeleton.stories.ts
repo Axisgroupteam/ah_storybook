@@ -21,6 +21,16 @@ const meta = {
   component: FwbSkeleton,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     // moduleData: object
   },

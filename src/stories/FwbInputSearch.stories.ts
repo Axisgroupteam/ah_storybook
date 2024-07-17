@@ -15,6 +15,16 @@ const meta = {
   component: FwbInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     size: { control: 'select', options: ['sm', 'md'] },
     validationStatus: { control: 'radio', options: ['normal', 'error'] },

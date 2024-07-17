@@ -18,9 +18,12 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     () => ({
-      template: `<div class="w-full h-[400px] flex justify-start p-2">        
-      <story />
-    </div>`
+      template: `
+      <div class="p-4">
+      <div class="w-full flex justify-start p-2">        
+        <story />
+      </div>
+      </div>`
     })
   ],
   argTypes: {},

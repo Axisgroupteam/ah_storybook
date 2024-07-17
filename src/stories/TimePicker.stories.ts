@@ -13,6 +13,16 @@ const meta = {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
     validationStatus: { control: 'select', options: ['error', 'success', ''] }
   },
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4 h-[300px]">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   args: {}
 } satisfies Meta<typeof TimePicker>
 
@@ -24,7 +34,7 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Default: Story = {
+export const DefaultSlot: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
@@ -43,7 +53,7 @@ export const Default: Story = {
   }
 }
 
-export const Disabled: Story = {
+export const DisabledSlot: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
@@ -63,7 +73,7 @@ export const Disabled: Story = {
   }
 }
 
-export const Error: Story = {
+export const ErrorTimepicker: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {

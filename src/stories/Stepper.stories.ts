@@ -16,6 +16,16 @@ const meta = {
   component: FwbStepper,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbStepper>
@@ -77,14 +87,14 @@ export const Form: Story = {
       return { items, handleStepsForward, handleStepsBack, index }
     },
     template: `            
-        <div class="w-full p-3 flex flex-col items-center">
+        <div class="w-full pb-0 flex flex-col items-center">
           <FwbStepper :steps="items"/>
-          <div class="w-full flex flex-col py-6">
+          <div class="w-full flex flex-col ">
             <div class="w-full h-[100px] flex flex-col justify-center text-center gap-6 items-center">
             <span class="text-black dark:text-white ">Content of Step {{index}}</span>
             
             </div>
-            <div class="w-full flex gap-4">
+            <div class="w-full flex gap-4 ">
               <FwbButton color="secondary" class="w-[80px]"  @click="handleStepsBack">
               <span>{{ index === 1 ? 'Cancel'  : ' Prev '}}</span>
               </FwbButton>

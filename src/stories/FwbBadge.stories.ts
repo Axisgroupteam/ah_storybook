@@ -12,6 +12,16 @@ const meta = {
   component: FwbBadge,
 
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
     color: { control: 'select', options: ['primary', 'secondary', 'tertiary'] }

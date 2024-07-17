@@ -15,6 +15,16 @@ const meta = {
   component: FwbButtonGroup,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbButtonGroup>

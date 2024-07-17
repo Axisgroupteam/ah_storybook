@@ -12,6 +12,16 @@ const meta = {
   component: FwbPagination,
   tags: ['autodocs'],
   argTypes: {},
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4 pt-6">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   args: {}
 } satisfies Meta<typeof FwbPagination>
 
