@@ -15,8 +15,15 @@ export default {
         lg: '1366px',
         xl: '1280px',
         '2xl': '1536px'
-      }
+      },
+      colors: ({ colors }) => ({
+        gray: colors.neutral
+      })
     }
   },
-  plugins: [require('flowbite/plugin')]
+  plugins: [
+    require('flowbite/plugin')({
+      charts: true
+    })
+  ]
 }
