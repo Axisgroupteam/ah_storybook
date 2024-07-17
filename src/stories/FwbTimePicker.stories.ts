@@ -42,6 +42,7 @@ export const Normal: Story = {
   args: {
     label: "Time",
     size: 'sm',
+    modelValue: "23:59",
     validationStatus: ''
   }
 }

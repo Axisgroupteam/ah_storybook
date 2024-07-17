@@ -4,7 +4,7 @@
      <label v-if="label" :class="labelClasses"
        >{{ label }} <span v-if="required" class="text-red-500">* </span></label
      >
-     <div class="flex relative">
+     <div class="flex relative p-0 m-0">
        <div
          v-if="$slots.prefix"
          class="w-10 flex absolute inset-y-0 left-0 items-center pl-0 justify-center overflow-hidden text-neutral-500 dark:text-neutral-400 cursor-pointer"
@@ -15,7 +15,7 @@
        >
          <slot name="prefix" />
        </div>    
-       <input
+       <!--<input
          v-bind="$attrs"
          v-model="formattedTime"
          :disabled="disabled"
@@ -23,7 +23,56 @@
          :required="required"
          :class="[inputClasses, $slots.prefix ? 'pl-10' : '', showDropdown ? seletedInputClasses: '']"
          :readonly="readonly"        
-       />
+       />-->
+      <div
+       class="flex items-center justify-center gap-1" 
+       :class="[inputClasses, $slots.prefix ? 'pl-10' : '', showDropdown ? seletedInputClasses: '']">
+       <input 
+          ref="inputHours"
+          id="hours" 
+          type="number" 
+          v-model.number="selectedHour" 
+          min="1" 
+          max="12"
+          maxlength="2" 
+          :disabled="disabled"
+          :size="size"
+          :class="[inputClassesError]"
+          class="no-border no-spinner no-outline dynamic-width-input bg-neutral-50  text-neutral-900 dark:bg-neutral-700 dark:text-white"
+          @focus="selectAllText"
+          @input="validateHour"
+        />
+        <span>:</span>
+        <input 
+          ref="inputMinutes"
+          id="minutes" 
+          type="number" 
+          v-model="selectedMinute" 
+          min="0" 
+          max="59" 
+          maxlength="2"
+          :disabled="disabled"
+          :size="size"
+          :class="[inputClassesError]"
+          class="no-border no-spinner no-outline dynamic-width-input  bg-neutral-50  text-neutral-900 dark:bg-neutral-700 dark:text-white"
+          @focus="selectAllText"
+          @input="validateMinute"          
+        />
+       
+        <input 
+          ref="inputPeriods"
+          id="period" 
+          type="text" 
+          v-model="selectedPeriod" 
+          :size="size"
+          @input="validatePeriod"
+          maxlength="2"
+          :class="[inputClassesError]"
+          class="no-border no-outline dynamic-width-input max-w-[25px] min-w-[25px]  bg-neutral-50  text-neutral-900 dark:bg-neutral-700 dark:text-white"
+          @focus="selectAllText"
+          @keydown="checkKey"
+        />
+       </div>
        <div
          v-if="$slots.suffix"
          class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0 text-neutral-500 dark:text-neutral-400"
@@ -57,7 +106,7 @@
       v-if="showDropdown" 
       class="absolute mt-2 w-40 bg-neutral-50 dark:bg-neutral-700 border-[1px] text-xs font-bold text-neutral-900 dark:text-white border-neutral-200 dark:border-neutral-600 rounded-lg shadow-lg z-10 transition ease-in-out delay-75"
       >
-       <div class="grid grid-cols-3 gap-2 p-2">
+      <div class="grid grid-cols-3 gap-2 p-2">
         <div class="flex flex-col items-center overflow-y-auto max-h-40 custom-scroll">   
           <div class="column" @scroll="() => onScroll('hours')" ref="hoursColumn">
             <div 
@@ -65,7 +114,7 @@
               :key="'hour-' + index"
               @click="selectHour(hour, index)"
               :class="{'bg-red-700 text-white rounded-lg flex align-middle justify-center': hour === selectedHour, 'cursor-pointer p-2': true}"
-              class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center active:bg-red-700">
+              class="hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center active:bg-red-700 my-[2px]">
               {{ hour }}
             </div>
           </div>
@@ -106,12 +155,12 @@
  </template>
  
  <script lang="ts" setup>
- import { computed, nextTick, onMounted, ref } from "vue";
+ import {useTimePicker} from "./composables/useTimePicker";
  import { useInputClasses } from "./composables/useInputClasses";
  import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from "./types";
  import { twMerge } from "tailwind-merge";
- import { onClickOutside } from "@vueuse/core";
- 
+import { computed, nextTick, onMounted, watch } from "vue";
+
  interface InputProps {
    disabled?: boolean
    label?: string
@@ -120,7 +169,8 @@
    size?: InputSize
    type?: InputType
    validationStatus?: ValidationStatus
-   readonly?: boolean  
+   readonly?: boolean 
+   modelValue?: string, 
  }
  
  const props = withDefaults(defineProps<InputProps>(), {
@@ -131,15 +181,17 @@
    size: 'md',
    type: 'text',
    validationStatus: 'normal',
-   readonly: false,  
+   readonly: false, 
+   modelValue: "12:00"  
  })
- 
- const emit = defineEmits(['update:value', 'toggleVisibility'])
- 
+
+ const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
  const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
  
  const inputClasses = computed(() => classes.value.inputClasses.value)
  const labelClasses = computed(() => classes.value.labelClasses.value)
+
+ const inputClassesError = computed(() => props.validationStatus === 'error' ? 'bg-red-50 text-red-900 dark:text-red-500': '')
  
  const seletedInputClasses =
    'ring-red-500 border-red-500';
@@ -159,33 +211,36 @@
       : 'text-neutral-500 dark:text-neutral-400'
   )
 )
- 
- const wrapper = ref<HTMLDivElement>();
- 
- const showDropdown = ref(false);
- const selectedHour = ref('12');
- const selectedMinute = ref('00');
- const selectedPeriod = ref('AM');
 
- const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
- const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
- const periods = ref(['AM', 'PM']);
- 
- const hoursStartIndex = ref(0);
- const minutesStartIndex = ref(0);
- const periodsStartIndex = ref(0);
+ const { 
+  checkKey,  
+  formatTime,
+  hoursToShow,  
+  minutesColumn,
+  minutesToShow,
+  inputHours,
+  inputMinutes,
+  inputPeriods,
+  onScroll,
+  periods, 
+  selectAllText,
+  formattedTime,
+  selectedHour,
+  selectedMinute,
+  selectedPeriod,
+  selectHour,
+  selectMinute,
+  selectPeriod,
+  showDropdown,
+  updateAllColumns,
+  convertTo24HourFormat,
+  validateHour,
+  validateMinute,
+  validatePeriod,
+  wrapper
+} = useTimePicker();
 
- const positionHourSelected = ref(0);
- const positionMinuteSelected = ref(0);
- const positionPeriodSelected = ref(0);
-
- 
- const formattedTime = computed(() => {
-   return `${selectedHour.value}:${selectedMinute.value} ${selectedPeriod.value}`;
- });
-  
- 
- const toggleDropdown = () => {
+const toggleDropdown = () => {
    if(!props.disabled){
    showDropdown.value = !showDropdown.value;
    if (showDropdown.value) {
@@ -202,105 +257,32 @@
   }
  };
 
- 
- const selectHour = (hour: string, index: number) => {
-   selectedHour.value = hour;
-   positionHourSelected.value = index;
-   //showDropdown.value = false;
- };
- 
- const selectMinute = (minute: string, index: number) => {
-   selectedMinute.value = minute;
-   positionMinuteSelected.value = index;
-   //showDropdown.value = false;
- };
- 
- const selectPeriod = (period: string, index: number) => {
-   selectedPeriod.value = period;
-   positionPeriodSelected.value = index;
-   //showDropdown.value = false;
- };
- 
- onClickOutside(wrapper, () => {
-   if (!showDropdown.value) return;
-   showDropdown.value = false;  
-
-  // Asegurar que las otras columnas también se actualicen
-  updateAllColumns();
-  
- });
-
- const updateAllColumns = () => {
-  hoursStartIndex.value = +(selectedHour.value) -1;//positionHourSelected.value;  
-  minutesStartIndex.value = +(selectedMinute.value);//positionMinuteSelected.value;  
-  periodsStartIndex.value = positionPeriodSelected.value;
-
-  periods.value = [selectedPeriod.value, ...periods.value.filter(period => period !== selectedPeriod.value)]
-
-  const hoursColumnEl = hoursColumn.value;
-  const minutesColumnEl = minutesColumn.value;
-  const periodsColumnEl = periodsColumn.value;
-
-  if (hoursColumnEl) hoursColumnEl.scrollTop = 0;
-  if (minutesColumnEl) minutesColumnEl.scrollTop = 0;
-  if (periodsColumnEl) periodsColumnEl.scrollTop = 0;
-};
-
- //////////////////NUEVO PARA CICLO /////////
-
-const itemHeight = 50; // Altura de cada elemento
-
-const hoursColumn = ref<HTMLElement | null>(null);
-const minutesColumn = ref<HTMLElement | null>(null);
-const periodsColumn = ref<HTMLElement | null>(null);
-
-const cyclicArray = (arr: string[], startIndex: number) => {
-  return [...arr.slice(startIndex), ...arr.slice(0, startIndex)];
-};
-
-const hoursToShow = computed(() => cyclicArray(hours, hoursStartIndex.value));
-const minutesToShow = computed(() => cyclicArray(minutes, minutesStartIndex.value));
-const periodsToShow = computed(() => cyclicArray(periods, periodsStartIndex.value));
-
-const onScroll = (type: 'hours' | 'minutes' | 'periods') => {
-  const column = type === 'hours' ? hoursColumn.value : type === 'minutes' ? minutesColumn.value : periodsColumn.value;
-  if (!column) return;
-
-  const { scrollTop, scrollHeight, clientHeight } = column;
-  const maxScrollTop = scrollHeight - clientHeight;
-
-  if (scrollTop >= maxScrollTop) {
-    incrementStartIndex(type);
-    column.scrollTop = 1;
-  } else if (scrollTop <= 0) {
-    decrementStartIndex(type);
-    column.scrollTop = maxScrollTop - 1;
-  }
-};
-
-const incrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
-  if (type === 'hours') {
-    hoursStartIndex.value = (hoursStartIndex.value + 1) % hours.length;
-  } else if (type === 'minutes') {
-    minutesStartIndex.value = (minutesStartIndex.value + 1) % minutes.length;
-  } else if (type === 'periods') {
-    periodsStartIndex.value = (periodsStartIndex.value + 1) % periods.length;
-  }
-};
-
-const decrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
-  if (type === 'hours') {
-    hoursStartIndex.value = (hoursStartIndex.value - 1 + hours.length) % hours.length;
-  } else if (type === 'minutes') {
-    minutesStartIndex.value = (minutesStartIndex.value - 1 + minutes.length) % minutes.length;
-  } else if (type === 'periods') {
-    periodsStartIndex.value = (periodsStartIndex.value - 1 + periods.length) % periods.length;
-  }
-};
-
-
 onMounted(() => {
+  if(props.modelValue !== null && props.modelValue !== undefined){
+    const { hour, minute, period } = formatTime(props.modelValue); 
+
+    selectedHour.value = hour.toString().padStart(2, '0');;
+    selectedMinute.value = minute.toString().padStart(2, '0');
+    selectedPeriod.value = period;
+  }
   updateAllColumns();
+})
+
+
+watch(selectedHour, ()=>{
+  const timeReturn = convertTo24HourFormat(formattedTime.value);
+  emit("update:modelValue", timeReturn);
+})
+
+watch(selectedMinute, ()=>{
+  const timeReturn = convertTo24HourFormat(formattedTime.value);
+  emit("update:modelValue", timeReturn);
+})
+
+watch(selectedPeriod, ()=>{
+  const timeReturn = convertTo24HourFormat(formattedTime.value);
+  updateAllColumns();
+  emit("update:modelValue", timeReturn)
 })
  
  </script>
@@ -313,6 +295,40 @@ onMounted(() => {
   scrollbar-width: none; /* Firefox */
  }
 
+ 
+ input.no-border {
+  border: none;
+  text-align: center; 
+  height: 16px;
+}
+
+input.no-spinner::-webkit-outer-spin-button,
+input.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.no-spinner {
+  -moz-appearance: textfield;
+}
+
+input.no-outline:focus {
+ /* Eliminar borde, sombra, y cualquier otro estilo predeterminado */
+ border: none;
+ outline: none;
+ box-shadow: none;
+ background: none;
+ padding: 0;
+ margin: 0;
+}
+
+.dynamic-width-input {
+  font-family: monospace; /* To match the hidden text helper */
+  text-align: center;
+  box-sizing: content-box;
+  text-align: left; /* Alinear el texto a la izquierda */
+  padding: 0px; /* Adjust if necessary to match the input padding */
+}
 
  /* Ocultar barra de scroll */
  .custom-scroll::-webkit-scrollbar {
