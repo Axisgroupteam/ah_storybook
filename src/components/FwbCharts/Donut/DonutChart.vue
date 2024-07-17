@@ -1,9 +1,9 @@
 <template>
-  <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+  <div class="max-w-lg w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
     <div class="flex justify-between mb-3">
       <div class="flex justify-center items-center">
         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">
-          Website traffic
+          Report Status
         </h5>
         <svg
           data-popover-target="chart-info"
@@ -63,51 +63,44 @@
         </div>
       </div>
       <div>
-        <button
-          type="button"
-          data-tooltip-target="data-tooltip"
-          data-tooltip-placement="bottom"
-          class="hidden sm:inline-flex items-center justify-center text-gray-500 w-8 h-8 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm"
-        >
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 16 18"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"
-            /></svg
-          ><span class="sr-only">Download data</span>
-        </button>
-        <div
-          id="data-tooltip"
-          role="tooltip"
-          class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-        >
-          Download CSV
-          <div class="tooltip-arrow" data-popper-arrow></div>
-        </div>
+        <FwbTooltip placement="bottom" trigger="hover">
+          <template #trigger>
+            <FwbButton color="secondary" class="border-0" square>
+              <svg
+                class="w-3.5 h-3.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 16 18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"
+                />
+              </svg>
+            </FwbButton>
+          </template>
+          <template #content> Download CSV </template>
+        </FwbTooltip>
       </div>
     </div>
 
     <div>
       <div class="flex" id="devices">
-        <div class="flex items-center me-4">
-          <label
-            ><input type="checkbox" value="desktop" @change="handleCheckboxChange" /> Desktop</label
-          >
-          <label
-            ><input type="checkbox" value="tablet" @change="handleCheckboxChange" /> Tablet</label
-          >
-          <label
-            ><input type="checkbox" value="mobile" @change="handleCheckboxChange" /> Mobile</label
-          >
+        <div class="flex items-center gap-4 w-full">
+          <FwbCheckbox
+            label="Ticket"
+            @change="handleCheckboxChange()"
+            v-model="checks.ticket.value"
+          />
+          <FwbCheckbox
+            label="Issue"
+            @change="handleCheckboxChange()"
+            v-model="checks.issues.value"
+          />
         </div>
       </div>
     </div>
@@ -120,107 +113,43 @@
     >
       <div class="flex justify-between items-center pt-5">
         <!-- Button -->
-        <button
-          id="dropdownDefaultButton"
-          data-dropdown-toggle="lastDaysdropdown"
-          data-dropdown-placement="bottom"
-          class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-          type="button"
-        >
-          Last 7 days
-          <svg
-            class="w-2.5 m-2.5 ms-1.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-        </button>
-        <div
-          id="lastDaysdropdown"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownDefaultButton"
-          >
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Yesterday</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Today</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Last 7 days</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Last 30 days</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Last 90 days</a
-              >
-            </li>
-          </ul>
-        </div>
-        <a
-          href="#"
-          class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
-        >
-          Traffic analysis
-          <svg
-            class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 9 4-4-4-4"
-            />
-          </svg>
-        </a>
+        <TimeRangeDropdown />
+        <FwbButton color="terciary" class="whitespace-nowrap">
+          Report Analysis
+          <template #suffix>
+            <svg
+              class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 6 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 9 4-4-4-4"
+              />
+            </svg>
+          </template>
+        </FwbButton>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref, reactive } from 'vue'
 import { useChartData } from './composables/useChartData'
 import { useChartOptions } from './composables/useChartOptions'
 import { initFlowbite } from 'flowbite'
 import ApexCharts from 'apexcharts'
+import FwbCheckbox from '@/components/FwbCheckbox/FwbCheckbox.vue'
+import TimeRangeDropdown from './TimeRangeDropdown.vue'
+import FwbButton from '@/components/FwbButton/FwbButton.vue'
+import FwbTooltip from '@/components/FwbTooltip/FwbTooltip.vue'
+import { watch } from 'fs'
 
 const { chartData, updateChartSeries } = useChartData()
 
@@ -246,22 +175,30 @@ const renderChart = () => {
   }
 }
 
-const handleCheckboxChange = (event) => {
-  const checkbox = event.target
-  let newSeries = [35.1, 23.5, 2.4, 5.4]
-
-  switch (checkbox.value) {
-    case 'desktop':
-      newSeries = [15.1, 22.5, 4.4, 8.4]
-      break
-    case 'tablet':
-      newSeries = [25.1, 26.5, 1.4, 3.4]
-      break
-    case 'mobile':
-      newSeries = [45.1, 27.5, 8.4, 2.4]
-      break
+const checks = reactive({
+  issues: {
+    value: true,
+    series: [20, 10, 56, 40]
+  },
+  ticket: {
+    value: true,
+    series: [25, 26, 14, 34]
   }
+})
 
+const handleCheckboxChange = () => {
+  let newSeries
+  if (checks.issues.value && checks.ticket.value) {
+    newSeries = [45, 36, 70, 74]
+  } else if (checks.issues.value && !checks.ticket.value) {
+    newSeries = checks.issues.series
+  } else if (!checks.issues.value && checks.ticket.value) {
+    newSeries = checks.ticket.series
+  } else {
+    checks.issues.value = true
+    checks.ticket.value = true
+    newSeries = [45, 36, 70, 74]
+  }
   updateChartSeries(newSeries)
 
   if (chartInstance) {

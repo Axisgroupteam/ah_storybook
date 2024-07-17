@@ -16,7 +16,7 @@ export function useChartOptions() {
     },
     tooltip: {
       enabled: true,
-      color: '#fff',
+
       x: {
         show: false
       }
@@ -26,8 +26,8 @@ export function useChartOptions() {
       gradient: {
         opacityFrom: 0.55,
         opacityTo: 0,
-        shade: '#1C64F2',
-        gradientToColors: ['#1C64F2']
+        shade: '#3b82f6',
+        gradientToColors: ['#3b82f6']
       }
     },
     dataLabels: {

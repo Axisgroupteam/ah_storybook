@@ -1,11 +1,13 @@
 <template>
-  <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-neutral-800 p-4 md:p-6">
+  <div class="max-w-lg w-full bg-white rounded-lg shadow dark:bg-neutral-800 p-4 md:p-6">
     <div class="flex justify-between">
       <div>
         <h5 class="leading-none text-3xl font-bold text-neutral-900 dark:text-white pb-2">
           {{ usersCount }}
         </h5>
-        <p class="text-base font-normal text-neutral-500 dark:text-neutral-400">Users this week</p>
+        <p class="text-base font-normal text-neutral-500 dark:text-neutral-400">
+          Total Work Orders
+        </p>
       </div>
       <div
         class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center"
@@ -34,27 +36,26 @@
     >
       <div class="flex justify-between items-center pt-5">
         <TimeRangeDropdown />
-        <a
-          href="#"
-          class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:focus:ring-neutral-700 dark:border-neutral-700 px-3 py-2"
-        >
-          Users Report
-          <svg
-            class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 9 4-4-4-4"
-            />
-          </svg>
-        </a>
+        <FwbButton color="terciary" class="whitespace-nowrap">
+          Work Orders Report
+          <template #suffix>
+            <svg
+              class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 6 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 9 4-4-4-4"
+              />
+            </svg>
+          </template>
+        </FwbButton>
       </div>
     </div>
   </div>
@@ -67,6 +68,7 @@ import { useChartData } from './composables/useChartData'
 import { useChartOptions } from './composables/useChartOptions'
 import { initFlowbite } from 'flowbite'
 import ApexCharts from 'apexcharts'
+import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
 const usersCount = ref('32.4k')
 const percentageIncrease = ref('12%')
@@ -81,7 +83,6 @@ const renderChart = () => {
   const { options } = useChartOptions()
   const { chartData } = useChartData()
 
-  // Desactivar animación inicial
   options.chart = {
     ...options.chart
   }
@@ -93,9 +94,18 @@ const renderChart = () => {
   }
 }
 
+const updateChartData = () => {
+  const { chartData } = useChartData()
+  // Simulate data update
+  chartData.data = chartData.data.map((data) => data + Math.floor(Math.random() * 10 - 5))
+  renderChart()
+}
+
 onMounted(() => {
   initFlowbite()
   renderChart()
+  // Simulate real-time data update
+  //setInterval(updateChartData, 5000)
 })
 
 onBeforeUnmount(() => {
@@ -104,3 +114,5 @@ onBeforeUnmount(() => {
   }
 })
 </script>
+
+<style scoped></style>

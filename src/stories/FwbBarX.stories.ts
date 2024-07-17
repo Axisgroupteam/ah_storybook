@@ -5,6 +5,16 @@ const meta: Meta<typeof BarChart> = {
   title: 'Charts/BarX',
   component: BarChart,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-6 w-full flex justify-center items-center">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {}
 }
 

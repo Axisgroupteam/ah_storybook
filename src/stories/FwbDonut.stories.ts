@@ -5,6 +5,16 @@ const meta: Meta<typeof DonutChart> = {
   title: 'Charts/DonutX',
   component: DonutChart,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-6 w-full flex justify-center items-center">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {}
 }
 

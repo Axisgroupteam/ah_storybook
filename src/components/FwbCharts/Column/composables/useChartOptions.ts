@@ -19,6 +19,7 @@ export function useChartOptions() {
         borderRadius: 8
       }
     },
+
     tooltip: {
       shared: true,
       intersect: false,
@@ -52,7 +53,7 @@ export function useChartOptions() {
       enabled: false
     },
     legend: {
-      show: false
+      show: true
     },
     xaxis: {
       floating: false,

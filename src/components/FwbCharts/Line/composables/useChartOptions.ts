@@ -46,6 +46,9 @@ export function useChartOptions() {
         style: {
           fontFamily: 'Inter, sans-serif',
           cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+        },
+        formater: function (value) {
+          return '$' + value
         }
       },
       axisBorder: {

@@ -5,6 +5,16 @@ const meta: Meta<typeof LineChart> = {
   title: 'Charts/LineX',
   component: LineChart,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-6 flex justify-center items-center w-full">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {}
 }
 

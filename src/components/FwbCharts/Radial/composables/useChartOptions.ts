@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 
 export function useChartOptions() {
   const options = reactive({
-    colors: ['#1C64F2', '#16BDCA', '#FDBA8C'],
+    colors: ['#3b82f6', '#10b981', '#f59e0b'],
     chart: {
       height: '380px',
       width: '100%',
@@ -35,7 +35,7 @@ export function useChartOptions() {
         bottom: -20
       }
     },
-    labels: ['Done', 'In progress', 'To do'],
+    labels: ['By days', 'By trucks', 'By customers'],
     legend: {
       show: true,
       position: 'bottom',

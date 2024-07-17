@@ -4,8 +4,8 @@ export function useChartData() {
   const chartData = reactive({
     series: [
       {
-        name: 'Organic',
-        color: '#1A56DB',
+        name: 'Vehicles',
+        color: '#ef4444',
         data: [
           { x: 'Mon', y: 231 },
           { x: 'Tue', y: 122 },
@@ -17,8 +17,8 @@ export function useChartData() {
         ]
       },
       {
-        name: 'Social media',
-        color: '#FDBA8C',
+        name: 'Trailers',
+        color: '#f59e0b',
         data: [
           { x: 'Mon', y: 232 },
           { x: 'Tue', y: 113 },

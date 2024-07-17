@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 
 export function useChartOptions() {
   const options = reactive({
-    colors: ['#1C64F2', '#16BDCA', '#9061F9'],
+    colors: ['#a855f7', '#6366f1', '#0ea5e9', '#14b8a6', '#22c55e'],
     chart: {
       height: 420,
       width: '100%',
@@ -23,7 +23,7 @@ export function useChartOptions() {
         }
       }
     },
-    labels: ['Direct', 'Organic search', 'Referrals'],
+    labels: ['Brakes', 'Air', 'Tire', 'Electrical', 'Engine'],
     dataLabels: {
       enabled: true,
       style: {

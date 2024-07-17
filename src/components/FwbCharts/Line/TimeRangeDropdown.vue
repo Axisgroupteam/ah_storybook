@@ -1,15 +1,52 @@
 <template>
   <div>
+    <FwbDropdown placement="top" max_h="max-h-[200px]" @toogle="handleToogle">
+      <template #trigger>
+        <FwbButton color="secondary" class="whitespace-nowrap">
+          {{ selectedRange }}
+          <template #suffix>
+            <div class="w-full flex justify-end">
+              <svg
+                :class="visible ? 'rotate-180' : 'rotate-0'"
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </template>
+        </FwbButton>
+      </template>
+
+      <ul class="w-full">
+        <li
+          class="px-4 py-2 items-start flex gap-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium"
+          v-for="range in timeRanges"
+          :key="range"
+        >
+          <span href="#" @click="selectRange(range)">{{ range }}</span>
+        </li>
+      </ul>
+    </FwbDropdown>
     <button
       id="dropdownDefaultButton"
       data-dropdown-toggle="lastDaysdropdown"
       data-dropdown-placement="bottom"
+      class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
       type="button"
-      class="px-3 py-2 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+      v-if="false"
     >
       {{ selectedRange }}
       <svg
-        class="w-2.5 h-2.5 ms-2.5"
+        class="w-2.5 m-2.5 ms-1.5"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -25,20 +62,16 @@
       </svg>
     </button>
     <div
-      id="lastDaysdropdown"
-      class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+      class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 w-full"
     >
-      <ul
-        class="py-2 text-sm text-gray-700 dark:text-gray-200"
-        aria-labelledby="dropdownDefaultButton"
-      >
+      <ul class="w-full">
         <li v-for="range in timeRanges" :key="range">
-          <a
-            href="#"
-            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          <div
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full"
             @click="selectRange(range)"
-            >{{ range }}</a
           >
+            {{ range }}
+          </div>
         </li>
       </ul>
     </div>
@@ -47,9 +80,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import FwbDropdown from '@/components/FwbDropdown/FwbDropdown.vue'
+import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
 const timeRanges = ['Yesterday', 'Today', 'Last 7 days', 'Last 30 days', 'Last 90 days']
-const selectedRange = ref('Last week')
+const selectedRange = ref('Last 7 days')
+
+const visible = ref(false)
+
+const handleToogle = () => {
+  visible.value = !visible.value
+}
 
 const selectRange = (range: string) => {
   selectedRange.value = range

@@ -5,6 +5,16 @@ const meta: Meta<typeof ColumnChart> = {
   title: 'Charts/ColumnX',
   component: ColumnChart,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-6 flex justify-center items-center">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {}
 }
 

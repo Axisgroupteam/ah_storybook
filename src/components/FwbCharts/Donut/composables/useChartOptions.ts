@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 
 export function useChartOptions() {
   const options = reactive({
-    colors: ['#1C64F2', '#16BDCA', '#FDBA8C', '#E74694'],
+    colors: ['#a855f7', '#3b82f6', '#eab308', '#22c55e'],
     chart: {
       height: 320,
       width: '100%',
@@ -25,13 +25,13 @@ export function useChartOptions() {
             total: {
               showAlways: true,
               show: true,
-              label: 'Unique visitors',
+              label: 'Reports',
               fontFamily: 'Inter, sans-serif',
               formatter: function (w) {
                 const sum = w.globals.seriesTotals.reduce((a, b) => {
                   return a + b
                 }, 0)
-                return '$' + sum + 'k'
+                return sum
               }
             },
             value: {
@@ -39,7 +39,7 @@ export function useChartOptions() {
               fontFamily: 'Inter, sans-serif',
               offsetY: -20,
               formatter: function (value) {
-                return value + 'k'
+                return value
               }
             }
           },
@@ -52,7 +52,7 @@ export function useChartOptions() {
         top: -2
       }
     },
-    labels: ['Direct', 'Sponsor', 'Affiliate', 'Email marketing'],
+    labels: ['Open', 'Working', 'Pending', 'Completed'],
     dataLabels: {
       enabled: false
     },
@@ -63,14 +63,14 @@ export function useChartOptions() {
     yaxis: {
       labels: {
         formatter: function (value) {
-          return value + 'k'
+          return value
         }
       }
     },
     xaxis: {
       labels: {
         formatter: function (value) {
-          return value + 'k'
+          return value
         }
       },
       axisTicks: {
