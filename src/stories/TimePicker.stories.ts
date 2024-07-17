@@ -34,46 +34,41 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const DefaultSlot: Story = {
+ export const Normal: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
       return { args }
     },
     template: `
-      <TimePicker v-bind="args">               
+      <TimePicker v-bind="args">            
       </TimePicker>
     `
   }),
   args: {
-    size: 'md',
-    label: 'Time',
-    required: true,
+    label: "Time",
+    size: 'sm',
+    modelValue: "23:59",
     validationStatus: ''
   }
 }
 
-export const DisabledSlot: Story = {
-  render: (args) => ({
-    components: { TimePicker },
-    setup() {
-      return { args }
-    },
-    template: `
-      <TimePicker v-bind="args">               
-      </TimePicker>
-    `
-  }),
+export const Disabled: Story = {
   args: {
-    size: 'md',
-    label: 'Time',
-    required: true,
-    disabled: true,
-    validationStatus: ''
+    disabled: true
   }
 }
 
-export const ErrorTimepicker: Story = {
+export const Required: Story = {
+  args: {
+    label: "Time",
+    size: 'sm',
+    required: true
+  }
+}
+
+
+export const ErrorStatus: Story = {
   render: (args) => ({
     components: { TimePicker },
     setup() {
@@ -81,16 +76,15 @@ export const ErrorTimepicker: Story = {
     },
     template: `
       <TimePicker v-bind="args">
-         <template #validationMessage>
-            Error in input Time
-          </template>       
+        <template #validationMessage>
+        <span>This field is required</span>
+        </template>       
       </TimePicker>
     `
   }),
   args: {
-    size: 'md',
-    label: 'Time',
-    required: true,
+    label: "Time",
+    size: 'sm',
     validationStatus: 'error'
   }
 }
