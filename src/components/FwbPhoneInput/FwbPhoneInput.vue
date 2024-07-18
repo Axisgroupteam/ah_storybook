@@ -19,12 +19,12 @@
       <fwb-dropdown text="asd" placement="bottom" class="rounded-lg" @toogle="handleToogle">
         <template #trigger>
           <div
-            class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 rounded-s-lg hover:bg-neutral-200 focus:outline-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-white justify-center border-r-[1px] border-neutral-300 dark:border-neutral-600 gap-2"
+            class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 rounded-s-lg hover:bg-neutral-200 focus:outline-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-white justify-center border-r-[1px] border-neutral-300 dark:border-neutral-600 "
             :class="[disabled ? '!cursor-not-allowed bg-neutral-100 hover:!bg-neutral-100 dark:hover:!bg-neutral-700 !text-neutral-400 dark:!text-neutral-500' : '', validationStatus === 'error' ? '!border-red-500 !bg-red-50 !text-red-900 !placeholder-red-700 dark:!text-red-500 dark:!placeholder-red-500 dark:!bg-neutral-700' : '']"
           >
             <component :is="icons.usa"  />
-            <component :is="icons.caret" class="ml-1 w-3 h-3" :class="visible ? 'rotate-180' : 'rotate-0'" />
             +1
+            <component :is="icons.caret" class="ml-2 w-3 h-3" :class="visible ? 'rotate-180' : 'rotate-0'" />
           </div>
         </template>
         <div

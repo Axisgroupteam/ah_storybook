@@ -468,7 +468,7 @@ $dp-cell-shrinked-width: calc($dp-cell-size-base * 7 / 8);//$dp-cell-size-base *
 
   &%range-start-end-common {
     //color position final range
-    background-color: $red-500;//$dp-range-start-end-background-color;
+    background-color: $dp-range-start-end-background-color;
     color: $dp-range-start-end-color;
   }
 

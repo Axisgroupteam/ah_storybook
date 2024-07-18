@@ -5,8 +5,13 @@ import FwbTab from '@/components/FwbTabs/FwbTab.vue'
 import { action } from '@storybook/addon-actions'
 import { ref } from 'vue'
 
+/**
+ * Use these responsive tabs components to create a secondary navigational hierarchy for your website or toggle content inside a container.
+ *
+ * The tabs component can be used either as an extra navigational hierarchy complementing the main navbar or you can also use it to change content inside a container just below the tabs.
+ */
 const meta = {
-  title: 'Example/FwbTabs',
+  title: 'Example/TabsX',
   component: FwbTabs,
   // decorators: [()=>({
   //   template: `
@@ -18,6 +23,16 @@ const meta = {
   //   `
   // })],
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     variant: { control: 'select', options: ['default', 'underline', 'pills'] },
     directive: { control: 'select', options: ['if', 'show'] }
@@ -27,6 +42,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * This is an example of the tabs component with an underline style where you can use a SVG powered icon and an indicator counter to complement the text within the navigational tabs.
+ */
 export const Underline: Story = {
   render: (args) => ({
     components: { FwbTabs, FwbTab },
@@ -71,6 +89,9 @@ export const Underline: Story = {
   }
 }
 
+/**
+ * If you want to use pills as a style for the tabs component you can do so by using this example.
+ */
 export const Pills: Story = {
   render: (args) => ({
     components: { FwbTabs, FwbTab },
@@ -114,6 +135,9 @@ export const Pills: Story = {
   }
 }
 
+/**
+ * Use the dynamic tabs component to interactively show and hide the content below the tabs based on the currently active tab item.
+ */
 export const Interactive: Story = {
   render: (args) => ({
     components: { FwbTabs, FwbTab },

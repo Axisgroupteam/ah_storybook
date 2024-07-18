@@ -5,11 +5,26 @@ import { action } from '@storybook/addon-actions'
 import { ref } from 'vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the search input component as a text field to allow users to enter search queries and receive relevant page results.
+ *
+ * The search input component can be used to let your users search through your website using string queries.
+ */
 const meta = {
-  title: 'Example/FwbInputSearch',
+  title: 'Example/InputSearchX',
   component: FwbInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {
     size: { control: 'select', options: ['sm', 'md'] },
     validationStatus: { control: 'radio', options: ['normal', 'error'] },
@@ -29,7 +44,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Normal: Story = {
+/**
+ * Use this component for search content on the website.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { FwbInput },
     setup() {
@@ -74,6 +92,9 @@ export const Normal: Story = {
   }
 }
 
+/**
+ * Use this example if you want to apply the disabled state to an input search.
+ */
 export const Disabled: Story = {
   render: (args) => ({
     components: { FwbInput },
@@ -120,6 +141,9 @@ export const Disabled: Story = {
   }
 }
 
+/**
+ * Use this example if you want to apply the required state to an input search.
+ */
 export const Required: Story = {
   render: (args) => ({
     components: { FwbInput },
@@ -166,6 +190,9 @@ export const Required: Story = {
   }
 }
 
+/**
+ * Use the following example to apply a medium size for the input search.
+ */
 export const Medium: Story = {
   render: (args) => ({
     components: { FwbInput },
@@ -212,7 +239,10 @@ export const Medium: Story = {
   }
 }
 
-export const ErrorStatus: Story = {
+/**
+ * Use the following example to apply validation styles for an error case.
+ */
+export const Error: Story = {
   render: (args) => ({
     components: { FwbInput },
     setup() {

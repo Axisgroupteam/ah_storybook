@@ -1,9 +1,9 @@
 import { computed, type Ref } from "vue";
 import type {
-  avatarDotIndicatorPositionClasses,
+  /* avatarDotIndicatorPositionClasses, */
   AvatarSize,
-  AvatarStatus,
-  AvatarStatusPosition,
+  /* AvatarStatus,
+  AvatarStatusPosition, */
   AvatarType,
 } from "../types";
 import { useMergeClasses } from "@/composables/userMergeClasses";
@@ -23,12 +23,12 @@ const avatarTypeClasses: Record<AvatarType, string> = {
 const avatarBorderedClasses = "ring-2 ring-gray-300 dark:ring-gray-500 p-1";
 const avatarStatusDotDefaultClasses =
   "absolute h-3.5 w-3.5 rounded-full border-2 border-white dark:border-gray-800";
-const avatarStatusDotClasses: Record<AvatarStatus, string> = {
+/* const avatarStatusDotClasses: Record<AvatarStatus, string> = {
   away: "bg-gray-400",
   busy: "bg-yellow-400",
   offline: "bg-red-400",
   online: "bg-green-400",
-};
+}; 
 const avatarStatusDotPositionClasses: Record<
   avatarDotIndicatorPositionClasses,
   string
@@ -42,14 +42,14 @@ const avatarStatusDotPositionClasses: Record<
   "bottom-right-default": "bottom-0 -right-1.5 translate-y-1/2",
   "bottom-left-rounded": "bottom-0 left-0",
   "bottom-left-default": "-bottom-1.5 left-0 transform -translate-x-1/2 ",
-};
+};*/
 
-const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-gray-400";
+const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-neutral-400";
 const avatarPlaceholderWrapperDefaultClasses =
   "flex overflow-hidden relative justify-center items-center";
 const avatarPlaceholderWrapperBackgroundClasses =
-  "bg-neutral-600 dark:bg-neutral-100";
-const avatarPlaceholderInitialsDefaultClasses = "font-medium !text-neutral-400 ";
+  "bg-neutral-100 dark:bg-neutral-600";
+const avatarPlaceholderInitialsDefaultClasses = "font-medium text-neutral-600 dark:!text-neutral-300";
 const avatarPlaceholderSizes = {
   xs: "bottom-0",
   sm: "absolute !-bottom-[6px]",
@@ -59,14 +59,14 @@ const avatarPlaceholderSizes = {
 };
 
 export type UseAvatarClassesProps = {
-  status: Ref<AvatarStatus>;
+  /* status: Ref<AvatarStatus>; */
   bordered: Ref<boolean>;
   img: Ref<string>;
   alt: Ref<string>;
   rounded: Ref<boolean>;
   size: Ref<AvatarSize>;
-  stacked: Ref<boolean>;
-  statusPosition: Ref<AvatarStatusPosition>;
+  /* stacked: Ref<boolean>; */
+  /* statusPosition: Ref<AvatarStatusPosition>; */
 };
 
 export function useAvatarClasses(props: UseAvatarClassesProps): {
@@ -85,15 +85,15 @@ export function useAvatarClasses(props: UseAvatarClassesProps): {
     ])
   );
   const avatarDotClasses = computed<string>(() => {
-    const avatarType = `${props.statusPosition.value}-${
+    /* const avatarType = `${props.statusPosition.value}-${
       props.rounded.value ? "rounded" : "default"
-    }`;
+    }`; */
     return useMergeClasses([
       avatarStatusDotDefaultClasses,
-      avatarStatusDotClasses[props.status.value],
+      /* avatarStatusDotClasses[props.status.value],
       avatarStatusDotPositionClasses[
-        avatarType as avatarDotIndicatorPositionClasses
-      ],
+        avatarType as avatarDotIndicatorPositionClasses 
+      ],*/
     ]);
   });
   const avatarPlaceholderClasses = computed<string>(() =>

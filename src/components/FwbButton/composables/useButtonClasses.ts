@@ -9,11 +9,11 @@ export type ButtonClassMap<T extends string> = {
 const buttonColorClasses: ButtonClassMap<ButtonVariant> = {
   default: {
     primary:
-      'active:outline-none text-white bg-red-700 active:ring-4 active:ring-red-200 font-medium rounded-lg dark:bg-red-700 dark:active:ring-red-600',
+      'active:outline-none text-white bg-red-700 active:ring-4 active:ring-red-200 font-medium rounded-lg dark:bg-red-700 dark:active:ring-red-600 border border-transparent dark:border-transparent',
     secondary:
       'font-medium text-neutral-500 active:outline-none bg-white rounded-lg border border-neutral-200 active:z-10 active:ring-4 active:ring-neutral-200 dark:active:ring-neutral-600 dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-600',
     terciary:
-      'text-white dark:text-neutral-900 bg-neutral-800 active:outline-none active:ring-4 active:ring-neutral-300 font-medium rounded-lg dark:bg-white dark:active:ring-neutral-600 dark:border-neutral-700'
+      'text-white dark:text-neutral-900 bg-neutral-800 active:outline-none active:ring-4 active:ring-neutral-300 font-medium rounded-lg dark:bg-white dark:active:ring-neutral-600 dark:border-neutral-700 border border-transparent dark:border-transparent'
   },
   hover: {
     primary: 'hover:bg-red-800 dark:hover:bg-red-800',

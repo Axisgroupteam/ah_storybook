@@ -3,8 +3,13 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbTooltip from '@/components/FwbTooltip/FwbTooltip.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use the following tooltips to show extra content when hovering or focusing on an element.
+ *
+ * Use the tooltip component to show extra information when hovering or focusing over an element.
+ */
 const meta = {
-  title: 'Example/FwbTooltip',
+  title: 'Example/TooltipX',
   component: FwbTooltip,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -34,7 +39,7 @@ const meta = {
   decorators: [
     () => ({
       template: `
-      <div class="w-full py-[100px] flex items-center justify-center">
+      <div class="w-full h-[150px] flex items-center justify-center p-4">
         <story />
       </div>
     `
@@ -51,7 +56,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const BootomHover: Story = {
+/**
+ * Get started with the default toggle component example as a checkbox element to receive a true or false selection from the user.
+ */
+export const Bottom: Story = {
   render: (args) => ({
     components: { FwbTooltip },
     setup() {
@@ -75,7 +83,10 @@ export const BootomHover: Story = {
     placement: 'bottom'
   }
 }
-export const TopHover: Story = {
+/**
+ * Use this variant to display a tooltip component in a position above the trigger element when hovering over it.
+ */
+export const Top: Story = {
   render: (args) => ({
     components: { FwbTooltip },
     setup() {
@@ -100,7 +111,10 @@ export const TopHover: Story = {
   }
 }
 
-export const LeftHover: Story = {
+/**
+ * Use this variant to display a tooltip component in a position to the left of the trigger element when you hover over it.
+ */
+export const Left: Story = {
   render: (args) => ({
     components: { FwbTooltip },
     setup() {
@@ -125,7 +139,10 @@ export const LeftHover: Story = {
   }
 }
 
-export const RightHover: Story = {
+/**
+ * Use this variant to display a tooltip component in a position to the right of the trigger element when you hover over it.
+ */
+export const Right: Story = {
   render: (args) => ({
     components: { FwbTooltip },
     setup() {
@@ -150,7 +167,10 @@ export const RightHover: Story = {
   }
 }
 
-export const TopClickAction: Story = {
+/**
+ * Use this variant to choose whether you want to show the tooltip when hovering or clicking on the element.
+ */
+export const Click: Story = {
   render: (args) => ({
     components: { FwbTooltip },
     setup() {

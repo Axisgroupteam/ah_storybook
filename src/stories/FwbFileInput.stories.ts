@@ -4,11 +4,26 @@ import { fn } from '@storybook/test'
 import FwbFileInput from '@/components/FwbFileInput/FwbFileInput.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use this input file component to let the user to upload one single file from their device storage.
+ *
+ * The input file can be used to upload one single file from the device storage of the user.
+ */
 const meta = {
-  title: 'Example/FwbFileInput',
+  title: 'Example/InputFileX',
   component: FwbFileInput,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbFileInput>
@@ -21,7 +36,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Normal: Story = {
+/**
+ * The input file component can be used to upload one single file.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { FwbFileInput },
     setup() {
@@ -36,6 +54,9 @@ export const Normal: Story = {
   args: {}
 }
 
+/**
+ * Use this contextual variant for a mandatory requirement case.
+ */
 export const Required: Story = {
   render: (args) => ({
     components: { FwbFileInput },
@@ -51,6 +72,9 @@ export const Required: Story = {
   }
 }
 
+/**
+ * Use this contextual variant for a disabled component case.
+ */
 export const Disabled: Story = {
   render: (args) => ({
     components: { FwbFileInput },
@@ -66,6 +90,9 @@ export const Disabled: Story = {
   }
 }
 
+/**
+ * Use this contextual variant to display a larger component.
+ */
 export const Large: Story = {
   render: (args) => ({
     components: { FwbFileInput },
@@ -81,6 +108,9 @@ export const Large: Story = {
   }
 }
 
+/**
+ * Use this contextual variant for a component error case.
+ */
 export const ErrorStatus: Story = {
   render: (args) => ({
     components: { FwbFileInput },

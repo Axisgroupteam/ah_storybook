@@ -3,10 +3,25 @@ import { fn } from '@storybook/test'
 import FwbBreadcrumb from '@/components/FwbBreadcrumb/FwbBreadcrumb.vue'
 import FwbBreadcrumbItem from '@/components/FwbBreadcrumb/FwbBreadcrumbItem.vue'
 
+/**
+ * Show the location of the current page in a hierarchical structure.
+ *
+ * The breadcrumb component is an important part of any website or application that can be used to show the current location of a page in a hierarchical structure of pages.
+ */
 const meta = {
-  title: 'Example/FwbBreadcrumb',
+  title: 'Example/BreadcrumbX',
   component: FwbBreadcrumb,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbBreadcrumb>
@@ -14,6 +29,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ *Use the following breadcrumb example to show the hierarchical structure of pages.
+ */
 export const Default: Story = {
   render: (args) => ({
     components: { FwbBreadcrumb, FwbBreadcrumbItem },
@@ -37,7 +55,10 @@ export const Default: Story = {
   args: {}
 }
 
-export const Solid: Story = {
+/**
+ * You can alternatively also use the breadcrumb components with a solid background.
+ */
+export const Background: Story = {
   render: (args) => ({
     components: { FwbBreadcrumb, FwbBreadcrumbItem },
     setup() {
@@ -60,7 +81,10 @@ export const Solid: Story = {
   args: {}
 }
 
-export const CustomIcon: Story = {
+/**
+ * Use the following breadcrumb example to show the hierarchical structure of pages with custom icons.
+ */
+export const Custom: Story = {
   render: (args) => ({
     components: { FwbBreadcrumb, FwbBreadcrumbItem },
     setup() {

@@ -1,37 +1,49 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbDropdown from '@/components/FwbDropdown/FwbDropdown.vue'
-import {ref} from 'vue'
+import { ref } from 'vue'
 
-
+/**
+ * Use this dropdown component to show a list of menu items when clicking on the trigger element.
+ *
+ * The dropdown component can be used to show a list of menu items when clicking on an element such as a button and hiding it when focusing outside of the triggering element.
+ */
 const meta = {
-    title: 'Example/FwbDropdown',
-    component: FwbDropdown,
-    decorators: [()=>({
-        template: `<div class="w-full flex items-start h-[200px]">        
+  title: 'Example/DropdownX',
+  component: FwbDropdown,
+  decorators: [
+    () => ({
+      template: `
+        <div class="p-4">
+        <div class="w-full flex items-start h-[300px]">        
           <story />
+        </div>
         </div>`
-      })],
-    // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
-    tags: ['autodocs'],
-    argTypes: {
-      placement: { control: 'select', options: ['top', 'bottom', 'right', 'left'] },
-      type: { control: 'select', options: [ 'secondary', 'primary'] },
-    },
-    args: {},
-    
-  } satisfies Meta<typeof FwbDropdown>
+    })
+  ],
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
+  argTypes: {
+    placement: { control: 'select', options: ['top', 'bottom', 'right', 'left'] },
+    type: { control: 'select', options: ['secondary', 'primary'] }
+  },
+  args: {}
+} satisfies Meta<typeof FwbDropdown>
 
-  export default meta
+export default meta
 type Story = StoryObj<typeof meta>
 
-export const PrimaryDropdown: Story = {
+/**
+ * Use this variant of styles with separators between items that take up the entire container to display important menu lists.
+ */
+
+export const Primary: Story = {
   render: (args) => ({
     components: { FwbDropdown, FwbButton },
-   
+
     methods: {
-      toggleVisibility(value: boolean): void{
-          this.isVisible = value;
+      toggleVisibility(value: boolean): void {
+        this.isVisible = value
       }
     },
     setup() {
@@ -43,6 +55,7 @@ export const PrimaryDropdown: Story = {
               <FwbButton
                  size="md"
                   color="secondary"
+                  class="whitespace-nowrap"
       
               >
                  
@@ -80,31 +93,33 @@ export const PrimaryDropdown: Story = {
     `
   }),
   args: {
-    placement: 'bottom',
-    
-  },
-
+    placement: 'bottom'
+  }
 }
 
-export const SecondaryDropdown: Story = {
-    render: (args) => ({
-      components: { FwbDropdown, FwbButton },
-     
-      methods: {
-        toggleVisibility(value: boolean): void{
-            this.isVisible = value;
-        }
-      },
-      setup() {
-        return { args, isVisible: ref(false) }
-      },
-      template: `
+/**
+ * Use this variant of styles with rounded edges and inside item paddings to display minor menu lists.
+ */
+export const Secondary: Story = {
+  render: (args) => ({
+    components: { FwbDropdown, FwbButton },
+
+    methods: {
+      toggleVisibility(value: boolean): void {
+        this.isVisible = value
+      }
+    },
+    setup() {
+      return { args, isVisible: ref(false) }
+    },
+    template: `
                 <fwbDropdown v-bind="args" @toogle="toggleVisibility">
                 <template #trigger>
                 <FwbButton
                             
                     color="secondary"
                     size="md"
+                    class="whitespace-nowrap"
                 >
                     
                         Click me
@@ -141,13 +156,10 @@ export const SecondaryDropdown: Story = {
                 </div>
                 </fwbDropdown>
       `
-    }),
-    args: {
-      placement: 'bottom',
-      type: 'secondary',
-      max_h: 'max-h-[144px]'
-    },
-
+  }),
+  args: {
+    placement: 'bottom',
+    type: 'secondary',
+    max_h: 'max-h-[144px]'
   }
-
-  
+}

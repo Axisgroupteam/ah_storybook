@@ -4,11 +4,26 @@ import { fn } from '@storybook/test'
 import FwbDropzone from '@/components/FwbDropzone/FwbFileInput.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
+/**
+ * Use this dropzone component to let the user to upload one or more images from their device storage.
+ *
+ * The dropzone component is a type of file input that can be used to upload one or more images from the device storage of the user.
+ */
 const meta = {
-  title: 'Example/FwbDropzone',
+  title: 'Example/DropzoneX',
   component: FwbDropzone,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: `
+      <div class="p-4">
+    
+        <story />
+      
+      </div>`
+    })
+  ],
   argTypes: {},
   args: {}
 } satisfies Meta<typeof FwbDropzone>
@@ -21,7 +36,10 @@ type Story = StoryObj<typeof meta>
  * to learn how to use render functions.
  */
 
-export const Dropzone: Story = {
+/**
+ * The dropzone file input component can be used to upload one or more images by clicking anywhere in the area.
+ */
+export const Default: Story = {
   render: (args) => ({
     components: { FwbDropzone },
     setup() {
@@ -37,7 +55,10 @@ export const Dropzone: Story = {
   }
 }
 
-export const DropzoneRequired: Story = {
+/**
+ * Use this contextual variant for a mandatory requirement case.
+ */
+export const Required: Story = {
   render: (args) => ({
     components: { FwbDropzone },
     setup() {
@@ -54,7 +75,10 @@ export const DropzoneRequired: Story = {
   }
 }
 
-export const DisabledDropzone: Story = {
+/**
+ * Use this contextual variant for a disabled component case.
+ */
+export const Disabled: Story = {
   render: (args) => ({
     components: { FwbDropzone },
     setup() {
@@ -71,7 +95,10 @@ export const DisabledDropzone: Story = {
   }
 }
 
-export const ErrorDropzone: Story = {
+/**
+ * Use this contextual variant for a component error case.
+ */
+export const Error: Story = {
   render: (args) => ({
     components: { FwbDropzone },
     setup() {
