@@ -1,5 +1,5 @@
 <template>
-  <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="alignToEnd" :placement=placement>
+  <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="alignToEnd" :placement="placement">
     <template #trigger>
       <FwbButton color="secondary" :class="[{'ring-[4px] ring-neutral-300 dark:ring-neutral-600': visibleRing},
                       {'ring-0': !visibleRing}]" class="p-0 overflow-clip" :pill="pill">
@@ -89,7 +89,7 @@
     },
     hasDropdown: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     bordered: {
       type: Boolean,
@@ -156,6 +156,10 @@
 
 
   const initials = computed(() => getInitials(props.fullName))
+  const size = computed(() => props.size)
+  const placement = computed(() => props.placement)
+  const alignToEnd = computed(() => props.alignToEnd)
+  const hasDropdown = computed(() => props.hasDropdown)
 
   const {
     avatarClasses,
