@@ -35,7 +35,7 @@ type Story = StoryObj<typeof meta>
  */
 
  export const Normal: Story = {
-  render: (args) => ({
+  render: (args: any) => ({
     components: { TimePicker },
     setup() {
       return { args }
@@ -48,13 +48,15 @@ type Story = StoryObj<typeof meta>
   args: {
     label: "Time",
     size: 'sm',
-    modelValue: "23:59",
+    modelValue: "",
     validationStatus: ''
   }
 }
 
 export const Disabled: Story = {
   args: {
+    label: "Time",
+    size: 'sm',
     disabled: true
   }
 }
@@ -69,7 +71,7 @@ export const Required: Story = {
 
 
 export const ErrorStatus: Story = {
-  render: (args) => ({
+  render: (args: any) => ({
     components: { TimePicker },
     setup() {
       return { args }
