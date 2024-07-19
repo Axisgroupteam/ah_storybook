@@ -153,32 +153,35 @@ const validateMinute = (event: any) => {
   updateAllColumns();
 };
 
-const validatePeriod = () => { 
+const validatePeriod = () => {  
   const allowedChars = ['a', 'p', 'm']; 
-  if(selectedPeriod.value) {
-  const period = selectedPeriod.value.toLowerCase();
 
-  if (allowedChars.includes(period)) {   
-    if (period !== 'AM' && period !== 'PM') {   
+  const period = selectedPeriod.value.toLowerCase();
+    
+  if (allowedChars.includes(period)) {  
+    console.log(`output->esta incluido el period`, period) 
+    /*if (period !== 'AM' && period !== 'PM') {   
       selectedPeriod.value = 'AM';
-    } else if (period == 'AM' || period.charAt(0) == 'A'){   
+    } else*/ if (period == 'AM' || period.charAt(0) === 'a'){   
       selectedPeriod.value = 'AM';
     }
-    else if (period == 'PM' || period.charAt(0) == 'P'){   
+    else if (period == 'PM' || period.charAt(0) === 'p'){   
       selectedPeriod.value = 'PM';
     }
+    else if(period.charAt(0) === 'm') selectedPeriod.value = 'AM';
   }
     else{
-      selectedPeriod.value = period;    
+      selectedPeriod.value = "";    
     } 
-  }
+
 };
 
 const checkKey = (event: any, inputRef: string)=>{
   // Verifica si la tecla presionada es "Backspace"
       if (event.key === 'Backspace') {
-        if(inputRef === 'inputHours')selectedHour.value = '--';
-        if(inputRef === 'inputMinutes')selectedMinute.value = '--';       
+        if(inputRef === 'inputHours') selectedHour.value = '';
+        if(inputRef === 'inputMinutes') selectedMinute.value = '';
+        if(inputRef === 'inputPeriods') selectedPeriod.value = '';       
       }
       else if (event.key === 'ArrowRight') {       
         // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha derecha
