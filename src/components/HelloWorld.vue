@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FwbFileInput from './FwbFileInput/FwbFileInput.vue'
+import TestComponent from '@/components/Test/TestComponent.vue'
 defineProps<{
   msg: string
 }>()
@@ -14,6 +15,7 @@ defineProps<{
       <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
     </h3>
     <FwbFileInput />
+    <TestComponent />
   </div>
 </template>
 

@@ -162,9 +162,5 @@ export const Default: Story = {
       />
       `
   }),
-  args: {
-    img: 'Avatar_40_1.png',
-    disabled: true,
-    size: 'md'
-  }
+  args: {}
 }
