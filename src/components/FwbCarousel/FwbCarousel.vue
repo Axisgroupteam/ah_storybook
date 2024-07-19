@@ -256,8 +256,26 @@
         </svg>
       </FwbButton>
     </div>
-    <div class="absolute top-4 right-4 flex space-x-2 z-[100]" v-else>
-      <FwbButton square color="secondary" @click="rotateLeft">
+
+    <!-- Cropper.js container -->
+    <div v-if="isCropping" class="absolute inset-0">
+      <img
+        ref="cropperImage"
+        :src="pictures[currentIndex].src"
+        style="max-width: 100%"
+        @load="initCropper"
+      />
+    </div>
+
+    <!-- Crop controls -->
+    <div v-if="isCropping" class="absolute bottom-4 left-4 flex space-x-2">
+      <FwbButton color="primary" @click="finishCrop"> Finish Crop </FwbButton>
+      <FwbButton color="secondary" @click="cancelCrop"> Cancel Crop </FwbButton>
+    </div>
+
+    <!-- Rotation and zoom controls for cropping -->
+    <div v-if="isCropping" class="absolute top-4 right-4 flex space-x-2">
+      <FwbButton square color="secondary" @click="rotateCropLeft">
         <svg
           class="w-6 h-6"
           aria-hidden="true"
@@ -276,7 +294,7 @@
           />
         </svg>
       </FwbButton>
-      <FwbButton square color="secondary" @click="rotateRight">
+      <FwbButton square color="secondary" @click="rotateCropRight">
         <svg
           class="w-6 h-6"
           aria-hidden="true"
@@ -295,7 +313,7 @@
           />
         </svg>
       </FwbButton>
-      <FwbButton square color="secondary" @click="resetImage">
+      <FwbButton square color="secondary" @click="zoomInCrop">
         <svg
           class="w-6 h-6"
           aria-hidden="true"
@@ -310,51 +328,42 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"
+            d="M5 12h14m-7 7V5"
           />
         </svg>
       </FwbButton>
-    </div>
-
-    <!-- Crop overlay -->
-    <div v-if="isCropping" class="absolute inset-0 bg-black bg-opacity-30 crop-overlay">
-      <div
-        ref="cropBox"
-        class="absolute border-2 border-white border-dashed cursor-move transition-all duration-200 ease-in-out rounded-lg shadow-lg"
-        :style="{
-          left: `${cropLeft}px`,
-          top: `${cropTop}px`,
-          width: `${cropWidth}px`,
-          height: `${cropHeight}px`
-        }"
-        @mousedown="startMoveCrop"
-      >
-        <div class="absolute inset-0 bg-white bg-opacity-20"></div>
-        <div
-          v-for="(handle, index) in ['nw', 'ne', 'sw', 'se']"
-          :key="index"
-          class="absolute w-4 h-4 bg-white border border-gray-800 rounded-full shadow-md transition-transform duration-200 hover:scale-110"
-          :style="getHandleStyle(handle)"
-          @mousedown.stop="startResize(handle, $event)"
-        ></div>
-      </div>
-      <FwbButton color="primary" @click="finishCrop" class="absolute bottom-4 left-[140px]">
-        Finish Crop
-      </FwbButton>
-      <FwbButton color="secondary" @click="cancelCrop" class="absolute bottom-4 left-4">
-        Cancel Crop
+      <FwbButton square color="secondary" @click="zoomOutCrop">
+        <svg
+          class="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14"
+          />
+        </svg>
       </FwbButton>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import FwbButton from '../FwbButton/FwbButton.vue'
 import FwbIndicator from '../FwbIndicators/FwbIndicator.vue'
 import { getFBIcon } from '@/utils/getAssets'
 import { debounce } from 'lodash-es'
 import { useWindowSize } from '@vueuse/core'
+import Cropper from 'cropperjs'
+import 'cropperjs/dist/cropper.css'
 
 const { width, height } = useWindowSize()
 
@@ -392,6 +401,9 @@ let intervalId: number | null = null
 const imageContainer = ref<HTMLDivElement | null>(null)
 const images = ref<(HTMLImageElement | null)[]>([])
 
+const cropperImage = ref<HTMLImageElement | null>(null)
+let cropper: Cropper | null = null
+
 watch(
   () => props.pictures,
   (newPictures) => {
@@ -411,13 +423,6 @@ const lastMouseX = ref(0)
 const lastMouseY = ref(0)
 
 const isCropping = ref(false)
-const isResizing = ref(false)
-const isMovingCrop = ref(false)
-const cropLeft = ref(0)
-const cropTop = ref(0)
-const cropWidth = ref(200)
-const cropHeight = ref(200)
-const resizeHandle = ref('')
 
 const startPan = (event: MouseEvent) => {
   if (zoomLevel.value > 1) {
@@ -500,92 +505,6 @@ const rotateRight = () => {
   rotation.value = (rotation.value + 90) % 360
 }
 
-const startMoveCrop = (event: MouseEvent) => {
-  isMovingCrop.value = true
-  lastMouseX.value = event.clientX
-  lastMouseY.value = event.clientY
-}
-
-watch([zoomLevel, rotation], async () => {
-  if (isCropping.value) {
-    await constrainCrop()
-  }
-})
-
-const moveCrop = (event: MouseEvent) => {
-  if (isMovingCrop.value) {
-    const deltaX = event.clientX - lastMouseX.value
-    const deltaY = event.clientY - lastMouseY.value
-    cropLeft.value += deltaX
-    cropTop.value += deltaY
-    lastMouseX.value = event.clientX
-    lastMouseY.value = event.clientY
-
-    constrainCrop()
-  }
-}
-
-const startResize = (handle: string, event: MouseEvent) => {
-  event.stopPropagation()
-  isResizing.value = true
-  resizeHandle.value = handle
-  lastMouseX.value = event.clientX
-  lastMouseY.value = event.clientY
-}
-
-const resize = (event: MouseEvent) => {
-  if (isResizing.value) {
-    const deltaX = event.clientX - lastMouseX.value
-    const deltaY = event.clientY - lastMouseY.value
-
-    switch (resizeHandle.value) {
-      case 'nw':
-        cropLeft.value += deltaX
-        cropTop.value += deltaY
-        cropWidth.value -= deltaX
-        cropHeight.value -= deltaY
-        break
-      case 'ne':
-        cropTop.value += deltaY
-        cropWidth.value += deltaX
-        cropHeight.value -= deltaY
-        break
-      case 'sw':
-        cropLeft.value += deltaX
-        cropWidth.value -= deltaX
-        cropHeight.value += deltaY
-        break
-      case 'se':
-        cropWidth.value += deltaX
-        cropHeight.value += deltaY
-        break
-    }
-
-    // Asegúrate de que el tamaño mínimo sea respetado
-    cropWidth.value = Math.max(62, cropWidth.value) // 50px + 12px para las bolitas
-    cropHeight.value = Math.max(62, cropHeight.value)
-
-    lastMouseX.value = event.clientX
-    lastMouseY.value = event.clientY
-    constrainCrop()
-  }
-}
-
-const endCropActions = () => {
-  isMovingCrop.value = false
-  isResizing.value = false
-}
-
-const getHandleStyle = (handle: string) => {
-  const styles = {
-    nw: { top: '-6px', left: '-6px', cursor: 'nw-resize' },
-    ne: { top: '-6px', right: '-6px', cursor: 'ne-resize' },
-    sw: { bottom: '-6px', left: '-6px', cursor: 'sw-resize' },
-    se: { bottom: '-6px', right: '-6px', cursor: 'se-resize' }
-  }
-  return styles[handle as keyof typeof styles]
-}
-
 const ensureImageLoaded = (): Promise<{
   naturalWidth: number
   naturalHeight: number
@@ -663,58 +582,74 @@ const ensureImageLoaded = (): Promise<{
   })
 }
 
-const startCrop = async () => {
-  const { displayWidth, displayHeight, imageLeft, imageTop } = await ensureImageLoaded()
-  if (!imageContainer.value) return
-
-  // Calculamos el tamaño máximo del crop (80% del tamaño visible de la imagen)
-  const maxSize = (Math.min(displayWidth, displayHeight) * 0.8) / zoomLevel.value
-
-  cropWidth.value = maxSize + 12 // Añade 12px para compensar las bolitas
-  cropHeight.value = maxSize + 12
-
-  // Calculamos la posición para centrar el crop
-  cropLeft.value =
-    imageLeft +
-    (displayWidth / zoomLevel.value - cropWidth.value) / 2 -
-    panX.value / zoomLevel.value
-  cropTop.value =
-    imageTop +
-    (displayHeight / zoomLevel.value - cropHeight.value) / 2 -
-    panY.value / zoomLevel.value
-
+const startCrop = () => {
   isCropping.value = true
-  await constrainCrop()
 }
 
-const constrainCrop = async () => {
-  if (!imageContainer.value) return
-  const { displayWidth, displayHeight, imageLeft, imageTop } = await ensureImageLoaded()
-
-  const containerRect = imageContainer.value.getBoundingClientRect()
-
-  // Ajustar los límites del recorte considerando el zoom
-  const minLeft = imageLeft - panX.value / zoomLevel.value
-  const minTop = imageTop - panY.value / zoomLevel.value
-  const maxLeft = minLeft + displayWidth / zoomLevel.value - cropWidth.value
-  const maxTop = minTop + displayHeight / zoomLevel.value - cropHeight.value
-
-  cropLeft.value = Math.max(minLeft, Math.min(cropLeft.value, maxLeft))
-  cropTop.value = Math.max(minTop, Math.min(cropTop.value, maxTop))
-
-  // Asegurarse de que el crop no sea más grande que la imagen visible
-  cropWidth.value = Math.min(cropWidth.value, displayWidth / zoomLevel.value)
-  cropHeight.value = Math.min(cropHeight.value, displayHeight / zoomLevel.value)
+const initCropper = () => {
+  nextTick(() => {
+    if (cropperImage.value) {
+      if (cropper) {
+        cropper.destroy()
+      }
+      cropper = new Cropper(cropperImage.value, {
+        aspectRatio: NaN,
+        viewMode: 1,
+        responsive: true,
+        zoomable: true,
+        rotatable: true,
+        scalable: true,
+        center: true
+      })
+    }
+  })
 }
 
 const finishCrop = () => {
-  // Aquí puedes agregar la lógica para aplicar el recorte
-  saveImage()
+  if (cropper) {
+    const croppedCanvas = cropper.getCroppedCanvas()
+    croppedCanvas.toBlob((blob) => {
+      if (blob) {
+        const link = document.createElement('a')
+        link.download = 'cropped_image.png'
+        link.href = URL.createObjectURL(blob)
+        link.click()
+      }
+    })
+  }
+  cancelCrop()
 }
 
 const cancelCrop = () => {
+  if (cropper) {
+    cropper.destroy()
+    cropper = null
+  }
   isCropping.value = false
-  // Restablecer los valores de recorte a sus valores iniciales si es necesario
+}
+
+const rotateCropLeft = () => {
+  if (cropper) {
+    cropper.rotate(-90)
+  }
+}
+
+const rotateCropRight = () => {
+  if (cropper) {
+    cropper.rotate(90)
+  }
+}
+
+const zoomInCrop = () => {
+  if (cropper) {
+    cropper.zoom(0.1)
+  }
+}
+
+const zoomOutCrop = () => {
+  if (cropper) {
+    cropper.zoom(-0.1)
+  }
 }
 
 const saveImage = async () => {
@@ -733,58 +668,18 @@ const saveImage = async () => {
     const scaleX = naturalWidth / displayWidth
     const scaleY = naturalHeight / displayHeight
 
-    if (isCropping.value) {
-      canvas.width = cropWidth.value - 12
-      canvas.height = cropHeight.value - 12
+    canvas.width = naturalWidth
+    canvas.height = naturalHeight
 
-      // Calcular el centro de la imagen
-      const centerX = displayWidth / 2
-      const centerY = displayHeight / 2
+    ctx.save()
+    ctx.translate(canvas.width / 2, canvas.height / 2)
+    ctx.rotate((rotation.value * Math.PI) / 180)
+    ctx.scale(1 / zoomLevel.value, 1 / zoomLevel.value)
+    ctx.translate(-canvas.width / 2, -canvas.height / 2)
 
-      // Calcular la posición del recorte relativa al centro
-      const cropCenterX = cropLeft.value + (cropWidth.value - 12) / 2 - imageLeft - centerX
-      const cropCenterY = cropTop.value + (cropHeight.value - 12) / 2 - imageTop - centerY
+    ctx.drawImage(img, -panX.value * scaleX, -panY.value * scaleY, naturalWidth, naturalHeight)
 
-      // Rotar las coordenadas del recorte
-      const angle = (rotation.value * Math.PI) / 180
-      const rotatedX = cropCenterX * Math.cos(angle) - cropCenterY * Math.sin(angle)
-      const rotatedY = cropCenterX * Math.sin(angle) + cropCenterY * Math.cos(angle)
-
-      // Calcular la nueva posición del recorte
-      const newCropLeft = centerX + rotatedX - (cropWidth.value - 12) / 2
-      const newCropTop = centerY + rotatedY - (cropHeight.value - 12) / 2
-
-      // Aplicar zoom a las coordenadas
-      const sourceX = (newCropLeft * scaleX) / zoomLevel.value + panX.value * scaleX
-      const sourceY = (newCropTop * scaleY) / zoomLevel.value + panY.value * scaleY
-      const sourceWidth = ((cropWidth.value - 12) * scaleX) / zoomLevel.value
-      const sourceHeight = ((cropHeight.value - 12) * scaleY) / zoomLevel.value
-
-      ctx.drawImage(
-        img,
-        sourceX,
-        sourceY,
-        sourceWidth,
-        sourceHeight,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      )
-    } else {
-      canvas.width = naturalWidth
-      canvas.height = naturalHeight
-
-      ctx.save()
-      ctx.translate(canvas.width / 2, canvas.height / 2)
-      ctx.rotate((rotation.value * Math.PI) / 180)
-      ctx.scale(1 / zoomLevel.value, 1 / zoomLevel.value)
-      ctx.translate(-canvas.width / 2, -canvas.height / 2)
-
-      ctx.drawImage(img, -panX.value * scaleX, -panY.value * scaleY, naturalWidth, naturalHeight)
-
-      ctx.restore()
-    }
+    ctx.restore()
 
     canvas.toBlob((blob) => {
       if (blob) {
@@ -840,22 +735,21 @@ onMounted(() => {
   if (props.slide) {
     startAutoSlide()
   }
-  window.addEventListener('mousemove', (event) => {
-    moveCrop(event)
-    resize(event)
-  })
-  window.addEventListener('mouseup', endCropActions)
+  initCropper()
 })
 
 onUnmounted(() => {
+  onUnmounted(() => {
+    if (cropper) {
+      cropper.destroy()
+    }
+  })
   stopAutoSlide()
-  window.removeEventListener('mousemove', moveCrop)
-  window.removeEventListener('mousemove', resize)
-  window.removeEventListener('mouseup', endCropActions)
 })
 </script>
 
 <style scoped>
+@import 'cropperjs/dist/cropper.css';
 .crop-overlay {
   backdrop-filter: blur(2px);
 }
