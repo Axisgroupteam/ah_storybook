@@ -6,5 +6,6 @@ export type AvatarStatusPosition =
   | "bottom-right"
   | "bottom-left";
 export type AvatarType = "default" | "rounded";
+export type AvatarStyle = "image" | "initials" | "icon" | "counter" | "dropdown" 
 export type avatarDotIndicatorPositionClasses =
   `${AvatarStatusPosition}-${AvatarType}`;

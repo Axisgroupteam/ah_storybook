@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import FwbAvatar from '@/components/FwbAvatar/FwbAvatarBtn.vue'
+import FwbAvatar from '@/components/FwbAvatar/FwbAvatar.vue'
+import FwbAvatarStack from '@/components/FwbAvatar/FwbAvatarStack.vue'
 
 /**
  * Use the avatar component to show a visual representation of a user profile using an image element or SVG object based on multiple styles.
@@ -24,7 +25,7 @@ const meta = {
     placement: { control: 'select', options: ['bottom', 'left', 'right'] }
   },
   args: {
-    placement: 'left-bottom'
+    placement: 'bottom'
   }
 } satisfies Meta<typeof FwbAvatar>
 
@@ -41,15 +42,16 @@ export const Default: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full  mb-auto ml-auto">
+      <div class="flex justify-center items-start w-full h-60">
         <FwbAvatar v-bind="args" />
       </div>
       `
   }),
   args: {
     img: 'Avatar_40_1.png',
-    disabled: true,
-    size: 'md'
+    fullName: 'Master Employee',
+    email: 'contact@detooo.com',
+    options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
   }
 }
 
@@ -63,14 +65,13 @@ export const Icon: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full  mb-auto ml-auto ">
+      <div class="flex justify-center items-start w-full h-60">
         <FwbAvatar v-bind="args" />
       </div>
       `
   }),
   args: {
-    disabled: true,
-    size: 'md'
+    options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
   }
 }
 
@@ -84,15 +85,15 @@ export const Initials: Story = {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full  mb-auto ml-auto">
+      <div class="flex justify-center items-start w-full h-60">
         <FwbAvatar v-bind="args" />
       </div>
       `
   }),
   args: {
     fullName: 'Master Employee',
-    disabled: true,
-    size: 'md'
+    email: 'contact@detooo.com',
+    options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
   }
 }
 
@@ -101,54 +102,18 @@ export const Initials: Story = {
  */
 export const Stacked: Story = {
   render: (args) => ({
-    components: { FwbAvatar },
+    components: { FwbAvatarStack },
     setup() {
       return { args }
     },
     template: `
-      <div class="flex justify-center w-full mb-auto ml-auto">
-        <FwbAvatar v-bind="args" />
+      <div class="flex justify-center items-start w-full h-60">
+        <FwbAvatarStack v-bind="args" />
       </div>
       `
   }),
   args: {
-    img: 'avatar.png',
-    stacked: true,
-    maxInStack: 4,
-    imgStacks: [
-      'Avatar_40_1.png',
-      'Avatar_40_2.png',
-      'Avatar_40_3.png',
-      'Avatar_40_4.png',
-      'Avatar_40_5.png',
-      'Avatar_40_6.png'
-    ],
-    totalStacked: 99,
-    size: 'md'
-  }
-}
-
-/**
- * Use this example if you want to show a dropdown menu when clicking on the avatar component.
- */
-export const Dropdown: Story = {
-  render: (args) => ({
-    components: { FwbAvatar },
-    setup() {
-      return { args }
-    },
-    template: `
-      <div class="flex justify-center w-full h-52 mb-auto ml-auto">
-        <FwbAvatar v-bind="args" />
-      </div>
-      `
-  }),
-  args: {
-    img: 'Avatar_40_1.png',
-    fullName: 'Master Employee',
-    email: 'contact@detooo.com',
-    size: 'md',
-    alignToEnd: true,
-    placement: 'bottom'
+    options: [{ label: 'Element 1', icon: 'user', link: 'profile' }, { label: 'Element 2', icon: 'user', link: 'profile' }, { label: 'Element 3', icon: 'user', link: 'profile' }, { label: 'Element 4', icon: 'user', link: 'profile' }],    maxInStack: 3,
+    imgStacks: ["Avatar_40_1.png", "Avatar_40_2.png", "Avatar_40_3.png", "Avatar_40_4.png", "Avatar_40_5.png", "Avatar_40_6.png"]
   }
 }
