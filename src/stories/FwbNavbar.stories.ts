@@ -3,7 +3,6 @@ import FwbNavbar from '@/components/FwbNavbar/FwbNavbar.vue'
 import { boolean, object } from 'yup'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbDropdown from '@/components/FwbDropdown/FwbDropdown.vue'
-import FwbAvatar from '@/components/FwbAvatar/FwbAvatarBtn.vue'
 
 /**
  * Use the navbar component as a central anchor to organize the navigation hierarchy between interfaces.
