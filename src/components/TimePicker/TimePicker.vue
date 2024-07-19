@@ -216,8 +216,7 @@ import { computed, nextTick, onMounted, watch } from "vue";
    )
   )
  
- const seletedInputClasses =
-   'ring-red-500 border-red-500';
+ const seletedInputClasses = 'ring-red-500 border-red-500';
  
  const validationWrapperClasses = computed(() =>
    twMerge(

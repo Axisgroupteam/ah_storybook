@@ -130,32 +130,37 @@ const decrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
 
 /// PARA VALIDAR LA ENTRADA DE DATOS
 const validateHour = (event: any) => {
-  const hourParse = parseInt(selectedHour.value);
-   if ( hourParse < 1 ||  hourParse > 12 || isNaN( hourParse)) {
-    selectedHour.value = '01';
-    event.target.select();    
-  } else {
-    selectedHour.value = hourParse.toString().padStart(2, '0'); 
-    if(hourParse > 2) inputMinutes.value?.focus();
-  }
-  updateAllColumns();
+  if(selectedHour.value){
+    const hourParse = parseInt(selectedHour.value);
+    if ( hourParse < 1 ||  hourParse > 12 || isNaN( hourParse)) {
+      selectedHour.value = '01';
+      event.target.select();    
+    } else {
+      selectedHour.value = hourParse.toString().padStart(2, '0'); 
+      if(hourParse > 2) inputMinutes.value?.focus();
+    }
+    updateAllColumns();
+ }
 };
 
 const validateMinute = (event: any) => {
-  const minute = parseInt(selectedMinute.value);
-  if (minute < 0 || minute > 59 || isNaN(minute)) {
-    selectedMinute.value = '00';
-    event.target.select(); 
-  } else {
-    selectedMinute.value = minute.toString().padStart(2, '0');
-    if(((selectedMinute.value).toString()).charAt(0) !== '0') inputPeriods.value?.focus() 
-  }
-  updateAllColumns();
+  if(selectedMinute.value){
+    const minute = parseInt(selectedMinute.value);
+    if (minute < 0 || minute > 59 || isNaN(minute)) {
+      selectedMinute.value = '00';
+      event.target.select(); 
+    } else {
+      selectedMinute.value = minute.toString().padStart(2, '0');
+      if(((selectedMinute.value).toString()).charAt(0) !== '0') inputPeriods.value?.focus() 
+    }
+    updateAllColumns();
+ }
 };
 
 const validatePeriod = () => {  
   const allowedChars = ['a', 'p', 'm']; 
 
+  if(selectedPeriod.value){
   const period = selectedPeriod.value.toLowerCase();
     
   if (allowedChars.includes(period)) {  
@@ -173,6 +178,7 @@ const validatePeriod = () => {
     else{
       selectedPeriod.value = "";    
     } 
+  }
 
 };
 
@@ -215,7 +221,7 @@ const checkKey = (event: any, inputRef: string)=>{
   const checkDown = (event: any, inputRef: string)=>{     
   // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha arriba    
         if(inputRef === 'inputHours') {
-          if(parseInt(selectedHour.value) > 1 && selectedHour.value) {
+          if(selectedHour.value &&parseInt(selectedHour.value) > 1 ) {
             event.target.value = parseInt(selectedHour.value) - 1;
             selectedHour.value = (parseInt(selectedHour.value) -1).toString().padStart(2, '0');
           }
@@ -225,7 +231,7 @@ const checkKey = (event: any, inputRef: string)=>{
         }
 
         if(inputRef === 'inputMinutes') {
-          if(parseInt(selectedMinute.value) > 0 && selectedMinute.value) {
+          if(selectedMinute.value && parseInt(selectedMinute.value) > 0 ) {
             event.target.value = parseInt(selectedMinute.value) - 1;
             selectedMinute.value = (parseInt(selectedMinute.value) -1).toString().padStart(2, '0');
           }
@@ -239,7 +245,7 @@ const checkKey = (event: any, inputRef: string)=>{
     const checkUP = (event: any, inputRef: string)=>{     
   // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha arriba    
         if(inputRef === 'inputHours') {
-          if(parseInt(selectedHour.value) < 12 && selectedHour.value) {
+          if(selectedHour.value && parseInt(selectedHour.value) < 12) {
             event.target.value = parseInt(selectedHour.value) + 1;
             selectedHour.value = (parseInt(selectedHour.value) +1).toString().padStart(2, '0');
           }
@@ -249,7 +255,7 @@ const checkKey = (event: any, inputRef: string)=>{
         }
 
         if(inputRef === 'inputMinutes') {
-          if(parseInt(selectedMinute.value) < 59 && selectedMinute.value) {
+          if(selectedMinute.value &&parseInt(selectedMinute.value) < 59) {
             event.target.value = parseInt(selectedMinute.value) + 1;
             selectedMinute.value = (parseInt(selectedMinute.value) +1).toString().padStart(2, '0');
           }
