@@ -93,7 +93,7 @@ export const Initials: Story = {
   args: {
     fullName: 'Master Employee',
     email: 'contact@detooo.com',
-    options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
+    options: [{ label: 'Profile', icon: 'user', link: 'profile'}, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
   }
 }
 
@@ -113,7 +113,7 @@ export const Stacked: Story = {
       `
   }),
   args: {
-    options: [{ label: 'Element 1', icon: 'user', link: 'profile' }, { label: 'Element 2', icon: 'user', link: 'profile' }, { label: 'Element 3', icon: 'user', link: 'profile' }, { label: 'Element 4', icon: 'user', link: 'profile' }],    maxInStack: 3,
+    options: [{ label: 'Element 1', icon: 'user', link: 'profile', component: FwbAvatar, initials: 'ME', img: ''  }, { label: 'Element 2', icon: 'user', link: 'profile', component: FwbAvatar, initials: 'ME', img: ''  }, { label: 'Element 3', icon: 'user', link: 'profile', component: FwbAvatar, initials: 'ME', img: ''  }],    maxInStack: 3,
     imgStacks: ["Avatar_40_1.png", "Avatar_40_2.png", "Avatar_40_3.png", "Avatar_40_4.png", "Avatar_40_5.png", "Avatar_40_6.png"]
   }
 }

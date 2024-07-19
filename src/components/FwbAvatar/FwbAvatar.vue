@@ -1,7 +1,7 @@
 <template>
   <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="alignToEnd" :placement="placement">
     <template #trigger>
-      <FwbButton color="secondary" :class="[{'ring-[4px] ring-neutral-300 dark:ring-neutral-600': visibleRing},
+      <FwbButton color="secondary" :class="[{'ring-[4px] ring-neutral-300 dark:ring-neutral-500': visibleRing},
                       {'ring-0': !visibleRing}]" class="p-0 overflow-clip" :pill="pill">
         <div class="relative">
           <div :class="avatarPlaceholderWrapperClasses">
@@ -55,7 +55,7 @@
 						dark:last:text-red-500 
 						last:hover:text-red-500 
 						dark:last:hover:text-red-500">
-					<component fill="currentColor" :is="getFBIcon(option.icon)" />
+					<component :is="option.component" :initials="option.initials" :img="option.img"/>
 					<span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{ option.label }}</span>
 				</li>
 			</ul>
@@ -135,6 +135,9 @@
 				label: string
 				icon: string
 				link: string
+        component: any
+        initials: string | undefined
+        img: string | undefined
 			}>
   });
 
