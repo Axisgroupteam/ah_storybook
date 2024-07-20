@@ -8,9 +8,9 @@ export const useTimePicker = () => {
  const wrapper = ref<HTMLDivElement>();
  
  const showDropdown = ref(false);
- const selectedHour = ref<string>('12');
- const selectedMinute = ref<string>('00');
- const selectedPeriod = ref<string>('PM');
+ const selectedHour = ref<string>();
+ const selectedMinute = ref<string>();
+ const selectedPeriod = ref<string>();
 
  const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
  const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
@@ -24,6 +24,7 @@ export const useTimePicker = () => {
  const positionMinuteSelected = ref(0);
  const positionPeriodSelected = ref(0);
 
+const showValidationMessage = ref(true);
  
  const formattedTime = computed(() => {
    return `${selectedHour.value}:${selectedMinute.value} ${selectedPeriod.value}`;
@@ -49,6 +50,7 @@ export const useTimePicker = () => {
  onClickOutside(wrapper, () => {
    if (!showDropdown.value) return;
    showDropdown.value = false;  
+   showValidationMessage.value =true;
 
   // Asegurar que las otras columnas también se actualicen
   updateAllColumns();
@@ -60,7 +62,7 @@ export const useTimePicker = () => {
   minutesStartIndex.value = +(selectedMinute.value);//positionMinuteSelected.value;  
   periodsStartIndex.value = positionPeriodSelected.value;
 
-  periods.value = [selectedPeriod.value, ...periods.value.filter(period => period !== selectedPeriod.value)]
+  if(selectedPeriod.value) periods.value = [selectedPeriod.value, ...periods.value.filter(period => period !== selectedPeriod.value)]
 
   const hoursColumnEl = hoursColumn.value;
   const minutesColumnEl = minutesColumn.value;
@@ -128,64 +130,160 @@ const decrementStartIndex = (type: 'hours' | 'minutes' | 'periods') => {
 
 /// PARA VALIDAR LA ENTRADA DE DATOS
 const validateHour = (event: any) => {
-  const hourParse = parseInt(selectedHour.value);
-   if ( hourParse < 1 ||  hourParse > 12 || isNaN( hourParse)) {
-    selectedHour.value = '01';
-    event.target.select();    
-  } else {
-    selectedHour.value = hourParse.toString().padStart(2, '0'); 
-    if(hourParse > 2) inputMinutes.value?.focus();
-  }
-  updateAllColumns();
+  if(selectedHour.value){
+    const hourParse = parseInt(selectedHour.value);
+    if ( hourParse < 1 ||  hourParse > 12 || isNaN( hourParse)) {
+      selectedHour.value = '01';
+      event.target.select();    
+    } else {
+      selectedHour.value = hourParse.toString().padStart(2, '0'); 
+      if(hourParse > 2) inputMinutes.value?.focus();
+    }
+    updateAllColumns();
+ }
 };
 
 const validateMinute = (event: any) => {
-  const minute = parseInt(selectedMinute.value);
-  if (minute < 0 || minute > 59 || isNaN(minute)) {
-    selectedMinute.value = '00';
-    event.target.select(); 
-  } else {
-    selectedMinute.value = minute.toString().padStart(2, '0');
-    if(((selectedMinute.value).toString()).charAt(0) !== '0') inputPeriods.value?.focus() 
-  }
-  updateAllColumns();
-};
-
-const validatePeriod = () => { 
-  const allowedChars = ['a', 'p', 'm'];  
-  const period = selectedPeriod.value.toLowerCase();
-
-if (allowedChars.includes(period)) {   
-  if (period !== 'AM' && period !== 'PM') {   
-    selectedPeriod.value = 'AM';
-  } else if (period == 'AM' || period.charAt(0) == 'A'){   
-    selectedPeriod.value = 'AM';
-  }
-  else if (period == 'PM' || period.charAt(0) == 'P'){   
-    selectedPeriod.value = 'PM';
-  }
-}
-  else{
-    selectedPeriod.value = period;    
-  } 
-};
-
-const checkKey = (event: any)=>{
-  const allowedChars = ['a', 'p', 'm'];
-      if (!allowedChars.includes(selectedPeriod.value.toLowerCase())) {
-      const key = event.key.toLowerCase();
-      if (key === 'a') {        
-        selectedPeriod.value = 'AM';
-      } else if (key === 'p') {       
-        selectedPeriod.value = 'PM';
-      }
+  if(selectedMinute.value){
+    const minute = parseInt(selectedMinute.value);
+    if (minute < 0 || minute > 59 || isNaN(minute)) {
+      selectedMinute.value = '00';
+      event.target.select(); 
+    } else {
+      selectedMinute.value = minute.toString().padStart(2, '0');
+      if(((selectedMinute.value).toString()).charAt(0) !== '0') inputPeriods.value?.focus() 
     }
+    updateAllColumns();
+ }
+};
+
+const validatePeriod = () => {  
+  const allowedChars = ['a', 'p', 'm']; 
+
+  if(selectedPeriod.value){
+  const period = selectedPeriod.value.toLowerCase();
+    
+  if (allowedChars.includes(period)) {  
+    console.log(`output->esta incluido el period`, period) 
+    /*if (period !== 'AM' && period !== 'PM') {   
+      selectedPeriod.value = 'AM';
+    } else*/ if (period == 'AM' || period.charAt(0) === 'a'){   
+      selectedPeriod.value = 'AM';
+    }
+    else if (period == 'PM' || period.charAt(0) === 'p'){   
+      selectedPeriod.value = 'PM';
+    }
+    else if(period.charAt(0) === 'm') selectedPeriod.value = 'AM';
+  }
+    else{
+      selectedPeriod.value = "";    
+    } 
+  }
+
+};
+
+const checkKey = (event: any, inputRef: string)=>{
+  // Verifica si la tecla presionada es "Backspace"
+      if (event.key === 'Backspace') {
+        if(inputRef === 'inputHours') selectedHour.value = '';
+        if(inputRef === 'inputMinutes') selectedMinute.value = '';
+        if(inputRef === 'inputPeriods') selectedPeriod.value = '';       
+      }
+      else if (event.key === 'ArrowRight') {       
+        // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha derecha
+        if(inputRef === 'inputHours') inputMinutes.value?.focus();
+        if(inputRef === 'inputMinutes') inputPeriods.value?.focus();
+      }
+      else if (event.key === 'ArrowLeft') {       
+        // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha izquierda    
+        if(inputRef === 'inputMinutes') {
+          inputHours.value?.focus();
+          //inputHours.value?.select();
+        }
+        if(inputRef === 'inputPeriods') inputMinutes.value?.focus();
+      }
+    
+      else{
+        /*const allowedChars = ['a', 'p', 'm'];
+              if (!allowedChars.includes(selectedPeriod.value.toLowerCase())) {
+              const key = event.key.toLowerCase();
+              if (key === 'a') {        
+                selectedPeriod.value = 'AM';
+              } else if (key === 'p') {       
+                selectedPeriod.value = 'PM';
+              }
+            }*/
+      }
+  
+    updateAllColumns(); 
+  }
+
+  const checkDown = (event: any, inputRef: string)=>{     
+  // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha arriba    
+        if(inputRef === 'inputHours') {
+          if(selectedHour.value &&parseInt(selectedHour.value) > 1 ) {
+            event.target.value = parseInt(selectedHour.value) - 1;
+            selectedHour.value = (parseInt(selectedHour.value) -1).toString().padStart(2, '0');
+          }
+          else{
+            selectedHour.value = '12';
+          }
+        }
+
+        if(inputRef === 'inputMinutes') {
+          if(selectedMinute.value && parseInt(selectedMinute.value) > 0 ) {
+            event.target.value = parseInt(selectedMinute.value) - 1;
+            selectedMinute.value = (parseInt(selectedMinute.value) -1).toString().padStart(2, '0');
+          }
+          else{
+            selectedMinute.value = '59';
+          }
+        }     
+    updateAllColumns(); 
+  }
+
+    const checkUP = (event: any, inputRef: string)=>{     
+  // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha arriba    
+        if(inputRef === 'inputHours') {
+          if(selectedHour.value && parseInt(selectedHour.value) < 12) {
+            event.target.value = parseInt(selectedHour.value) + 1;
+            selectedHour.value = (parseInt(selectedHour.value) +1).toString().padStart(2, '0');
+          }
+          else{
+            selectedHour.value = '01';
+          }
+        }
+
+        if(inputRef === 'inputMinutes') {
+          if(selectedMinute.value &&parseInt(selectedMinute.value) < 59) {
+            event.target.value = parseInt(selectedMinute.value) + 1;
+            selectedMinute.value = (parseInt(selectedMinute.value) +1).toString().padStart(2, '0');
+          }
+          else{
+            selectedMinute.value = '00';
+          }
+        }     
+    updateAllColumns(); 
+  }
+
+      const  checkDownOrUpPeriod = ()=>{     
+  // Aquí puedes agregar la lógica que necesites cuando se presiona la flecha arriba o abajo  
+        if(selectedPeriod.value) {
+          if(selectedPeriod.value === 'AM'){
+            selectedPeriod.value = 'PM';
+          } 
+          else if(selectedPeriod.value === 'PM'){
+            selectedPeriod.value = 'AM';
+          }
+        }
+        else {
+           selectedPeriod.value = 'AM';
+        }
     updateAllColumns(); 
   }
 
 const selectAllText = (event : any) => {
-      event.target.select();
-      
+      event.target.select();      
     }
 
 const formatTime = (time: string) =>{
@@ -238,6 +336,9 @@ return{
     checkKey, 
     formatTime, 
     hoursColumn,
+    checkDown,
+    checkUP,
+    checkDownOrUpPeriod,
   convertTo24HourFormat,
   formattedTime,
   hoursToShow, 
@@ -256,6 +357,7 @@ return{
   selectMinute,
   selectPeriod,
   showDropdown,
+  showValidationMessage,
   updateAllColumns,
   validateHour,
   validateMinute,
