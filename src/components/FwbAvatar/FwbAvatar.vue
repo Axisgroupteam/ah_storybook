@@ -1,5 +1,5 @@
 <template>
-  <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="alignToEnd" :placement="placement">
+  <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="alignToEnd" :placement="placement" max_h="160px">
     <template #trigger>
       <FwbButton 
         :pill="pill"

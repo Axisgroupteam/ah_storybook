@@ -3528,6 +3528,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/shared@npm:^3.4.0":
+  version: 3.4.33
+  resolution: "@vue/shared@npm:3.4.33"
+  checksum: 10/0cb9f1c4841f3da14ee9bab0a0fb169ddf1a1979b1aa70a4c7b6279e7fc7e5296c7c63f56bbdb1f43e4264aab3d7daa3e2355905caf727cf5f9088f99dd1a8c4
+  languageName: node
+  linkType: hard
+
 "@vue/test-utils@npm:^2.4.6":
   version: 2.4.6
   resolution: "@vue/test-utils@npm:2.4.6"
@@ -11431,7 +11438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-component-type-helpers@npm:latest":
+"vue-component-type-helpers@npm:^2.0.0, vue-component-type-helpers@npm:latest":
   version: 2.0.26
   resolution: "vue-component-type-helpers@npm:2.0.26"
   checksum: 10/09fb4192577fc6db221b1fff4a52ed94d1b3c275748a60b2f242a21a0e3b5fd74d00c691c348dc5fbac0d12d8c43757951694e4f306f5493515c0bf413758ac3
