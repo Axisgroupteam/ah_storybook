@@ -1,28 +1,28 @@
-import { computed, type Ref } from "vue";
+import { computed, type Ref } from 'vue'
 import type {
   /* avatarDotIndicatorPositionClasses, */
   AvatarSize,
   /* AvatarStatus,
   AvatarStatusPosition, */
-  AvatarType,
-} from "../types";
-import { useMergeClasses } from "@/composables/userMergeClasses";
+  AvatarType
+} from '../types'
+import { useMergeClasses } from '@/composables/userMergeClasses'
 
 const avatarSizeClasses: Record<AvatarSize, string> = {
-  xs: "w-6 h-6",
-  sm: "w-8 h-8",
-  md: "w-10 h-10",
-  lg: "w-20 h-20",
-  xl: "w-36 h-36",
-};
+  xs: 'w-6 h-6',
+  sm: 'w-8 h-8',
+  md: 'w-10 h-10',
+  lg: 'w-20 h-20',
+  xl: 'w-36 h-36'
+}
 
 const avatarTypeClasses: Record<AvatarType, string> = {
-  default: "rounded",
-  rounded: "rounded-full",
-};
-const avatarBorderedClasses = "ring-2 ring-gray-300 dark:ring-gray-500 p-1";
+  default: 'rounded',
+  rounded: 'rounded-full'
+}
+const avatarBorderedClasses = 'ring-2 ring-gray-300 dark:ring-gray-500 p-1'
 const avatarStatusDotDefaultClasses =
-  "absolute h-3.5 w-3.5 rounded-full border-2 border-white dark:border-gray-800";
+  'absolute h-3.5 w-3.5 rounded-full border-2 border-white dark:border-gray-800'
 /* const avatarStatusDotClasses: Record<AvatarStatus, string> = {
   away: "bg-gray-400",
   busy: "bg-yellow-400",
@@ -44,30 +44,35 @@ const avatarStatusDotPositionClasses: Record<
   "bottom-left-default": "-bottom-1.5 left-0 transform -translate-x-1/2 ",
 };*/
 
-const avatarPlaceholderDefaultClasses = "relative w-auto h-auto text-neutral-400";
+const avatarPlaceholderDefaultClasses = 'relative w-auto h-auto text-neutral-400'
 const avatarPlaceholderWrapperDefaultClasses =
-  "flex overflow-hidden relative justify-center items-center";
-const avatarPlaceholderWrapperBackgroundClasses =
-  "bg-neutral-100 dark:bg-neutral-600";
-const avatarPlaceholderInitialsDefaultClasses = "font-medium text-neutral-600 dark:!text-neutral-300";
+  'flex overflow-hidden relative justify-center items-center'
+const avatarPlaceholderWrapperBackgroundClasses = 'bg-neutral-100 dark:bg-neutral-600'
+const avatarPlaceholderInitialsDefaultClasses =
+  'font-medium text-neutral-600 dark:!text-neutral-300'
+/* const avatarPlaceholderInitialsDefaultClasses = {
+  xs: "font-medium text-neutral-600 dark:!text-neutral-300 text-xs",
+  sm: "font-medium text-neutral-600 dark:!text-neutral-300",
+  md: "font-medium text-neutral-600 dark:!text-neutral-300",
+} */
 const avatarPlaceholderSizes = {
-  xs: "bottom-0",
-  sm: "absolute !-bottom-[6px]",
-  md: "absolute !-bottom-[6px]",
-  lg: "absolute !-bottom-2",
-  xl: "absolute !-bottom-4",
-};
+  xs: 'absolute !-bottom-[4px]',
+  sm: 'absolute !-bottom-[6px]',
+  md: 'absolute !-bottom-[6px]',
+  lg: 'absolute !-bottom-2',
+  xl: 'absolute !-bottom-4'
+}
 
 export type UseAvatarClassesProps = {
   /* status: Ref<AvatarStatus>; */
-  bordered: Ref<boolean>;
-  img: Ref<string>;
-  alt: Ref<string>;
-  rounded: Ref<boolean>;
-  size: Ref<AvatarSize>;
+  bordered: Ref<boolean>
+  img: Ref<string>
+  alt: Ref<string>
+  rounded: Ref<boolean>
+  size: Ref<AvatarSize>
   /* stacked: Ref<boolean>; */
   /* statusPosition: Ref<AvatarStatusPosition>; */
-};
+}
 
 export function useAvatarClasses(props: UseAvatarClassesProps): {
   avatarClasses: string
@@ -79,49 +84,44 @@ export function useAvatarClasses(props: UseAvatarClassesProps): {
   const avatarClasses = computed<string>(() =>
     useMergeClasses([
       avatarSizeClasses[props.size.value],
-      avatarTypeClasses[props.rounded.value ? "rounded" : "default"],
-      props.bordered.value ? avatarBorderedClasses : "",
+      avatarTypeClasses[props.rounded.value ? 'rounded' : 'default'],
+      props.bordered.value ? avatarBorderedClasses : ''
       //props.stacked.value ? "border-2 border-white dark:border-gray-800" : "",
     ])
-  );
+  )
   const avatarDotClasses = computed<string>(() => {
     /* const avatarType = `${props.statusPosition.value}-${
       props.rounded.value ? "rounded" : "default"
     }`; */
     return useMergeClasses([
-      avatarStatusDotDefaultClasses,
+      avatarStatusDotDefaultClasses
       /* avatarStatusDotClasses[props.status.value],
       avatarStatusDotPositionClasses[
         avatarType as avatarDotIndicatorPositionClasses 
       ],*/
-    ]);
-  });
-  const avatarPlaceholderClasses = computed<string>(() =>
-    useMergeClasses([
-      avatarPlaceholderDefaultClasses,
-      avatarPlaceholderSizes[props.size.value],
     ])
-  );
+  })
+  const avatarPlaceholderClasses = computed<string>(() =>
+    useMergeClasses([avatarPlaceholderDefaultClasses, avatarPlaceholderSizes[props.size.value]])
+  )
   const avatarPlaceholderWrapperClasses = computed<string>(() =>
     useMergeClasses([
       avatarPlaceholderWrapperDefaultClasses,
       avatarSizeClasses[props.size.value],
-      avatarTypeClasses[props.rounded.value ? "rounded" : "default"],
-      props.img.value && props.bordered.value
-        ? ""
-        : avatarPlaceholderWrapperBackgroundClasses,
-      props.bordered.value ? " overflow-visible" : "",
+      avatarTypeClasses[props.rounded.value ? 'rounded' : 'default'],
+      props.img.value && props.bordered.value ? '' : avatarPlaceholderWrapperBackgroundClasses,
+      props.bordered.value ? ' overflow-visible' : ''
     ])
-  );
+  )
   const avatarPlaceholderInitialsClasses = computed<string>(() =>
     useMergeClasses([avatarPlaceholderInitialsDefaultClasses])
-  );
+  )
 
   return {
     avatarClasses: avatarClasses.value,
     avatarDotClasses: avatarDotClasses.value,
     avatarPlaceholderClasses: avatarPlaceholderClasses.value,
     avatarPlaceholderInitialsClasses: avatarPlaceholderInitialsClasses.value,
-    avatarPlaceholderWrapperClasses: avatarPlaceholderWrapperClasses.value,
-  };
+    avatarPlaceholderWrapperClasses: avatarPlaceholderWrapperClasses.value
+  }
 }

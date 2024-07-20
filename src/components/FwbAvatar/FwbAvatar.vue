@@ -1,8 +1,16 @@
 <template>
   <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="alignToEnd" :placement="placement">
     <template #trigger>
-      <FwbButton color="secondary" :class="[{'ring-[4px] ring-neutral-300 dark:ring-neutral-500': visibleRing},
-                      {'ring-0': !visibleRing}]" class="p-0 overflow-clip" :pill="pill">
+      <FwbButton 
+        :pill="pill"
+        color="secondary" 
+        class="p-0 overflow-clip" 
+        :class="[
+          {'!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500': hasDropdown || visibleRing}, 
+          {'!ring-0': !hasDropdown || !visibleRing},
+          {'!cursor-default':  !hasDropdown},
+        ]"
+      >
         <div class="relative">
           <div :class="avatarPlaceholderWrapperClasses">
             <img v-if="img && !imageError" :alt="alt" :class="avatarClasses" :src="getImage(img)"
@@ -55,8 +63,8 @@
 						dark:last:text-red-500 
 						last:hover:text-red-500 
 						dark:last:hover:text-red-500">
-					<component :is="option.component" :initials="option.initials" :img="option.img"/>
-					<span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{ option.label }}</span>
+            <component fill="currentColor" :is="getFBIcon(option.icon)" />
+					<span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{ option.label }}</span>  
 				</li>
 			</ul>
     </template>
@@ -71,17 +79,7 @@
   import { getImage, getFBIcon } from "./getAsset";
   import FwbButton from "../FwbButton/FwbButton.vue"
   import FwbDropdown from '../FwbDropdown/FwbDropdown.vue';
-
-
-  const imageError = ref(false);
-
-  function setImageError() {
-    imageError.value = true;
-  }
-
-  const slots = useSlots();
-  const hasPlaceholder = computed(() => slots.placeholder);
-
+  
   const props = defineProps({
     alt: {
       type: String,
@@ -135,11 +133,17 @@
 				label: string
 				icon: string
 				link: string
-        component: any
-        initials: string | undefined
-        img: string | undefined
 			}>
   });
+
+  const imageError = ref(false);
+  const slots = useSlots();
+  const hasPlaceholder = computed(() => slots.placeholder);
+  const visibleRing=ref(false)
+
+  function setImageError() {
+    imageError.value = true;
+  }
 
   function getInitials(name: string): string {
     const nameParts = name.split(' ')
@@ -155,9 +159,6 @@
     }
   }
 
-  const visibleRing=ref(false)
-
-
   const initials = computed(() => getInitials(props.fullName))
   const size = computed(() => props.size)
   const placement = computed(() => props.placement)
@@ -170,4 +171,5 @@
     avatarPlaceholderInitialsClasses,
     avatarPlaceholderWrapperClasses,
   } = useAvatarClasses(toRefs(props));
+
 </script>
