@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, onMounted, onUnmounted, watch, nextTick, useSlots } from 'vue'
+import { computed, ref, toRef, onUnmounted, watch, nextTick, useSlots } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import type { DropdownPlacement } from './types'
 import FwbButton from '../FwbButton/FwbButton.vue'

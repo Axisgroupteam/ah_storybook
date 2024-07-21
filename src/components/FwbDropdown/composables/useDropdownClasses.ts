@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import type { DropdownAlignment, DropdownPlacement } from '../types'
 
 const primaryDropdownClasses =
-  'absolute z-[100] divide-y divide-neutral-700 rounded-lg dark:bg-neutral-700 bg-neutral-50 shadow-md border border-neutral-200 dark:border-neutral-600 '
+  'absolute z-[100] divide-y divide-transparent rounded-lg dark:bg-neutral-700 bg-neutral-50 shadow-md border border-neutral-200 dark:border-neutral-600 '
 
 const secondaryDropdownClasses =
   'absolute z-10 p-3 bg-neutral-50 rounded-lg dark:bg-neutral-700 shadow-md'
