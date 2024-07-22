@@ -16,7 +16,7 @@
       :class="[bordered ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600', validationStatus === 'error' ? '!border-red-500 !bg-red-50 !text-red-900 !placeholder-red-700 dark:!text-red-500 dark:!placeholder-red-500' : '']"
       @click="handleContainerClick"
     >
-      <fwb-dropdown text="asd" placement="bottom" class="rounded-lg" @toogle="handleToogle">
+      <fwb-dropdown text="asd" placement="bottom" class="rounded-lg" @toggleVisibility="handleToogle">
         <template #trigger>
           <div
             class="cursor-pointer flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 rounded-s-lg hover:bg-neutral-200 focus:outline-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-white justify-center border-r-[1px] border-neutral-300 dark:border-neutral-600 "

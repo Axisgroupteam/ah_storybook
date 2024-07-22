@@ -8,7 +8,12 @@
       :class="'text-sm'"
     >
       Rows per page
-      <fwb-dropdown :text="perPage" placement="top" class="rounded-lg" @toogle="handleToogle">
+      <fwb-dropdown
+        :text="perPage"
+        placement="top"
+        class="rounded-lg"
+        @toggleVisibility="handleToogle"
+      >
         <template #trigger>
           <FwbButton
             square

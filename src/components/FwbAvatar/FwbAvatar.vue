@@ -46,9 +46,10 @@
       </div>
     </div>
   </FwbButton>
+
   <FwbDropdown
     v-else
-    @toogle="visibleRing = !visibleRing"
+    @toggleVisibility="toogle"
     :alignToEnd="alignToEnd"
     :placement="placement"
     max_h="160px"
@@ -232,6 +233,10 @@ const size = computed(() => props.size)
 const placement = computed(() => props.placement)
 const alignToEnd = computed(() => props.alignToEnd)
 const hasDropdown = computed(() => props.hasDropdown)
+
+const toogle = (value: boolean) => {
+  visibleRing.value = value
+}
 
 const {
   avatarClasses,
