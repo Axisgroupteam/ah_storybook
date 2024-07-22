@@ -31,7 +31,7 @@ const placementCalculators: Record<
   (triggerRect: DOMRect, contentRect: DOMRect) => string
 > = {
   bottom(triggerRect: DOMRect, contentRect: DOMRect): string {
-    return `top: ${triggerRect.height + defaultGapInPx}px; left: 0;`
+    return `top: ${triggerRect.height + defaultGapInPx}px; ;`
   },
   left(rect: DOMRect): string {
     return `left: -${rect.width + defaultGapInPx}px;`
