@@ -69,7 +69,7 @@ import FwbSlotListener from '@/utils/FwbSlotListener/FwbSlotListener.vue'
 import { useDropdownClasses } from './composables/useDropdownClasses'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 
-const emit = defineEmits(['toggle'])
+const emit = defineEmits(['toggleVisibility'])
 
 const visible = ref(false)
 const modalHeight = ref(0)
@@ -150,21 +150,12 @@ watch(
   { deep: true }
 )
 
-const onHide = () => {
-  visible.value = false
-  emit('toggle', false)
-}
-
 const onToggle = () => {
-  if (visible.value) {
-    onHide()
-  } else {
-    visible.value = true
-    emit('toggle', true)
-    nextTick(() => {
-      resetModalSize()
-    })
-  }
+  visible.value = !visible.value
+  emit('toggleVisibility', visible.value)
+  nextTick(() => {
+    resetModalSize()
+  })
 }
 
 const startResize = (e: MouseEvent) => {

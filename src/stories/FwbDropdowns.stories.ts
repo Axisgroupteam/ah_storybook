@@ -50,7 +50,7 @@ export const Primary: Story = {
       return { args, isVisible: ref(false) }
     },
     template: `
-              <fwbDropdown @toogle="toggleVisibility">
+              <fwbDropdown @toggleVisibility="toggleVisibility">
               <template #trigger>
               <FwbButton
                  size="md"
@@ -113,7 +113,7 @@ export const Secondary: Story = {
       return { args, isVisible: ref(false) }
     },
     template: `
-                <fwbDropdown v-bind="args" @toogle="toggleVisibility">
+                <fwbDropdown v-bind="args" @toggleVisibility="toggleVisibility">
                 <template #trigger>
                 <FwbButton
                             
@@ -174,7 +174,7 @@ export const ResizablePrimary: Story = {
       return { args, isVisible: ref(false) }
     },
     template: `
-                <FwbDropdown @toogle="toggleVisibility" v-bind="args">
+                <FwbDropdown @toggleVisibility="toggleVisibility" v-bind="args">
               <template #trigger>
               <FwbButton
                  size="md"
@@ -236,7 +236,7 @@ export const ResizableSecondary: Story = {
       return { args, isVisible: ref(false) }
     },
     template: `
-                <fwbDropdown v-bind="args" @toogle="toggleVisibility">
+                <fwbDropdown v-bind="args" @toggleVisibility="toggleVisibility">
                 <template #trigger>
                 <FwbButton
                             
