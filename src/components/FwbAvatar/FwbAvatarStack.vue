@@ -1,10 +1,18 @@
 <template>
   <div class="flex -space-x-4">
-    <img class="w-10 h-10 border-2 border-white dark:border-neutral-800 rounded-full overflow-clip"
-      v-for="index in maxInStack" :key="index" :src="getImage(imgStacks[index])" />
-    <FwbDropdown @toogle="visibleRing=!visibleRing" :alignToEnd="true" placement="bottom" type="secondary" max_h="160px">
+    <img v-for="index in maxInStack" :key="index" :src="getImage(imgStacks[index])" 
+      class="w-10 h-10 border-2 border-white dark:border-neutral-800 rounded-full overflow-clip"
+    />
+    <FwbDropdown v-if="hasDropdown" @toogle="visibleRing=!visibleRing" :alignToEnd="true" placement="bottom" type="secondary" max_h="160px">
       <template #trigger>
-        <FwbButton :class="[{'ring-[4px] ring-neutral-300 dark:ring-neutral-600 border-0': visibleRing}, {'ring-0': !visibleRing}]" color="secondary" pill class="p-0 text-xs w-10 h-10 border border-white dark:border-neutral-800 text-white dark:text-white hover:text-white !bg-neutral-700 hover:!bg-neutral-600" >
+        <FwbButton 
+          color="secondary"
+          :pill="true"
+          :class="[
+            {'!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500 !border-0': visibleRing}, 
+            {'!ring-0 !border-2': !visibleRing},
+          ]" 
+            class="p-0 text-xs w-10 h-10 border-white dark:border-neutral-800 text-white dark:text-white hover:text-white !bg-neutral-700 hover:!bg-neutral-600" >
           +{{ totalStack }} 
         </FwbButton>
       </template>
@@ -25,17 +33,29 @@
 						text-sm 
 						font-medium 
           ">
-            <component fill="currentColor" :is="getFBIcon(option.icon)" />
+            <component :is="option.component" size="xs" :fullName="option.fullName" :img="option.img" :icon="option.icon" />
             <span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{ option.label }}</span>
           </li>
         </ul>
       </template>
     </FwbDropdown>
+    <FwbButton  v-else
+      color="secondary"
+      :pill="true"
+      :href="href"
+      :class="[
+            {'!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500 !border-0': visibleRing}, 
+            {'!ring-0 !border-2': !visibleRing},
+          ]" 
+      class="relative flex justify-center items-center p-0 text-xs w-10 h-10 border-white dark:border-neutral-800 text-white dark:text-white hover:text-white !bg-neutral-700 hover:!bg-neutral-600"
+    >
+      +{{ totalStack }} 
+    </FwbButton>
   </div>
 </template>
 <script setup lang="ts">
   import { computed, ref } from 'vue';
-  import { getImage, getFBIcon } from "./getAsset";
+  import { getImage } from "./getAsset";
   import FwbDropdown from '../FwbDropdown/FwbDropdown.vue';
   import FwbButton from '../FwbButton/FwbButton.vue';
 
@@ -43,24 +63,29 @@
 
   const props = withDefaults(
     defineProps<{
+      hasDropdown: boolean
       href: string
       size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
       maxInStack: number
       imgStacks: Array<string>
       totalStack: number
-      options?: Array<{
+      options: Array<{
         label: string
         icon: string
         link: string
+        component: any
+        fullName: string | undefined
+        img: string | undefined
       }>
     }>(), {
-    total: 0,
-    href: '#',
-    size: 'md',
-    maxInStack: 0,
-    imgStacks: () => [],
-    totalStack: 99,
-    options: () => [{ label: 'Element 1', icon: 'user', link: 'profile' }, { label: 'Element 2', icon: 'user', link: 'profile' }, { label: 'Element 3', icon: 'user', link: 'profile' }, { label: 'Element 4', icon: 'user', link: 'profile' }],
+      hasDropdown: false,
+      total: 0,
+      href: '#',
+      size: 'md',
+      maxInStack: 0,
+      imgStacks: () => [],
+      totalStack: 99,
+      options: () => [{label: 'Element 1', icon: 'user', link: 'profile', component: 'FwbAvatar', fullName: 'ME', img: 'Avatar_40_1.png'}, {label: 'Element 2', icon: 'user', link: 'profile', component: 'FwbAvatar', fullName: 'ME', img: 'Avatar_40_1.png'}, {label: 'Element 3', icon: 'user', link: 'profile', component: 'FwbAvatar', fullName: 'ME', img: 'Avatar_40_1.png'}],
   });
 
   const ssize = computed((): string => {
@@ -74,5 +99,8 @@
   const visibleRing=ref(false)
 </script>
 
-<!--           class="relative flex justify-center items-center text-xs font-medium text-white bg-neutral-700hover:bg-neutral-600"
+<!--  
+class="relative flex justify-center items-center text-xs font-medium text-white bg-neutral-700 hover:bg-neutral-600"         
  -->
+
+ 

@@ -22,10 +22,10 @@ const meta = {
     })
   ],
   argTypes: {
-    placement: { control: 'select', options: ['bottom', 'left', 'right'] }
+    alignToEnd: { control: 'radio', options: [true, false] },
+    hasDropdown: {control: 'radio', options: [true, false] }
   },
   args: {
-    placement: 'bottom'
   }
 } satisfies Meta<typeof FwbAvatar>
 
@@ -93,7 +93,7 @@ export const Initials: Story = {
   args: {
     fullName: 'Master Employee',
     email: 'contact@detooo.com',
-    options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
+    options: [{ label: 'Profile', icon: 'user', link: 'profile'}, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
   }
 }
 
@@ -113,7 +113,12 @@ export const Stacked: Story = {
       `
   }),
   args: {
-    options: [{ label: 'Element 1', icon: 'user', link: 'profile' }, { label: 'Element 2', icon: 'user', link: 'profile' }, { label: 'Element 3', icon: 'user', link: 'profile' }, { label: 'Element 4', icon: 'user', link: 'profile' }],    maxInStack: 3,
+    options: [
+      { label: 'Element 1', icon: 'user', link: 'profile', component: FwbAvatar, fullName: 'Master Employee', img: 'Avatar_40_2.png'  }, 
+      { label: 'Element 2', icon: 'user', link: 'profile', component: FwbAvatar, fullName: 'Johny Doe', img: 'Avatar_40_3.png'  }, 
+      { label: 'Element 3', icon: 'user', link: 'profile', component: FwbAvatar, fullName: 'John Doe', img: 'Avatar_40_4.png'  }
+    ],    
+    maxInStack: 3,
     imgStacks: ["Avatar_40_1.png", "Avatar_40_2.png", "Avatar_40_3.png", "Avatar_40_4.png", "Avatar_40_5.png", "Avatar_40_6.png"]
   }
 }
