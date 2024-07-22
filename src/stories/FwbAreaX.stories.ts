@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import AreaChart from '@/components/FwbCharts/Area/AreaChart.vue'
 import { ref } from 'vue'
-
+/**
+ * Use the area chart and graph component to show a basic area chart.
+ *
+ * This is an area chart type that can help you visualize complex data inside graphs in admin dashboard layouts, analytics, diagrams, and more.
+ */
 const meta: Meta<typeof AreaChart> = {
   title: 'Charts/AreaX',
   component: AreaChart,
@@ -41,7 +45,7 @@ export const Default: Story = {
 
       function getDatesInRange(start, end) {
         const dates = []
-        let currentDate = new Date(start)
+        const currentDate = new Date(start)
         while (currentDate <= end) {
           dates.push(new Date(currentDate))
           currentDate.setDate(currentDate.getDate() + 1)
@@ -98,7 +102,7 @@ export const Default: Story = {
             start.setDate(start.getDate() - 29)
             newLabels = []
             for (let i = 0; i < 5; i++) {
-              let date = new Date(start)
+              const date = new Date(start)
               date.setDate(date.getDate() + i * 7)
               newLabels.push(formatDate(date))
             }
@@ -111,7 +115,7 @@ export const Default: Story = {
             start.setDate(1)
             newLabels = []
             for (let i = 0; i < 3; i++) {
-              let date = new Date(start)
+              const date = new Date(start)
               date.setMonth(date.getMonth() + i)
               newLabels.push(formatMonth(date))
             }

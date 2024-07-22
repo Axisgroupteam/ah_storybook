@@ -107,24 +107,22 @@
         <!-- Menu List -->
         <li
           v-if="fullName"
-          class="cursor-auto overflow-hidden w-[200px] py-[8px] items-start flex border-b border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 dark:text-neutral-400 font-medium"
+          class="cursor-auto overflow-hidden w-[200px] py-[8px] items-start flex border-b border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 dark:text-neutral-400 font-medium flex-col"
         >
-          <ul class="-space-y-[2px]">
-            <li
-              class="px-4 overflow-hidden w-[200px] items-start flex justify-start text-neutral-500 r:text-white dark:text-neutral-400"
-            >
-              <span class="text-ellipsis truncate whitespace-nowrap text-sm font-semibold">{{
-                fullName
-              }}</span>
-            </li>
-            <li
-              class="px-4 overflow-hidden w-[200px] items-start flex justify-start text-neutral-500 r:text-white dark:text-neutral-400"
-            >
-              <span class="text-ellipsis truncate whitespace-nowrap text-sm font-normal">{{
-                email
-              }}</span>
-            </li>
-          </ul>
+          <div
+            class="px-4 overflow-hidden w-[200px] items-start flex justify-start text-neutral-500 r:text-white dark:text-neutral-400"
+          >
+            <span class="text-ellipsis truncate whitespace-nowrap text-sm font-semibold">{{
+              fullName
+            }}</span>
+          </div>
+          <div
+            class="px-4 overflow-hidden w-[200px] items-start flex justify-start text-neutral-500 r:text-white dark:text-neutral-400"
+          >
+            <span class="text-ellipsis truncate whitespace-nowrap text-sm font-normal">{{
+              email
+            }}</span>
+          </div>
         </li>
         <li
           v-for="(option, index) in options"

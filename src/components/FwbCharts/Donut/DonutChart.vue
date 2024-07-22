@@ -112,9 +112,8 @@
       class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between"
     >
       <div class="flex justify-between items-center pt-5">
-        <!-- Button -->
-        <TimeRangeDropdown />
-        <FwbButton color="terciary" class="whitespace-nowrap">
+        <TimeRangeDropdown :selected-range="selectedRange" @range-changed="handleRangeChange" />
+        <FwbButton color="terciary" class="whitespace-nowrap" @click="generateReport">
           Report Analysis
           <template #suffix>
             <svg
@@ -140,40 +139,28 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, reactive } from 'vue'
-import { useChartData } from './composables/useChartData'
+import { onMounted, onBeforeUnmount, ref, computed, watch, reactive } from 'vue'
 import { useChartOptions } from './composables/useChartOptions'
-import { initFlowbite } from 'flowbite'
 import ApexCharts from 'apexcharts'
-import FwbCheckbox from '@/components/FwbCheckbox/FwbCheckbox.vue'
+import { initFlowbite } from 'flowbite'
 import TimeRangeDropdown from './TimeRangeDropdown.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
+import FwbCheckbox from '@/components/FwbCheckbox/FwbCheckbox.vue'
 import FwbTooltip from '@/components/FwbTooltip/FwbTooltip.vue'
-import { watch } from 'fs'
 
-const { chartData, updateChartSeries } = useChartData()
+const props = defineProps({
+  initialData: {
+    type: Object,
+    required: true
+  }
+})
 
+const emit = defineEmits(['fetch-data', 'generate-report'])
+
+const chartData = ref(props.initialData)
+const selectedRange = ref('Last 7 days')
 const chartContainer = ref(null)
 let chartInstance = null
-
-const renderChart = () => {
-  if (chartInstance) {
-    chartInstance.destroy()
-  }
-
-  const { options } = useChartOptions()
-
-  // Desactivar animación inicial
-  options.chart = {
-    ...options.chart
-  }
-  options.series = chartData.series
-
-  if (chartContainer.value) {
-    chartInstance = new ApexCharts(chartContainer.value, options)
-    chartInstance.render()
-  }
-}
 
 const checks = reactive({
   issues: {
@@ -185,6 +172,21 @@ const checks = reactive({
     series: [25, 26, 14, 34]
   }
 })
+
+const renderChart = () => {
+  if (chartInstance) {
+    chartInstance.destroy()
+  }
+
+  const { options } = useChartOptions()
+  options.labels = chartData.value.labels
+  options.series = chartData.value.series
+
+  if (chartContainer.value) {
+    chartInstance = new ApexCharts(chartContainer.value, options)
+    chartInstance.render()
+  }
+}
 
 const handleCheckboxChange = () => {
   let newSeries
@@ -199,12 +201,33 @@ const handleCheckboxChange = () => {
     checks.ticket.value = true
     newSeries = [45, 36, 70, 74]
   }
-  updateChartSeries(newSeries)
 
   if (chartInstance) {
     chartInstance.updateSeries(newSeries)
   }
 }
+
+const handleRangeChange = async (newRange) => {
+  selectedRange.value = newRange
+  const newData = await emit('fetch-data', newRange)
+  if (newData) {
+    chartData.value = newData
+    renderChart()
+  }
+}
+
+const generateReport = () => {
+  emit('generate-report', selectedRange.value)
+}
+
+watch(
+  () => props.initialData,
+  (newData) => {
+    chartData.value = newData
+    renderChart()
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   initFlowbite()
@@ -217,7 +240,3 @@ onBeforeUnmount(() => {
   }
 })
 </script>
-
-<style scoped></style>
-
-<style scoped></style>

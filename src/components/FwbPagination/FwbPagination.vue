@@ -13,6 +13,7 @@
         placement="top"
         class="rounded-lg"
         @toggleVisibility="handleToogle"
+        :maxItems="4"
       >
         <template #trigger>
           <FwbButton
@@ -50,16 +51,16 @@
             </template>
           </FwbButton>
         </template>
-        <div class="w-[64px] shadow-md rounded-lg border-neutral-200">
-          <p
+        <ul class="w-[64px] shadow-md rounded-lg border-neutral-200">
+          <li
             v-for="page in perPagesArray"
             :key="page"
             class="px-4 py-2 items-start flex gap-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium"
             @click="perPage = page"
           >
             {{ page }}
-          </p>
-        </div>
+          </li>
+        </ul>
       </fwb-dropdown>
       <div :class="'text-xs'">
         <span class="font-semibold text-neutral-900 dark:text-white">{{ startItemsCount }}</span>

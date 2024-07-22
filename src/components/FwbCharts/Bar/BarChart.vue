@@ -3,7 +3,9 @@
     <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
       <dl>
         <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Total Costs</dt>
-        <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">$41,865</dd>
+        <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white">
+          {{ formattedTotalCosts }}
+        </dd>
       </dl>
       <div>
         <span
@@ -24,7 +26,7 @@
               d="M5 13V1m0 0L1 5m4-4 4 4"
             />
           </svg>
-          Increase 23.5%
+          Increase {{ percentageIncrease }}
         </span>
       </div>
     </div>
@@ -32,11 +34,15 @@
     <div class="grid grid-cols-2 py-3">
       <dl>
         <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Labor Costs</dt>
-        <dd class="leading-none text-xl font-bold text-red-500 dark:text-red-500">$23,635</dd>
+        <dd class="leading-none text-xl font-bold text-red-500 dark:text-red-500">
+          {{ formattedLaborCosts }}
+        </dd>
       </dl>
       <dl>
         <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Part Costs</dt>
-        <dd class="leading-none text-xl font-bold text-amber-500 dark:text-amber-500">$18,230</dd>
+        <dd class="leading-none text-xl font-bold text-amber-500 dark:text-amber-500">
+          {{ formattedPartCosts }}
+        </dd>
       </dl>
     </div>
 
@@ -45,11 +51,8 @@
       class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between"
     >
       <div class="flex justify-between items-center pt-5">
-        <!-- Button -->
-
-        <!-- Dropdown menu -->
-        <TimeRangeDropdown />
-        <FwbButton color="terciary" class="whitespace-nowrap">
+        <TimeRangeDropdown :selected-range="selectedRange" @range-changed="handleRangeChange" />
+        <FwbButton color="terciary" class="whitespace-nowrap" @click="generateReport">
           Cost Report
           <template #suffix>
             <svg
@@ -75,16 +78,42 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue'
-import { useChartData } from './composables/useChartData'
+import { onMounted, onBeforeUnmount, ref, computed, watch } from 'vue'
 import { useChartOptions } from './composables/useChartOptions'
 import { initFlowbite } from 'flowbite'
 import ApexCharts from 'apexcharts'
 import TimeRangeDropdown from './TimeRangeDropdown.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
+const props = defineProps({
+  initialData: {
+    type: Object,
+    required: true
+  }
+})
+
+const emit = defineEmits(['fetch-data', 'generate-report'])
+
+const chartData = ref(props.initialData)
+const selectedRange = ref('Last 7 days')
 const chartContainer = ref(null)
 let chartInstance = null
+
+const formattedTotalCosts = computed(() => {
+  return `$${chartData.value.totalCosts.toLocaleString()}`
+})
+
+const formattedLaborCosts = computed(() => {
+  return `$${chartData.value.laborCosts.toLocaleString()}`
+})
+
+const formattedPartCosts = computed(() => {
+  return `$${chartData.value.partCosts.toLocaleString()}`
+})
+
+const percentageIncrease = computed(() => {
+  return `${chartData.value.percentageIncrease}%`
+})
 
 const renderChart = () => {
   if (chartInstance) {
@@ -92,19 +121,47 @@ const renderChart = () => {
   }
 
   const { options } = useChartOptions()
-  const { chartData } = useChartData()
-
-  // Desactivar animación inicial
-  options.chart = {
-    ...options.chart
-  }
-  options.series = chartData.series
+  options.xaxis.categories = chartData.value.labels
+  options.series = [
+    {
+      name: 'Labor Costs',
+      data: chartData.value.laborCostsData,
+      color: '#ef4444'
+    },
+    {
+      name: 'Part Costs',
+      data: chartData.value.partCostsData,
+      color: '#f59e0b'
+    }
+  ]
 
   if (chartContainer.value) {
     chartInstance = new ApexCharts(chartContainer.value, options)
     chartInstance.render()
   }
 }
+
+const handleRangeChange = async (newRange) => {
+  selectedRange.value = newRange
+  const newData = await emit('fetch-data', newRange)
+  if (newData) {
+    chartData.value = newData
+    renderChart()
+  }
+}
+
+const generateReport = () => {
+  emit('generate-report', selectedRange.value)
+}
+
+watch(
+  () => props.initialData,
+  (newData) => {
+    chartData.value = newData
+    renderChart()
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   initFlowbite()

@@ -93,6 +93,8 @@ const props = withDefaults(
     closeInside?: boolean
     alignToEnd?: boolean
     resizable?: boolean
+    maxItems?: number
+    secMaxItems?: number
   }>(),
   {
     placement: 'bottom',
@@ -101,7 +103,9 @@ const props = withDefaults(
     closeInside: false,
     alignToEnd: false,
     type: 'primary',
-    resizable: false
+    resizable: false,
+    maxItems: 3,
+    secMaxItems: 4
   }
 )
 
@@ -193,6 +197,7 @@ const resetModalSize = () => {
     }
 
     const itemCount = items.length
+    console.log(itemCount)
 
     if (itemCount === 0) {
       console.warn('No elements found to calculate dropdown height.')
@@ -201,7 +206,18 @@ const resetModalSize = () => {
 
     const resizeHandleHeight = props.resizable ? 24 : 0
     const padding = props.type === 'secondary' ? 24 : 0
-    const maxVisibleItems = props.type === 'primary' ? 3 : 4
+    const maxVisibleItems =
+      props.type === 'primary'
+        ? props.maxItems
+          ? itemCount > props.maxItems
+            ? props.maxItems
+            : props.maxItems + 1
+          : 3
+        : props.secMaxItems
+          ? itemCount > props.maxItems
+            ? props.maxItems
+            : props.maxItems + 1
+          : 4
 
     let totalItemHeight = 0
     let visibleItemsHeight = 0
@@ -267,7 +283,7 @@ const transitionName = computed(() => {
 onClickOutside(wrapper, () => {
   if (!visible.value) return
   visible.value = false
-  emit('toggle', false)
+  emit('toggleVisibility', false)
 })
 </script>
 

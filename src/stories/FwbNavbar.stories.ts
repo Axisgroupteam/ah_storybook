@@ -3,6 +3,7 @@ import FwbNavbar from '@/components/FwbNavbar/FwbNavbar.vue'
 import { boolean, object } from 'yup'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbDropdown from '@/components/FwbDropdown/FwbDropdown.vue'
+import FwbAvatar from '@/components/FwbAvatar/FwbAvatar.vue'
 
 /**
  * Use the navbar component as a central anchor to organize the navigation hierarchy between interfaces.
@@ -91,8 +92,10 @@ export const Primary: Story = {
 
             <FwbAvatar v-bind="{
                 img: 'avatar2.png',
-                fullName: 'Luis Enrique Bauza Pena de la Torriente',
+                fullName: 'Master Employee',
                 email: 'contact@detooo.com',    
+                hasDropdown: true,
+                options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
             }" />
 
             <FwbDropdown class="block lg:hidden" maxx_h="max-h-fit" :alignToEnd="true" placement="bottom" >

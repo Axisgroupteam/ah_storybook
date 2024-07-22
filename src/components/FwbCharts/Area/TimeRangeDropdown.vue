@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FwbDropdown placement="top" max_h="max-h-[200px]" @toggleVisibility="handleToogle">
+    <FwbDropdown placement="top" :maxItems="5" @toggleVisibility="handleToogle">
       <template #trigger>
         <FwbButton color="secondary" class="whitespace-nowrap">
           {{ selectedRange }}

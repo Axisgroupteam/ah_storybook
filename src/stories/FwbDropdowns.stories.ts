@@ -161,6 +161,9 @@ export const Secondary: Story = {
   }
 }
 
+/**
+ * Use this variant to readjust the height of the primary dropdown component
+ */
 export const ResizablePrimary: Story = {
   render: (args) => ({
     components: { FwbDropdown, FwbButton },
@@ -222,6 +225,10 @@ export const ResizablePrimary: Story = {
     resizable: true
   }
 }
+
+/**
+ * Use this variant to readjust the height of the secondary dropdown component
+ */
 
 export const ResizableSecondary: Story = {
   render: (args) => ({

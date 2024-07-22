@@ -67,6 +67,10 @@ export const DocsOnly: Story = {
   tags: ['!autodocs']
 }
 
+/**
+ * Use this variant to input a single date, clicking on the today button will browse back to the current day/month/year, and clicking on the clear button will reset all selections.
+ */
+
 export const Default: Story = {
   render: (args) => ({
     components: { DatePicker },
