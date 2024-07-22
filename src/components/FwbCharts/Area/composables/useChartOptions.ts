@@ -31,7 +31,7 @@ export function useChartOptions() {
       }
     },
     dataLabels: {
-      enabled: false
+      enabled: true
     },
     stroke: {
       width: 6
@@ -56,7 +56,7 @@ export function useChartOptions() {
         '07 February'
       ],
       labels: {
-        show: false
+        show: true
       },
       axisBorder: {
         show: false

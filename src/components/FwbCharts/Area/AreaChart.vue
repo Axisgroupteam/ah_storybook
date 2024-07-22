@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div>
         <h5 class="leading-none text-3xl font-bold text-neutral-900 dark:text-white pb-2">
-          {{ usersCount }}
+          {{ formattedTotalCount }}
         </h5>
         <p class="text-base font-normal text-neutral-500 dark:text-neutral-400">
           Total Work Orders
@@ -35,8 +35,8 @@
       class="grid grid-cols-1 items-center border-neutral-200 border-t dark:border-neutral-700 justify-between"
     >
       <div class="flex justify-between items-center pt-5">
-        <TimeRangeDropdown />
-        <FwbButton color="terciary" class="whitespace-nowrap">
+        <TimeRangeDropdown :selected-range="selectedRange" @range-changed="handleRangeChange" />
+        <FwbButton color="terciary" class="whitespace-nowrap" @click="generateReport">
           Work Orders Report
           <template #suffix>
             <svg
@@ -62,18 +62,35 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref, computed, watch } from 'vue'
 import TimeRangeDropdown from './TimeRangeDropdown.vue'
-import { useChartData } from './composables/useChartData'
 import { useChartOptions } from './composables/useChartOptions'
 import { initFlowbite } from 'flowbite'
 import ApexCharts from 'apexcharts'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 
-const usersCount = ref('32.4k')
-const percentageIncrease = ref('12%')
+const props = defineProps({
+  initialData: {
+    type: Object,
+    required: true
+  }
+})
+
+const emit = defineEmits(['fetch-data', 'generate-report'])
+
+const chartData = ref(props.initialData)
+const selectedRange = ref('Last 7 days')
 const chartContainer = ref(null)
 let chartInstance = null
+
+const formattedTotalCount = computed(() => {
+  const count = chartData.value.totalCount
+  return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString()
+})
+
+const percentageIncrease = computed(() => {
+  return `${chartData.value.percentageIncrease}%`
+})
 
 const renderChart = () => {
   if (chartInstance) {
@@ -81,12 +98,14 @@ const renderChart = () => {
   }
 
   const { options } = useChartOptions()
-  const { chartData } = useChartData()
-
-  options.chart = {
-    ...options.chart
-  }
-  options.series = [chartData]
+  options.xaxis.categories = chartData.value.labels
+  options.series = [
+    {
+      name: 'New Work Orders',
+      data: chartData.value.data,
+      color: '#3b82f6'
+    }
+  ]
 
   if (chartContainer.value) {
     chartInstance = new ApexCharts(chartContainer.value, options)
@@ -94,18 +113,31 @@ const renderChart = () => {
   }
 }
 
-const updateChartData = () => {
-  const { chartData } = useChartData()
-  // Simulate data update
-  chartData.data = chartData.data.map((data) => data + Math.floor(Math.random() * 10 - 5))
-  renderChart()
+const handleRangeChange = async (newRange) => {
+  selectedRange.value = newRange
+  const newData = await emit('fetch-data', newRange)
+  if (newData) {
+    chartData.value = newData
+    renderChart()
+  }
 }
+
+const generateReport = () => {
+  emit('generate-report', selectedRange.value)
+}
+
+watch(
+  () => props.initialData,
+  (newData) => {
+    chartData.value = newData
+    renderChart()
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   initFlowbite()
   renderChart()
-  // Simulate real-time data update
-  //setInterval(updateChartData, 5000)
 })
 
 onBeforeUnmount(() => {
@@ -114,5 +146,3 @@ onBeforeUnmount(() => {
   }
 })
 </script>
-
-<style scoped></style>
