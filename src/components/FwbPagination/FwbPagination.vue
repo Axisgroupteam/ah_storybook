@@ -14,6 +14,7 @@
         class="rounded-lg"
         @toggleVisibility="handleToogle"
         :maxItems="4"
+        :scroll="false"
       >
         <template #trigger>
           <FwbButton

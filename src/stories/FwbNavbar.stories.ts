@@ -4,6 +4,7 @@ import { boolean, object } from 'yup'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import FwbDropdown from '@/components/FwbDropdown/FwbDropdown.vue'
 import FwbAvatar from '@/components/FwbAvatar/FwbAvatar.vue'
+import { ref } from 'vue'
 
 /**
  * Use the navbar component as a central anchor to organize the navigation hierarchy between interfaces.
@@ -38,7 +39,9 @@ export const Primary: Story = {
   render: (args) => ({
     components: { FwbNavbar, FwbButton, FwbDropdown, FwbAvatar },
     setup() {
-      return { args }
+      const first = ref(false)
+      const second = ref(false)
+      return { args, first, second }
     },
     template: `            
           <fwb-navbar>
@@ -62,9 +65,9 @@ export const Primary: Story = {
                 </svg>
             </fwb-button> 
             <!-- notification -->
-            <fwb-dropdown  align-to-end>
+            <fwb-dropdown  align-to-end @toggleVisibility="first = !first">
                 <template #trigger>
-                <fwb-button square color="secondary" class="border-0">
+                <fwb-button :ring="first" square color="secondary" class="border-0" :class="first ? 'bg-neutral-100 text-neutral-900 dark:text-white dark:bg-neutral-700' : '' ">
                     <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.1106 11.5862V9.69145C16.1113 8.41087 15.6236 7.1675 14.7262 6.16237C13.8288 5.15725 12.5742 4.44915 11.1653 4.15258C11.176 4.11584 11.1844 4.07859 11.1903 4.041V1.55262C11.1903 1.27345 11.0649 1.00571 10.8416 0.808304C10.6184 0.610901 10.3156 0.5 9.99984 0.5C9.6841 0.5 9.3813 0.610901 9.15804 0.808304C8.93479 1.00571 8.80936 1.27345 8.80936 1.55262V4.041C8.81528 4.07859 8.82363 4.11584 8.83436 4.15258C7.42545 4.44915 6.17085 5.15725 5.27346 6.16237C4.37606 7.1675 3.88833 8.41087 3.88912 9.69145V11.5862C3.88912 14.0977 1.6665 14.7251 1.6665 15.9808C1.6665 16.605 1.6665 17.2366 2.30698 17.2366H17.6927C18.3332 17.2366 18.3332 16.605 18.3332 15.9808C18.3332 14.7251 16.1106 14.0977 16.1106 11.5862Z" fill="currentColor"/>
                     <path d="M6.21769 18.2892C6.5335 18.945 7.06042 19.5043 7.73289 19.8973C8.40536 20.2904 9.1937 20.5 9.99984 20.5C10.806 20.5 11.5943 20.2904 12.2668 19.8973C12.9393 19.5043 13.4662 18.945 13.782 18.2892H6.21769Z" fill="currentColor"/>
@@ -96,14 +99,15 @@ export const Primary: Story = {
                 email: 'contact@detooo.com',    
                 hasDropdown: true,
                 options: [{ label: 'Profile', icon: 'user', link: 'profile' }, { label: 'Logout', icon: 'arrow-right-to-bracket', link: 'logout' }],
-            }" />
-
-            <FwbDropdown class="block lg:hidden" maxx_h="max-h-fit" :alignToEnd="true" placement="bottom" >
+            }" />            
+            <FwbDropdown class="block lg:hidden" maxx_h="max-h-fit" :alignToEnd="true" placement="bottom" @toggleVisibility="second = !second">
                 <template #trigger>
                 <fwb-button
                     square
                     color="secondary"
                     class="border-0"
+                    :ring="second"
+                    :class="second ? 'bg-neutral-100 text-neutral-900 dark:text-white dark:bg-neutral-700' : '' "
                 >
                 <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 4.5C11.1046 4.5 12 3.60457 12 2.5C12 1.39543 11.1046 0.5 10 0.5C8.89543 0.5 8 1.39543 8 2.5C8 3.60457 8.89543 4.5 10 4.5Z" fill="currentColor"/>
