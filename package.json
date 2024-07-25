@@ -1,8 +1,8 @@
 {
-  "name": "@exeditec/vue-components",
+  "name": "e-vue-tailwind-components",
   "version": "0.0.1",
   "type": "module",
-  "description": "A test component library",
+  "description": "A vue tailwind components library for fast development",
   "files": [
     "dist"
   ],
@@ -14,6 +14,11 @@
       "require": "./dist/index.umd.cjs"
     }
   },
+  "keywords": [
+    "vue",
+    "components",
+    "tailwindcss"
+  ],
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
