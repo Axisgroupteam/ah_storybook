@@ -7,12 +7,13 @@
         :disabled="disabled"
         :required="required"
         :readonly="true"
-        :validation-status="validationStatus ? 'error' : ''"       
+        :validation-status="validationStatus ? 'error' : ''" 
+        @click="handleClick"      
       >
         <template #suffix>
           <div 
-            :class="['text-neutral-900 dark:text-white', {'!text-red-600 dark:!text-red-500': error, '!text-neutral-500': disabled}]"  
-            @click="handleClick">
+            :class="['text-neutral-900 dark:text-white', {'!text-red-600 dark:!text-red-500': error, '!text-neutral-500 cursor-not-allowed': disabled}]"  
+            >
               <svg aria-hidden="true" class="w-5 h-5 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
               </svg>
@@ -32,9 +33,8 @@
           </div>
         </template>
 
-        <template #body>
-          <div class="text-neutral-900 dark:text-white grid gap-4">           
-            <FwbInput
+        <template #bodyHeader>
+          <FwbInput
               :initial-value="search"
               size="sm"
               place-holder="Search..."
@@ -79,12 +79,16 @@
               </template>
             </FwbInput>
 
+        </template>
+
+        <template #body>
+          <div class="text-neutral-900 dark:text-white grid gap-4">
             <Table
-             v-slot="item"
-                :show-header="false"
-                :table-config="{ ...table }"
-                @info="handleSelected($event)"
-              >
+              v-slot="item"
+                  :show-header="false"
+                  :table-config="{ ...table }"
+                  @info="handleSelected($event)"
+                >
                 
                 <FwbButton
                   :pill="true" 
@@ -118,7 +122,13 @@
         </template>
 
         <template #footer>            
-           <FwbPagination></FwbPagination>                            
+           <FwbPagination 
+                v-model="currentPage"
+                :layout="'navigation'"
+                :per-page="perPage"
+                :total-items="totalItems"
+                large
+                @per-page-changed="changeLimit"/>                            
         </template>
   </fwb-modal>
 </template>
@@ -187,6 +197,15 @@ const inputValue = ref("");
 const loading = ref(false);
 const search = ref("");
 
+const currentPage = ref(1)
+const perPage = ref(20)
+const totalItems = 100
+
+const changeLimit = (newPerPage: number) => {
+  currentPage.value = 1
+  perPage.value = newPerPage
+}
+
 const clearSearch = () => {
   search.value = "";
 }
@@ -194,16 +213,79 @@ const clearSearch = () => {
 
 const items = ref([
   {
-    name: "Name 1",
-    lastName: "Last Name 1"
+    name: "Name 1 ",
+    lastName: "Last Name 1 ",
+    fone: "+1789654123"
   },
   {
     name: "Name 2",
-    lastName: "Last Name"
+    lastName: "Last Name 2",
+    fone: "+1789654123"
   },
   {
     name: "Name 3",
-    lastName: "Last Name 3"
+    lastName: "Last Name 3",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 4",
+    lastName: "Last Name 4",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 5",
+    lastName: "Last Name 5",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 3",
+    lastName: "Last Name 6",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 1",
+    lastName: "Last Name 1",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 2",
+    lastName: "Last Name 2",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 3",
+    lastName: "Last Name 3",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 4",
+    lastName: "Last Name 4",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 5",
+    lastName: "Last Name 5",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 3",
+    lastName: "Last Name 6",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 4",
+    lastName: "Last Name 4",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 5",
+    lastName: "Last Name 5",
+    fone: "+1789654123"
+  },
+  {
+    name: "Name 3",
+    lastName: "Last Name 6",
+    fone: "+1789654123"
   }
 ]);
 

@@ -36,12 +36,15 @@
             </FwbButton>
           </div>
           <!-- Modal body -->
+          <div class="text-neutral-900 dark:text-white px-4">
+                <slot name="bodyHeader" />
+              </div>
           <PerfectScrollbar>
             <div
               :class="$slots.header ? '' : 'pt-0'"
               class="p-4 py-0"
               :style="{
-                maxHeight: height - 172 + 'px'
+                maxHeight: height - 202 + 'px'
               }"
             >
               <div class="text-neutral-900 dark:text-white">
