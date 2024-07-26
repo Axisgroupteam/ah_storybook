@@ -55,7 +55,7 @@ interface IButtonProps {
   disabled?: boolean
   href?: string
   tag?: string
-  ring: boolean
+  ring?: boolean
 }
 
 // Set default prop values and handle prop validation
