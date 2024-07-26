@@ -36,12 +36,18 @@
             </FwbButton>
           </div>
           <!-- Modal body -->
+          <!-- Additional content above scrollable area -->
+          <div :class="$slots.bodyHeader ? 'p-4' : 'p-0'" ref="bodyHeaderElement">
+            <slot name="bodyHeader" />
+          </div>
           <PerfectScrollbar>
             <div
               :class="$slots.header ? '' : 'pt-0'"
               class="p-4 py-0"
               :style="{
-                maxHeight: height - 172 + 'px'
+                maxHeight: $slots.bodyHeader
+                  ? `calc(${height}px - 172px - ${additionalContentHeight}px)`
+                  : `calc(${height}px - 172px`
               }"
             >
               <div class="text-neutral-900 dark:text-white">
@@ -71,6 +77,8 @@ import FwbButton from '../FwbButton/FwbButton.vue'
 const modal = ref(null)
 const header = ref(null)
 const footer = ref(null)
+const bodyHeaderElement = ref(null)
+const additionalContentHeight = ref(0)
 
 const { height } = useWindowSize()
 
@@ -118,6 +126,10 @@ const modalRef: Ref<HTMLElement | null> = ref(null)
 onMounted(() => {
   if (modalRef.value) {
     modalRef.value.focus()
+  }
+  // Calculate the height of the additional content
+  if (bodyHeaderElement.value) {
+    additionalContentHeight.value = (bodyHeaderElement.value as HTMLElement).clientHeight
   }
 })
 </script>

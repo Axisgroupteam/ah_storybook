@@ -9,18 +9,19 @@ import FwbInputSearchCustom from '@/components/FwbInputSearchCustom/FwbInputSear
  * The input field is an important part of the form element that can be used to create interactive controls to accept data from the user based on multiple input types, such as text, email, URL, and more.
  */
 const meta = {
-  title: 'Example/AdvanceSearch',
+  title: 'Example/InputAdvanceSearchX',
   component: FwbInputSearchCustom,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   decorators: [
     () => ({
       template: `
-      <div class="p-4">
-    
-        <story />
-      
-      </div>`
+    <div class="w-full h-screen flex justify-center p-4">
+        <div class="w-full h-full">
+            <story />
+        </div>
+    </div>
+    `
     })
   ],
   argTypes: {
@@ -56,7 +57,26 @@ export const Default: Story = {
           show: true,
           width: "auto",
         },
-      },      
+      },
+      {
+        key: "lastName",
+        title: "Last Name",
+        tableConfig: {
+          order: 2,
+          show: true,
+          width: "auto",
+        },
+      },
+      {
+        key: "fone",
+        title: "Fone",
+        tableConfig: {
+          order: 3,
+          show: true,
+          width: "auto",
+        },
+      },
+      
     ],
   }
 }
@@ -90,33 +110,7 @@ export const Required: Story = {
   }
 }
 
-/**
- * Use the following example to apply a medium size for the input field.
- */
-export const Multiple: Story = {
-  args: {
-    tableConfig: [
-      {
-        key: "name",
-        title: "Name",
-        tableConfig: {
-          order: 1,
-          show: true,
-          width: "auto",
-        },
-      },
-      {
-        key: "lastName",
-        title: "Last Name",
-        tableConfig: {
-          order: 2,
-          show: true,
-          width: "auto",
-        },
-      },
-    ],
-  }
-}
+
 
 /**
  * Use the following example to apply validation styles for an error case.
