@@ -88,7 +88,6 @@ const applyData = () =>{
 }
 
 const handleEventChangeOption = (index: number) => {
-  console.log('EventChangeOption triggered with index:', index);
   refDropdown.value?.resetModalSize()
 };
 
