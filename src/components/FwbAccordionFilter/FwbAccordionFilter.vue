@@ -1,6 +1,10 @@
 <template>
     <div class="accordion">
-      <div v-for="(category, index) in categories" :key="index" class="accordion-item">
+      <div 
+        v-for="(category, index) in categories" 
+        :key="index" 
+        class="accordion-item"
+        >
         <div @click="toggle(index)" :class="['accordion-header', {'bg-neutral-100 dark:bg-neutral-700' : activeIndex === index} ]">
           {{ category }}          
           <svg
@@ -30,7 +34,7 @@
         />
         </svg>
         </div>
-        <div v-if="activeIndex === index" class="accordion-content">
+        <div v-if="activeIndex === index" class="accordion-content line-clamp-4 overflow-hidden text-ellipsis">
         <slot  :name="`content-${index}`"></slot>
       </div>
       </div>
@@ -40,6 +44,7 @@
   <script setup lang="ts">
   import { ref, watch } from 'vue';
   
+  const emit = defineEmits(['eventChangeOption']);
   const props = defineProps<{
     categories: string[];
   }>();
@@ -48,7 +53,9 @@
   const selectedItems = ref<string[]>([]);
   
   const toggle = (index: number) => {
-    activeIndex.value = activeIndex.value === index ? -1 : index;
+    activeIndex.value = activeIndex.value === index ? -1 : index;    
+    emit('eventChangeOption', index);
+    console.log(`output->emitevent`)
   };
   
   // Watcher para mostrar los items seleccionados
@@ -71,8 +78,10 @@
     margin-left: 10px;
     
   }
+  
   .accordion-content {
-    @apply ml-4 my-2 text-neutral-500 dark:text-white font-medium text-xs md:text-sm;   
+    @apply my-2 mt-3 text-neutral-500 dark:text-white font-medium text-xs md:text-sm;  
+     
     
   }
   .accordion-content ul {
