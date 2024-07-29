@@ -37,7 +37,7 @@
           </div>
           <!-- Modal body -->
           <!-- Additional content above scrollable area -->
-          <div :class="$slots.bodyHeader ? 'p-4' : 'p-0'" ref="bodyHeaderElement">
+          <div :class="$slots.bodyHeader ? 'px-4 pb-4' : 'p-0'" ref="bodyHeaderElement">
             <slot name="bodyHeader" />
           </div>
           <PerfectScrollbar>

@@ -1,13 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-
-import FwbAccordion from '../components/FwbAccordion/FwbAccordion.vue'
-import FwbAccordionContent from '../components/FwbAccordion/FwbAccordionContent.vue'
-import FwbAccordionHeader from '../components/FwbAccordion/FwbAccordionHeader.vue'
-import FwbAccordionPanel from '../components/FwbAccordion/FwbAccordionPanel.vue'
-
+import FwbTabs from '@/components/FwbTabs/FwbTabs.vue'
+import FwbTab from '@/components/FwbTabs/FwbTab.vue'
 import Filter from '@/components/Filter/CustomFilter.vue'
-import FwbCheckbox from '../components/FwbCheckbox/FwbCheckbox.vue'
+
 import { computed, ref } from 'vue'
+import { Tabs } from 'flowbite'
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -32,14 +29,9 @@ const meta = {
     `
     })
   ],
-  argTypes: {
-    size: { control: 'select', options: ['sm', 'md'] },
-    validationStatus: { control: 'radio', options: ['normal', 'error'] },
-    type: { table: { disable: true } },
-    modelValue: { table: { disable: true } }
+  argTypes: {   
   },
-  args: {
-    label: 'Text'
+  args: {    
   }
 } satisfies Meta<typeof Filter>
 
@@ -54,162 +46,48 @@ type Story = StoryObj<typeof meta>
 /**
  * Use this example to create multiple input fields types such as text, email, URL, and more.
  */
-/*export const Default: Story = {
-  render: (args) => ({
-    components: {Filter ,FwbAccordionFilter, FwbCheckbox },
-    methods: {
-           
-    },
-    setup() {
-      //const selectedItems= ref<string[]>([]);      
-      const categories = ['Category 1', 'Category 2', 'Category 3'];
-        const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
-        const checkedItems = ref<{ [key: string]: boolean }>({
-          'Item 1': false,
-          'Item 2': false,
-          'Item 3': false,
-          'Item 4': false,
-          'Item 5': false,
-        });
-        
-        const selectedItems = computed(() => {
-          return Object.keys(checkedItems.value).filter(item => checkedItems.value[item]);
-        });
-
-        const clearSelection = ():void =>{        
-          Object.keys(checkedItems.value).forEach(key => {
-            checkedItems.value[key] = false;
-          });
-        }; 
-
-        const refFilter = ref(null);;
-       
-        const funcionReturn = (index: any) => {          
-          console.log(`output->recibe eventchange`)
-          refFilter.value?.handleEventChangeOption(index);
-          
-      }
-
-      return { args, selectedItems, categories, checkedItems, items, refFilter, clearSelection, funcionReturn}
-    },
-    template: ` 
-    <Filter ref="refFilter" @clearData="clearSelection" >
-      <FwbAccordionFilter :categories="categories" @eventChangeOption = "funcionReturn"> 
-        {{ selectedItems }}
-        <template v-slot:content-0>           
-        <div class="flex-wrap overscroll-none">
-            <p>Custom content for Category 2 </p>            
-          </div>
-         </template>
-        <template v-slot:content-1>
-        <FwbCheckbox 
-          v-for="(item, index) in items"
-          :key="index"
-          v-model="checkedItems[item]"
-          :label="item"
-          class="my-[6px] hover:bg-neutral-100 dark:hover:bg-neutral-500 p-2 rounded"          
-          />          
-        </template>
-        <template v-slot:content-2>
-          <div>
-            <p>Custom content for Category 3</p>            
-          </div>
-        </template>
-        </FwbAccordionFilter>
-      </Filter>
-       <p>Selected Items: {{ selectedItems.join(', ') }}</p>
-    `
-  }),
-  args: {   
-    
-  }
-}*/
 
 export const Default: Story = {
   render: (args) => ({
-    components: {Filter, FwbAccordion, FwbAccordionHeader, FwbAccordionContent, FwbAccordionPanel , FwbCheckbox },
+    components: {Filter, FwbTabs, FwbTab},
     methods: {
            
     },
     setup() {
-      const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
-        const checkedItems = ref<{ [key: string]: boolean }>({
-          'Item 1': false,
-          'Item 2': false,
-          'Item 3': false,
-          'Item 4': false,
-          'Item 5': false,
-        });
-        
-        const selectedItems = computed(() => {
-          return Object.keys(checkedItems.value).filter(item => checkedItems.value[item]);
-        });
+      const tabs = [
+        {
+          icon: 'test',
+          title: 'Underline 1'
+        },
+        {
+          icon: 'test',
+          title: 'Underline 2'
+        },
+        {
+          icon: 'test',
+          title: 'Underline 3'
+        }
+      ]
 
-        const clearSelection = ():void =>{        
-          Object.keys(checkedItems.value).forEach(key => {
-            checkedItems.value[key] = false;
-          });
-        }; 
+      const tabName = ref(tabs[0].title)
 
-        const refFilter = ref(null);;
-       
-        const funcionReturn = (index: any) => { 
-          refFilter.value?.handleEventChangeOption(index);
-          
-      }
-
-      return { args, items, checkedItems, refFilter ,selectedItems, clearSelection, funcionReturn}
+      return { args, tabs, tabName }
     },
     template: ` 
-     <Filter ref="refFilter" @clearData="clearSelection" >
-      <fwb-accordion class="w-full">        
-              <fwb-accordion-panel>
-                <fwb-accordion-header :is-filter="true"  @click="funcionReturn">
-                  <div class="flex justify-between items-center">
-                    Category 1           
-                  </div>
-                </fwb-accordion-header>
-                <fwb-accordion-content :isFilter="true">
-                  <div class="flex dark:text-white flex-col gap-4">
-                    <FwbCheckbox 
-                      v-for="(item, index) in items"
-                      :key="index"
-                      v-model="checkedItems[item]"
-                      :label="item"
-                      class="my-[6px] hover:bg-neutral-100 dark:hover:bg-neutral-500 p-2 rounded"          
-                      />   
-                  </div>
-                </fwb-accordion-content>
-              </fwb-accordion-panel>  
-              
-              <fwb-accordion-panel>
-                <fwb-accordion-header :is-filter="true" @click="funcionReturn">
-                  <div class="flex justify-between items-center">
-                    Category 2           
-                  </div>
-                </fwb-accordion-header>
-                <fwb-accordion-content :isFilter="true">
-                  <div class="flex dark:text-white flex-col gap-4">
-                    Content Category 2
-                  </div>
-                </fwb-accordion-content>
-              </fwb-accordion-panel>  
-
-              <fwb-accordion-panel>
-                <fwb-accordion-header :is-filter="true" @click="funcionReturn">
-                  <div class="flex justify-between items-center">
-                    Category 3           
-                  </div>
-                </fwb-accordion-header>
-                <fwb-accordion-content :isFilter="true">
-                  <div class="flex dark:text-white flex-col gap-4">
-                    Content Category 3 
-                  </div>
-                </fwb-accordion-content>
-              </fwb-accordion-panel>  
-      </fwb-accordion>
-    </Filter>
-    <p>Selected Items: {{ selectedItems.join(', ') }}</p>
+     <Filter >
+          <FwbTabs v-model="tabName" v-bind="args"   >
+                <FwbTab
+                    v-for="(tab, index) in tabs"
+                    :key="index"
+                    :name="tab.title"
+                    :title="tab.title"
+                    :icon="tab.icon"                    
+                    class="h-full px-4"
+                >
+                    <p> Content for tab </p>
+                </FwbTab>
+            </FwbTabs>
+     </Filter>   
     `
   }),
   args: {   

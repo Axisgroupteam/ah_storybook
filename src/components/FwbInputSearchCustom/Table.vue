@@ -40,12 +40,7 @@
                 {{ item[header.key] }}               
               </div>
               
-            </FwbTableCell>  
-            <div class="flex justify-between items-center">  
-              <div id="slot" ref="slotRef" class="w-min mr-4">
-                  <slot name="default" :item="item.item" />
-              </div> 
-              </div>
+            </FwbTableCell> 
             </div>           
           </FwbTableRow>
         </template>
