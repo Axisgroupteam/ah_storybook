@@ -40,6 +40,7 @@
 
         <fwb-modal 
             v-if="open" 
+            :padding-bottom="0"
             @close="closeModal"
         >
                 <template #header>
