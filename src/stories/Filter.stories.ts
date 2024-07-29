@@ -91,7 +91,7 @@ export const Default: Story = {
     `
   }),
   args: {   
-    
+    variant: 'underline'
   }
 }
 

@@ -122,35 +122,3 @@ export const Nested: Story = {
   args: {}
 }
 
-
-/**
- * Use this variant to Filter.
- */
-export const OpcionFilter: Story = {
-  render: (args) => ({
-    components: { FwbAccordion, FwbAccordionContent, FwbAccordionHeader, FwbAccordionPanel },
-    setup() {
-      return { args }
-    },
-    template: `            
-        <fwb-accordion class="w-full">        
-              <fwb-accordion-panel
-                v-for="i in 3"
-                :key="value"
-              >
-                <fwb-accordion-header :is-filter="true" class="">
-                  <div class="flex justify-between items-center">
-                    Accordion {{i}}         
-                  </div>
-                </fwb-accordion-header>
-                <fwb-accordion-content :isFilter="true">
-                  <div class="flex dark:text-white flex-col gap-4">
-                    Content Text {{i}}
-                  </div>
-                </fwb-accordion-content>
-              </fwb-accordion-panel>                    
-      </fwb-accordion>
-    `
-  }),
-  args: {}
-}
