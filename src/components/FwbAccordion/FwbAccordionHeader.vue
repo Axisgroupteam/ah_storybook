@@ -34,6 +34,10 @@ import { computed, type ComputedRef, onMounted, ref, nextTick } from "vue";
 import { useAccordionState } from "./composables/useAccordionState";
 import { useAccordionHeaderClasses } from "./composables/useAccordionHeaderClasses";
 
+const props = defineProps({
+  isFilter: {type: Boolean, default:false}
+})
+
 const isLoaded = ref(false);
 const header = ref();
 const accordionId = computed(
@@ -87,7 +91,7 @@ const vFocus = {
 };
 
 onMounted(() => {
-  const accordionHeaderClasses = useAccordionHeaderClasses(header);
+  const accordionHeaderClasses = useAccordionHeaderClasses(header, props.isFilter);
   headerClasses = accordionHeaderClasses.headerClasses;
   arrowClasses = accordionHeaderClasses.arrowClasses;
   isLoaded.value = true;

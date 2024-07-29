@@ -298,6 +298,11 @@ onClickOutside(wrapper, () => {
   visible.value = false
   emit('toggleVisibility', false)
 })
+
+defineExpose({
+  onToggle,
+  resetModalSize
+});
 </script>
 
 <style scoped>

@@ -68,8 +68,8 @@ export const Default: Story = {
         },
       },
       {
-        key: "fone",
-        title: "Fone",
+        key: "phone",
+        title: "phone",
         tableConfig: {
           order: 3,
           show: true,
