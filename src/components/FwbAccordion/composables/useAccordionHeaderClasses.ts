@@ -45,7 +45,7 @@ export function useAccordionHeaderClasses(headerRef: Ref, isFilter: boolean) {
         : "text-neutral-500  dark:text-neutral-400 ",
       panelState.value.isVisible &&
         !accordionState.value.flush &&
-        "!bg-neutral-100 dark:!bg-neutral-700 ",
+        "!bg-neutral-100 dark:!bg-neutral-600 ",
       !panelState.value.isVisible && isLastPanel.value && roundedB,
       isFirstPanel.value && !accordionState.value.flush && roundedT,
       isFirstPanel.value && accordionState.value.flush && borderT,

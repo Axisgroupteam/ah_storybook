@@ -38,7 +38,7 @@
           <!-- Modal body -->
           <div class="text-neutral-900 dark:text-white px-4">
                 <slot name="bodyHeader" />
-              </div>
+          </div>
           <PerfectScrollbar>
             <div
               :class="$slots.header ? '' : 'pt-0'"
