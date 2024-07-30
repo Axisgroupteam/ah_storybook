@@ -22,12 +22,17 @@ fs.writeFile(CACHED_PKG_PATH, JSON.stringify(pkgData), function (err) {
 })
 
 // Remove the specified named scripts from the scripts section.
-scriptsToRemove.forEach(function (scriptName) {
-  delete pkgData.scripts[scriptName]
-})
+// scriptsToRemove.forEach(function (scriptName) {
+//   delete pkgData.scripts[scriptName]
+// })
 
 // Remove the specified named pkgs from the devDependencies section.
 depsToRemove.forEach(function (pkgName) {
+  delete pkgData.devDependencies[pkgName]
+})
+
+// Remove the specified named pkgs from the devDependencies section.
+devDepsToRemove.forEach(function (pkgName) {
   delete pkgData.devDependencies[pkgName]
 })
 
