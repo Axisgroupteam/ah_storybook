@@ -28,7 +28,7 @@ fs.writeFile(CACHED_PKG_PATH, JSON.stringify(pkgData), function (err) {
 
 // Remove the specified named pkgs from the devDependencies section.
 depsToRemove.forEach(function (pkgName) {
-  delete pkgData.devDependencies[pkgName]
+  delete pkgData.dependencies[pkgName]
 })
 
 // Remove the specified named pkgs from the devDependencies section.
