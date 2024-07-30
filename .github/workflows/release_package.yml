@@ -81,7 +81,7 @@ jobs:
 
       # Publish version to repository
       - name: Publish
-        run: npm publish --verbose --access restricted --tag ${{ env.RELEASE_TAG }}
+        run: npm publish --verbose --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
 
