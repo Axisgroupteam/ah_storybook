@@ -33,7 +33,7 @@ jobs:
       - name: Build package and publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
-        run: npm install && npm publish --verbose --access restricted
+        run: npm run build-only && npm publish --verbose --access restricted
 
       # Tests
       #- name: Run tests

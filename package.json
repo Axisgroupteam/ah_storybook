@@ -1,6 +1,6 @@
 {
   "name": "@exeditec/vue-tailwind-components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "A vue tailwind components library for fast development",
   "files": [
@@ -14,12 +14,12 @@
       "require": "./dist/index.umd.cjs"
     }
   },
+  "types": "./dist/index.d.ts",
   "keywords": [
     "vue",
     "components",
     "tailwindcss"
   ],
-  "types": "./dist/index.d.ts",
   "contributors": [
     {
       "name": "abbatistam",
