@@ -1,5 +1,5 @@
 {
-  "name": "e-vue-tailwind-components",
+  "name": "@exeditec/vue-tailwind-components",
   "version": "0.0.1",
   "type": "module",
   "description": "A vue tailwind components library for fast development",
@@ -20,6 +20,24 @@
     "tailwindcss"
   ],
   "types": "./dist/index.d.ts",
+  "contributors": [
+    {
+      "name": "abbatistam",
+      "url": "https://github.com/abbatistam"
+    },
+    {
+      "name": "mfrenym",
+      "url": "https://github.com/mfrenym"
+    },
+    {
+      "name": "lebauzagit",
+      "url": "https://github.com/lebauzagit"
+    },
+    {
+      "name": "MarcosNoris",
+      "url": "https://github.com/MarcosNoris"
+    }
+  ],
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
