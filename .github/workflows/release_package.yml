@@ -30,8 +30,10 @@ jobs:
         run: npm install
 
       # Build package
-      - name: Build package
-        run: npm install
+      - name: Build package and publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
+        run: npm install && npm publish --verbose --access restricted
 
       # Tests
       #- name: Run tests
@@ -80,12 +82,12 @@ jobs:
       #       git tag ${{ env.NEW_VERSION }}
 
       # Publish version to repository
-      - name: Publish
-        run: npm publish --verbose --access restricted
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
+    #   - name: Publish
+    #     run: npm publish --verbose --access restricted
+    #     env:
+    #       NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
 
-      # Push repository changes
+    # Push repository changes
     #   - name: Push changes to repository
     #     env:
     #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
