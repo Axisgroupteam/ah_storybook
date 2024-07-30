@@ -38,6 +38,9 @@
       "url": "https://github.com/MarcosNoris"
     }
   ],
+  "repository": {
+    "url": "https://github.com/Exeditec-Team/storybook"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
