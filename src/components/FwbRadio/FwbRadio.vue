@@ -3,6 +3,9 @@
     <input
       v-model="model"
       class="bg-neutral"
+      :name="name"
+      :value="modelValue"
+      :checked="checked"
       :class="[radioClasses, customClass ? customClass : '']"
       :disabled="disabled"
       type="radio"
@@ -21,14 +24,20 @@ import { computed, ref, watch } from 'vue'
 import { useRadioClasses } from './composables/useRadioClasses'
 
 interface RadioProps {
+  name?: string
+  value?: boolean
+  checked?: boolean
   disabled?: boolean
   label?: string
   modelValue?: boolean
   customClass?: string
 }
 const props = withDefaults(defineProps<RadioProps>(), {
+  name: 'radio',
+  value: false,
+  checked: false,
   disabled: false,
-  label: 'Title',
+  label: 'Option 1',
   modelValue: false,
   customClass: ''
 })
