@@ -51,8 +51,9 @@ export const Dual: Story = {
     },
     template: `
       <div>
-        <FwbRadio class="mb-2" label="Option 1" v-bind="args" />
-        <FwbRadio label="Option 2" v-bind="args" />
+        <FwbRadio checked class="mb-2" label="Option 1" v-bind="args" />
+        <FwbRadio class="mb-2" label="Option 2" v-bind="args" />
+        <FwbRadio :disabled="true" label="Option 3" v-bind="args" />
       </div>
     `
   }),
