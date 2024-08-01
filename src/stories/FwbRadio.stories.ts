@@ -41,7 +41,8 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: { modelValue: 'option1', label: 'Label' }
 }
-export const Dual: Story = {
+
+export const Dual2: Story = {
   render: (args) => ({
     components: { FwbRadio },
     setup() {
@@ -49,9 +50,9 @@ export const Dual: Story = {
     },
     template: `
       <div>
-        <FwbRadio class="mb-2" label="Label" v-bind="args" :modelValue="true"/>
-        <FwbRadio class="mb-2" label="Label" v-bind="args" modelValue="false"/>
-        <FwbRadio :disabled="true" label="Label"  v-bind="args" modelValue="false"/>
+        <FwbRadio class="mb-2" label="Label" v-bind="args" model-value="option1" />
+        <FwbRadio class="mb-2" label="Label" v-bind="args" model-value="option2" />
+        <FwbRadio :disabled="true" label="Label" v-bind="args" model-value="option3" />
       </div>
     `
   })
