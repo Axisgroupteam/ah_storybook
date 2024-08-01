@@ -24,7 +24,6 @@ const meta = {
   argTypes: {
     label: { control: 'text' },
     customClass: { table: { disabled: false } },
-    checked: { table: { disabled: false } }
   },
   args: {}
 } satisfies Meta<typeof FwbRadio>
@@ -40,7 +39,7 @@ type Story = StoryObj<typeof meta>
  * Use the default example of a radio component with the checked and unchecked state.
  */
 export const Default: Story = {
-  args: {}
+  args: { modelValue: 'option1', label: 'Label' }
 }
 
 export const Dual: Story = {
@@ -51,14 +50,12 @@ export const Dual: Story = {
     },
     template: `
       <div>
-        <FwbRadio checked class="mb-2" label="Option 1" v-bind="args" />
-        <FwbRadio class="mb-2" label="Option 2" v-bind="args" />
-        <FwbRadio :disabled="true" label="Option 3" v-bind="args" />
+        <FwbRadio class="mb-2" label="Label" v-bind="args" :value="true"/>
+        <FwbRadio class="mb-2" label="Label" v-bind="args" :value="false"/>
+        <FwbRadio :disabled="true" label="Label"  v-bind="args" :value="false"/>
       </div>
     `
-  }),
-  args: {
-  }
+  })
 }
 
 /**
