@@ -42,7 +42,8 @@ export const Default: Story = {
   args: { modelValue: 'option1', label: 'Label' }
 }
 
-export const Dual2: Story = {
+
+export const Dual: Story = {
   render: (args) => ({
     components: { FwbRadio },
     setup() {
