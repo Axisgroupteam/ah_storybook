@@ -17,8 +17,10 @@
           <!-- Modal header -->
           <div
             ref="header"
-            class="p-4 rounded-t flex justify-between items-center text-lg text-neutral-900 dark:text-white"
-          >
+            class="px-4 pt-4 rounded-t flex justify-between items-center text-lg text-neutral-900 dark:text-white"
+            :class="paddingBottomClass"
+          >    
+            
             <slot name="header" />
             <FwbButton color="secondary" square class="border-0" @click="closeModal">
               <svg
@@ -36,12 +38,18 @@
             </FwbButton>
           </div>
           <!-- Modal body -->
+          <!-- Additional content above scrollable area -->
+          <div :class="$slots.bodyHeader ? 'px-4 pb-4' : 'p-0'" ref="bodyHeaderElement">
+            <slot name="bodyHeader" />
+          </div>
           <PerfectScrollbar>
             <div
               :class="$slots.header ? '' : 'pt-0'"
               class="p-4 py-0"
               :style="{
-                maxHeight: height - 172 + 'px'
+                maxHeight: $slots.bodyHeader
+                  ? `calc(${height}px - 172px - ${additionalContentHeight}px)`
+                  : `calc(${height}px - 172px`
               }"
             >
               <div class="text-neutral-900 dark:text-white">
@@ -62,7 +70,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, type Ref } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
 import type { ModalSize } from './types'
 import { useWindowSize } from '@vueuse/core'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
@@ -71,6 +79,8 @@ import FwbButton from '../FwbButton/FwbButton.vue'
 const modal = ref(null)
 const header = ref(null)
 const footer = ref(null)
+const bodyHeaderElement = ref(null)
+const additionalContentHeight = ref(0)
 
 const { height } = useWindowSize()
 
@@ -78,13 +88,18 @@ interface ModalProps {
   notEscapable?: boolean
   persistent?: boolean
   size?: ModalSize
+  paddingBottom? : number
 }
 
 const props = withDefaults(defineProps<ModalProps>(), {
   notEscapable: false,
   persistent: false,
-  size: '3xl'
+  size: '3xl',
 })
+
+const paddingBottomClass = computed(() => {
+  return props.paddingBottom !== undefined ? `pb-[${props.paddingBottom}px]` : 'pb-4';
+});
 
 const emit = defineEmits(['close', 'click:outside'])
 const modalSizeClasses = {
@@ -118,6 +133,10 @@ const modalRef: Ref<HTMLElement | null> = ref(null)
 onMounted(() => {
   if (modalRef.value) {
     modalRef.value.focus()
+  }
+  // Calculate the height of the additional content
+  if (bodyHeaderElement.value) {
+    additionalContentHeight.value = (bodyHeaderElement.value as HTMLElement).clientHeight
   }
 })
 </script>

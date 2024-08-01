@@ -1,5 +1,5 @@
 <template>
-  <fwb-dropdown @toggleVisibility="handleToggle">
+  <fwb-dropdown @toggleVisibility="handleToggle" :scroll="false">
     <template #trigger>
       <fwb-tooltip placement="right" :active="!showDrawer" :distance="16" expanded>
         <template #trigger>

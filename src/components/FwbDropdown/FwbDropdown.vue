@@ -33,7 +33,7 @@
         :style="[contentStyles, { height: `${modalHeight}px` }]"
       >
         <fwb-slot-listener>
-          <perfect-scrollbar>
+          <perfect-scrollbar v-if="scroll">
             <div
               ref="contentWrapper"
               v-if="$slots.default"
@@ -44,6 +44,17 @@
               <slot />
             </div>
           </perfect-scrollbar>
+          <div v-else>
+            <div
+              ref="contentWrapper"
+              v-if="$slots.default"
+              class="w-full h-full"
+              :style="contentWrapperStyle"
+              @click="onToggle"
+            >
+              <slot />
+            </div>
+          </div>
         </fwb-slot-listener>
         <div
           v-if="resizable && isResizable"
@@ -95,6 +106,7 @@ const props = withDefaults(
     resizable?: boolean
     maxItems?: number
     secMaxItems?: number
+    scroll?: boolean
   }>(),
   {
     placement: 'bottom',
@@ -105,7 +117,8 @@ const props = withDefaults(
     type: 'primary',
     resizable: false,
     maxItems: 3,
-    secMaxItems: 4
+    secMaxItems: 4,
+    scroll: true
   }
 )
 
@@ -285,6 +298,11 @@ onClickOutside(wrapper, () => {
   visible.value = false
   emit('toggleVisibility', false)
 })
+
+defineExpose({
+  onToggle,
+  resetModalSize
+});
 </script>
 
 <style scoped>

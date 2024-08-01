@@ -52,7 +52,7 @@
     @toggleVisibility="toogle"
     :alignToEnd="alignToEnd"
     :placement="placement"
-    max_h="160px"
+    :scroll="false"
   >
     <template #trigger>
       <FwbButton
@@ -102,7 +102,7 @@
         </div>
       </FwbButton>
     </template>
-    <template v-if="hasDropdown" #default>
+    <template v-if="hasDropdown">
       <ul>
         <!-- Menu List -->
         <li
