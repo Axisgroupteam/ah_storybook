@@ -41,15 +41,15 @@
   <div
     v-else
     id="notification"
-    class="flex justify-between items-center p-4 m-0 gap-2 w-full rounded-lg bg-white dark:bg-[#262626]"
+    class="flex justify-between items-start p-4 m-0 gap-2 w-full rounded-lg bg-white dark:bg-[#262626]"
   >
-    <div class="flex gap-4 justify-center items-center">
+    <div class="flex gap-4 justify-center items-start">
       <div :class="bg_icon_class">
         <component :is="getFBIcon(status)" />
       </div>
-      <span class="text-[14px] leading-[24px] text-neutral-500 dark:text-[#A3A3A3]">{{
-        content
-      }}</span>
+      <div class="text-[14px] leading-[24px] text-neutral-500 dark:text-[#A3A3A3]">
+        <p v-for="(line, index) in formattedContent" :key="index">{{ line }}</p>
+      </div>
     </div>
     <div class="flex cursor-pointer">
       <FwbButton square color="secondary" class="border-0">
@@ -88,4 +88,12 @@ const bg_icon_classes = {
 }
 
 const bg_icon_class = computed(() => bg_icon_classes[props.status])
+
+const formattedContent = computed(() => {
+  const lines = props.content.split('\n')
+  if (lines.length > 10) {
+    return [...lines.slice(0, 10), '...']
+  }
+  return lines
+})
 </script>
