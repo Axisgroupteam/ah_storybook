@@ -9,39 +9,34 @@
         v-if="$slots.prefix"
         class="w-10 flex absolute inset-y-0 left-0 items-center pl-0 justify-center overflow-hidden text-neutral-500 dark:text-neutral-400 cursor-pointer"
         :class="[
-          validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : '',
-          disabled ? '!text-neutral-400 dark:!text-neutral-500 !cursor-not-allowed' : ''
+          validationStatus === 'error'
+            ? '!text-red-600 dark:!text-red-500'
+            : '',
+          disabled
+            ? '!text-neutral-400 dark:!text-neutral-500 !cursor-not-allowed'
+            : '',
         ]"
       >
         <slot name="prefix" />
-      </div>
-      <!--<input
-         v-bind="$attrs"
-         v-model="formattedTime"
-         :disabled="disabled"
-         :type="type"
-         :required="required"
-         :class="[inputClasses, $slots.prefix ? 'pl-10' : '', showDropdown ? seletedInputClasses: '']"
-         :readonly="readonly"        
-       />-->
+      </div>      
       <div
         class="flex items-center justify-start m-0 p-0"
         :class="[
           inputClasses,
           $slots.prefix ? 'pl-10' : '',
-          showDropdown ? seletedInputClasses : ''
+          showDropdown ? seletedInputClasses : '',
         ]"
         :style="{
           padding: '10px',
-          height: '40px'
+          height: '40px',
         }"
         @click.stop="inputHours?.focus()"
       >
         <input
-          ref="inputHours"
           id="hours"
-          type="number"
-          v-model.number="selectedHour"
+          ref="inputHours"
+          v-model.number="selectedHour"          
+          type="number"          
           min="1"
           max="12"
           maxlength="2"
@@ -49,7 +44,7 @@
           :size="size"
           placeholder="--"
           class="w-4 no-border no-spinner no-outline dynamic-width-input bg-neutral-50 dark:bg-neutral-700"
-          :class="[inputClassesError]"
+          :class="inputClassesError"
           @focus="selectAllText"
           @input="validateHour"
           @keydown="checkKey($event, 'inputHours')"
@@ -58,19 +53,22 @@
           @keydown.up.prevent="checkUP($event, 'inputHours')"
         />
         <div class="h-4 flex items-center justify-center">
-          <span
-            class=""
+          <span           
             :class="[
-              { 'text-neutral-500': disabled, 'text-neutral-900  dark:text-white': !disabled }
+              {
+                'text-neutral-500': disabled,
+                'text-neutral-900  dark:text-white': !disabled,
+              },
+              inputClassesError
             ]"
             >:</span
           >
         </div>
         <input
-          ref="inputMinutes"
           id="minutes"
-          type="number"
+          ref="inputMinutes"
           v-model="selectedMinute"
+          type="number"          
           min="0"
           max="59"
           maxlength="2"
@@ -78,7 +76,7 @@
           :size="size"
           placeholder="--"
           class="w-4 no-border no-spinner no-outline dynamic-width-input bg-neutral-50 dark:bg-neutral-700"
-          :class="[inputClassesError]"
+          :class="inputClassesError"
           @focus="selectAllText"
           @input="validateMinute"
           @keydown="checkKey($event, 'inputMinutes')"
@@ -88,16 +86,16 @@
         />
 
         <input
-          ref="inputPeriods"
           id="period"
-          type="text"
+          ref="inputPeriods"
           v-model="selectedPeriod"
+          type="text"         
           :size="size"
           :disabled="disabled"
           maxlength="2"
           placeholder="--"
           class="no-border no-outline dynamic-width-input max-w-[25px] min-w-[25px] bg-neutral-50 dark:bg-neutral-700"
-          :class="[inputClassesError]"
+          :class="inputClassesError"
           @input="validatePeriod"
           @focus="selectAllText"
           @keydown="checkKey($event, 'inputPeriods')"
@@ -110,8 +108,12 @@
         v-if="$slots.suffix"
         class="absolute flex items-center justify-center w-[40px] h-full cursor-pointer bg-transparent right-[1px] bottom-0 text-neutral-500 dark:text-neutral-400"
         :class="[
-          validationStatus === 'error' ? '!text-red-600 dark:!text-red-500' : '',
-          disabled ? '!text-neutral-400 dark:!text-neutral-500 cursor-none' : 'cursor-pointer'
+          validationStatus === 'error'
+            ? '!text-red-600 dark:!text-red-500'
+            : '',
+          disabled
+            ? '!text-neutral-400 dark:!text-neutral-500 cursor-none'
+            : 'cursor-pointer',
         ]"
         @click="toggleDropdown"
       >
@@ -120,7 +122,10 @@
       <div
         v-else
         class="absolute flex items-center justify-center w-[40px] h-full bg-transparent right-[1px] bottom-0"
-        :class="[!disabled ? 'cursor-pointer' : 'cursor-none', validationWrapperClassesIcon]"
+        :class="[
+          !disabled ? 'cursor-pointer' : 'cursor-none',
+          validationWrapperClassesIcon,
+        ]"
         @click="toggleDropdown"
       >
         <svg
@@ -141,57 +146,76 @@
       </div>
     </div>
     <div
-      ref="wrapper"
       v-if="showDropdown"
+      ref="wrapper"      
       class="shadow-drowpdown absolute mt-2 p-4 bg-neutral-50 dark:bg-neutral-700 text-xs font-bold text-neutral-900 dark:text-white border-neutral-200 dark:border-neutral-600 rounded-lg z-10 transition ease-in-out delay-75"
     >
       <div class="grid grid-cols-3 gap-2">
-        <div class="flex flex-col items-center overflow-y-auto max-h-[238px] custom-scroll">
-          <div class="column" @scroll="() => onScroll('hours')" ref="hoursColumn">
+        <div
+          class="flex flex-col items-center overflow-y-auto max-h-[238px] custom-scroll"
+        >
+          <div
+            ref="hoursColumn"
+            class="column"
+            @scroll="() => onScroll('hours')"            
+          >
             <div
               v-for="(hour, index) in hoursToShow"
-              :key="'hour-' + index"
-              @click="selectHour(hour, index)"
+              :key="'hour-' + index"             
               :class="{
                 'bg-red-700 text-white rounded-lg flex align-middle justify-center':
                   hour === selectedHour,
-                'cursor-pointer p-1': true
+                'cursor-pointer p-1': true,
               }"
               class="w-9 h-9 hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center active:bg-red-700 items-center"
+               @click="selectHour(hour, index)"
             >
               {{ hour }}
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-center overflow-y-auto max-h-[238px] custom-scroll">
-          <div class="column" @scroll="() => onScroll('minutes')" ref="minutesColumn">
+        <div
+          class="flex flex-col items-center overflow-y-auto max-h-[238px] custom-scroll"
+        >
+          <div
+          ref="minutesColumn"
+            class="column"
+            @scroll="() => onScroll('minutes')"
+            
+          >
             <div
               v-for="(minute, index) in minutesToShow"
-              :key="'minute-' + index"
-              @click="selectMinute(minute, index)"
+              :key="'minute-' + index"             
               :class="{
                 'bg-red-700 text-white rounded-lg flex align-middle justify-center':
                   minute === selectedMinute,
-                'cursor-pointer p-2': true
+                'cursor-pointer p-2': true,
               }"
               class="w-9 h-9 hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center items-center"
+               @click="selectMinute(minute, index)"
             >
               {{ minute }}
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-center overflow-y-auto max-h-[238px] custom-scroll">
-          <div class="column" @scroll="() => onScroll('periods')" ref="periodsColumn">
+        <div
+          class="flex flex-col items-center overflow-y-auto max-h-[238px] custom-scroll"
+        >
+          <div
+            ref="periodsColumn"
+            class="column"
+            @scroll="() => onScroll('periods')"            
+          >
             <div
               v-for="(period, index) in periods"
-              :key="'period-' + index"
-              @click="selectPeriod(period, index)"
+              :key="'period-' + index"             
               :class="{
                 'bg-red-700 text-white rounded-lg flex align-middle justify-center':
                   period === selectedPeriod,
-                'cursor-pointer p-2': true
+                'cursor-pointer p-2': true,
               }"
               class="w-9 h-9 hover:bg-red-500 hover:text-white rounded-lg flex align-middle justify-center items-center"
+              @click="selectPeriod(period, index)"
             >
               {{ period }}
             </div>
@@ -206,70 +230,79 @@
 </template>
 
 <script lang="ts" setup>
-import { useTimePicker } from './composables/useTimePicker'
-import { useInputClasses } from './composables/useInputClasses'
-import { type InputSize, type InputType, type ValidationStatus, validationStatusMap } from './types'
-import { twMerge } from 'tailwind-merge'
-import { computed, nextTick, onMounted, watch } from 'vue'
+import { useTimePicker } from "./composables/useTimePicker";
+import { useInputClasses } from "./composables/useInputClasses";
+import {
+  type InputSize,
+  type InputType,
+  type ValidationStatus,
+  validationStatusMap,
+} from "./types";
+import { twMerge } from "tailwind-merge";
+import { computed, nextTick, onMounted, watch } from "vue";
 
 interface InputProps {
-  disabled?: boolean
-  label?: string
-  initialValue?: string
-  required?: boolean
-  size?: InputSize
-  type?: InputType
-  validationStatus?: ValidationStatus
-  readonly?: boolean
-  modelValue?: string
+  disabled?: boolean;
+  label?: string;
+  initialValue?: string;
+  required?: boolean;
+  size?: InputSize;
+  type?: InputType;
+  validationStatus?: ValidationStatus;
+  readonly?: boolean;
+  modelValue?: string;
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
-  label: '',
-  initialValue: '',
+  label: "",
+  initialValue: "",
   required: false,
-  size: 'md',
-  type: 'text',
-  validationStatus: 'normal',
+  size: "md",
+  type: "text",
+  validationStatus: "normal",
   readonly: false,
-  modelValue: '12:00'
-})
+  modelValue: "12:00",
+});
 
-const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
-const classes = computed(() => useInputClasses(props.size, props.disabled, props.validationStatus))
+const emit = defineEmits(["update:modelValue", "toggleVisibility"]);
+const classes = computed(() =>
+  useInputClasses(props.size, props.disabled, props.validationStatus)
+);
 
-const inputClasses = computed(() => classes.value.inputClasses.value)
-const labelClasses = computed(() => classes.value.labelClasses.value)
+const inputClasses = computed(() => classes.value.inputClasses.value);
+const labelClasses = computed(() => classes.value.labelClasses.value);
 
 const inputClassesError = computed(() =>
   twMerge(
-    'text-sm',
-    props.validationStatus === 'error'
-      ? 'bg-red-50 text-red-900 dark:text-red-500'
+    "text-sm",
+    props.validationStatus === "error"
+      ? "bg-red-50 text-red-900 dark:text-red-500 place-holder:text-red-900 placeholder-red-900 dark:placeholder-red-500"
       : props.disabled
-        ? 'text-neutral-500'
-        : 'text-neutral-900 dark:text-white'
+      ? "text-neutral-500"
+      : "text-neutral-900 dark:text-white"
   )
-)
+);
 
-const seletedInputClasses = 'ring-red-500 border-red-500'
+const seletedInputClasses = "ring-red-500 border-red-500";
 
 const validationWrapperClasses = computed(() =>
   twMerge(
-    'text-sm',
-    props.validationStatus === validationStatusMap.Error ? 'text-red-600 dark:text-red-500' : ''
+    "text-sm",
+    props.validationStatus === validationStatusMap.Error
+      ? "text-red-600 dark:text-red-500"
+      : ""
   )
-)
+);
 
 const validationWrapperClassesIcon = computed(() =>
   twMerge(
-    'text-sm',
+    "text-sm",
     props.validationStatus === validationStatusMap.Error
-      ? 'text-red-600 dark:text-red-500'
-      : 'text-neutral-500 dark:text-neutral-400'
+      ? "text-red-600 dark:text-red-500"
+      : "text-neutral-500 dark:text-neutral-400"
   )
-)
+);
 
 const {
   checkKey,
@@ -301,52 +334,67 @@ const {
   validateHour,
   validateMinute,
   validatePeriod,
-  wrapper
-} = useTimePicker()
+  wrapper,
+} = useTimePicker();
 
 const toggleDropdown = () => {
   if (!props.disabled) {
-    showValidationMessage.value = false
-    showDropdown.value = !showDropdown.value
+    showValidationMessage.value = false;
+    showDropdown.value = !showDropdown.value;
     if (showDropdown.value) {
       nextTick(() => {
-        const selectedHourElement = document.querySelector('.selected-hour')
-        const selectedMinuteElement = document.querySelector('.selected-minute')
-        const selectedPeriodElement = document.querySelector('.selected-period')
+        const selectedHourElement = document.querySelector(".selected-hour");
+        const selectedMinuteElement =
+          document.querySelector(".selected-minute");
+        const selectedPeriodElement =
+          document.querySelector(".selected-period");
 
-        selectedHourElement?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-        selectedMinuteElement?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-        selectedPeriodElement?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-      })
+        selectedHourElement?.scrollIntoView({
+          block: "nearest",
+          inline: "nearest",
+        });
+        selectedMinuteElement?.scrollIntoView({
+          block: "nearest",
+          inline: "nearest",
+        });
+        selectedPeriodElement?.scrollIntoView({
+          block: "nearest",
+          inline: "nearest",
+        });
+      });
     }
   }
-}
+};
 
 onMounted(() => {
-  if (props.modelValue !== null && props.modelValue !== undefined && props.modelValue !== '') {
-    const { hour, minute, period } = formatTime(props.modelValue)
+  if (
+    props.modelValue !== null &&
+    props.modelValue !== undefined &&
+    props.modelValue !== ""
+  ) {
+    const { hour, minute, period } = formatTime(props.modelValue);
 
-    selectedHour.value = hour.toString().padStart(2, '0')
-    selectedMinute.value = minute.toString().padStart(2, '0')
-    selectedPeriod.value = period
+    selectedHour.value = hour.toString().padStart(2, "0");
+    selectedMinute.value = minute.toString().padStart(2, "0");
+    selectedPeriod.value = period;
   }
-  updateAllColumns()
-})
+  updateAllColumns();
+});
 
 watch(selectedHour, () => {
-  const timeReturn = convertTo24HourFormat(formattedTime.value)
-  emit('update:modelValue', timeReturn)
-})
+  const timeReturn = convertTo24HourFormat(formattedTime.value);
+  emit("update:modelValue", timeReturn);
+});
 
 watch(selectedMinute, () => {
-  const timeReturn = convertTo24HourFormat(formattedTime.value)
-  emit('update:modelValue', timeReturn)
-})
+  const timeReturn = convertTo24HourFormat(formattedTime.value);
+  emit("update:modelValue", timeReturn);
+});
 
 watch(selectedPeriod, () => {
-  const timeReturn = convertTo24HourFormat(formattedTime.value)
-  emit('update:modelValue', timeReturn)
-})
+  const timeReturn = convertTo24HourFormat(formattedTime.value);
+  emit("update:modelValue", timeReturn);
+});
 </script>
 
 <style scoped>
@@ -404,8 +452,6 @@ input.no-outline:focus {
 }
 
 .shadow-drowpdown {
-  box-shadow:
-    0 2px 3px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1) !important;
 }
 </style>
