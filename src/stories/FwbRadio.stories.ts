@@ -59,7 +59,7 @@ export const Dual: Story = {
   })
 }
 
-export const Requuired: Story = {
+export const Required: Story = {
   args: { modelValue: 'option1', label: 'Label', required: true }
 }
 
