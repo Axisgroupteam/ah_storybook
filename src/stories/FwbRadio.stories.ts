@@ -17,16 +17,13 @@ const meta = {
     () => ({
       template: `
       <div class="p-4">
-    
         <story />
-      
       </div>`
     })
   ],
   argTypes: {
     label: { control: 'text' },
-    customClass: { table: { disabled: false } }
-    //disabled: { control: 'boolean' },
+    customClass: { table: { disabled: false } },
   },
   args: {}
 } satisfies Meta<typeof FwbRadio>
@@ -42,32 +39,22 @@ type Story = StoryObj<typeof meta>
  * Use the default example of a radio component with the checked and unchecked state.
  */
 export const Default: Story = {
-  args: {}
+  args: { modelValue: 'option1', label: 'Label' }
 }
 
-/**
- * This example can be used for the disabled state of the radio component.
- */
-export const Disabled: Story = {
-  args: {
-    disabled: true
-  }
-}
 
-/**
- * Use this variant of a radio item with a custom background color to contrast in an specific case.
- */
-export const Custom: Story = {
+export const Dual: Story = {
   render: (args) => ({
     components: { FwbRadio },
     setup() {
       return { args }
     },
     template: `
-      <FwbRadio v-bind="args" />                      
+      <div>
+        <FwbRadio class="mb-2" label="Label" v-bind="args" model-value="option1" />
+        <FwbRadio class="mb-2" label="Label" v-bind="args" model-value="option2" />
+        <FwbRadio :disabled="true" label="Label" v-bind="args" model-value="option3" />
+      </div>
     `
-  }),
-  args: {
-    customClass: 'bg-neutral-500 dark:bg-neutral-800'
-  }
+  })
 }

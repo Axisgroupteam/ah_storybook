@@ -1,12 +1,15 @@
 <template>
   <label class="flex gap-3 items-center justify-start">
     <input
-      v-model="model"
+      @change="change"
+      @click="toggleRing"
       class="bg-neutral"
-      :class="[radioClasses, customClass ? customClass : '']"
+      :name="name"
+      :value="modelValue"
+      :checked="modelValue === value"
+      :class="[radioClasses, customClass]"
       :disabled="disabled"
       type="radio"
-      @change="toggleRing"
       :style="{
         boxShadow: ring ? '' : 'none'
       }"
@@ -21,16 +24,21 @@ import { computed, ref, watch } from 'vue'
 import { useRadioClasses } from './composables/useRadioClasses'
 
 interface RadioProps {
-  disabled?: boolean
+  name: string
   label?: string
-  modelValue?: boolean
+  value: any
+  modelValue: any
+  disabled?: boolean
   customClass?: string
 }
+
 const props = withDefaults(defineProps<RadioProps>(), {
-  disabled: false,
-  label: 'Title',
+  name: 'option',
+  label: 'Label',
+  value: false,
   modelValue: false,
-  customClass: ''
+  disabled: false,
+  customClass: '',
 })
 
 const ring = ref(false)
@@ -48,17 +56,12 @@ watch(ring, (newValue) => {
 })
 
 const emit = defineEmits(['update:modelValue'])
-const model = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  }
-})
+
+const change = () => {
+  emit('update:modelValue', props.value)
+}
 
 const classes = computed(() => useRadioClasses(props.disabled))
-
 const radioClasses = computed(() => classes.value.radioClasses.value)
 const labelClasses = computed(() => classes.value.labelClasses.value)
 </script>
