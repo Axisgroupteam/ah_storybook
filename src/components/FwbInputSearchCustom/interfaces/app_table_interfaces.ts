@@ -8,7 +8,6 @@ export interface TableCellConfig {
 
 export interface AppTablePropsInterface<T = any> {
   tableContent: TableHeaderWithConfig<T>[];
-  color: string;
   items: T[];
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-between gap-2 w-full">
     <fwb-input
-      :model-value="inputValue"
+      :initial-value="inputValue"
       :placeholder="`Select ${label}`"
       :label="showLabel ? label : ''"
       :disabled="error ? false : disabled"
@@ -16,8 +16,8 @@
             'text-neutral-900 dark:text-white',
             {
               '!text-red-600 dark:!text-red-500': error,
-              '!text-neutral-500 cursor-not-allowed': !error && disabled,
-            },
+              '!text-neutral-500 cursor-not-allowed': !error && disabled
+            }
           ]"
         >
           <svg
@@ -54,11 +54,7 @@
         v-model="search"
         size="sm"
         place-holder="Search..."
-        @keypress.enter="
-          () => {
-            request();
-          }
-        "
+        @keypress.enter="handleKeyPressEnter"
       >
         <template #prefix>
           <svg
@@ -79,7 +75,7 @@
           </svg>
         </template>
         <template #suffix>
-          <div>           
+          <div>
             <FwbSpinner v-if="loading"></FwbSpinner>
           </div>
 
@@ -133,243 +129,140 @@
 </template>
 
 <script lang="ts" setup>
-import FwbInput from "../FwbInput/FwbInput.vue";
-import FwbModal from "../FwbModal/FwbModal.vue";
-import type { InputSize, InputType, ValidationStatus } from "../FwbInput/types";
-import { computed, inject, onUnmounted, ref, watch } from "vue";
-import FwbPagination from "../FwbPagination/FwbPagination.vue";
-import Table from "./Table.vue";
+import FwbInput from '../FwbInput/FwbInput.vue'
+import FwbModal from '../FwbModal/FwbModal.vue'
+import type { InputSize, InputType, ValidationStatus } from '../FwbInput/types'
+import { computed, inject, onUnmounted, ref, watch } from 'vue'
+import FwbPagination from '../FwbPagination/FwbPagination.vue'
+import Table from './Table.vue'
 
 //Nuevo
-import { usePaginationApi } from "@/composables/usePaginationApi";
-import { useAuthStore } from "@/components/presentation/Auth/domain/auth";
-import FwbSpinner from "../FwbSpinner/FwbSpinner.vue";
-import { storeToRefs } from "pinia";
-
-const authStore = useAuthStore();
-
-const { profile } = storeToRefs(authStore);
+import { usePaginationApi } from '@/composables/usePaginationApi'
+import FwbSpinner from '../FwbSpinner/FwbSpinner.vue'
 
 interface Props {
-  request?: any;
-  tableConfig?: any;
-  maxWidth?: string;
-  title?: string;
-  valueRef?: string;
-  valueRefSec?: string | undefined;
-  label: string;
-  showLabel?: boolean;
-  required?: boolean;
-  disabled?: boolean;
-  prevValue?: string;
-  error?: string;
-  objectRef?: string;
-  activeParam?: boolean;
-  placeHolder?: string;
-  size?: InputSize;
-  type?: InputType;
-  validationStatus?: ValidationStatus;
+  request?: any
+  tableConfig?: any
+  maxWidth?: string
+  title?: string
+  valueRef?: string
+  valueRefSec?: string | undefined
+  label: string
+  showLabel?: boolean
+  required?: boolean
+  disabled?: boolean
+  prevValue?: string
+  error?: string
+  objectRef?: string
+  activeParam?: boolean
+  placeHolder?: string
+  size?: InputSize
+  type?: InputType
+  validationStatus?: ValidationStatus
+  company: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  label: "",
+  label: '',
   showLabel: true,
-  prevValue: "",
-  valueRef: "name",
-  realSelectedOpt: "",
-  error: "",
-  objectRef: "",
+  prevValue: '',
+  valueRef: 'name',
+  realSelectedOpt: '',
+  error: '',
+  objectRef: '',
   activeParam: false,
-  maxWidth: "",
-  placeHolder: "Search...",
-  size: "md",
-  type: "text",
-  title: "Title",
+  maxWidth: '',
+  placeHolder: 'Search...',
+  size: 'md',
+  type: 'text',
+  title: 'Title',
   validationStatus: undefined,
-});
+  company: ''
+})
 
-const emit = defineEmits(["selected", "selectedOptionEvt", "statusList"]);
-const open = ref(false);
-const inputValue = ref("");
-
-/*const activeComponentState = inject("activeComponentState");
-const selectedOption = ref("");*/
-
-//Estos deben ser de la api
-/*const loading = ref(false)
-const search = ref('')
-
-const currentPage = ref(1)*/
-//const perPage = ref(20);
-//const totalItems = 100;
+const emit = defineEmits(['selected', 'selectedOptionEvt', 'statusList'])
+const open = ref(false)
+const inputValue = ref('')
 
 const changeLimit = (newPerPage: number) => {
-  currentPage.value = 1;
-  limit.value = newPerPage;
-};
+  limit.value = newPerPage
+}
 
 const clearSearch = () => {
-  search.value = "";
-  request();
-};
+  search.value = ''
+  request()
+}
 
-/*const items = ref([
+const { currentPage, items, loading, search, total, limit, goToPage, request } = usePaginationApi(
+  props.request,
   {
-    name: 'Name 1 ',
-    lastName: 'Last Name 1 ',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 2',
-    lastName: 'Last Name 2',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 3',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 4',
-    lastName: 'Last Name 4',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 5',
-    lastName: 'Last Name 5',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 6',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 1',
-    lastName: 'Last Name 1',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 2',
-    lastName: 'Last Name 2',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 3',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 4',
-    lastName: 'Last Name 4',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 5',
-    lastName: 'Last Name 5',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 6',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 4',
-    lastName: 'Last Name 4',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 5',
-    lastName: 'Last Name 5',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 6',
-    phone: '+1789654123'
+    //limit: 100,
+    company: computed(() => props.company)
   }
-])*/
+)
 
-// hasta aqui lo que debe retornar la api
-
-////NUEVO
-const {
-  currentPage,
-  items,
-  loading,
-  nextPage,
-  prevPage,
-  search,
-  total,
-  totalPages,
-  limit,
-  goToPage,
-  request,
-} = usePaginationApi(props.request, {
-  //limit: 100,
-  company: profile.value.company,
-});
-
-const value = ref("");
+const value = ref('')
 
 watch(
   () => props.prevValue,
   () => {
     if (props.prevValue && props.valueRef !== undefined) {
-      value.value = props.prevValue;
+      value.value = props.prevValue
     }
   }
-);
+)
 
 onUnmounted(() => {
-  value.value = "";
-});
-
-////
+  value.value = ''
+})
 
 const itemsFiltred = computed(() => {
-  if (
-    props.objectRef &&
-    props.activeParam != null &&
-    props.activeParam != undefined
-  )
-    return items.value.filter((i) => i[props.objectRef] == props.activeParam);
-  else return items.value;
-});
+  if (props.objectRef && props.activeParam != null && props.activeParam != undefined)
+    return items.value.filter((i) => i[props.objectRef] == props.activeParam)
+  else return items.value
+})
 
 const table = computed(() => ({
   tableContent: props.tableConfig,
   //color: props.color,
-  items: itemsFiltred.value,
+  items: itemsFiltred.value
   //color: "#D3D4D7",
-}));
+}))
 
 const handleSelected = (item: any) => {
   if (props.valueRefSec !== undefined) {
-    inputValue.value = item[props.valueRefSec] + " - " + item[props.valueRef];
+    inputValue.value = item[props.valueRefSec] + ' - ' + item[props.valueRef]
   } else {
-    inputValue.value = item[props.valueRef];
+    inputValue.value = item[props.valueRef]
   }
-  open.value = false;
-  emit("selected", item);
-};
+
+  open.value = false
+  emit('selected', item)
+}
+
+watch(inputValue, (v) => {
+  alert(v)
+})
 
 const handleOpen = () => {
   if (!props.disabled) {
-    open.value = true;
+    open.value = true
   } else {
-    return;
+    return
   }
-};
+}
 
 function closeModal() {
-  open.value = false;
+  open.value = false
 }
 
 const handleClick = () => {
-  handleOpen();
-};
+  handleOpen()
+}
+
+const handleKeyPressEnter = () => {
+  request()
+}
 </script>
 
 <style></style>
