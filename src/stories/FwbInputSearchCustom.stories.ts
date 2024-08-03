@@ -111,6 +111,8 @@ export const Default: Story = {
     template: `<FwbInputSearchCustom 
         :table-config="args.tableConfig"
         :request="args.request"
+        :label="args.label"
+        :title="args.title"
     />`,
     components: {
       FwbInputSearchCustom
@@ -130,8 +132,7 @@ export const Default: Story = {
               }
             }
           ],
-          request: ({ search }: { search: string }) => {
-            alert(search)
+          request: ({ search }: { search: string }) => {            
             return Promise.resolve({
               ...apiResponse,
               items: apiResponse.items.filter((v) =>
@@ -139,7 +140,9 @@ export const Default: Story = {
               )
             })
           },
-          valueRef: 'name'
+          valueRef: 'name',
+          label: 'Text',
+          title: "Text Title"
         },
         val
       }
@@ -152,31 +155,63 @@ export const Default: Story = {
 /**
  * Use this example if you want to apply the disabled state to an input field.
  */
-// export const Disabled: Story = {
-//   args: {
-//     // disabled: true
-//   }
-// }
+export const Disabled: Story = {
+  args: {
+     disabled: true
+  }
+}
 
 /**
  * Use this example if you want to apply the required state to an input field.
  */
-// export const Required: Story = {
-//   args: {
-//     required: true,
-//     tableConfig: [
-//       {
-//         key: 'name',
-//         title: 'Name',
-//         tableConfig: {
-//           order: 1,
-//           show: true,
-//           width: 'auto'
-//         }
-//       }
-//     ]
-//   }
-// }
+export const Required: Story = {
+  render: () => ({
+    template: `<FwbInputSearchCustom 
+        :table-config="args.tableConfig"
+        :request="args.request"
+        :label="args.label"
+        :title="args.title"
+        :required="args.required"
+    />`,
+    components: {
+      FwbInputSearchCustom
+    },
+    setup() {
+      const val = ref()
+      return {
+        args: {
+          tableConfig: [
+            {
+              key: 'name',
+              title: 'Name',
+              tableConfig: {
+                order: 1,
+                show: true,
+                width: 'auto'
+              }
+            }
+          ],
+          request: ({ search }: { search: string }) => {            
+            return Promise.resolve({
+              ...apiResponse,
+              items: apiResponse.items.filter((v) =>
+                search ? JSON.stringify(v).toLowerCase().includes(search.toLowerCase()) : true
+              )
+            })
+          },
+          valueRef: 'name',
+          label: 'Text',
+          title: "Text Title",
+          required: true
+        },
+        val
+      }
+    }
+  }),
+
+  parameters: {}
+}
+
 
 // /**
 //  * Use the following example to apply validation styles for an error case.
@@ -211,3 +246,55 @@ export const Default: Story = {
 //     error: 'This field is required'
 //   }
 // }
+
+export const Error: Story = {
+  render: () => ({
+    template: `<FwbInputSearchCustom 
+        :table-config="args.tableConfig"
+        :request="args.request"
+        :label="args.label"
+        :title="args.title"
+        :required="args.required"
+        :validationStatus="args.validationStatus"
+        :error="args.error"
+    />`,
+    components: {
+      FwbInputSearchCustom
+    },
+    setup() {
+      const val = ref()
+      return {
+        args: {
+          tableConfig: [
+            {
+              key: 'name',
+              title: 'Name',
+              tableConfig: {
+                order: 1,
+                show: true,
+                width: 'auto'
+              }
+            }
+          ],
+          request: ({ search }: { search: string }) => {            
+            return Promise.resolve({
+              ...apiResponse,
+              items: apiResponse.items.filter((v) =>
+                search ? JSON.stringify(v).toLowerCase().includes(search.toLowerCase()) : true
+              )
+            })
+          },
+          valueRef: 'name',
+          label: 'Text',
+          title: "Text Title",
+          required: true,
+          validationStatus: 'error',
+          error: 'This field is required'
+        },
+        val
+      }
+    }
+  }),
+
+  parameters: {}
+}

@@ -37,8 +37,8 @@
           </svg>
         </div>
       </template>
-      <template #validationMessage>
-        {{ error }}
+      <template #validationMessage v-if="!open">
+       <p> {{ error }}</p>
       </template>
     </fwb-input>
   </div>
@@ -241,7 +241,7 @@ const handleSelected = (item: any) => {
 }
 
 watch(inputValue, (v) => {
-  alert(v)
+  //alert(v)
 })
 
 const handleOpen = () => {
