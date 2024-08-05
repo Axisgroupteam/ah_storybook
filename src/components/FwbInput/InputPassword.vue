@@ -1,5 +1,9 @@
 <template>
-  <FwbInput v-bind="props" @update:model-value="$emit('update:modelValue', $event)">
+  <FwbInput
+    v-bind="props"
+    :type="inputType"
+    @update:model-value="$emit('update:modelValue', $event)"
+  >
     <template #suffix>
       <button type="button" @click="handleInputTypes">
         <svg
