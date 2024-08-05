@@ -33,7 +33,7 @@
         ]"
         @click="toggle"
       >
-        <slot name="suffix" />
+        <slot name="suffix" :type="type" />
       </div>
       <div
         v-if="props.type === 'number' && !disabled"
