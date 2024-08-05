@@ -1,7 +1,7 @@
 <template>
   <FwbInput v-bind="props" @update:model-value="$emit('update:modelValue', $event)">
     <template #suffix>
-      <button @click="handleInputTypes">
+      <button type="button" @click="handleInputTypes">
         <svg
           v-if="inputType === inputTypes.password"
           class="w-6 h-6"
