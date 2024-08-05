@@ -90,7 +90,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   step: 1
 })
 
-const emit = defineEmits(['update:value', 'toggleVisibility'])
+const emit = defineEmits(['update:value', 'toggleVisibility', 'update:modelValue'])
 
 const internalValue = ref(props.initialValue)
 
@@ -105,6 +105,7 @@ const handleInput = (e: Event) => {
   const value = (e.target as HTMLInputElement).value
   internalValue.value = value
   emit('update:value', value)
+  emit('update:modelValue', value)
 }
 
 const increment = () => {

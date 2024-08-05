@@ -4,7 +4,7 @@
       :initial-value="inputValue"
       :placeholder="`Select ${label}`"
       :label="showLabel ? label : ''"
-      :disabled="disabled"
+      :disabled="error ? false : disabled"
       :required="required"
       :readonly="true"
       :validation-status="validationStatus ? 'error' : ''"
@@ -16,7 +16,7 @@
             'text-neutral-900 dark:text-white',
             {
               '!text-red-600 dark:!text-red-500': error,
-              '!text-neutral-500 cursor-not-allowed': disabled
+              '!text-neutral-500 cursor-not-allowed': !error && disabled
             }
           ]"
         >
@@ -37,8 +37,8 @@
           </svg>
         </div>
       </template>
-      <template #validationMessage>
-        {{ error }}
+      <template #validationMessage v-if="!open">
+       <p> {{ error }}</p>
       </template>
     </fwb-input>
   </div>
@@ -50,16 +50,11 @@
     </template>
 
     <template #bodyHeader>
-      <FwbInput
-        :initial-value="search"
+      <fwb-input
+        v-model="search"
         size="sm"
         place-holder="Search..."
-        @update:value="handleValueSearchUpdate"
-        @keypress.enter="
-          () => {
-            request()
-          }
-        "
+        @keypress.enter="handleKeyPressEnter"
       >
         <template #prefix>
           <svg
@@ -81,11 +76,11 @@
         </template>
         <template #suffix>
           <div>
-            <LoadingCircle v-if="loading" />
+            <FwbSpinner v-if="loading"></FwbSpinner>
           </div>
 
           <svg
-            v-if="search.length > 0"
+            v-if="search.length > 0 && !loading"
             class="w-6 h-6"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +99,7 @@
             />
           </svg>
         </template>
-      </FwbInput>
+      </fwb-input>
     </template>
 
     <template #body>
@@ -123,10 +118,11 @@
       <FwbPagination
         v-model="currentPage"
         :layout="'navigation'"
-        :per-page="perPage"
-        :total-items="totalItems"
+        :per-page="limit"
+        :total-items="total"
         large
         @per-page-changed="changeLimit"
+        @page-changed="goToPage"
       />
     </template>
   </fwb-modal>
@@ -136,10 +132,13 @@
 import FwbInput from '../FwbInput/FwbInput.vue'
 import FwbModal from '../FwbModal/FwbModal.vue'
 import type { InputSize, InputType, ValidationStatus } from '../FwbInput/types'
-import { computed, ref } from 'vue'
+import { computed, inject, onUnmounted, ref, watch } from 'vue'
 import FwbPagination from '../FwbPagination/FwbPagination.vue'
 import Table from './Table.vue'
-import LoadingCircle from '../Share/LoadingCircle.vue'
+
+//Nuevo
+import { usePaginationApi } from '@/composables/usePaginationApi'
+import FwbSpinner from '../FwbSpinner/FwbSpinner.vue'
 
 interface Props {
   request?: any
@@ -160,6 +159,7 @@ interface Props {
   size?: InputSize
   type?: InputType
   validationStatus?: ValidationStatus
+  company: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -176,112 +176,45 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'md',
   type: 'text',
   title: 'Title',
-  request: () => () => {
-    alert('Reguest')
-  },
-  validationStatus: undefined
+  validationStatus: undefined,
+  company: ''
 })
 
 const emit = defineEmits(['selected', 'selectedOptionEvt', 'statusList'])
 const open = ref(false)
 const inputValue = ref('')
 
-//Estos deben ser de la api
-const loading = ref(false)
-const search = ref('')
-
-const currentPage = ref(1)
-const perPage = ref(20)
-const totalItems = 100
-
 const changeLimit = (newPerPage: number) => {
-  currentPage.value = 1
-  perPage.value = newPerPage
+  limit.value = newPerPage
 }
 
 const clearSearch = () => {
   search.value = ''
+  request()
 }
 
-const items = ref([
+const { currentPage, items, loading, search, total, limit, goToPage, request } = usePaginationApi(
+  props.request,
   {
-    name: 'Name 1 ',
-    lastName: 'Last Name 1 ',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 2',
-    lastName: 'Last Name 2',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 3',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 4',
-    lastName: 'Last Name 4',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 5',
-    lastName: 'Last Name 5',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 6',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 1',
-    lastName: 'Last Name 1',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 2',
-    lastName: 'Last Name 2',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 3',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 4',
-    lastName: 'Last Name 4',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 5',
-    lastName: 'Last Name 5',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 6',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 4',
-    lastName: 'Last Name 4',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 5',
-    lastName: 'Last Name 5',
-    phone: '+1789654123'
-  },
-  {
-    name: 'Name 3',
-    lastName: 'Last Name 6',
-    phone: '+1789654123'
+    //limit: 100,
+    company: computed(() => props.company)
   }
-])
+)
 
-// hasta aqui lo que debe retornar la api
+const value = ref('')
+
+watch(
+  () => props.prevValue,
+  () => {
+    if (props.prevValue && props.valueRef !== undefined) {
+      value.value = props.prevValue
+    }
+  }
+)
+
+onUnmounted(() => {
+  value.value = ''
+})
 
 const itemsFiltred = computed(() => {
   if (props.objectRef && props.activeParam != null && props.activeParam != undefined)
@@ -302,9 +235,14 @@ const handleSelected = (item: any) => {
   } else {
     inputValue.value = item[props.valueRef]
   }
+
   open.value = false
   emit('selected', item)
 }
+
+watch(inputValue, (v) => {
+  //alert(v)
+})
 
 const handleOpen = () => {
   if (!props.disabled) {
@@ -322,8 +260,8 @@ const handleClick = () => {
   handleOpen()
 }
 
-const handleValueSearchUpdate = (value: string) => {
-  search.value = value
+const handleKeyPressEnter = () => {
+  request()
 }
 </script>
 
