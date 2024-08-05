@@ -1,17 +1,20 @@
 <template>
   <label class="flex gap-3 items-center justify-start">
     <input
-      v-model="model"
+      @change="change"
+      @click="toggleRing"
       class="bg-neutral"
-      :class="[radioClasses, customClass ? customClass : '']"
+      :name="name"
+      :value="modelValue"
+      :checked="modelValue === value"
+      :class="[radioClasses, customClass]"
       :disabled="disabled"
       type="radio"
-      @change="toggleRing"
       :style="{
         boxShadow: ring ? '' : 'none'
       }"
     />
-    <span v-if="label" :class="labelClasses">{{ label }}</span>
+    <span v-if="label" :class="labelClasses">{{ label }}<span v-if="required" class="text-red-500"> * </span></span>    
     <slot />
   </label>
 </template>
@@ -19,18 +22,31 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { useRadioClasses } from './composables/useRadioClasses'
+import {  
+  type ValidationStatus,
+} from "./types";
+
 
 interface RadioProps {
-  disabled?: boolean
+  name: string
   label?: string
-  modelValue?: boolean
-  customClass?: string
+  value: any
+  modelValue: any
+  disabled?: boolean
+  customClass?: string 
+  validationStatus?: ValidationStatus;
+  required?: boolean;
 }
+
 const props = withDefaults(defineProps<RadioProps>(), {
-  disabled: false,
-  label: 'Title',
+  name: 'option',
+  label: 'Label',
+  value: false,
   modelValue: false,
-  customClass: ''
+  disabled: false,
+  customClass: '',
+  validationStatus: "normal",
+  required: false
 })
 
 const ring = ref(false)
@@ -48,17 +64,12 @@ watch(ring, (newValue) => {
 })
 
 const emit = defineEmits(['update:modelValue'])
-const model = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  }
-})
 
-const classes = computed(() => useRadioClasses(props.disabled))
+const change = () => {
+  emit('update:modelValue', props.value)
+}
 
+const classes = computed(() => useRadioClasses(props.disabled, props.validationStatus))
 const radioClasses = computed(() => classes.value.radioClasses.value)
 const labelClasses = computed(() => classes.value.labelClasses.value)
 </script>

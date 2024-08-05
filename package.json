@@ -1,6 +1,6 @@
 {
   "name": "@exeditec/vue-tailwind-components",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "A vue tailwind components library for fast development",
   "files": [
@@ -102,9 +102,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.19",
-    "cypress": "^13.12.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-cypress": "^3.3.0",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.1.0",

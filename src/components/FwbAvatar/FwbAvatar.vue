@@ -49,10 +49,10 @@
 
   <FwbDropdown
     v-else
-    @toggleVisibility="toogle"
-    :alignToEnd="alignToEnd"
+    :align-to-end="alignToEnd"
     :placement="placement"
     :scroll="false"
+    @toggle-visibility="toogle"
   >
     <template #trigger>
       <FwbButton
@@ -104,7 +104,6 @@
     </template>
     <template v-if="hasDropdown">
       <ul>
-        <!-- Menu List -->
         <li
           v-if="fullName"
           class="cursor-auto overflow-hidden w-[200px] py-[8px] items-start flex border-b border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 dark:text-neutral-400 font-medium flex-col"
@@ -128,8 +127,9 @@
           v-for="(option, index) in options"
           :key="index"
           class="px-4 overflow-hidden w-[200px] py-4 items-center flex gap-2 border-b border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium last:text-red-500 dark:last:text-red-500 last:hover:text-red-500 dark:last:hover:text-red-500"
+          @click="handleMenuClick(option.link)"
         >
-          <component fill="currentColor" :is="getFBIcon(option.icon)" />
+          <component :is="getFBIcon(option.icon)" fill="currentColor" />
           <span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{
             option.label
           }}</span>
@@ -143,7 +143,8 @@
 import { computed, type PropType, ref, toRefs, useSlots } from 'vue'
 import type { AvatarSize } from './types'
 import { useAvatarClasses } from './composables/useAvatarClasses'
-import { getImage, getFBIcon } from './getAsset'
+import { getImage, getFBIcon } from './getAsset' //funciona aqui pero en axis no carga svg
+//import { getImage, getFBIcon } from '@/utils/getAssets' //no funciona aqui pero enaxis si
 import FwbButton from '../FwbButton/FwbButton.vue'
 import FwbDropdown from '../FwbDropdown/FwbDropdown.vue'
 
@@ -210,6 +211,14 @@ const visibleRing = ref(false)
 
 function setImageError() {
   imageError.value = true
+}
+
+const emit = defineEmits<{
+  (e: 'menuClick', value: string): void;
+}>();
+
+function handleMenuClick(link: string) {
+  emit('menuClick', link);
 }
 
 function getInitials(name: string): string {
