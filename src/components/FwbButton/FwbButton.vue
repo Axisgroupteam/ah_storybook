@@ -22,7 +22,7 @@
       <!-- Main button text slot -->
       <div>
         <slot />
-        <span v-if="!$slots.default">Button</span>
+        <span v-if="!$slots.default">{{ text }}</span>
       </div>
     </span>
 
@@ -54,8 +54,9 @@ interface IButtonProps {
   loadingPosition?: 'suffix' | 'prefix'
   disabled?: boolean
   href?: string
-  tag?: string
+  tag?: keyof HTMLElementTagNameMap | any
   ring?: boolean
+  text?: 'Button'
 }
 
 // Set default prop values and handle prop validation
@@ -70,7 +71,8 @@ const props = withDefaults(defineProps<IButtonProps>(), {
   disabled: false,
   href: '',
   tag: 'a',
-  ring: false
+  ring: false,
+  text: 'Button'
 })
 
 // Compute button classes based on props
