@@ -26,6 +26,7 @@ import GalleryX from './components/FwbGallery/FwbGallery.vue'
 import ImageX from './components/FwbImage/FwbImage.vue'
 import IndicatorX from './components/FwbIndicators/FwbIndicator.vue'
 import InputX from './components/FwbInput/FwbInput.vue'
+import InputPasswordX from './components/FwbInput/InputPassword.vue'
 import ModalX from './components/FwbModal/FwbModal.vue'
 //import FwbNavbar from './components/FwbNavbar/FwbNavbar.vue'
 import PaginationX from './components/FwbPagination/FwbPagination.vue'
@@ -80,6 +81,7 @@ export {
   ImageX,
   IndicatorX,
   InputX,
+  InputPasswordX,
   ModalX,
   PaginationX,
   PhoneInputX,
