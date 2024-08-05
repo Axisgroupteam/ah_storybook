@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbAvatar from '@/components/FwbAvatar/FwbAvatar.vue'
 import FwbAvatarStack from '@/components/FwbAvatar/FwbAvatarStack.vue'
+import BaseNotification from "@/components/Toast/BaseNotification.vue";
+import { useToast } from "vue-toastification";
 
 /**
  * Use the avatar component to show a visual representation of a user profile using an image element or SVG object based on multiple styles.
@@ -80,13 +82,23 @@ export const Icon: Story = {
  */
 export const Initials: Story = {
   render: (args) => ({
-    components: { FwbAvatar },
+    components: { FwbAvatar, BaseNotification },
     setup() {
-      return { args }
+      const toast = useToast();
+      function showToast(status: string, content: string) {
+        toast({
+          component: BaseNotification,
+          props: { status, content },
+        });
+      }
+      const menuClick = (link: string) => {
+          alert(`Selected : ${link}`)
+        };
+      return { args, menuClick, showToast };
     },
     template: `
       <div class="flex justify-center items-start w-full h-60">
-        <FwbAvatar v-bind="args" />
+        <FwbAvatar v-bind="args" @menu-click="menuClick"/>
       </div>
       `
   }),
