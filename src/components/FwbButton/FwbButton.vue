@@ -56,7 +56,7 @@ interface IButtonProps {
   href?: string
   tag?: keyof HTMLElementTagNameMap | any
   ring?: boolean
-  text?: 'Button'
+  text?: string
 }
 
 // Set default prop values and handle prop validation

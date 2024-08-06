@@ -12,31 +12,31 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from "vue";
+import { inject } from 'vue'
 import {
   TAB_ACTIVE_NAME_INJECTION_KEY,
-  TAB_VISIBILITY_DIRECTIVE_INJECTION_KEY,
-} from "./injection/config";
+  TAB_VISIBILITY_DIRECTIVE_INJECTION_KEY
+} from './injection/config'
 
 defineOptions({
-  __FLOWBITE_TAB__: true, // add this to easily find tab components from tabs
-});
+  __FLOWBITE_TAB__: true // add this to easily find tab components from tabs
+})
 
 defineProps({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   title: {
     type: String,
-    default: "",
+    default: ''
   },
   disabled: {
     type: Boolean,
-    default: false,
-  },
-});
+    default: false
+  }
+})
 
-const activeTab = inject(TAB_ACTIVE_NAME_INJECTION_KEY, "");
-const directive = inject(TAB_VISIBILITY_DIRECTIVE_INJECTION_KEY, "if");
+const activeTab = inject(TAB_ACTIVE_NAME_INJECTION_KEY, '')
+const directive = inject(TAB_VISIBILITY_DIRECTIVE_INJECTION_KEY, 'if')
 </script>
