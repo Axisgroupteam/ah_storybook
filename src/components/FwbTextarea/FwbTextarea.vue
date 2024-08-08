@@ -5,7 +5,7 @@
     >
     <span :class="wrapperClasses">
       <textarea
-        v-model="model"
+        :value="model"
         v-bind="$attrs"
         class="text-neutral-900 dark:text-white"
         :class="textareaClasses"
@@ -13,6 +13,7 @@
         :placeholder="placeholder"
         :disabled="disabled"
         :readonly="readonly"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
       <p v-if="$slots.validationMessage" :class="validationWrapperClasses">
         <slot name="validationMessage" />
