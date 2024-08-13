@@ -7,7 +7,6 @@ export type TabClassMap = {
   active: string
   default: string
   disabled: string
-
 }
 
 export type UseTabClassesProps = {
@@ -24,7 +23,7 @@ const defaultTabClasses: TabClassMap = {
   disabled:
     'inline-block p-4 text-neutral-400 rounded-t-lg cursor-not-allowed dark:text-neutral-500'
 }
-const underlineTabClasses: TabClassMap  = {
+const underlineTabClasses: TabClassMap = {
   default:
     'cursor-pointer inline-block p-4 rounded-t-lg border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 hover:border-neutral-300 dark:hover:text-white',
   active:
@@ -34,9 +33,9 @@ const underlineTabClasses: TabClassMap  = {
 }
 const pillsTabClasses: TabClassMap = {
   default:
-    'cursor-pointer inline-block py-2 px-4 rounded-lg hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-white',
+    'cursor-pointer inline-block py-2 px-4 rounded-lg hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-700 dark:hover:text-white',
   active: 'cursor-pointer inline-block py-2 px-4 text-white bg-red-700 rounded-lg active ',
-  
+
   disabled: 'inline-block py-2 px-4 text-neutral-400 cursor-not-allowed dark:text-neutral-500'
 }
 
