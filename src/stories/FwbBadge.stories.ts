@@ -24,10 +24,13 @@ const meta = {
   ],
   argTypes: {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
-    color: { control: 'select', options: ['primary', 'secondary', 'tertiary'] }
+    color: {
+      control: 'select',
+      options: ['default', 'dark', 'red', 'green', 'yellow', 'indigo', 'purple', 'pink']
+    }
   },
   args: {
-    color: 'primary',
+    color: 'red',
     size: 'sm'
   }
 } satisfies Meta<typeof FwbBadge>
@@ -58,7 +61,7 @@ export const Default: Story = {
     `
   }),
   args: {
-    color: 'primary',
+    color: 'red',
     size: 'sm'
   }
 }
@@ -81,7 +84,7 @@ export const Normal: Story = {
     `
   }),
   args: {
-    color: 'primary',
+    color: 'red',
     size: 'sm'
   }
 }
@@ -104,7 +107,7 @@ export const Counter: Story = {
     `
   }),
   args: {
-    color: 'primary',
+    color: 'red',
     size: 'sm',
     pill: true
   }
@@ -149,7 +152,7 @@ export const Prefix: Story = {
     `
   }),
   args: {
-    color: 'primary',
+    color: 'red',
     size: 'sm'
   }
 }
@@ -171,7 +174,63 @@ export const Suffix: Story = {
     `
   }),
   args: {
-    color: 'primary',
+    color: 'red',
+    size: 'sm'
+  }
+}
+
+export const NormalVariants: Story = {
+  render: (args) => ({
+    components: { FwbBadge },
+    setup() {
+      return { args }
+    },
+    template: `
+      <div class="flex gap-2 items-center justify-center w-full min-h-32">
+          <FwbBadge v-bind="args" color= "default">        
+            <template #default>
+              <span>Default</span>
+            </template>        
+        </FwbBadge>
+        <FwbBadge v-bind="args" color= "dark">        
+            <template #default>
+              <span>Dark</span>
+            </template>        
+        </FwbBadge>
+        <FwbBadge v-bind="args" color= "red">        
+            <template #default>
+              <span>Red</span>
+            </template>        
+        </FwbBadge>
+        <FwbBadge v-bind="args" color= "green">        
+          <template #default>
+            <span>Green</span>
+          </template>        
+      </FwbBadge>
+      <FwbBadge v-bind="args" color= "yellow">        
+          <template #default>
+            <span>Yellow</span>
+          </template>        
+      </FwbBadge>
+      <FwbBadge v-bind="args" color= "indigo">        
+          <template #default>
+            <span>Indigo</span>
+          </template>        
+      </FwbBadge>
+      <FwbBadge v-bind="args" color= "purple">        
+          <template #default>
+            <span>Purple</span>
+          </template>        
+      </FwbBadge>
+      <FwbBadge v-bind="args" color= "pink">        
+          <template #default>
+            <span>Pink</span>
+          </template>        
+      </FwbBadge>
+      </div>
+    `
+  }),
+  args: {
     size: 'sm'
   }
 }
