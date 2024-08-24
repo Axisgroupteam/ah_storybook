@@ -179,7 +179,7 @@ export const Suffix: Story = {
   }
 }
 
-export const NormalVariants: Story = {
+export const NormalColorVariants: Story = {
   render: (args) => ({
     components: { FwbBadge },
     setup() {
