@@ -7,6 +7,9 @@ export type BadgeClassMap<T extends string> = {
 
 const badgeColorClasses: BadgeClassMap<BadgeVariant> = {
   default: {
+    primary: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900",
+    secondary: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800",
+    tertiary: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white",
     default: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-blue-100   text-blue-800   dark:bg-blue-900   dark:text-blue-300",
        dark: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-gray-100   text-gray-800   dark:bg-gray-700   dark:text-gray-300",
         red: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-red-100    text-red-800    dark:bg-red-900    dark:text-red-300",
@@ -17,6 +20,11 @@ const badgeColorClasses: BadgeClassMap<BadgeVariant> = {
        pink: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-pink-100   text-pink-800   dark:bg-pink-900   dark:text-pink-300",
   },
 };
+
+
+
+
+
 
 const BadgeSizeClasses: Record<BadgeSize, string> = {
   xs: 'text-xs px-2 py-0.5',
