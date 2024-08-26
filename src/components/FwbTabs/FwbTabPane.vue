@@ -9,7 +9,12 @@
       {{ title }}
       <div
         v-if="variant === 'underline'"
-        class="w-[20px] h-[20px] rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900"
+        class="rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900"
+        :class="{
+          'w-[20px] h-[20px]': props.count < 10,
+          'w-[30px] h-[20px]': props.count >= 10 && props.count < 100,
+          'w-[40px] h-[20px]': props.count >= 100
+        }"
       >
         {{ props.count }}
       </div>
@@ -23,6 +28,7 @@ import type { TabsVariant } from './types'
 import { useTabClasses } from './composables/useTabClasses'
 import { TAB_ACTIVATE_INJECTION_KEY, TAB_STYLE_INJECTION_KEY } from './injection/config'
 import { getFBIcon } from '@/utils/getAssets'
+import FwbBadge from '../FwbBadge/FwbBadge.vue'
 
 const props = defineProps({
   name: {

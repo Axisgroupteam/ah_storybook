@@ -7,24 +7,27 @@ export type BadgeClassMap<T extends string> = {
 
 const badgeColorClasses: BadgeClassMap<BadgeVariant> = {
   default: {
-    primary: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900",
-    secondary: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800",
-    tertiary: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white",
-    default: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-blue-100   text-blue-800   dark:bg-blue-900   dark:text-blue-300",
-       dark: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-gray-100   text-gray-800   dark:bg-gray-700   dark:text-gray-300",
-        red: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-red-100    text-red-800    dark:bg-red-900    dark:text-red-300",
-      green: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-green-100  text-green-800  dark:bg-green-900  dark:text-green-300",
-     yellow: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-     indigo: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300",
-     purple: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300",
-       pink: "inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-pink-100   text-pink-800   dark:bg-pink-900   dark:text-pink-300",
-  },
-};
-
-
-
-
-
+    primary:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900',
+    secondary:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800',
+    tertiary:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white',
+    default:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-blue-100   text-blue-800   dark:bg-blue-900   dark:text-blue-300',
+    dark: 'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-gray-100   text-gray-800   dark:bg-gray-700   dark:text-gray-300',
+    red: 'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-red-100    text-red-800    dark:bg-red-900    dark:text-red-300',
+    green:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-green-100  text-green-800  dark:bg-green-900  dark:text-green-300',
+    yellow:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+    indigo:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
+    purple:
+      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+    pink: 'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-pink-100   text-pink-800   dark:bg-pink-900   dark:text-pink-300'
+  }
+}
 
 const BadgeSizeClasses: Record<BadgeSize, string> = {
   xs: 'text-xs px-2 py-0.5',
@@ -35,13 +38,14 @@ const BadgeSizeClasses: Record<BadgeSize, string> = {
 
 const indicatorBClasses = 'h-2 w-2 bg-red-500 dark:bg-red-500 rounded-full'
 
-const pillBClasses = 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 inline-flex px-1.5 rounded-full text-sm font-medium'
+const pillBClasses =
+  'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 inline-flex justify-center items-center px-1.5 rounded-full text-sm font-medium text-center leading-0 py-0.5'
 
 const badgeSquareSizeClasses: Record<BadgeSize, string> = {
-  xs: 'text-xs p-0.5',
-  sm: 'text-xs p-1',
-  md: 'text-md p-1.5',
-  lg: 'text-base p-2'
+  xs: 'text-xs p-0.5 text-center',
+  sm: 'text-xs p-1 text-center',
+  md: 'text-md p-1.5 text-center',
+  lg: 'text-base p-2 text-center'
 }
 
 export type UseBadgeClassesProps = {
@@ -105,7 +109,7 @@ export function useBadgeClasses(props: UseBadgeClassesProps): {
 
   return {
     indicatorClasses: ibClasses.value,
-    pillClasses:pbClasses.value,
+    pillClasses: pbClasses.value,
     wrapperClasses: bindClasses.value,
     spanClasses: spanClasses.value
   }

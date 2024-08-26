@@ -101,9 +101,9 @@ export const Counter: Story = {
     template: `
       <FwbBadge v-bind="args">    
         <template #default>
-          <span>3</span>        
+          +999
         </template>    
-      </FwbBadge>
+      </FwbBadge>      
     `
   }),
   args: {
