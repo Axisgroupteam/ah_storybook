@@ -1,116 +1,110 @@
-import { computed, type Ref, useSlots } from 'vue'
-import type { BadgeSize, BadgeVariant } from '../types'
+import type { BadgeSize, BadgeType, BadgeVariant } from '../types'
+import { computed, type Ref, useAttrs } from 'vue'
+import { twMerge } from 'tailwind-merge'
 
-export type BadgeClassMap<T extends string> = {
-  default: Record<T, string>
+const defaultBadgeClasses = 'mr-2 px-2.5 py-0.5 rounded flex items-center justify-center w-fit'
+const badgeLinkClasses =
+  'bg-red-100 hover:bg-red-200 text-red-800 dark:text-red-800 dark:hover:bg-red-300'
+const onlyIconClasses = 'p-1 rounded-full mr-2'
+
+const badgeTextClasses: Record<BadgeType, string> = {
+  primary: 'text-red-800 dark:text-red-300',
+  dark: 'text-gray-800 dark:text-gray-300',
+  red: 'text-red-800 dark:text-red-900',
+  green: 'text-green-800 dark:text-green-900',
+  yellow: 'text-yellow-800 dark:text-yellow-900',
+  indigo: 'text-indigo-800 dark:text-indigo-900',
+  purple: 'text-purple-800 dark:text-purple-900',
+  pink: 'text-pink-800 dark:text-pink-900',
+  blue: 'text-blue-800 dark:text-blue-900'
 }
 
-const badgeColorClasses: BadgeClassMap<BadgeVariant> = {
-  default: {
-    primary:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-red-800 dark:text-red-300 bg-red-100 dark:bg-red-900',
-    secondary:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-neutral-500 dark:text-neutral-400 bg-white active:z-10 dark:bg-neutral-800',
-    tertiary:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium text-white dark:text-neutral-900 bg-neutral-800 dark:bg-white',
-    default:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-blue-100   text-blue-800   dark:bg-blue-900   dark:text-blue-300',
-    dark: 'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-gray-100   text-gray-800   dark:bg-gray-700   dark:text-gray-300',
-    red: 'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-red-100    text-red-800    dark:bg-red-900    dark:text-red-300',
-    green:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-green-100  text-green-800  dark:bg-green-900  dark:text-green-300',
-    yellow:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-    indigo:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
-    purple:
-      'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-    pink: 'inline-flex items-center gap-1 rounded-md active:outline-none font-medium bg-pink-100   text-pink-800   dark:bg-pink-900   dark:text-pink-300'
-  }
+const badgeTypeClasses: Record<BadgeType, string> = {
+  primary: 'bg-red-100 dark:bg-red-900',
+  dark: 'bg-gray-100 dark:bg-gray-700',
+  red: 'bg-red-100 dark:bg-red-200',
+  green: 'bg-green-100 dark:bg-green-200',
+  yellow: 'bg-yellow-100 dark:bg-yellow-200',
+  indigo: 'bg-indigo-100 dark:bg-indigo-200',
+  purple: 'bg-purple-100 dark:bg-purple-200',
+  pink: 'bg-pink-100 dark:bg-pink-200',
+  blue: 'bg-blue-100 dark:bg-blue-200'
 }
 
-const BadgeSizeClasses: Record<BadgeSize, string> = {
-  xs: 'text-xs px-2 py-0.5',
-  sm: 'text-xs px-2.5 py-0.5',
-  md: 'text-md px-3 py-1',
-  lg: 'text-base px-3.5 py-1.5'
+const badgeSizeClasses: Record<BadgeSize, string> = {
+  xs: 'text-xs font-semibold',
+  sm: 'text-sm font-medium'
 }
 
-const indicatorBClasses = 'h-2 w-2 bg-red-500 dark:bg-red-500 rounded-full'
+const badgeVariantClasses: Record<BadgeVariant, string> = {
+  default: '',
+  counter:
+    'inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none rounded-full',
+  indicator: 'inline-block w-2 h-2 bg-red-500 rounded-full'
+}
 
-const pillBClasses =
-  'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 inline-flex justify-center items-center px-1.5 rounded-full text-sm font-medium text-center leading-0 py-0.5'
-
-const badgeSquareSizeClasses: Record<BadgeSize, string> = {
-  xs: 'text-xs p-0.5 text-center',
-  sm: 'text-xs p-1 text-center',
-  md: 'text-md p-1.5 text-center',
-  lg: 'text-base p-2 text-center'
+const badgeCloseButtonClasses: Record<BadgeType, string> = {
+  primary:
+    'text-red-400 hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-800 dark:hover:text-red-300',
+  dark: 'text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-gray-300',
+  red: 'text-red-400 hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-800 dark:hover:text-red-300',
+  green:
+    'text-green-400 hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-800 dark:hover:text-green-300',
+  yellow:
+    'text-yellow-400 hover:bg-yellow-200 hover:text-yellow-900 dark:hover:bg-yellow-800 dark:hover:text-yellow-300',
+  indigo:
+    'text-indigo-400 hover:bg-indigo-200 hover:text-indigo-900 dark:hover:bg-indigo-800 dark:hover:text-indigo-300',
+  purple:
+    'text-purple-400 hover:bg-purple-200 hover:text-purple-900 dark:hover:bg-purple-800 dark:hover:text-purple-300',
+  pink: 'text-pink-400 hover:bg-pink-200 hover:text-pink-900 dark:hover:bg-pink-800 dark:hover:text-pink-300',
+  blue: 'text-blue-400 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300'
 }
 
 export type UseBadgeClassesProps = {
-  class: Ref<string>
-  indicator: Ref<boolean>
-  pill: Ref<boolean>
-  size: Ref<BadgeSize>
-  square: Ref<boolean>
-  color: Ref<BadgeVariant>
+  type: BadgeType
+  size: BadgeSize
+  href: string | null
+  variant: BadgeVariant
+  closable: boolean
 }
 
-export function useBadgeClasses(props: UseBadgeClassesProps): {
-  indicatorClasses: string
-  pillClasses: string
-  wrapperClasses: string
-  spanClasses: string
+export type UseBadgeClassesOptions = {
+  isContentEmpty: Ref<boolean>
+}
+
+export function useBadgeClasses(
+  props: UseBadgeClassesProps,
+  options: UseBadgeClassesOptions
+): {
+  badgeClasses: Ref<string>
+  closeButtonClasses: Ref<string>
 } {
-  const slots = useSlots()
-
-  const sizeClasses = computed(() => {
-    if (props.square.value) return badgeSquareSizeClasses[props.size.value]
-    return BadgeSizeClasses[props.size.value]
+  const attrs = useAttrs()
+  const badgeClasses = computed<string>(() => {
+    return twMerge(
+      badgeSizeClasses[props.size],
+      props.href ? '' : badgeTypeClasses[props.type],
+      props.href ? '' : badgeTextClasses[props.type],
+      props.href ? badgeLinkClasses : '',
+      props.variant === 'default'
+        ? options.isContentEmpty.value
+          ? onlyIconClasses
+          : defaultBadgeClasses
+        : '',
+      badgeVariantClasses[props.variant],
+      attrs.class as string
+    )
   })
 
-  const pbClasses = computed(() => {
-    if (props.pill.value) return pillBClasses
-
-    return ''
-  })
-
-  const ibClasses = computed(() => {
-    if (props.indicator.value) return indicatorBClasses
-
-    return ''
-  })
-
-  const bindClasses = computed(() => {
-    let backgroundClass = ''
-    // JUST COLOR
-    const color = props.color.value
-
-    backgroundClass =
-      badgeColorClasses.default[color as unknown as keyof typeof badgeColorClasses.default]
-
-    return [
-      backgroundClass,
-      props.pill.value && '!rounded-full',
-      pbClasses,
-      ibClasses,
-      sizeClasses.value,
-      (slots.prefix || slots.suffix || slots.default) && 'inline-flex items-center',
-      props.class.value
-    ]
-      .filter((str) => str)
-      .join(' ')
-  })
-
-  const spanClasses = computed(() => {
-    return ''
+  const closeButtonClasses = computed<string>(() => {
+    return twMerge(
+      'inline-flex items-center p-1 ms-2 text-sm bg-transparent rounded-sm',
+      badgeCloseButtonClasses[props.type]
+    )
   })
 
   return {
-    indicatorClasses: ibClasses.value,
-    pillClasses: pbClasses.value,
-    wrapperClasses: bindClasses.value,
-    spanClasses: spanClasses.value
+    badgeClasses,
+    closeButtonClasses
   }
 }

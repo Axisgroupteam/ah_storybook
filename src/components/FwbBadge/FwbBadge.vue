@@ -1,87 +1,77 @@
 <template>
-  <div @closeBadge="showBadge = false" v-if="showBadge">
-    <div v-if="pill" :class="pillClasses">
-      <slot />
-    </div>
-    <div v-else-if="indicator" :class="indicatorClasses" />
-    <div v-else :class="wrapperClasses">
-      <!-- Prefix slot for additional content before the badge text -->
-      <div v-if="$slots.preffix" class="">
-        <slot name="preffix" />
-      </div>
-      <!-- Button text section -->
-      <span :class="spanClasses">
-        <!-- Main Badge text slot -->
-        <div class="">
-          <slot />
-          <!-- <span v-if="!$slots.default">Badge</span> -->
-        </div>
+  <component
+    :is="wrapperType"
+    :class="badgeClasses"
+    :href="href"
+    class="flex justify-center items-center gap-1"
+  >
+    <slot name="icon" />
+    <template v-if="variant === 'default'">
+      <slot name="default" />
+    </template>
+    <template v-else-if="variant === 'counter'">
+      <span v-if="count > 999"> +999 </span>
+      <span v-else>
+        {{ count }}
       </span>
-
-      <!-- Suffix slot for additional content after the badge text -->
-      <div v-if="$slots.suffix" class="">
-        <button
-          @click="showBadge = false"
-          type="button"
-          class="flex items-center justify-center w-3.5 h-3.5 hover:bg-red-200 dark:hover:bg-red-800 rounded-sm"
-        >
-          <svg
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18 17.94 6M18 18 6.06 6"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
+    </template>
+    <template v-else-if="variant === 'indicator'">
+      <!-- El indicador es un círculo vacío, así que no necesita contenido -->
+    </template>
+    <button
+      v-if="closable && variant === 'default'"
+      @click="$emit('close')"
+      :class="closeButtonClasses"
+      aria-label="Remove"
+    >
+      <svg
+        class="w-2 h-2"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 14 14"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+        />
+      </svg>
+      <span class="sr-only">Remove badge</span>
+    </button>
+  </component>
 </template>
 
-<script setup lang="ts">
-import { computed, ref, toRefs } from 'vue'
-import type { BadgeSize, BadgeVariant } from './types'
+<script lang="ts" setup>
+import { computed, useSlots } from 'vue'
+import type { BadgeSize, BadgeType, BadgeVariant } from './types'
 import { useBadgeClasses } from './composables/useBadgeClasses'
-import { useMergeClasses } from '@/composables/userMergeClasses'
 
 interface IBadgeProps {
-  indicator: boolean
-  counter: boolean
-  class?: string
-  color?: BadgeVariant
+  type?: BadgeType
   size?: BadgeSize
-  pill?: boolean
-  square?: boolean
-  href?: string
-  tag?: string
+  href?: string | null
+  variant?: BadgeVariant
+  count?: number
+  closable?: boolean
 }
 
-const showBadge = ref(true)
-
 const props = withDefaults(defineProps<IBadgeProps>(), {
-  indicator: false,
-  counter: false,
-  size: 'md',
-  pill: false,
-  square: false,
-  href: '',
-  color: 'primary',
-  class: '',
-  tag: 'a'
+  type: 'primary',
+  size: 'xs',
+  href: null,
+  variant: 'default',
+  count: 0,
+  closable: false
 })
 
-const badgeClasses = computed(() => useBadgeClasses(toRefs(props)))
+const emit = defineEmits(['close'])
 
-const wrapperClasses = computed(() => useMergeClasses(badgeClasses.value.wrapperClasses))
-const spanClasses = computed(() => useMergeClasses(badgeClasses.value.spanClasses))
-const indicatorClasses = computed(() => useMergeClasses(badgeClasses.value.indicatorClasses))
-const pillClasses = computed(() => useMergeClasses(badgeClasses.value.pillClasses))
+const slots = useSlots()
+const isContentEmpty = computed(() => !slots.default)
+const wrapperType = computed(() => (props.href ? 'a' : 'span'))
+
+const { badgeClasses, closeButtonClasses } = useBadgeClasses(props, { isContentEmpty })
 </script>

@@ -7,17 +7,13 @@
     >
       <component v-if="computedIcon" :is="computedIcon" class="w-3.5 h-3.5" />
       {{ title }}
-      <div
+      <FwbBadge
         v-if="variant === 'underline'"
-        class="rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900"
-        :class="{
-          'w-[20px] h-[20px]': props.count < 10,
-          'w-[30px] h-[20px]': props.count >= 10 && props.count < 100,
-          'w-[40px] h-[20px]': props.count >= 100
-        }"
-      >
-        {{ props.count }}
-      </div>
+        size="xs"
+        type="primary"
+        :count="props?.count"
+        variant="counter"
+      />
     </button>
   </li>
 </template>

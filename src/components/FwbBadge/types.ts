@@ -1,2 +1,14 @@
-export type BadgeVariant = "primary" |"secondary" |  "tertiary" | "default" |"dark" |  "red" | "green" |"yellow" | "indigo" | "purple" | "pink" ;
-export type BadgeSize = "xs" | "sm" | "md" | "lg";
+export type BadgeType =
+  | 'primary'
+  | 'dark'
+  | 'red'
+  | 'green'
+  | 'yellow'
+  | 'indigo'
+  | 'purple'
+  | 'pink'
+  | 'blue'
+
+export type BadgeSize = 'xs' | 'sm'
+
+export type BadgeVariant = 'default' | 'counter' | 'indicator'
