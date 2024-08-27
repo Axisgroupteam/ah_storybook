@@ -9,26 +9,26 @@ const onlyIconClasses = 'p-1 rounded-full mr-2'
 
 const badgeTextClasses: Record<BadgeType, string> = {
   primary: 'text-red-800 dark:text-red-300',
-  dark: 'text-gray-800 dark:text-gray-300',
-  red: 'text-red-800 dark:text-red-900',
-  green: 'text-green-800 dark:text-green-900',
-  yellow: 'text-yellow-800 dark:text-yellow-900',
-  indigo: 'text-indigo-800 dark:text-indigo-900',
-  purple: 'text-purple-800 dark:text-purple-900',
-  pink: 'text-pink-800 dark:text-pink-900',
-  blue: 'text-blue-800 dark:text-blue-900'
+  dark: 'text-neutral-800 dark:text-neutral-300',
+  red: 'text-red-800 dark:text-red-300',
+  green: 'text-green-800 dark:text-green-300',
+  yellow: 'text-yellow-800 dark:text-yellow-300',
+  indigo: 'text-indigo-800 dark:text-indigo-300',
+  purple: 'text-purple-800 dark:text-purple-300',
+  pink: 'text-pink-800 dark:text-pink-300',
+  blue: 'text-blue-800 dark:text-blue-300'
 }
 
 const badgeTypeClasses: Record<BadgeType, string> = {
   primary: 'bg-red-100 dark:bg-red-900',
-  dark: 'bg-gray-100 dark:bg-gray-700',
-  red: 'bg-red-100 dark:bg-red-200',
-  green: 'bg-green-100 dark:bg-green-200',
-  yellow: 'bg-yellow-100 dark:bg-yellow-200',
-  indigo: 'bg-indigo-100 dark:bg-indigo-200',
-  purple: 'bg-purple-100 dark:bg-purple-200',
-  pink: 'bg-pink-100 dark:bg-pink-200',
-  blue: 'bg-blue-100 dark:bg-blue-200'
+  dark: 'bg-neutral-100 dark:bg-neutral-900',
+  red: 'bg-red-100 dark:bg-red-900',
+  green: 'bg-green-100 dark:bg-green-900',
+  yellow: 'bg-yellow-100 dark:bg-yellow-900',
+  indigo: 'bg-indigo-100 dark:bg-indigo-900',
+  purple: 'bg-purple-100 dark:bg-purple-900',
+  pink: 'bg-pink-100 dark:bg-pink-900',
+  blue: 'bg-blue-100 dark:bg-blue-900'
 }
 
 const badgeSizeClasses: Record<BadgeSize, string> = {
@@ -38,26 +38,20 @@ const badgeSizeClasses: Record<BadgeSize, string> = {
 
 const badgeVariantClasses: Record<BadgeVariant, string> = {
   default: '',
-  counter:
-    'inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none rounded-full',
+  counter: 'w-fit rounded-lg px-1',
   indicator: 'inline-block w-2 h-2 bg-red-500 rounded-full'
 }
 
 const badgeCloseButtonClasses: Record<BadgeType, string> = {
-  primary:
-    'text-red-400 hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-800 dark:hover:text-red-300',
-  dark: 'text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-gray-300',
-  red: 'text-red-400 hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-800 dark:hover:text-red-300',
-  green:
-    'text-green-400 hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-800 dark:hover:text-green-300',
-  yellow:
-    'text-yellow-400 hover:bg-yellow-200 hover:text-yellow-900 dark:hover:bg-yellow-800 dark:hover:text-yellow-300',
-  indigo:
-    'text-indigo-400 hover:bg-indigo-200 hover:text-indigo-900 dark:hover:bg-indigo-800 dark:hover:text-indigo-300',
-  purple:
-    'text-purple-400 hover:bg-purple-200 hover:text-purple-900 dark:hover:bg-purple-800 dark:hover:text-purple-300',
-  pink: 'text-pink-400 hover:bg-pink-200 hover:text-pink-900 dark:hover:bg-pink-800 dark:hover:text-pink-300',
-  blue: 'text-blue-400 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300'
+  primary: 'text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800',
+  dark: 'text-neutral-800 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-800',
+  red: 'text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800',
+  green: 'text-green-800 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800',
+  yellow: 'text-yellow-800 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800',
+  indigo: 'text-indigo-800 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800',
+  purple: 'text-purple-800 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800',
+  pink: 'text-pink-800 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-pink-800',
+  blue: 'text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
 }
 
 export type UseBadgeClassesProps = {
@@ -97,10 +91,7 @@ export function useBadgeClasses(
   })
 
   const closeButtonClasses = computed<string>(() => {
-    return twMerge(
-      'inline-flex items-center p-1 ms-2 text-sm bg-transparent rounded-sm',
-      badgeCloseButtonClasses[props.type]
-    )
+    return twMerge('flex justify-center items-center', badgeCloseButtonClasses[props.type])
   })
 
   return {
