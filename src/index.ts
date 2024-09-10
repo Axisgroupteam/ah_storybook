@@ -51,6 +51,7 @@ import TabsX from './components/FwbTabs/FwbTabs.vue'
 import TextareaX from './components/FwbTextarea/FwbTextarea.vue'
 import ToggleX from './components/FwbToggle/FwbToggle.vue'
 import TooltipX from './components/FwbTooltip/FwbTooltip.vue'
+import SearchCustomX from './components/FwbInputSearchCustom/FwbInputSearchCustom.vue'
 
 export {
   ButtonX,
@@ -104,5 +105,6 @@ export {
   TabsX,
   TextareaX,
   ToggleX,
-  TooltipX
+  TooltipX,
+  SearchCustomX
 }

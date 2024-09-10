@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col justify-between gap-2 w-full">
     <fwb-input
+      v-model="inputValue"
       :initial-value="inputValue"
       :placeholder="`Select ${label}`"
       :label="showLabel ? label : ''"

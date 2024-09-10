@@ -7,12 +7,13 @@
     >
       <component v-if="computedIcon" :is="computedIcon" class="w-3.5 h-3.5" />
       {{ title }}
-      <div
+      <FwbBadge
         v-if="variant === 'underline'"
-        class="w-[20px] h-[20px] rounded-full bg-red-100 text-center text-red-800 dark:text-red-300 dark:bg-red-900"
-      >
-        {{ props.count }}
-      </div>
+        size="xs"
+        type="primary"
+        :count="props?.count"
+        variant="counter"
+      />
     </button>
   </li>
 </template>
@@ -23,6 +24,7 @@ import type { TabsVariant } from './types'
 import { useTabClasses } from './composables/useTabClasses'
 import { TAB_ACTIVATE_INJECTION_KEY, TAB_STYLE_INJECTION_KEY } from './injection/config'
 import { getFBIcon } from '@/utils/getAssets'
+import FwbBadge from '../FwbBadge/FwbBadge.vue'
 
 const props = defineProps({
   name: {

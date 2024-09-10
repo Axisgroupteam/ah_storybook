@@ -4,7 +4,7 @@
       <FwbTabPane
         v-for="(item, id) in tabsChildren"
         :key="id"
-        :active="modelValueRef === item.props?.name"
+        :active="modelValueRef === item.props?.name"      
         :disabled="item.props?.disabled"
         :name="item.props?.name"
         :title="item.props?.title"
