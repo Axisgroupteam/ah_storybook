@@ -69,6 +69,7 @@ import { computed, ref } from 'vue'
 import { getImage } from './getAsset'
 import FwbDropdown from '../FwbDropdown/FwbDropdown.vue'
 import FwbButton from '../FwbButton/FwbButton.vue'
+import type { iconsNames } from '@/components/data/icons'
 
 const props = withDefaults(
   defineProps<{
@@ -80,7 +81,7 @@ const props = withDefaults(
     totalStack: number
     options: Array<{
       label: string
-      icon: string
+      icon: iconsNames
       link: string
       component: any
       fullName: string | undefined
