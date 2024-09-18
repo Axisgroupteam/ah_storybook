@@ -53,6 +53,7 @@ import ToggleX from './components/FwbToggle/FwbToggle.vue'
 import TooltipX from './components/FwbTooltip/FwbTooltip.vue'
 import SearchCustomX from './components/FwbInputSearchCustom/FwbInputSearchCustom.vue'
 import FwbChooseQuantity from './components/FwbChooseQuantity/FwbChooseQuantity.vue'
+import IconX from './components/IconWrapper.vue'
 
 export {
   ButtonX,
@@ -108,5 +109,6 @@ export {
   ToggleX,
   TooltipX,
   SearchCustomX,
+  IconX,
   FwbChooseQuantity
 }
