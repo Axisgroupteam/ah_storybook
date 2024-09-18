@@ -16,6 +16,7 @@
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "update_icons": "node .scripts/icons_to_file.cjs",
     "chromatic": "npx chromatic --project-token=chpt_73a28086a5f11a4"
   },
   "dependencies": {
@@ -65,6 +66,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vue": "^9.23.0",
+    "husky": "^9.1.6",
     "jsdom": "^24.1.0",
     "npm-run-all2": "^6.2.0",
     "postcss": "^8.4.38",

@@ -4,12 +4,13 @@
   </span>
 </template>
 
-<script setup>
-import { computed } from 'vue'
+<script setup lang="ts">
+import { computed, type PropType } from 'vue'
 import { getFBIcon } from '@/utils/getAssets'
+import type { iconsNames } from '@/components/data/icons'
 
 const props = defineProps({
-  name: String,
+  name: { type: String as PropType<iconsNames>, required: true },
   size: {
     type: [Number, String],
     default: 20

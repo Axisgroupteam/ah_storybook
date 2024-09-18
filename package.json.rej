@@ -1,0 +1,14 @@
+diff a/package.json b/package.json	(rejected hunks)
+@@ -54,9 +54,11 @@
+     "format": "prettier --write src/",
+     "storybook": "storybook dev -p 6006",
+     "build-storybook": "storybook build",
++    "update_icons": "node .scripts/icons_to_file.cjs",
+     "chromatic": "npx chromatic --project-token=chpt_73a28086a5f11a4",
+     "prepublish": "node .scripts/cleanse-pkg.cjs \"@storybook/addon-docs,@storybook/addon-postcss\" \"@chromatic-com/storybook,@storybook/addon-essentials,@storybook/addon-interactions,@storybook/addon-links,@storybook/addon-themes,@storybook/blocks,@storybook/manager-api,@storybook/test,@storybook/theming,@storybook/vue3,@storybook/vue3-vite,cypress,vitest,vite-plugin-vue-devtools,storybook,start-server-and-test,react,jsdom,@vue/test-utils\"",
+-    "postpublish": "node .scripts/restore-pkg.cjs"
++    "postpublish": "node .scripts/restore-pkg.cjs",
++    "prepare": "husky"
+   },
+   "dependencies": {
+     "@storybook/addon-docs": "^8.2.4",
