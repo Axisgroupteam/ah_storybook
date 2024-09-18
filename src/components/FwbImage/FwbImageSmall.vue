@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="image-preview cursor-pointer transition ease-in-out delay-150 duration-75"
-  >
+  <div class="image-preview cursor-pointer transition ease-in-out delay-150 duration-75">
     <img :src="image" class="image" />
-    <button class="delete-button"  @click.stop="removeImage">
+    <button class="delete-button" @click.stop="removeImage">
       <component
         :is="getFBIcon(icon)"
         v-if="icon"
@@ -14,22 +12,23 @@
 </template>
 
 <script lang="ts" setup>
-import { getFBIcon } from "@/utils/getAssets";
-import { defineProps, ref, watch } from "vue";
+import { getFBIcon } from '@/utils/getAssets'
+import { defineProps, ref, watch } from 'vue'
+import type { iconsNames } from '@/components/data/icons'
 
-const emit = defineEmits(["remove"]);
+const emit = defineEmits(['remove'])
 
 interface Props {
-  image: string;
-  closeable: boolean;
-  icon: string;
+  image: string
+  closeable: boolean
+  icon: iconsNames
 }
 
-const props = defineProps<Props>();
+const props = defineProps<Props>()
 
 const removeImage = () => {
-  emit("remove");
-};
+  emit('remove')
+}
 </script>
 
 <style scoped>

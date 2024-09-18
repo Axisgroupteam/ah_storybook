@@ -19,12 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, toRef, computed, type ComputedRef, ref } from 'vue'
+import { inject, toRef, computed, type ComputedRef, ref, type PropType } from 'vue'
 import type { TabsVariant } from './types'
 import { useTabClasses } from './composables/useTabClasses'
 import { TAB_ACTIVATE_INJECTION_KEY, TAB_STYLE_INJECTION_KEY } from './injection/config'
 import { getFBIcon } from '@/utils/getAssets'
 import FwbBadge from '../FwbBadge/FwbBadge.vue'
+import type { iconsNames } from '@/components/data/icons'
 
 const props = defineProps({
   name: {
@@ -36,7 +37,7 @@ const props = defineProps({
     default: ''
   },
   icon: {
-    type: String,
+    type: String as PropType<iconsNames>,
     default: ''
   },
   disabled: {

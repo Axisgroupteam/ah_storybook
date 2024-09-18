@@ -6,11 +6,10 @@
     class="p-0 overflow-clip text-neutral-600 hover:!text-neutral-600 dark:text-neutral-300 dark:hover:!text-neutral-300"
     :class="[
       {
-        '!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500':
-          hasDropdown || visibleRing,
+        '!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500': hasDropdown || visibleRing
       },
       { '!ring-0': !hasDropdown || !visibleRing },
-      { '!cursor-default': !hasDropdown },
+      { '!cursor-default': !hasDropdown }
     ]"
   >
     <div class="">
@@ -29,10 +28,7 @@
         >
           <slot name="placeholder" />
         </div>
-        <IconWrapper 
-          v-else-if="!img && !initials" name="user-circle"  
-          size="48"
-        />        
+        <IconWrapper v-else-if="!img && !initials" name="user-circle" size="48" />
         <div
           v-else-if="initials"
           :class="avatarPlaceholderInitialsClasses"
@@ -58,11 +54,10 @@
         class="p-0 overflow-clip"
         :class="[
           {
-            '!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500':
-              hasDropdown || visibleRing,
+            '!ring-[4px] !ring-neutral-300 dark:!ring-neutral-500': hasDropdown || visibleRing
           },
           { '!ring-0': !hasDropdown || !visibleRing },
-          { '!cursor-default': !hasDropdown },
+          { '!cursor-default': !hasDropdown }
         ]"
       >
         <div class="relative">
@@ -89,10 +84,7 @@
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
             >
-              <path
-                clip-rule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              />
+              <path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
             </svg>
             <div
               v-else-if="initials"
@@ -114,18 +106,16 @@
           <div
             class="px-4 overflow-hidden w-[200px] items-start flex justify-start text-neutral-500 r:text-white dark:text-neutral-400"
           >
-            <span
-              class="text-ellipsis truncate whitespace-nowrap text-sm font-semibold"
-              >{{ fullName }}</span
-            >
+            <span class="text-ellipsis truncate whitespace-nowrap text-sm font-semibold">{{
+              fullName
+            }}</span>
           </div>
           <div
             class="px-4 overflow-hidden w-[200px] items-start flex justify-start text-neutral-500 r:text-white dark:text-neutral-400"
           >
-            <span
-              class="text-ellipsis truncate whitespace-nowrap text-sm font-normal"
-              >{{ email }}</span
-            >
+            <span class="text-ellipsis truncate whitespace-nowrap text-sm font-normal">{{
+              email
+            }}</span>
           </div>
         </li>
         <li
@@ -135,10 +125,9 @@
           @click="handleMenuClick(option.link)"
         >
           <component :is="getFBIcon(option.icon)" fill="currentColor" />
-          <span
-            class="cursor-pointer text-ellipsis truncate whitespace-nowrap"
-            >{{ option.label }}</span
-          >
+          <span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{
+            option.label
+          }}</span>
         </li>
       </ul>
     </template>
@@ -146,116 +135,117 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type PropType, ref, toRefs, useSlots } from "vue";
-import type { AvatarSize } from "./types";
-import { useAvatarClasses } from "./composables/useAvatarClasses";
+import { computed, type PropType, ref, toRefs, useSlots } from 'vue'
+import type { AvatarSize } from './types'
+import { useAvatarClasses } from './composables/useAvatarClasses'
 import { getImage, getFBIcon } from './getAsset' //funciona aqui pero en axis no carga svg
 //import { getImage, getFBIcon } from "@/utils/getAssets"; //no funciona aqui pero enaxis si
-import FwbButton from "../FwbButton/FwbButton.vue";
-import FwbDropdown from "../FwbDropdown/FwbDropdown.vue";
-import IconWrapper from "@/components/IconWrapper.vue";
+import FwbButton from '../FwbButton/FwbButton.vue'
+import FwbDropdown from '../FwbDropdown/FwbDropdown.vue'
+import IconWrapper from '@/components/IconWrapper.vue'
+import type { iconsNames } from '@/components/data/icons'
 
 const props = defineProps({
   alt: {
     type: String,
-    default: "Avatar",
+    default: 'Avatar'
   },
   hasDropdown: {
     type: Boolean,
-    default: false,
+    default: false
   },
   bordered: {
     type: Boolean,
-    default: false,
+    default: false
   },
   img: {
     type: String,
-    default: "",
+    default: ''
   },
   email: {
     type: String,
-    default: "",
+    default: ''
   },
   rounded: {
     type: Boolean,
-    default: true,
+    default: true
   },
   alignToEnd: {
     type: Boolean,
-    default: true,
+    default: true
   },
   placement: {
     type: String,
-    default: "bottom",
+    default: 'bottom'
   },
   size: {
     type: String as PropType<AvatarSize>,
-    default: "md",
+    default: 'md'
   },
   initials: {
     type: String,
-    default: null,
+    default: null
   },
   pill: {
     type: Boolean,
-    default: true,
+    default: true
   },
   fullName: {
     type: String,
-    default: "",
+    default: ''
   },
   options: Array<{
-    label: string;
-    icon: string;
-    link: string;
-  }>,
-});
+    label: string
+    icon: iconsNames
+    link: string
+  }>
+})
 
-const imageError = ref(false);
-const slots = useSlots();
-const hasPlaceholder = computed(() => slots.placeholder);
-const visibleRing = ref(false);
+const imageError = ref(false)
+const slots = useSlots()
+const hasPlaceholder = computed(() => slots.placeholder)
+const visibleRing = ref(false)
 
 function setImageError() {
-  imageError.value = true;
+  imageError.value = true
 }
 
 const emit = defineEmits<{
-  (e: "menuClick", value: string): void;
-}>();
+  (e: 'menuClick', value: string): void
+}>()
 
 function handleMenuClick(link: string) {
-  emit("menuClick", link);
+  emit('menuClick', link)
 }
 
 function getInitials(name: string): string {
-  const nameParts = name.split(" ");
+  const nameParts = name.split(' ')
   if (nameParts.length === 2) {
-    const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
-    return initials.toUpperCase();
+    const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0)
+    return initials.toUpperCase()
   } else {
     const initials = nameParts
       .map((part) => part.charAt(0))
-      .join("")
-      .slice(0, 2);
-    return initials.toUpperCase();
+      .join('')
+      .slice(0, 2)
+    return initials.toUpperCase()
   }
 }
 
-const initials = computed(() => getInitials(props.fullName));
-const size = computed(() => props.size);
-const placement = computed(() => props.placement);
-const alignToEnd = computed(() => props.alignToEnd);
-const hasDropdown = computed(() => props.hasDropdown);
+const initials = computed(() => getInitials(props.fullName))
+const size = computed(() => props.size)
+const placement = computed(() => props.placement)
+const alignToEnd = computed(() => props.alignToEnd)
+const hasDropdown = computed(() => props.hasDropdown)
 
 const toogle = (value: boolean) => {
-  visibleRing.value = value;
-};
+  visibleRing.value = value
+}
 
 const {
   avatarClasses,
   avatarPlaceholderClasses,
   avatarPlaceholderInitialsClasses,
-  avatarPlaceholderWrapperClasses,
-} = useAvatarClasses(toRefs(props));
+  avatarPlaceholderWrapperClasses
+} = useAvatarClasses(toRefs(props))
 </script>

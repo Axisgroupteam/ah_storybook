@@ -40,3 +40,5 @@ devDepsToRemove.forEach(function (pkgName) {
 fs.writeFile(ORIG_PKG_PATH, JSON.stringify(pkgData, null, 2), function (err) {
   if (err) throw err
 })
+
+require('./icons_to_file.cjs')

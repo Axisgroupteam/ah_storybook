@@ -63,10 +63,11 @@ import { computed, ref } from 'vue'
 import FwbDropdown from '../../FwbDropdown/FwbDropdown.vue'
 import Darrow from '../../../assets/flowbite_icons/double_arrow.svg'
 import { getFBIcon } from '@/utils/getAssets'
+import type { iconsNames } from '@/components/data/icons'
 
 interface Props {
   options: {
-    icon: string
+    icon: iconsNames
     title: string
   }[]
   showDrawer: boolean
