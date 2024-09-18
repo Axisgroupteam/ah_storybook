@@ -1,3 +1,9 @@
 node .scripts/icons_to_file.cjs
+
 prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
 git update-index --again
+
+if [[ $(git rev-parse --abbrev-ref HEAD) == "npm_library" ]]; then
+  node .scripts/auto_update_minor_version.cjs
+  git add package.json
+fi
