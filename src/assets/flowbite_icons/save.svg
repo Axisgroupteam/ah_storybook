@@ -1,9 +1,9 @@
-<svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"
+<svg viewBox="0 0 14 14" fill="currentColor"
     xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_6255_1828)">
         <mask id="mask0_6255_1828" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-            width="14" height="14">
-            <rect width="14" height="14" fill="currentColor" />
+           >
+            <rect fill="currentColor" />
         </mask>
         <g mask="url(#mask0_6255_1828)">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -13,7 +13,7 @@
     </g>
     <defs>
         <clipPath id="clip0_6255_1828">
-            <rect width="14" height="14" fill="currentColor" />
+            <rect fill="currentColor" />
         </clipPath>
     </defs>
 </svg>
