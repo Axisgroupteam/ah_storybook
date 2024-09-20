@@ -1,8 +1,8 @@
-<svg   viewBox="0 0 14 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<svg width="14" height="15" viewBox="0 0 14 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_8110_10892)">
         <mask id="mask0_8110_10892" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-             >
-            <rect y="0.5"   fill="currentColor" />
+            width="14" height="15">
+            <rect y="0.5" width="14" height="14" fill="currentColor" />
         </mask>
         <g mask="url(#mask0_8110_10892)">
             <path
@@ -12,7 +12,7 @@
     </g>
     <defs>
         <clipPath id="clip0_8110_10892">
-            <rect   fill="currentColor" transform="translate(0 0.5)" />
+            <rect width="14" height="14" fill="currentColor" transform="translate(0 0.5)" />
         </clipPath>
     </defs>
 </svg>

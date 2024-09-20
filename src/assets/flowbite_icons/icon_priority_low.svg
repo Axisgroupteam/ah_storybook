@@ -1,15 +1,15 @@
-<svg   viewBox="0 0 57 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<svg width="57" height="56" viewBox="0 0 57 56" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_3789_2026)">
-<rect x="6" y="2"   rx="12" fill="currentColor"/>
+<rect x="6" y="2" width="45" height="45" rx="12" fill="#36AE4A"/>
 </g>
 <g clip-path="url(#clip0_3789_2026)">
-<path d="M33.59 17.59L29 22.17L24.41 17.59L23 19L29 25L35 19L33.59 17.59Z" fill="currentColor"/>
+<path d="M33.59 17.59L29 22.17L24.41 17.59L23 19L29 25L35 19L33.59 17.59Z" fill="white"/>
 </g>
 <g clip-path="url(#clip1_3789_2026)">
-<path d="M33.59 25.59L29 30.17L24.41 25.59L23 27L29 33L35 27L33.59 25.59Z" fill="currentColor"/>
+<path d="M33.59 25.59L29 30.17L24.41 25.59L23 27L29 33L35 27L33.59 25.59Z" fill="white"/>
 </g>
 <defs>
-<filter id="filter0_d_3789_2026" x="0.5" y="-2.38419e-07"   filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d_3789_2026" x="0.5" y="-2.38419e-07" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="3.5"/>
@@ -19,10 +19,10 @@
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3789_2026" result="shape"/>
 </filter>
 <clipPath id="clip0_3789_2026">
-<rect   fill="currentColor" transform="translate(17 9)"/>
+<rect width="24" height="24" fill="white" transform="translate(17 9)"/>
 </clipPath>
 <clipPath id="clip1_3789_2026">
-<rect   fill="currentColor" transform="translate(17 17)"/>
+<rect width="24" height="24" fill="white" transform="translate(17 17)"/>
 </clipPath>
 </defs>
 </svg>
