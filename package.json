@@ -1,6 +1,6 @@
 {
   "name": "@exeditec/vue-tailwind-components",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "description": "A vue tailwind components library for fast development",
   "files": [
@@ -58,6 +58,7 @@
     "chromatic": "npx chromatic --project-token=chpt_73a28086a5f11a4",
     "prepublish": "node .scripts/cleanse-pkg.cjs \"@storybook/addon-docs,@storybook/addon-postcss\" \"@chromatic-com/storybook,@storybook/addon-essentials,@storybook/addon-interactions,@storybook/addon-links,@storybook/addon-themes,@storybook/blocks,@storybook/manager-api,@storybook/test,@storybook/theming,@storybook/vue3,@storybook/vue3-vite,cypress,vitest,vite-plugin-vue-devtools,storybook,start-server-and-test,react,jsdom,@vue/test-utils\"",
     "postpublish": "node .scripts/restore-pkg.cjs",
+    "formatSvgs": "node .scripts/remove_svg_unnecesary_fields.cjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -104,6 +105,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.19",
+    "dom-parser": "^1.1.5",
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-vue": "^9.23.0",

@@ -1,4 +1,5 @@
 node .scripts/icons_to_file.cjs
+node .scripts/remove_svg_unnecesary_fields.cjs
 
 prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
 git update-index --again

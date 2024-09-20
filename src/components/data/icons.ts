@@ -107,7 +107,7 @@ export type iconsNames =
   | 'info_icon_dark'
   | 'ini_stepper_report'
   | 'issue_exclamation_gray'
-  | 'location (2)'
+  | 'location-alt'
   | 'location-report'
   | 'location'
   | 'lock'
