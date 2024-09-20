@@ -54,7 +54,8 @@ import TooltipX from './components/FwbTooltip/FwbTooltip.vue'
 import SearchCustomX from './components/FwbInputSearchCustom/FwbInputSearchCustom.vue'
 import FwbChooseQuantity from './components/FwbChooseQuantity/FwbChooseQuantity.vue'
 import IconX from './components/IconWrapper.vue'
-
+import type { iconsNames } from './components/data/icons.ts'
+export type { iconsNames as IconsNames }
 export {
   ButtonX,
   DatePickerX,
