@@ -66,7 +66,7 @@
               v-if="img && !imageError"
               :alt="alt"
               :class="avatarClasses"
-              :src="getImage(img)"
+              :src="image"
               @error="setImageError"
             />
             <div
