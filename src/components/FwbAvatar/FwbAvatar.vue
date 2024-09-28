@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div :class="avatarPlaceholderWrapperClasses">
-      <img v-if="img && !imageError" :alt="alt" :class="avatarClasses" :src="getImage(img)" @error="setImageError" />
+      <img v-if="img && !imageError" :alt="alt" :class="avatarClasses" :src="image" @error="setImageError" />
       <div v-else-if="!initials && hasPlaceholder" :class="avatarPlaceholderClasses">
         <slot name="placeholder" /> {{ hasPlaceholder }}
       </div>
@@ -70,6 +70,11 @@
       default: null,
     },
   });
+
+  const image = computed((): string => {
+    return props.img.startsWith("https") ? props.img : getImage(props.img);
+  });
+
 
   const {
     avatarClasses,
