@@ -18,7 +18,7 @@
           v-if="img && !imageError"
           :alt="alt"
           :class="avatarClasses"
-          :src="getImage(img)"
+          :src="image"
           @error="setImageError"
         />
         <div
@@ -241,6 +241,10 @@ const hasDropdown = computed(() => props.hasDropdown)
 const toogle = (value: boolean) => {
   visibleRing.value = value
 }
+
+const image = computed((): string => {
+    return props.img.startsWith("https") ? props.img : getImage(props.img);
+  });
 
 const {
   avatarClasses,
