@@ -28,7 +28,7 @@
         >
           <slot name="placeholder" />
         </div>
-        <IconWrapper v-else-if="!img && !initials" name="user-circle" size="48" />
+        <IconWrapper v-else-if="!img && !initials" name="user-circle" :size="size==='xs'?'32':'48'" />
         <div
           v-else-if="initials"
           :class="avatarPlaceholderInitialsClasses"
