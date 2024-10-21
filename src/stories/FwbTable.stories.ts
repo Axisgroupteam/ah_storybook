@@ -8,6 +8,8 @@ import FwbTableHeadCell from '@/components/FwbTable/FwbTableHeadCell.vue'
 import FwbTableRow from '@/components/FwbTable/FwbTableRow.vue'
 import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
+import ExpandableTable from '@/components/FwbTable/ExpandableTable.vue'
+import FittedBox from '@/components/FittedBox.vue'
 
 /**
  * Use the table component to show text, images, links, and other elements inside a structured set of data made up of rows and columns of table cells.
@@ -22,11 +24,9 @@ const meta = {
   decorators: [
     () => ({
       template: `
-    <div class="w-full h-[300px] flex justify-center p-4">
-        <div class="w-full">        
+        <div class="w-full p-4">        
             <story />        
         </div>
-    </div>
     `
     })
   ],
@@ -216,4 +216,133 @@ export const Hoverable: Story = {
   args: {
     hoverable: true
   }
+}
+
+export const ExpandableTableStory: Story = {
+  render: (args) => ({
+    components: {
+      ExpandableTable
+    },
+    setup() {
+      const data = ref([
+        {
+          id: 1,
+          vehicle: 'Vehicle 1',
+          loadNo: 'Load No. 1',
+          customer: 'Customer 1',
+          pickUp: 'Pick Up 1',
+          dropOff: 'Drop Off 1',
+          pickUpDate: '2024-01-01',
+          dropOffDate: '2024-01-02'
+        },
+        {
+          id: 2,
+          vehicle: 'Vehicle 1',
+          loadNo: 'Load No. 2',
+          customer: 'Customer 2',
+          pickUp: 'Pick Up 2',
+          dropOff: 'Drop Off 2',
+          pickUpDate: '2024-01-03',
+          dropOffDate: '2024-01-04'
+        },
+        {
+          id: 3,
+          vehicle: 'Vehicle 2',
+          loadNo: 'Load No. 3',
+          customer: 'Customer 3',
+          pickUp: 'Pick Up 3',
+          dropOff: 'Drop Off 3',
+          pickUpDate: '2024-01-05',
+          dropOffDate: '2024-01-06'
+        },
+        {
+          id: 4,
+          vehicle: 'Vehicle 2',
+          loadNo: 'Load No. 4',
+          customer: 'Customer 4',
+          pickUp: 'Pick Up 4',
+          dropOff: 'Drop Off 4',
+          pickUpDate: '2024-01-07',
+          dropOffDate: '2024-01-08'
+        },
+        {
+          id: 5,
+          vehicle: 'Vehicle 3',
+          loadNo: 'Load No. 5',
+          customer: 'Customer 5',
+          pickUp: 'Pick Up 5',
+          dropOff: 'Drop Off 5',
+          pickUpDate: '2024-01-09',
+          dropOffDate: '2024-01-10'
+        },
+        {
+          id: 6,
+          vehicle: 'Vehicle 3',
+          loadNo: 'Load No. 6',
+          customer: 'Customer 6',
+          pickUp: 'Pick Up 6',
+          dropOff: 'Drop Off 6',
+          pickUpDate: '2024-01-11',
+          dropOffDate: '2024-01-12'
+        },
+        {
+          id: 7,
+          vehicle: 'Vehicle 3',
+          loadNo: 'Load No. 7',
+          customer: 'Customer 7',
+          pickUp: 'Pick Up 7',
+          dropOff: 'Drop Off 7',
+          pickUpDate: '2024-01-13',
+          dropOffDate: '2024-01-14'
+        }
+      ])
+
+      const fields = ref([
+        { value: 'vehicle', name: 'Vehicle', visible: true },
+        { value: 'loadNo', name: 'Load No.', visible: true },
+        { value: 'customer', name: 'Customer', visible: true },
+        { value: 'pickUp', name: 'Pick Up', visible: true },
+        { value: 'dropOff', name: 'Drop Off', visible: true },
+        { value: 'pickUpDate', name: 'Pick Up Date', visible: true },
+        { value: 'dropOffDate', name: 'Drop Off Date', visible: true }
+      ])
+
+      const handleSort = () => {
+        // Implementar lógica de ordenación
+      }
+
+      const handleRowClick = () => {
+        // Implementar lógica de clic en fila
+      }
+
+      const onChangeLimit = () => {
+        // Implementar lógica de cambio de límite por página
+      }
+
+      const onChangePage = () => {
+        // Implementar lógica de cambio de página
+      }
+
+      return { data, fields, handleSort, handleRowClick, onChangeLimit, onChangePage }
+    },
+    template: `
+    <FittedBox>
+      <ExpandableTable
+        v-model="fields"
+        :items="data"
+        :is-loading="false"
+        :current-page="1"
+        :per-page="10"
+        :total-items="data.length"
+        :get-item-key="(item) => item.id"
+        group-by="vehicle"
+        @sort="handleSort"
+        @row-click="handleRowClick"
+        @per-page-changed="onChangeLimit"
+        @page-changed="onChangePage"
+      />
+    </FittedBox>
+    `
+  }),
+  args: {}
 }
