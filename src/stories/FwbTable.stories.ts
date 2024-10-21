@@ -218,7 +218,7 @@ export const Hoverable: Story = {
   }
 }
 
-export const ExpandableTableStory: Story = {
+export const Expandable: Story = {
   render: (args) => ({
     components: {
       ExpandableTable
