@@ -38,7 +38,7 @@
           <template v-for="(group, groupName) in groupedItems" :key="groupName">
             <tr
               v-if="groupBy"
-              class="text-sm font-normal cursor-pointer border-b dark:border-neutral-700 border-neutral-200 text-neutral-700 dark:text-neutral-200"
+              class="text-sm font-normal cursor-pointer border-b dark:border-neutral-700 border-neutral-200 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
               @click="toggleGroup(groupName)"
             >
               <td :colspan="visibleHeaders.length + 1" class="p-4">
@@ -67,25 +67,36 @@
               </td>
             </tr>
             <template v-if="expandedGroups[groupName]">
-              <FwbTableRow
-                v-for="item in group"
-                :key="getItemKey(item)"
-                class="group-item"
-                @click="$emit('rowClick', item)"
-              >
-                <FwbTableCell>
-                  <FwbCheckbox
-                    :model-value="isItemSelected(getItemKey(item))"
-                    @update:model-value="toggleItem(getItemKey(item))"
-                    @click.stop
-                  />
-                </FwbTableCell>
-                <FwbTableCell v-for="header in visibleHeaders" :key="header.value">
-                  <slot :name="header.value" :item="item">
-                    {{ item[header.value] != null ? item[header.value] : '-' }}
-                  </slot>
-                </FwbTableCell>
-              </FwbTableRow>
+              <tr class="group-wrapper">
+                <td :colspan="visibleHeaders.length + 1" class="p-0">
+                  <div class="px-4">
+                    <!-- Añadido div con padding horizontal -->
+                    <table class="w-full">
+                      <tbody>
+                        <tr
+                          v-for="item in group"
+                          :key="getItemKey(item)"
+                          class="group-item h-[51px] text-sm font-normal cursor-pointer border-b dark:border-neutral-700 border-neutral-200 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                          @click="$emit('rowClick', item)"
+                        >
+                          <td class="w-10">
+                            <FwbCheckbox
+                              :model-value="isItemSelected(getItemKey(item))"
+                              @update:model-value="toggleItem(getItemKey(item))"
+                              @click.stop
+                            />
+                          </td>
+                          <td v-for="header in visibleHeaders" :key="header.value">
+                            <slot :name="header.value" :item="item">
+                              {{ item[header.value] != null ? item[header.value] : '-' }}
+                            </slot>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
             </template>
           </template>
         </template>
@@ -352,13 +363,45 @@ tr[colspan] > td {
   display: table-cell;
 }
 
-/* Estilo para los items del grupo */
-.group-item > td {
-  padding: 16px;
+.group-wrapper {
+  background-color: inherit;
 }
 
-/* Asegurarse de que la primera celda tenga un padding izquierdo adicional */
-.group-item > td:first-child {
-  padding-left: 32px; /* 16px de padding base + 16px adicionales */
+.group-wrapper > td {
+  padding: 16px 0;
+}
+
+.group-item {
+  height: 51px;
+}
+
+.group-item td {
+  padding: 8px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dark .group-item td {
+  border-bottom-color: #374151;
+}
+
+.group-item td:first-child {
+  padding-left: 16px; /* Ajustado a 16px */
+}
+
+.group-item td:last-child {
+  padding-right: 16px; /* Ajustado a 16px */
+}
+
+/* Estilos adicionales para mantener la apariencia original */
+.group-item {
+  transition: background-color 0.3s ease;
+}
+
+.group-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .group-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 </style>

@@ -224,78 +224,7 @@ export const Expandable: Story = {
       ExpandableTable
     },
     setup() {
-      const data = ref([
-        {
-          id: 1,
-          vehicle: 'Vehicle 1',
-          loadNo: 'Load No. 1',
-          customer: 'Customer 1',
-          pickUp: 'Pick Up 1',
-          dropOff: 'Drop Off 1',
-          pickUpDate: '2024-01-01',
-          dropOffDate: '2024-01-02'
-        },
-        {
-          id: 2,
-          vehicle: 'Vehicle 1',
-          loadNo: 'Load No. 2',
-          customer: 'Customer 2',
-          pickUp: 'Pick Up 2',
-          dropOff: 'Drop Off 2',
-          pickUpDate: '2024-01-03',
-          dropOffDate: '2024-01-04'
-        },
-        {
-          id: 3,
-          vehicle: 'Vehicle 2',
-          loadNo: 'Load No. 3',
-          customer: 'Customer 3',
-          pickUp: 'Pick Up 3',
-          dropOff: 'Drop Off 3',
-          pickUpDate: '2024-01-05',
-          dropOffDate: '2024-01-06'
-        },
-        {
-          id: 4,
-          vehicle: 'Vehicle 2',
-          loadNo: 'Load No. 4',
-          customer: 'Customer 4',
-          pickUp: 'Pick Up 4',
-          dropOff: 'Drop Off 4',
-          pickUpDate: '2024-01-07',
-          dropOffDate: '2024-01-08'
-        },
-        {
-          id: 5,
-          vehicle: 'Vehicle 3',
-          loadNo: 'Load No. 5',
-          customer: 'Customer 5',
-          pickUp: 'Pick Up 5',
-          dropOff: 'Drop Off 5',
-          pickUpDate: '2024-01-09',
-          dropOffDate: '2024-01-10'
-        },
-        {
-          id: 6,
-          vehicle: 'Vehicle 3',
-          loadNo: 'Load No. 6',
-          customer: 'Customer 6',
-          pickUp: 'Pick Up 6',
-          dropOff: 'Drop Off 6',
-          pickUpDate: '2024-01-11',
-          dropOffDate: '2024-01-12'
-        },
-        {
-          id: 7,
-          vehicle: 'Vehicle 3',
-          loadNo: 'Load No. 7',
-          customer: 'Customer 7',
-          pickUp: 'Pick Up 7',
-          dropOff: 'Drop Off 7',
-          pickUpDate: '2024-01-13',
-          dropOffDate: '2024-01-14'
-        }
-      ])
+      const data = ref(generateRandomData(100, 4))
 
       const fields = ref([
         { value: 'vehicle', name: 'Vehicle', visible: true },
@@ -345,4 +274,28 @@ export const Expandable: Story = {
     `
   }),
   args: {}
+}
+
+function generateRandomData(count: number, vehicleCount: number): any[] {
+  const vehicles = Array.from({ length: vehicleCount }, (_, i) => `Vehículo ${i + 1}`)
+  const customers = ['Cliente A', 'Cliente B', 'Cliente C', 'Cliente D', 'Cliente E']
+  const locations = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza']
+
+  return Array.from({ length: count }, (_, index) => ({
+    id: index + 1,
+    vehicle: vehicles[Math.floor(Math.random() * vehicles.length)],
+    loadNo: Math.floor(Math.random() * 10000) + 1,
+    customer: customers[Math.floor(Math.random() * customers.length)],
+    pickUp: locations[Math.floor(Math.random() * locations.length)],
+    dropOff: locations[Math.floor(Math.random() * locations.length)],
+    pickUpDate: generarFechaAleatoria(),
+    dropOffDate: generarFechaAleatoria()
+  }))
+}
+
+function generarFechaAleatoria(): string {
+  const inicio = new Date(2024, 0, 1).getTime()
+  const fin = new Date(2024, 11, 31).getTime()
+  const fechaAleatoria = new Date(inicio + Math.random() * (fin - inicio))
+  return fechaAleatoria.toISOString().split('T')[0]
 }
