@@ -39,7 +39,7 @@
             <tr
               v-if="groupBy"
               class="text-sm font-normal cursor-pointer border-b dark:border-neutral-700 border-neutral-200 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-              :class="index > 0 ? 'border-t border-neutral-200 dark:border-neutral-800' : ''"
+              :class="index > 0 ? 'border-t border-neutral-200 dark:border-neutral-700' : ''"
               @click="toggleGroup(groupName)"
             >
               <td :colspan="visibleHeaders.length + 1" class="p-4">
@@ -77,7 +77,7 @@
                           :class="
                             group.length - 1 === index
                               ? ''
-                              : 'border-b border-neutral-200 dark:border-neutral-800'
+                              : 'border-b border-neutral-200 dark:border-neutral-700'
                           "
                           @click="$emit('rowClick', item)"
                         >
