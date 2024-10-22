@@ -35,10 +35,11 @@
       </FwbTableHead>
       <FwbTableBody>
         <template v-if="computedItems?.length && !isLoading">
-          <template v-for="(group, groupName) in groupedItems" :key="groupName">
+          <template v-for="(group, groupName, index) in groupedItems" :key="groupName">
             <tr
               v-if="groupBy"
               class="text-sm font-normal cursor-pointer border-b dark:border-neutral-700 border-neutral-200 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              :class="index > 0 ? 'border-t border-neutral-200 dark:border-neutral-800' : ''"
               @click="toggleGroup(groupName)"
             >
               <td :colspan="visibleHeaders.length + 1" class="p-4">
@@ -57,11 +58,7 @@
                       />
                     </div>
                     {{ groupName }}
-                  </div>
-                  <div>
-                    <span>Group :</span>
-                    {{ group.length }}
-                    {{ group.length === 1 ? 'item' : 'items' }}
+                    ({{ group.length }})
                   </div>
                 </div>
               </td>
@@ -74,9 +71,14 @@
                     <table class="w-full">
                       <tbody>
                         <tr
-                          v-for="item in group"
+                          v-for="(item, index) in group"
                           :key="getItemKey(item)"
-                          class="group-item h-[51px] text-sm font-normal cursor-pointer border-b dark:border-neutral-700 border-neutral-200 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                          class="group-item h-[51px] text-sm font-normal cursor-pointer text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                          :class="
+                            group.length - 1 === index
+                              ? ''
+                              : 'border-b border-neutral-200 dark:border-neutral-800'
+                          "
                           @click="$emit('rowClick', item)"
                         >
                           <td class="w-10">
@@ -234,9 +236,12 @@ const onDrop = (event: DragEvent, targetHeader: any) => {
   const draggedIndex = newHeaders.findIndex((h) => h.value === draggedHeaderValue)
   const targetIndex = newHeaders.findIndex((h) => h.value === targetHeader.value)
 
-  if (draggedIndex > -1 && targetIndex > -1) {
-    const [removed] = newHeaders.splice(draggedIndex, 1)
-    newHeaders.splice(targetIndex, 0, removed)
+  if (draggedIndex > -1 && targetIndex > -1 && draggedIndex !== targetIndex) {
+    // Intercambiar las posiciones de las columnas
+    ;[newHeaders[draggedIndex], newHeaders[targetIndex]] = [
+      newHeaders[targetIndex],
+      newHeaders[draggedIndex]
+    ]
 
     localHeaders.value = newHeaders
     emit('update:modelValue', newHeaders)
@@ -377,11 +382,9 @@ tr[colspan] > td {
 
 .group-item td {
   padding: 8px 16px;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .dark .group-item td {
-  border-bottom-color: #374151;
 }
 
 .group-item td:first-child {
