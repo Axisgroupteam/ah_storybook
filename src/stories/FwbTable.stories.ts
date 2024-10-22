@@ -10,6 +10,7 @@ import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import ExpandableTable from '@/components/FwbTable/ExpandableTable.vue'
 import FittedBox from '@/components/FittedBox.vue'
+import FwbInput from '@/components/FwbInput/FwbInput.vue'
 
 /**
  * Use the table component to show text, images, links, and other elements inside a structured set of data made up of rows and columns of table cells.
@@ -221,10 +222,14 @@ export const Hoverable: Story = {
 export const Expandable: Story = {
   render: (args) => ({
     components: {
-      ExpandableTable
+      ExpandableTable,
+      FwbInput,
+      FwbButton
     },
     setup() {
-      const data = ref(generateRandomData(100, 4))
+      const elementCount = ref(100)
+      const vehicleCount = ref(4)
+      const data = ref(generateRandomData(elementCount.value, vehicleCount.value))
 
       const fields = ref([
         { value: 'vehicle', name: 'Vehicle', visible: true },
@@ -252,10 +257,29 @@ export const Expandable: Story = {
         // Implementar lógica de cambio de página
       }
 
-      return { data, fields, handleSort, handleRowClick, onChangeLimit, onChangePage }
+      const updateData = () => {
+        data.value = generateRandomData(elementCount.value, vehicleCount.value)
+      }
+
+      return {
+        data,
+        fields,
+        elementCount,
+        vehicleCount,
+        handleSort,
+        handleRowClick,
+        onChangeLimit,
+        onChangePage,
+        updateData
+      }
     },
     template: `
     <FittedBox>
+      <div class="mb-4 flex space-x-4 justify-center items-end">
+        <FwbInput v-model="elementCount" type="number" label="Records" />
+        <FwbInput v-model="vehicleCount" type="number" label="Vehicles" />
+        <FwbButton class="h-fit w-fit" @click="updateData">Update Data</FwbButton>
+      </div>
       <ExpandableTable
         v-model="fields"
         :items="data"
