@@ -8,7 +8,7 @@ import FwbTableHeadCell from '@/components/FwbTable/FwbTableHeadCell.vue'
 import FwbTableRow from '@/components/FwbTable/FwbTableRow.vue'
 import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
-import ExpandableTable from '@/components/FwbTable/ExpandableTable.vue'
+import ExpandableTable from '@/components/FwbTable/NestedTable/ExpandableTable.vue'
 import FittedBox from '@/components/FittedBox.vue'
 import FwbInput from '@/components/FwbInput/FwbInput.vue'
 
@@ -247,6 +247,7 @@ export const Expandable: Story = {
 
       const handleRowClick = () => {
         // Implementar lógica de clic en fila
+        alert('click row')
       }
 
       const onChangeLimit = () => {
@@ -261,16 +262,34 @@ export const Expandable: Story = {
         data.value = generateRandomData(elementCount.value, vehicleCount.value)
       }
 
+      const selectedItems = ref<string[]>([])
+      const grouped = ref(false)
+      const selectable = ref(false)
+
+      const updateDataGrouped = () => {
+        // Implementar lógica de cambio de página
+        grouped.value = !grouped.value
+      }
+      const handleSelectable = () => {
+        // Implementar lógica de cambio de página
+        selectable.value = !selectable.value
+      }
+
       return {
         data,
         fields,
         elementCount,
         vehicleCount,
+        selectedItems,
+        grouped,
+        selectable,
         handleSort,
         handleRowClick,
         onChangeLimit,
         onChangePage,
-        updateData
+        updateData,
+        updateDataGrouped,
+        handleSelectable
       }
     },
     template: `
@@ -279,15 +298,19 @@ export const Expandable: Story = {
         <FwbInput v-model="elementCount" type="number" label="Records" />
         <FwbInput v-model="vehicleCount" type="number" label="Vehicles" />
         <FwbButton class="h-fit w-fit" @click="updateData">Update Data</FwbButton>
+        <FwbButton class="h-fit w-fit" @click="updateDataGrouped">Handle Group</FwbButton>
+        <FwbButton class="h-fit w-fit" @click="handleSelectable">Handle Selectable</FwbButton>
       </div>
       <ExpandableTable
         v-model="fields"
+        v-model:selected-items="selectedItems"
         :items="data"
         :is-loading="false"
         :current-page="1"
         :per-page="10"
         :total-items="data.length"
-        :get-item-key="(item) => item.id"
+        :grouped="grouped"
+        :selectable="selectable"
         group-by="vehicle"
         @sort="handleSort"
         @row-click="handleRowClick"
@@ -303,10 +326,17 @@ export const Expandable: Story = {
 function generateRandomData(count: number, vehicleCount: number): any[] {
   const vehicles = Array.from({ length: vehicleCount }, (_, i) => `Vehículo ${i + 1}`)
   const customers = ['Cliente A', 'Cliente B', 'Cliente C', 'Cliente D', 'Cliente E']
-  const locations = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza']
+  const locations = [
+    'Madrid',
+    'Barcelona',
+    'Valencia',
+    'Sevilla',
+    'Bilbao',
+    'Zaragozaasdasdasdasdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  ]
 
   return Array.from({ length: count }, (_, index) => ({
-    id: index + 1,
+    _id: index + 1,
     vehicle: vehicles[Math.floor(Math.random() * vehicles.length)],
     loadNo: Math.floor(Math.random() * 10000) + 1,
     customer: customers[Math.floor(Math.random() * customers.length)],
