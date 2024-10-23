@@ -326,14 +326,7 @@ export const Expandable: Story = {
 function generateRandomData(count: number, vehicleCount: number): any[] {
   const vehicles = Array.from({ length: vehicleCount }, (_, i) => `Vehículo ${i + 1}`)
   const customers = ['Cliente A', 'Cliente B', 'Cliente C', 'Cliente D', 'Cliente E']
-  const locations = [
-    'Madrid',
-    'Barcelona',
-    'Valencia',
-    'Sevilla',
-    'Bilbao',
-    'Zaragozaasdasdasdasdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-  ]
+  const locations = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza']
 
   return Array.from({ length: count }, (_, index) => ({
     _id: index + 1,

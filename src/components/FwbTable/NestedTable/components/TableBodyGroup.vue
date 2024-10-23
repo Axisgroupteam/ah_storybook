@@ -33,7 +33,7 @@
           <p>{{ groupKey }}</p>
         </slot>
         <div class="flex-1"></div>
-        <p>Total: {{ items.length }} {{ toalGroupedText }}</p>
+        <p>Group: {{ items.length }} {{ toalGroupedText }}</p>
       </section>
     </td>
   </tr>
