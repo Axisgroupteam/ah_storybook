@@ -1,5 +1,20 @@
 <template>
-  <tr v-if="displayedGroup[groupKey]" class="group">
+  <tr
+    v-if="displayedGroup[groupKey]"
+    class="group"
+    :class="{
+      'opacity-75': draggingOtherGroupKey && sortable
+    }"
+    :draggable="sortable"
+    @dragstart="$emit('dragStart', item)"
+    @dragover="
+      (e) => {
+        e.preventDefault()
+      }
+    "
+    @dragleave="() => {}"
+    @drop="$emit('drop', item)"
+  >
     <td
       v-if="selectable"
       class="table-body-td"
@@ -56,10 +71,12 @@ const props = defineProps({
   modelValue: { type: Array as PropType<TableFields[]>, required: true },
   groupKey: { type: String, required: true },
   displayedGroup: { type: Object as PropType<Record<string, boolean>>, required: true },
-  selectedItems: { type: Array as PropType<String[]>, default: [] }
+  selectedItems: { type: Array as PropType<String[]>, default: [] },
+  draggingOtherGroupKey: { type: Boolean },
+  sortable: { type: Boolean, default: false }
 })
 
-const emit = defineEmits(['update:selectedItems', 'rowClick'])
+const emit = defineEmits(['update:selectedItems', 'rowClick', 'dragStart', 'drop'])
 
 const checkedItem = computed(() => props.selectedItems.includes(props.item[props.itemKey]))
 
