@@ -18,9 +18,6 @@
           'divide-y divide-neutral-200 dark:divide-neutral-700': !grouped
         }"
       >
-        <!-- <tr>
-        <td class="relative h-1 bg-red-500 animate-pulse" :colspan="modelValue.length + 1"></td>
-      </tr> -->
         <template
           v-for="[groupKey, items] in Object.entries(groups).sort((a, b) =>
             a[0].localeCompare(b[0])
@@ -56,8 +53,14 @@
               :selected-items="selectedItems"
               :item-key="itemKey"
               :display-border="i <= (items?.length ?? 1) - 2"
+              :sortable="sortable"
+              :dragging-other-group-key="
+                draggingGropuKey !== groupKey && sortable && !!draggingGropuKey
+              "
               @update:selectedItems="handleSelectedItems"
               @row-click="$emit('rowClick', $event)"
+              @drag-start="(e) => handleDragStart(e, groupKey)"
+              @drop="(e) => handleDrop(e)"
             />
           </template>
           <tr v-if="grouped && displayedGroup[groupKey]">
@@ -99,7 +102,8 @@ const props = defineProps({
     default: (v: Record<string, any>) => v['vehicle']
   },
   toalGroupedText: { type: String, default: 'Items' },
-  selectedItems: { type: Array as PropType<string[]>, default: [] }
+  selectedItems: { type: Array as PropType<string[]>, default: [] },
+  sortable: { type: Boolean, default: false }
 })
 
 const groups = computed(() => {
@@ -139,16 +143,45 @@ watch(
   { immediate: true, deep: true }
 )
 
-const emit = defineEmits(['update:selectedItems', 'rowClick', 'update:modelValue'])
+const emit = defineEmits(['update:selectedItems', 'rowClick', 'update:modelValue', 'update:items'])
 
 const handleSelectedItems = (items: string[]) => {
   emit('update:selectedItems', items)
 }
 
-const { allItemsSelected, handleAllItems } = useHandleItemsSelected(
+const { allItemsSelected } = useHandleItemsSelected(
   computed(() => props.items),
   computed(() => props.selectedItems),
   computed(() => props.itemKey),
   handleSelectedItems
 )
+
+const draggingItem = ref<Record<string, any>>()
+const draggingGropuKey = ref<string>()
+
+const handleDragStart = (item: Record<string, any>, key: string) => {
+  draggingItem.value = item
+  draggingGropuKey.value = key
+}
+
+const handleDrop = (item: Record<string, any>) => {
+  let targetidx = -1
+  let refIdx = -1
+  for (let i = 0; i < props.items.length; i++) {
+    if (props.items[i][props.itemKey] === item[props.itemKey]) {
+      targetidx = i
+    } else if (props.items[i][props.itemKey] === draggingItem.value?.[props.itemKey]) {
+      refIdx = i
+    }
+  }
+
+  const newItems = JSON.parse(JSON.stringify(props.items))
+  const target = props.items[targetidx]
+  const reference = props.items[refIdx]
+  newItems[targetidx] = reference
+  newItems[refIdx] = target
+  emit('update:items', newItems)
+  draggingItem.value = undefined
+  draggingGropuKey.value = undefined
+}
 </script>

@@ -11,6 +11,7 @@ import FwbButton from '@/components/FwbButton/FwbButton.vue'
 import ExpandableTable from '@/components/FwbTable/NestedTable/ExpandableTable.vue'
 import FittedBox from '@/components/FittedBox.vue'
 import FwbInput from '@/components/FwbInput/FwbInput.vue'
+import FwbCheckbox from '@/components/FwbCheckbox/FwbCheckbox.vue'
 
 /**
  * Use the table component to show text, images, links, and other elements inside a structured set of data made up of rows and columns of table cells.
@@ -224,7 +225,8 @@ export const Expandable: Story = {
     components: {
       ExpandableTable,
       FwbInput,
-      FwbButton
+      FwbButton,
+      FwbCheckbox
     },
     setup() {
       const elementCount = ref(100)
@@ -265,6 +267,7 @@ export const Expandable: Story = {
       const selectedItems = ref<string[]>([])
       const grouped = ref(false)
       const selectable = ref(false)
+      const sortable = ref(false)
 
       const updateDataGrouped = () => {
         // Implementar lógica de cambio de página
@@ -273,6 +276,10 @@ export const Expandable: Story = {
       const handleSelectable = () => {
         // Implementar lógica de cambio de página
         selectable.value = !selectable.value
+      }
+      const handleSortable = () => {
+        // Implementar lógica de cambio de página
+        sortable.value = !sortable.value
       }
 
       return {
@@ -283,34 +290,38 @@ export const Expandable: Story = {
         selectedItems,
         grouped,
         selectable,
+        sortable,
         handleSort,
         handleRowClick,
         onChangeLimit,
         onChangePage,
         updateData,
         updateDataGrouped,
-        handleSelectable
+        handleSelectable,
+        handleSortable
       }
     },
     template: `
     <FittedBox>
-      <div class="mb-4 flex space-x-4 justify-center items-end">
+      <div class="mb-4 flex space-x-4 justify-center  flex-wrap items-center">
         <FwbInput v-model="elementCount" type="number" label="Records" />
         <FwbInput v-model="vehicleCount" type="number" label="Vehicles" />
-        <FwbButton class="h-fit w-fit" @click="updateData">Update Data</FwbButton>
-        <FwbButton class="h-fit w-fit" @click="updateDataGrouped">Handle Group</FwbButton>
-        <FwbButton class="h-fit w-fit" @click="handleSelectable">Handle Selectable</FwbButton>
+        <FwbButton class="h-fit w-fit mt-8" @click="updateData">Update Data</FwbButton>
+        <FwbButton class="h-fit w-fit mt-8" @click="updateDataGrouped">Handle Group</FwbButton>
+        <FwbButton class="h-fit w-fit mt-8" @click="handleSelectable">Handle Selectable</FwbButton>
+        <FwbCheckbox :modelValue="sortable" class="mt-8" @update:modelValue="handleSortable">Sortable</FwbCheckbox>
       </div>
       <ExpandableTable
         v-model="fields"
         v-model:selected-items="selectedItems"
-        :items="data"
+        v-model:items="data"
         :is-loading="false"
         :current-page="1"
         :per-page="10"
         :total-items="data.length"
         :grouped="grouped"
         :selectable="selectable"
+        :sortable="sortable"
         group-by="vehicle"
         @sort="handleSort"
         @row-click="handleRowClick"

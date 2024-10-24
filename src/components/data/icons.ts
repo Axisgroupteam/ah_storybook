@@ -39,6 +39,7 @@ export type iconsNames =
   | 'chevron-down'
   | 'chevron-gallery'
   | 'chevron-left-carousel'
+  | 'chevron-left'
   | 'chevron-right-carousel'
   | 'chevron-right'
   | 'chevron-sort'
