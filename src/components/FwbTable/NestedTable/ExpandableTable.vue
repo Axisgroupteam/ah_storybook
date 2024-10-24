@@ -10,6 +10,7 @@
         :items="items"
         :selected-items="selectedItems"
         :draggable="draggable"
+        :alt-loading="altLoading"
         @update:selectedItems="handleSelectedItems"
         @update:modelValue="$emit('update:modelValue', $event)"
       />
@@ -103,7 +104,8 @@ const props = defineProps({
   },
   toalGroupedText: { type: String, default: 'Items' },
   selectedItems: { type: Array as PropType<string[]>, default: [] },
-  sortable: { type: Boolean, default: false }
+  sortable: { type: Boolean, default: false },
+  altLoading: { type: Boolean, default: false }
 })
 
 const groups = computed(() => {

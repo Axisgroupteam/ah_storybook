@@ -268,6 +268,7 @@ export const Expandable: Story = {
       const grouped = ref(false)
       const selectable = ref(false)
       const sortable = ref(false)
+      const altLoading = ref(false)
 
       const updateDataGrouped = () => {
         // Implementar lógica de cambio de página
@@ -281,6 +282,10 @@ export const Expandable: Story = {
         // Implementar lógica de cambio de página
         sortable.value = !sortable.value
       }
+      const handleAltLoading = () => {
+        // Implementar lógica de cambio de página
+        altLoading.value = !altLoading.value
+      }
 
       return {
         data,
@@ -291,6 +296,7 @@ export const Expandable: Story = {
         grouped,
         selectable,
         sortable,
+        altLoading,
         handleSort,
         handleRowClick,
         onChangeLimit,
@@ -298,7 +304,8 @@ export const Expandable: Story = {
         updateData,
         updateDataGrouped,
         handleSelectable,
-        handleSortable
+        handleSortable,
+        handleAltLoading
       }
     },
     template: `
@@ -310,11 +317,13 @@ export const Expandable: Story = {
         <FwbButton class="h-fit w-fit mt-8" @click="updateDataGrouped">Handle Group</FwbButton>
         <FwbButton class="h-fit w-fit mt-8" @click="handleSelectable">Handle Selectable</FwbButton>
         <FwbCheckbox :modelValue="sortable" class="mt-8" @update:modelValue="handleSortable">Sortable</FwbCheckbox>
+        <FwbCheckbox :modelValue="altLoading" class="mt-8" @update:modelValue="handleAltLoading">Alt Loading</FwbCheckbox>
       </div>
       <ExpandableTable
         v-model="fields"
         v-model:selected-items="selectedItems"
         v-model:items="data"
+        :alt-loading="altLoading"
         :is-loading="false"
         :current-page="1"
         :per-page="10"
