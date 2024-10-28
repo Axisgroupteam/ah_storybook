@@ -1,9 +1,9 @@
 <template>
-  <thead class="sticky top-0 z-10">
+  <thead ref="refference" class="sticky top-0 z-10">
     <tr>
       <td
         v-if="selectable"
-        class="table-header max-w-24"
+        class="table-header max-w-8 overflow-clip"
         :class="{
           'pr-8': grouped
         }"
@@ -46,7 +46,8 @@ const props = defineProps({
   itemKey: { type: String, required: true },
   items: { type: Array as PropType<Record<string, any>[]>, required: true },
   selectedItems: { type: Array as PropType<string[]>, default: [] },
-  altLoading: { type: Boolean, default: false }
+  altLoading: { type: Boolean, default: false },
+  refference: { type: Object as PropType<Element | null>, default: null }
 })
 
 const emit = defineEmits(['update:selectedItems', 'update:modelValue'])

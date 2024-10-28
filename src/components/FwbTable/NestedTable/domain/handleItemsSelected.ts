@@ -1,3 +1,4 @@
+import { useWebWorkerFn } from '@vueuse/core'
 import { JsxEmit } from 'typescript'
 import { computed, unref, type MaybeRef } from 'vue'
 
@@ -20,29 +21,45 @@ export const useHandleItemsSelected = (
     return allSelected
   })
 
-  const handleAllItems = () => {
-    const it = JSON.parse(JSON.stringify(items.value))
-    const itemsKeys = it.map((v: Record<string, any>) => v[itemKey.value])
-    if (allItemsSelected.value) {
-      const newSelectedItems = selectedItems.value.filter(
+  const handleAllItems = (
+    items: Record<string, any>[],
+    selectedItems: string[],
+    itemKey: string,
+    allItemsSelected: boolean
+  ) => {
+    const it = JSON.parse(JSON.stringify(items))
+    const itemsKeys = it.map((v: Record<string, any>) => v[itemKey])
+    if (allItemsSelected) {
+      const newSelectedItems = selectedItems.filter(
         (v: string) => !itemsKeys.some((it: string) => it === v)
       )
-      emit(newSelectedItems)
-      return
+      return [...newSelectedItems]
     }
 
-    const selected = JSON.parse(JSON.stringify(selectedItems.value))
-
-    const someValueSelected = selected.some((v: string) => itemsKeys.includes(v))
+    const someValueSelected = selectedItems.some((v: string) => itemsKeys.includes(v))
     if (someValueSelected) {
-      const valuesToAdd = itemsKeys.filter((v: string) => !selected.includes(v))
-      emit([...selected, ...valuesToAdd])
+      const valuesToAdd = itemsKeys.filter((v: string) => !selectedItems.includes(v))
+      return [...selectedItems, ...valuesToAdd]
     } else {
-      emit(itemsKeys)
+      alert
+      return [...itemsKeys, ...selectedItems]
     }
   }
+
+  const { workerFn } = useWebWorkerFn(handleAllItems)
+
+  const handleAll = async () => {
+    const itms = (await handleAllItems(
+      JSON.parse(JSON.stringify(items.value)),
+      JSON.parse(JSON.stringify(selectedItems.value)),
+      JSON.parse(JSON.stringify(itemKey.value)),
+      !!allItemsSelected.value
+    )) as string[]
+    if (itms) emit(itms)
+  }
+
   return {
     allItemsSelected,
-    handleAllItems
+    handleAllItems: handleAll
   }
 }

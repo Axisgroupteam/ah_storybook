@@ -1,26 +1,29 @@
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, type MaybeRef } from 'vue'
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  unref,
+  watch,
+  type MaybeRef
+} from 'vue'
 
-export const useTableVirtualScroller = (
-  tableData: MaybeRef<Record<string, Record<string, any>[]>>
-) => {
+export const useTableVirtualScroller = (allItems: MaybeRef<Record<string, any>[]>) => {
   const startIndex = ref(0)
   const step = ref(30)
-  const elementHeight = ref(15)
+  const elementHeight = ref(54)
   const firstRowHeight = ref(0)
   const lastRowHeight = ref(0)
-  const users: any[] = new Array(100000).fill(0).map((_, index) => ({
-    id: index,
-    name: `User ${index}`,
-    role: `Role ${index}`,
-    email: `Email ${index}`
-  }))
+
+  const items = computed(() => unref(allItems))
 
   const tbody = ref<Element | null>(null)
   const wrapper = ref<HTMLDivElement>()
   const thead = ref<Element | null>(null)
 
   const renderItems = computed(() => {
-    return users.slice(startIndex.value, startIndex.value + step.value)
+    return items.value.slice(startIndex.value, startIndex.value + step.value)
   })
 
   const handleTable = () => {
@@ -38,6 +41,7 @@ export const useTableVirtualScroller = (
       }
       elementHeight.value = Math.max(...heights)
     }
+
     if (top < 0) {
       step.value = Math.floor((viewportY + theadH) / elementHeight.value)
       startIndex.value = Math.floor(-top / elementHeight.value)
@@ -45,19 +49,27 @@ export const useTableVirtualScroller = (
       startIndex.value = 0
       step.value = Math.floor((viewportY - top + theadH) / elementHeight.value)
     }
+    if (step.value < 30) {
+      step.value = 30
+    }
   }
 
   const initTable = () => {
     thead.value?.getBoundingClientRect().height ?? 0
     handleTable()
     firstRowHeight.value = startIndex.value * elementHeight.value
-    lastRowHeight.value = users.length * elementHeight.value - step.value * elementHeight.value
+    lastRowHeight.value =
+      items.value.length * elementHeight.value - step.value * elementHeight.value
   }
 
   const handleHeigths = () => {
     firstRowHeight.value = startIndex.value * elementHeight.value
-    lastRowHeight.value =
-      users.length * elementHeight.value - step.value * elementHeight.value - firstRowHeight.value
+
+    const lrh =
+      items.value.length * elementHeight.value -
+      step.value * elementHeight.value -
+      firstRowHeight.value
+    lastRowHeight.value = lrh < 0 ? 0 : lrh
   }
 
   const handleScroll = () => {
@@ -76,12 +88,26 @@ export const useTableVirtualScroller = (
     wrapper.value?.removeEventListener('scroll', handleScroll)
   })
 
+  watch(
+    items,
+    (newValue) => {
+      initTable()
+    },
+    { immediate: true, deep: true }
+  )
+
   return {
     firstRowHeight,
     lastRowHeight,
     tbody,
     wrapper,
     thead,
-    renderItems
+    renderItems,
+
+    //remove
+    startIndex,
+    step,
+    elementHeight,
+    items
   }
 }

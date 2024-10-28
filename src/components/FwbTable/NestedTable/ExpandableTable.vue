@@ -1,8 +1,9 @@
 <template>
-  <div class="max-h-64 overflow-clip w-full h-full overflow-y-auto">
+  <div ref="wrapper" class="max-h-[80vh] overflow-clip w-full h-full overflow-y-auto">
     <PerfectScrollbar>
       <table class="w-full text-sm max-w-full overflow-clip inline-table">
         <TableHeader
+          :refference="thead"
           :model-value="modelValue"
           :grouped="grouped"
           :selectable="selectable"
@@ -16,14 +17,26 @@
           @update:modelValue="$emit('update:modelValue', $event)"
         />
         <tbody
+          ref="tbody"
           :class="{
             'divide-y divide-neutral-200 dark:divide-neutral-700': !grouped
           }"
         >
-          <template v-for="item in allItems" :key="JSON.stringify(item)">
+          <tr class="firstRow" :style="{ height: `${firstRowHeight}px` }">
+            <td colspan="100%"></td>
+          </tr>
+
+          <template v-for="item in renderItems" :key="JSON.stringify(item)">
             <TableBodyGroup
               v-if="item.isTableGroup"
-              v-memo="[item.tableGroupKey, displayedGroup, toalGroupedText, modelValue, item]"
+              v-memo="[
+                item.tableGroupKey,
+                displayedGroup,
+                toalGroupedText,
+                modelValue,
+                item,
+                selectable
+              ]"
               :group-key="item.tableGroupKey"
               :items="item.items"
               :displayed-group="displayedGroup"
@@ -78,6 +91,9 @@
               ></td>
             </tr>
           </template>
+          <tr class="lastRow" :style="{ height: `${lastRowHeight}px` }">
+            <td colspan="100%"></td>
+          </tr>
         </tbody>
       </table>
     </PerfectScrollbar>
@@ -93,9 +109,14 @@ import { useHandleItemsSelected } from './domain/handleItemsSelected'
 import TableHeader from './components/TableHeader.vue'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useWebWorkerFn } from '@vueuse/core'
-import { useHandleGrouped } from './domain/handleGrouped'
+import { useTableVirtualScroller } from './domain/tableVirtualScroller'
 
-const useHandleGroups = (items: Record<string, any>[], grouped: boolean, key?: string) => {
+const useHandleGroups = (
+  items: Record<string, any>[],
+  grouped: boolean,
+  key?: string,
+  displayedGroup?: Record<string, boolean>
+) => {
   const groups: Record<string, Record<string, any>[]> = {}
   if (grouped) {
     items.forEach((item) => {
@@ -116,7 +137,35 @@ const useHandleGroups = (items: Record<string, any>[], grouped: boolean, key?: s
       groups[''].push(item)
     })
   }
-  return groups
+
+  const itemsNew: Record<string, any>[] = []
+  const entries = Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0]))
+  for (let index = 0; index < entries.length; index++) {
+    const [key, value] = entries[index]
+    itemsNew.push({
+      tableGroupKey: key,
+      isTableGroup: true,
+      items: value
+    })
+    if (!displayedGroup || displayedGroup[key]) {
+      for (let index = 0; index < value.length; index++) {
+        const element = value[index]
+        itemsNew.push({
+          ...element,
+          tableGroupKey: key,
+          isTableGroup: false,
+          displayBorder: index !== value.length - 1
+        })
+      }
+    }
+  }
+  return { groups, itemsNew }
+}
+
+const displayedGroup = reactive<Record<string, boolean>>({})
+
+const toggleGroup = (key: string) => {
+  displayedGroup[key] = !displayedGroup[key]
 }
 
 const props = defineProps({
@@ -147,6 +196,7 @@ const props = defineProps({
 
 const { workerFn } = useWebWorkerFn(useHandleGroups)
 const groups = reactive<Record<string, any>>({})
+const allItems = reactive<Record<string, any>[]>([])
 
 const clearGroups = () => {
   Object.keys(groups).forEach((key) => {
@@ -158,21 +208,23 @@ watch(
   [
     computed(() => unref(props.items)),
     computed(() => unref(props.grouped)),
-    computed(() => unref(props.groupByKey))
+    computed(() => unref(props.groupByKey)),
+    displayedGroup
   ],
   async ([items, grouped, groupByKey]) => {
-    const resp = await workerFn(JSON.parse(JSON.stringify(items)), grouped, groupByKey)
+    const resp = await workerFn(
+      JSON.parse(JSON.stringify(items)),
+      grouped,
+      groupByKey,
+      JSON.parse(JSON.stringify(displayedGroup))
+    )
     clearGroups()
-    Object.assign(groups, resp)
+    Object.assign(groups, resp['groups'])
+    allItems.length = 0
+    Object.assign(allItems, resp['itemsNew'])
   },
   { immediate: true, deep: true }
 )
-
-const displayedGroup = reactive<Record<string, boolean>>({})
-
-const toggleGroup = (key: string) => {
-  displayedGroup[key] = !displayedGroup[key]
-}
 
 watch(
   computed(() => unref(groups)),
@@ -228,5 +280,16 @@ const handleDrop = (item: Record<string, any>) => {
   draggingGropuKey.value = undefined
 }
 
-const { allItems } = useHandleGrouped(groups)
+const {
+  firstRowHeight,
+  lastRowHeight,
+  tbody,
+  wrapper,
+  thead,
+  renderItems,
+  startIndex,
+  step,
+  elementHeight,
+  items
+} = useTableVirtualScroller(allItems)
 </script>
