@@ -1,75 +1,103 @@
 <template>
-  <PerfectScrollbar class="w-full h-full max-h-dvh text-sm">
-    <table class="w-full h-full max-h-full text-sm max-w-full overflow-clip inline-table">
-      <TableHeader
-        :model-value="modelValue"
-        :grouped="grouped"
-        :selectable="selectable"
-        :all-items-selected="allItemsSelected"
-        :item-key="itemKey"
-        :items="items"
-        :selected-items="selectedItems"
-        :draggable="draggable"
-        @update:selectedItems="handleSelectedItems"
-        @update:modelValue="$emit('update:modelValue', $event)"
-      />
-      <tbody
-        :class="{
-          'divide-y divide-neutral-200 dark:divide-neutral-700': !grouped
-        }"
-      >
-        <template
-          v-for="[groupKey, items] in Object.entries(groups).sort((a, b) =>
-            a[0].localeCompare(b[0])
-          )"
-          :key="groupKey"
+  <div ref="wrapper" class="max-h-[80vh] overflow-clip w-full h-full overflow-y-auto">
+    <PerfectScrollbar>
+      <table class="w-full text-sm max-w-full overflow-clip inline-table">
+        <TableHeader
+          :refference="thead"
+          :model-value="modelValue"
+          :grouped="grouped"
+          :selectable="selectable"
+          :all-items-selected="allItemsSelected"
+          :item-key="itemKey"
+          :items="items"
+          :selected-items="selectedItems"
+          :draggable="draggable"
+          :alt-loading="altLoading"
+          @update:selectedItems="handleSelectedItems"
+          @update:modelValue="$emit('update:modelValue', $event)"
+        />
+        <tbody
+          ref="tbody"
+          :class="{
+            'divide-y divide-neutral-200 dark:divide-neutral-700': !grouped
+          }"
         >
-          <TableBodyGroup
-            v-memo="[items, displayedGroup, toalGroupedText, modelValue]"
-            :group-key="groupKey"
-            :items="items"
-            :displayed-group="displayedGroup"
-            :toggle-group="toggleGroup"
-            :toal-grouped-text="toalGroupedText"
-            :model-value="modelValue"
-            :selected-items="selectedItems"
-            :item-key="itemKey"
-            :selectable="selectable"
-            @update:selectedItems="handleSelectedItems"
-          />
-          <tr v-if="grouped && displayedGroup[groupKey]">
-            <td :colspan="selectable ? modelValue.length + 1 : modelValue.length" class="p-2"></td>
+          <tr class="firstRow" :style="{ height: `${firstRowHeight}px` }">
+            <td colspan="100%"></td>
           </tr>
-          <template v-for="(item, i) in items" :key="item[groupKey]">
+
+          <template v-for="item in renderItems" :key="JSON.stringify(item)">
+            <TableBodyGroup
+              v-if="item.isTableGroup"
+              v-memo="[
+                item.tableGroupKey,
+                displayedGroup,
+                toalGroupedText,
+                modelValue,
+                item,
+                selectable
+              ]"
+              :group-key="item.tableGroupKey"
+              :items="item.items"
+              :displayed-group="displayedGroup"
+              :toggle-group="toggleGroup"
+              :toal-grouped-text="toalGroupedText"
+              :model-value="modelValue"
+              :selected-items="selectedItems"
+              :item-key="itemKey"
+              :selectable="selectable"
+              @update:selectedItems="handleSelectedItems"
+            />
+            <tr v-if="grouped && displayedGroup[item.isTableGroup]">
+              <td
+                :colspan="selectable ? modelValue.length + 1 : modelValue.length"
+                class="p-2"
+              ></td>
+            </tr>
             <TableBodyItem
-              v-memo="[item, displayedGroup, toalGroupedText, modelValue]"
+              v-if="!item.isTableGroup"
+              v-memo="[
+                item,
+                selectable,
+                hoverable,
+                grouped,
+                modelValue,
+                item,
+                displayedGroup[item.isTableGroup]
+              ]"
               :item="item"
               :selectable="selectable"
               :hoverable="hoverable"
               :grouped="grouped"
               :model-value="modelValue"
-              :group-key="groupKey"
+              :group-key="item.tableGroupKey"
               :displayed-group="displayedGroup"
               :selected-items="selectedItems"
               :item-key="itemKey"
-              :display-border="i <= (items?.length ?? 1) - 2"
+              :display-border="item?.displayBorder"
               :sortable="sortable"
               :dragging-other-group-key="
-                draggingGropuKey !== groupKey && sortable && !!draggingGropuKey
+                draggingGropuKey !== item.tableGroupKey && sortable && !!draggingGropuKey
               "
               @update:selectedItems="handleSelectedItems"
               @row-click="$emit('rowClick', $event)"
-              @drag-start="(e) => handleDragStart(e, groupKey)"
+              @drag-start="(e) => handleDragStart(e, item.tableGroupKey)"
               @drop="(e) => handleDrop(e)"
             />
+            <tr v-if="grouped && displayedGroup[item.isTableGroup]">
+              <td
+                :colspan="selectable ? modelValue.length + 1 : modelValue.length"
+                class="p-2"
+              ></td>
+            </tr>
           </template>
-          <tr v-if="grouped && displayedGroup[groupKey]">
-            <td :colspan="selectable ? modelValue.length + 1 : modelValue.length" class="p-2"></td>
+          <tr class="lastRow" :style="{ height: `${lastRowHeight}px` }">
+            <td colspan="100%"></td>
           </tr>
-        </template>
-      </tbody>
-    </table>
-  </PerfectScrollbar>
+        </tbody>
+      </table>
+    </PerfectScrollbar>
+  </div>
 </template>
 <script lang="ts" setup>
 import { computed, reactive, ref, unref, watch, type PropType } from 'vue'
@@ -80,6 +108,65 @@ import TableBodyGroup from './components/TableBodyGroup.vue'
 import { useHandleItemsSelected } from './domain/handleItemsSelected'
 import TableHeader from './components/TableHeader.vue'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
+import { useWebWorkerFn } from '@vueuse/core'
+import { useTableVirtualScroller } from './domain/tableVirtualScroller'
+
+const useHandleGroups = (
+  items: Record<string, any>[],
+  grouped: boolean,
+  key?: string,
+  displayedGroup?: Record<string, boolean>
+) => {
+  const groups: Record<string, Record<string, any>[]> = {}
+  if (grouped) {
+    items.forEach((item) => {
+      const groupKey =
+        (key ?? '')
+          ?.split('.')
+          .reduce((o, i) => o[i], item)
+          ?.toString() ?? ''
+
+      if (!groups[groupKey]) {
+        groups[groupKey] = []
+      }
+      groups[groupKey].push(item)
+    })
+  } else {
+    groups[''] = []
+    items.forEach((item) => {
+      groups[''].push(item)
+    })
+  }
+
+  const itemsNew: Record<string, any>[] = []
+  const entries = Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0]))
+  for (let index = 0; index < entries.length; index++) {
+    const [key, value] = entries[index]
+    itemsNew.push({
+      tableGroupKey: key,
+      isTableGroup: true,
+      items: value
+    })
+    if (!displayedGroup || displayedGroup[key]) {
+      for (let index = 0; index < value.length; index++) {
+        const element = value[index]
+        itemsNew.push({
+          ...element,
+          tableGroupKey: key,
+          isTableGroup: false,
+          displayBorder: index !== value.length - 1
+        })
+      }
+    }
+  }
+  return { groups, itemsNew }
+}
+
+const displayedGroup = reactive<Record<string, boolean>>({})
+
+const toggleGroup = (key: string) => {
+  displayedGroup[key] = !displayedGroup[key]
+}
 
 const props = defineProps({
   modelValue: {
@@ -96,40 +183,48 @@ const props = defineProps({
     default: '_id'
   },
   hoverable: { type: Boolean, default: true },
-  groupByKey: { type: String, default: '' },
+  groupByKey: { type: String, default: 'vehicle' },
   handleGroupByKey: {
     type: Function as PropType<(arg: Record<string, any>) => string>,
-    default: (v: Record<string, any>) => v['vehicle']
+    default: undefined
   },
   toalGroupedText: { type: String, default: 'Items' },
   selectedItems: { type: Array as PropType<string[]>, default: [] },
-  sortable: { type: Boolean, default: false }
+  sortable: { type: Boolean, default: false },
+  altLoading: { type: Boolean, default: false }
 })
 
-const groups = computed(() => {
-  const groups: Record<string, Record<string, any>[]> = {}
-  if (props.grouped) {
-    props.items.forEach((item) => {
-      const groupKey = props.handleGroupByKey ? props.handleGroupByKey(item) : ''
-      if (!groups[groupKey]) {
-        groups[groupKey] = []
-      }
-      groups[groupKey].push(item)
-    })
-  } else {
-    groups[''] = []
-    props.items.forEach((item) => {
-      groups[''].push(item)
-    })
-  }
-  return groups
-})
+const { workerFn } = useWebWorkerFn(useHandleGroups)
+const groups = reactive<Record<string, any>>({})
+const allItems = reactive<Record<string, any>[]>([])
 
-const displayedGroup = reactive<Record<string, boolean>>({})
-
-const toggleGroup = (key: string) => {
-  displayedGroup[key] = !displayedGroup[key]
+const clearGroups = () => {
+  Object.keys(groups).forEach((key) => {
+    delete groups[key]
+  })
 }
+
+watch(
+  [
+    computed(() => unref(props.items)),
+    computed(() => unref(props.grouped)),
+    computed(() => unref(props.groupByKey)),
+    displayedGroup
+  ],
+  async ([items, grouped, groupByKey]) => {
+    const resp = await workerFn(
+      JSON.parse(JSON.stringify(items)),
+      grouped,
+      groupByKey,
+      JSON.parse(JSON.stringify(displayedGroup))
+    )
+    clearGroups()
+    Object.assign(groups, resp['groups'])
+    allItems.length = 0
+    Object.assign(allItems, resp['itemsNew'])
+  },
+  { immediate: true, deep: true }
+)
 
 watch(
   computed(() => unref(groups)),
@@ -184,4 +279,17 @@ const handleDrop = (item: Record<string, any>) => {
   draggingItem.value = undefined
   draggingGropuKey.value = undefined
 }
+
+const {
+  firstRowHeight,
+  lastRowHeight,
+  tbody,
+  wrapper,
+  thead,
+  renderItems,
+  startIndex,
+  step,
+  elementHeight,
+  items
+} = useTableVirtualScroller(allItems)
 </script>

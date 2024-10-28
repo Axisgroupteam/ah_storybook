@@ -1,9 +1,9 @@
 <template>
-  <thead class="sticky top-0 z-10">
+  <thead ref="refference" class="sticky top-0 z-10">
     <tr>
       <td
         v-if="selectable"
-        class="table-header max-w-24"
+        class="table-header max-w-8 overflow-clip"
         :class="{
           'pr-8': grouped
         }"
@@ -26,6 +26,7 @@
         </div>
       </td>
     </tr>
+    <TableLoading v-if="altLoading" :td-length="modelValue.length + (selectable ? 1 : 0)" />
   </thead>
 </template>
 <script lang="ts" setup>
@@ -33,6 +34,7 @@ import { computed, ref, type PropType } from 'vue'
 import type { TableFields } from '../data/tableData'
 import FwbCheckbox from '@/components/FwbCheckbox/FwbCheckbox.vue'
 import { useHandleItemsSelected } from '../domain/handleItemsSelected'
+import TableLoading from './TableLoading.vue'
 
 const props = defineProps({
   modelValue: { type: Array as PropType<TableFields[]>, required: true },
@@ -43,7 +45,9 @@ const props = defineProps({
   handleAllItems: { type: Function as PropType<(...args: any[]) => any>, default: () => {} },
   itemKey: { type: String, required: true },
   items: { type: Array as PropType<Record<string, any>[]>, required: true },
-  selectedItems: { type: Array as PropType<string[]>, default: [] }
+  selectedItems: { type: Array as PropType<string[]>, default: [] },
+  altLoading: { type: Boolean, default: false },
+  refference: { type: Object as PropType<Element | null>, default: null }
 })
 
 const emit = defineEmits(['update:selectedItems', 'update:modelValue'])

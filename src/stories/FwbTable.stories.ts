@@ -12,6 +12,7 @@ import ExpandableTable from '@/components/FwbTable/NestedTable/ExpandableTable.v
 import FittedBox from '@/components/FittedBox.vue'
 import FwbInput from '@/components/FwbInput/FwbInput.vue'
 import FwbCheckbox from '@/components/FwbCheckbox/FwbCheckbox.vue'
+import { useWebWorkerFn } from '@vueuse/core'
 
 /**
  * Use the table component to show text, images, links, and other elements inside a structured set of data made up of rows and columns of table cells.
@@ -259,15 +260,19 @@ export const Expandable: Story = {
       const onChangePage = () => {
         // Implementar lógica de cambio de página
       }
+      const { workerFn } = useWebWorkerFn(generateRandomData, {
+        localDependencies: [generateRandomData, generarFechaAleatoria]
+      })
 
-      const updateData = () => {
-        data.value = generateRandomData(elementCount.value, vehicleCount.value)
+      const updateData = async () => {
+        data.value = await workerFn(elementCount.value, vehicleCount.value)
       }
 
       const selectedItems = ref<string[]>([])
       const grouped = ref(false)
       const selectable = ref(false)
       const sortable = ref(false)
+      const altLoading = ref(false)
 
       const updateDataGrouped = () => {
         // Implementar lógica de cambio de página
@@ -281,6 +286,10 @@ export const Expandable: Story = {
         // Implementar lógica de cambio de página
         sortable.value = !sortable.value
       }
+      const handleAltLoading = () => {
+        // Implementar lógica de cambio de página
+        altLoading.value = !altLoading.value
+      }
 
       return {
         data,
@@ -291,6 +300,7 @@ export const Expandable: Story = {
         grouped,
         selectable,
         sortable,
+        altLoading,
         handleSort,
         handleRowClick,
         onChangeLimit,
@@ -298,7 +308,8 @@ export const Expandable: Story = {
         updateData,
         updateDataGrouped,
         handleSelectable,
-        handleSortable
+        handleSortable,
+        handleAltLoading
       }
     },
     template: `
@@ -310,11 +321,13 @@ export const Expandable: Story = {
         <FwbButton class="h-fit w-fit mt-8" @click="updateDataGrouped">Handle Group</FwbButton>
         <FwbButton class="h-fit w-fit mt-8" @click="handleSelectable">Handle Selectable</FwbButton>
         <FwbCheckbox :modelValue="sortable" class="mt-8" @update:modelValue="handleSortable">Sortable</FwbCheckbox>
+        <FwbCheckbox :modelValue="altLoading" class="mt-8" @update:modelValue="handleAltLoading">Alt Loading</FwbCheckbox>
       </div>
       <ExpandableTable
         v-model="fields"
         v-model:selected-items="selectedItems"
         v-model:items="data"
+        :alt-loading="altLoading"
         :is-loading="false"
         :current-page="1"
         :per-page="10"
@@ -340,7 +353,7 @@ function generateRandomData(count: number, vehicleCount: number): any[] {
   const locations = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza']
 
   return Array.from({ length: count }, (_, index) => ({
-    _id: index + 1,
+    _id: Math.random().toString(36).substring(2, 15) + index,
     vehicle: vehicles[Math.floor(Math.random() * vehicles.length)],
     loadNo: Math.floor(Math.random() * 10000) + 1,
     customer: customers[Math.floor(Math.random() * customers.length)],

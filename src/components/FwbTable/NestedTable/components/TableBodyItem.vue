@@ -17,7 +17,7 @@
   >
     <td
       v-if="selectable"
-      class="table-body-td"
+      class="table-body-td max-w-8"
       :class="{
         'px-8': grouped,
         'hoverable-row': hoverable
