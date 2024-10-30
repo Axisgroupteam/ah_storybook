@@ -19,8 +19,7 @@
             ref="header"
             class="px-4 pt-4 rounded-t flex justify-between items-center text-lg text-neutral-900 dark:text-white"
             :class="paddingBottomClass"
-          >    
-            
+          >
             <slot name="header" />
             <FwbButton color="secondary" square class="border-0" @click="closeModal">
               <svg
@@ -42,7 +41,18 @@
           <div :class="$slots.bodyHeader ? 'px-4 pb-4' : 'p-0'" ref="bodyHeaderElement">
             <slot name="bodyHeader" />
           </div>
-          <PerfectScrollbar>
+          <OverlayScrollbarsComponent
+            :options="{
+              scrollbars: {
+                theme: 'os-theme-dark',
+                autoHide: 'leave'
+              },
+              overflow: {
+                x: 'hidden'
+              }
+            }"
+            defer
+          >
             <div
               :class="$slots.header ? '' : 'pt-0'"
               class="p-4 py-0"
@@ -56,7 +66,7 @@
                 <slot name="body" />
               </div>
             </div>
-          </PerfectScrollbar>
+          </OverlayScrollbarsComponent>
           <!-- Modal footer -->
           <div :class="$slots.footer ? 'p-4' : 'p-[34px]'">
             <div v-if="$slots.footer" ref="footer">
@@ -73,7 +83,8 @@
 import { computed, onMounted, ref, type Ref } from 'vue'
 import type { ModalSize } from './types'
 import { useWindowSize } from '@vueuse/core'
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
+import 'overlayscrollbars/overlayscrollbars.css'
 import FwbButton from '../FwbButton/FwbButton.vue'
 
 const modal = ref(null)
@@ -88,18 +99,18 @@ interface ModalProps {
   notEscapable?: boolean
   persistent?: boolean
   size?: ModalSize
-  paddingBottom? : number
+  paddingBottom?: number
 }
 
 const props = withDefaults(defineProps<ModalProps>(), {
   notEscapable: false,
   persistent: false,
-  size: '3xl',
+  size: '3xl'
 })
 
 const paddingBottomClass = computed(() => {
-  return props.paddingBottom !== undefined ? `pb-[${props.paddingBottom}px]` : 'pb-4';
-});
+  return props.paddingBottom !== undefined ? `pb-[${props.paddingBottom}px]` : 'pb-4'
+})
 
 const emit = defineEmits(['close', 'click:outside'])
 const modalSizeClasses = {
@@ -142,7 +153,20 @@ onMounted(() => {
 </script>
 
 <style>
-.ps {
-  max-height: 100%;
+.os-theme-dark {
+  --os-size: 12px;
+  --os-padding-perpendicular: 2px;
+}
+
+.os-scrollbar {
+  --os-handle-bg: rgba(82, 82, 82, 0.4);
+  --os-handle-bg-hover: rgba(82, 82, 82, 0.6);
+  --os-handle-bg-active: rgba(82, 82, 82, 0.7);
+}
+
+:root.dark .os-scrollbar {
+  --os-handle-bg: rgba(163, 163, 163, 0.4);
+  --os-handle-bg-hover: rgba(163, 163, 163, 0.6);
+  --os-handle-bg-active: rgba(163, 163, 163, 0.7);
 }
 </style>
