@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbTable from '@/components/FwbTable/FwbTable.vue'
 import FwbTableBody from '@/components/FwbTable/FwbTableBody.vue'
@@ -369,4 +369,100 @@ function generarFechaAleatoria(): string {
   const fin = new Date(2024, 11, 31).getTime()
   const fechaAleatoria = new Date(inicio + Math.random() * (fin - inicio))
   return fechaAleatoria.toISOString().split('T')[0]
+}
+
+/**
+ * Ejemplo con scroll horizontal y vertical con muchas columnas y filas
+ */
+export const ScrollableTable: Story = {
+  render: (args) => ({
+    components: {
+      FwbTable,
+      FwbTableBody,
+      FwbTableCell,
+      FwbTableHead,
+      FwbTableHeadCell,
+      FwbTableRow,
+      FwbInput,
+      FwbButton
+    },
+    setup() {
+      const columnCount = ref(5)
+      const rowCount = ref(5)
+      const tableContainer = ref(null)
+      const minHeight = '300px'
+
+      // Función reactiva para generar columnas
+      const columns = computed(() =>
+        Array.from({ length: columnCount.value }, (_, i) => ({
+          id: `col${i + 1}`,
+          name: `Columna ${i + 1}`
+        }))
+      )
+
+      // Función reactiva para generar filas
+      const items = computed(() =>
+        Array.from({ length: rowCount.value }, (_, rowIndex) => {
+          const row: Record<string, any> = { id: `row${rowIndex + 1}` }
+          columns.value.forEach((col) => {
+            row[col.id] = `Valor ${rowIndex + 1}-${col.id}`
+          })
+          return row
+        })
+      )
+
+      const addColumns = () => {
+        columnCount.value += 1
+      }
+
+      const addRows = () => {
+        rowCount.value += 1
+      }
+
+      return {
+        args,
+        items,
+        columns,
+        columnCount,
+        rowCount,
+        tableContainer,
+        minHeight,
+        addColumns,
+        addRows
+      }
+    },
+    template: `
+      <div class="flex flex-col h-[calc(100vh-2rem)] min-h-[300px] gap-4">
+        <div class="flex items-center gap-4 shrink-0">        
+          <FwbButton @click="addColumns">Add Columns ({{ columnCount }})</FwbButton>
+          <FwbButton @click="addRows">Add Rows ({{ rowCount }})</FwbButton>
+        </div>
+        
+        <div ref="tableContainer" class="flex-grow overflow-hidden">
+          <FwbTable class="h-full">
+            <FwbTableHead>
+              <FwbTableHeadCell 
+                v-for="col in columns" 
+                :key="col.id" 
+              >
+                {{ col.name }}
+              </FwbTableHeadCell>
+            </FwbTableHead>
+            <FwbTableBody>
+              <FwbTableRow v-for="item in items" :key="item.id">
+                <FwbTableCell 
+                  v-for="col in columns" 
+                  :key="col.id"
+                  class="whitespace-nowrap"
+                >
+                  {{ item[col.id] }}
+                </FwbTableCell>
+              </FwbTableRow>
+            </FwbTableBody>
+          </FwbTable>
+        </div>
+      </div>
+    `
+  }),
+  args: {}
 }
