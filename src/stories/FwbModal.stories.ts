@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import FwbModal from '@/components/FwbModal/FwbModal.vue'
 import FwbButton from '@/components/FwbButton/FwbButton.vue'
@@ -255,5 +255,171 @@ export const Persist: Story = {
   }),
   args: {
     persistent: true
+  }
+}
+
+/**
+ * Este ejemplo muestra un modal con contenido scrolleable, utilizando OverlayScrollbars para una mejor experiencia de usuario.
+ */
+export const WithScroll: Story = {
+  render: (args) => ({
+    components: { FwbModal, FwbButton },
+    setup() {
+      const isModalVisible = ref(false)
+
+      const toggleModal = () => {
+        isModalVisible.value = !isModalVisible.value
+      }
+
+      const closeModal = () => {
+        isModalVisible.value = false
+      }
+
+      return { args, isModalVisible, toggleModal, closeModal }
+    },
+    template: `
+        <div>
+            <FwbButton @click="toggleModal">Toggle Scrollable Modal</FwbButton>
+            
+            <FwbModal v-if="isModalVisible" @close="closeModal" size="2xl">
+                <template #header>
+                    Scrollable Content
+                </template>
+                <template #body>
+                    ${Array(20)
+                      .fill()
+                      .map(
+                        (_, i) => `
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold mb-2">Section ${i + 1}</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                    `
+                      )
+                      .join('')}
+                </template>
+                <template #footer>
+                    <div class="flex justify-start items-center gap-3">
+                        <FwbButton color="primary" @click="closeModal">
+                            Cerrar
+                        </FwbButton>
+                    </div>                
+                </template>
+            </FwbModal>            
+        </div>
+    `
+  }),
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Este modal demuestra el comportamiento del scroll personalizado usando OverlayScrollbars. El contenido se desplaza suavemente y el scrollbar se muestra/oculta según sea necesario.'
+      }
+    }
+  }
+}
+
+/**
+ * Este ejemplo muestra cómo el scroll se adapta dinámicamente al contenido.
+ */
+export const DynamicContent: Story = {
+  render: (args) => ({
+    components: { FwbModal, FwbButton },
+    setup() {
+      const isModalVisible = ref(false)
+      const sections = ref<number[]>([])
+
+      const toggleModal = () => {
+        isModalVisible.value = !isModalVisible.value
+        if (isModalVisible.value) {
+          sections.value = [1]
+        }
+      }
+
+      const closeModal = () => {
+        isModalVisible.value = false
+      }
+
+      const addSection = () => {
+        const nextSection = sections.value.length + 1
+        sections.value.push(nextSection)
+      }
+
+      const removeSection = () => {
+        if (sections.value.length > 1) {
+          sections.value.pop()
+        }
+      }
+
+      return {
+        args,
+        isModalVisible,
+        sections,
+        toggleModal,
+        closeModal,
+        addSection,
+        removeSection
+      }
+    },
+    template: `
+        <div>
+            <FwbButton @click="toggleModal">Toggle Dynamic Modal</FwbButton>
+            
+            <FwbModal v-if="isModalVisible" @close="closeModal" size="2xl">
+                <template #header>
+                    Dynamic Scrollable Content
+                </template>
+                <template #bodyHeader>
+                    <div class="flex gap-2">
+                        <FwbButton @click="addSection" color="primary">
+                            Agregar Sección
+                        </FwbButton>
+                        <FwbButton @click="removeSection" color="secondary" :disabled="sections.length <= 1">
+                            Eliminar Sección
+                        </FwbButton>
+                        <span class="ml-4 text-sm text-gray-500 dark:text-gray-400">
+                            Secciones: {{ sections.length }}
+                        </span>
+                    </div>
+                </template>
+                <template #body>
+                    <div v-for="section in sections" :key="section" class="mb-4">
+                        <h3 class="text-lg font-semibold mb-2">Sección {{ section }}</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                        <p class="mt-2">
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                </template>
+                <template #footer>
+                    <div class="flex justify-end items-center w-full">
+                        <FwbButton color="primary" @click="closeModal">
+                            Cerrar
+                        </FwbButton>
+                    </div>                
+                </template>
+            </FwbModal>            
+        </div>
+    `
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: `
+Este ejemplo muestra cómo el contenido puede ser modificado dinámicamente:
+- Inicialmente se muestra una sola sección
+- Se pueden agregar o eliminar secciones para ver cómo el scroll se ajusta automáticamente
+- El componente maneja el scroll de forma nativa cuando el contenido excede el espacio disponible
+        `
+      }
+    }
   }
 }

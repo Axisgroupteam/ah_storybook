@@ -56,6 +56,7 @@ import FwbChooseQuantity from './components/FwbChooseQuantity/FwbChooseQuantity.
 import IconX from './components/IconWrapper.vue'
 import type { iconsNames } from './components/data/icons.ts'
 export type { iconsNames as IconsNames }
+import ExpandableTableX from './components/FwbTable/NestedTable/ExpandableTable.vue'
 export {
   ButtonX,
   DatePickerX,
@@ -111,5 +112,6 @@ export {
   TooltipX,
   SearchCustomX,
   IconX,
-  FwbChooseQuantity
+  FwbChooseQuantity,
+  ExpandableTableX
 }

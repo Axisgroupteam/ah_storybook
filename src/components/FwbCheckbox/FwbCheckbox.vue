@@ -28,7 +28,7 @@ interface CheckboxProps {
 }
 const props = withDefaults(defineProps<CheckboxProps>(), {
   disabled: false,
-  label: 'Title',
+  label: '',
   modelValue: false,
   customClass: ''
 })

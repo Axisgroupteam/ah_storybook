@@ -18,7 +18,7 @@
           v-if="img && !imageError"
           :alt="alt"
           :class="avatarClasses"
-          :src="getImage(img)"
+          :src="image"
           @error="setImageError"
         />
         <div
@@ -28,7 +28,11 @@
         >
           <slot name="placeholder" />
         </div>
-        <IconWrapper v-else-if="!img && !initials" name="user-circle" size="48" />
+        <IconWrapper
+          v-else-if="!img && !initials"
+          name="user-circle"
+          :size="size === 'xs' ? '32' : '48'"
+        />
         <div
           v-else-if="initials"
           :class="avatarPlaceholderInitialsClasses"
@@ -66,7 +70,7 @@
               v-if="img && !imageError"
               :alt="alt"
               :class="avatarClasses"
-              :src="getImage(img)"
+              :src="image"
               @error="setImageError"
             />
             <div
@@ -241,6 +245,10 @@ const hasDropdown = computed(() => props.hasDropdown)
 const toogle = (value: boolean) => {
   visibleRing.value = value
 }
+
+const image = computed((): string => {
+  return props.img.startsWith('https') ? props.img : getImage(props.img)
+})
 
 const {
   avatarClasses,
