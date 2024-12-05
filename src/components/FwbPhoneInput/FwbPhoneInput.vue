@@ -7,8 +7,9 @@
           validationStatus === 'error' ? 'text-red-700 dark:!text-red-500' : '',
           disabled ? '!text-neutral-400 dark:!text-neutral-500' : ''
         ]"
-        >{{ label }} <span class="text-red-500" v-if="required"> *</span></span
       >
+        {{ label }} <span class="text-red-500" v-if="required"> *</span>
+      </span>
     </label>
     <div
       ref="target"
@@ -72,6 +73,7 @@
       </fwb-dropdown>
       <div class="relative w-full">
         <input
+          :value="modelValue"
           type="text"
           id="phone-input"
           class="block p-2.5 w-full z-20 text-sm text-neutral-900 bg-neutral-50 rounded-e-lg dark:bg-neutral-700 dark:placeholder-neutral-400 dark:text-white outline-none ring-0 focus:outline-none focus:ring-0 border-0"
@@ -87,6 +89,7 @@
           placeholder="123-456-7890"
           required
           :disabled="disabled"
+          @input="handleInput"
         />
       </div>
     </div>
@@ -98,7 +101,6 @@
 
 <script setup lang="ts">
 import { validationStatusMap, type InputSize, type ValidationStatus } from '../FwbInput/types'
-import { useFileInputClasses } from './composables/useFileInputClasses'
 import { defineProps, ref, reactive, computed } from 'vue'
 import { getFBIcon } from '@/utils/getAssets'
 import { onClickOutside } from '@vueuse/core'
@@ -112,6 +114,7 @@ interface Props {
   required?: boolean
   disabled?: boolean
   validationStatus: ValidationStatus | undefined
+  modelValue: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -119,7 +122,8 @@ const props = withDefaults(defineProps<Props>(), {
   label: 'Text',
   required: false,
   disabled: false,
-  validationStatus: 'normal'
+  validationStatus: 'normal',
+  modelValue: ''
 })
 
 const bordered = ref(false)
@@ -134,6 +138,12 @@ const handleContainerClick = () => {
   if (!props.disabled) {
     bordered.value = true
   }
+}
+
+const emit = defineEmits(['update:modelValue'])
+
+const handleInput = (e: Event) => {
+  emit('update:modelValue', (e.target as HTMLInputElement).value)
 }
 
 onClickOutside(target, () => (bordered.value = false))
