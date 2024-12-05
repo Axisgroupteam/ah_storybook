@@ -1,4 +1,4 @@
-import ButtonX from './components/FwbButton/FwbButton.vue'
+// import ButtonX from './components/FwbButton/FwbButton.vue'
 //import AppSelectDropBox from './components/AppSelectDropBox/presentation/AppSelectDropBox.vue'
 import DatePickerX from './components/DatePicker/DatePicker.vue'
 //import Drawer from './components/Drawer/presentation/Drawer.vue'
@@ -57,6 +57,8 @@ import IconX from './components/IconWrapper.vue'
 import type { iconsNames } from './components/data/icons.ts'
 export type { iconsNames as IconsNames }
 import ExpandableTableX from './components/FwbTable/NestedTable/ExpandableTable.vue'
+import { defineAsyncComponent } from 'vue'
+const ButtonX = defineAsyncComponent(() => import('./components/FwbButton/FwbButton.vue'))
 export {
   ButtonX,
   DatePickerX,
