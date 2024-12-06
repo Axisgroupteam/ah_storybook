@@ -1,9 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { fn } from '@storybook/test'
 import FwbChooseQuantity from '@/components/FwbChooseQuantity/FwbChooseQuantity.vue'
-import { action } from '@storybook/addon-actions'
-import { readonly, ref } from 'vue'
-import { Readonly } from './FwbTextarea.stories';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 /**
@@ -50,35 +46,27 @@ type Story = StoryObj<typeof meta>
  */
 export const Default: Story = {
   args: {
-      label: "LABEL",      
+    label: 'LABEL'
   }
 }
-
 
 /**
  * Use this example if you want to apply the readOnly state to an input field.
  */
 export const ReadOnly: Story = {
   args: {
-    label: "",
+    label: '',
     readonly: true
   }
 }
-
 
 /**
  * Use this example if you want to apply maximum and minimum value to.
  */
 export const MaxAndMin: Story = {
   args: {
-    label:"",
+    label: '',
     min: 0,
     max: 10
   }
 }
-
-
-
-
-
-
