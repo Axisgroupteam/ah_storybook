@@ -28,7 +28,7 @@ jobs:
       - name: Setup Yarn version
         run: corepack prepare yarn@4.5.3 --activate
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --immutable --inline-builds
       #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
