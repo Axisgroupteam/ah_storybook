@@ -17,5 +17,12 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  test: {
+    browser: {
+      enabled: true,
+      provider: 'playwright',
+      name: 'chromiun'
+    }
   }
 })
