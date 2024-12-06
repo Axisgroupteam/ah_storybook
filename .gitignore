@@ -33,5 +33,4 @@ coverage
 
 .yarn
 .yarnrc.yml
-yarn.lock
 src/components/FwbAvatar/FwbAvatarv1.vue
