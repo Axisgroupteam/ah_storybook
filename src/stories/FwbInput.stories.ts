@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { fn } from '@storybook/test'
 import FwbInput from '@/components/FwbInput/FwbInput.vue'
-import { action } from '@storybook/addon-actions'
 import { ref } from 'vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories

@@ -31,6 +31,22 @@ coverage
 
 *storybook.log
 
-.yarn
-.yarnrc.yml
+# Mantener estos archivos
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+!.yarnrc.yml
+
+# Ignorar estos archivos de Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.yarn/cache
+.yarn/install-state.gz
+.pnp.*
+
 src/components/FwbAvatar/FwbAvatarv1.vue
