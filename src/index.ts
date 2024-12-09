@@ -59,7 +59,9 @@ export type { iconsNames as IconsNames }
 import ExpandableTableX from './components/FwbTable/NestedTable/ExpandableTable.vue'
 import { defineAsyncComponent } from 'vue'
 const ButtonX = defineAsyncComponent(() => import('./components/FwbButton/FwbButton.vue'))
-const CarouselX = defineAsyncComponent(() => import('./components/FwbCarousel/FwbCarousel.vue'))
+// const CarouselX = defineAsyncComponent(() => import('./components/FwbCarousel/FwbCarousel.vue'))
+
+import ExpandableTableStyles from './components/FwbTable/NestedTable/styles/table_styles.css'
 export {
   ButtonX,
   DatePickerX,
@@ -117,5 +119,6 @@ export {
   IconX,
   FwbChooseQuantity,
   ExpandableTableX,
-  CarouselX
+  // CarouselX
+  ExpandableTableStyles
 }
