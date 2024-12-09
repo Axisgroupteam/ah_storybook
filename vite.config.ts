@@ -3,13 +3,14 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import cssExport from 'vite-plugin-css-export'
 
 import svgLoader from 'vite-svg-loader'
 import { resolve } from 'node:path'
 import dts from 'vite-plugin-dts'
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueDevTools(), svgLoader(), dts()],
+  plugins: [vue(), vueDevTools(), svgLoader(), dts(), cssExport()],
   build: {
     lib: {
       // src/indext.ts is where we have exported the component(s)
@@ -35,5 +36,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  css: {
+    postcss: './postcss.config.js' // Usa tu configuración de PostCSS
   }
 })
