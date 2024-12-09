@@ -2,20 +2,16 @@
   <tr>
     <td :colspan="tdLength">
       <div class="flex h-[0.2rem] justify-center">
-        <div class="h-full w-full loading-td-1 flex max-w-[calc(100%/3*2)] bg-red-500">
-          <!-- <div
-            class="bg-gradient-to-r from-red-500/0 to-red-500/100 h-full flex-1"
-          ></div>
-          <div
-            class="bg-gradient-to-r from-red-500/100 to-red-500/0 h-full flex-1"
-          ></div> -->
+        <div class="h-full w-full loading-td-1 flex max-w-[calc(100%/3*2)]">
+          <div class="bg-gradient-to-r from-red-500/0 to-red-500/100 h-full flex-1"></div>
+          <div class="bg-gradient-to-r from-red-500/100 to-red-500/0 h-full flex-1"></div>
         </div>
       </div>
     </td>
   </tr>
 </template>
 <script lang="ts" setup>
-defineProps({
+const props = defineProps({
   tdLength: { type: Number, default: 0 }
 })
 </script>
