@@ -1,6 +1,6 @@
 {
   "name": "@exeditec/vue-tailwind-components",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "type": "module",
   "description": "A vue tailwind components library for fast development",
   "files": [
@@ -9,12 +9,6 @@
   ],
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
-    }
-  },
   "types": "./dist/index.d.ts",
   "keywords": [
     "vue",
@@ -82,6 +76,22 @@
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-perfect-scrollbar": "^2.0.0",
     "yup": "^1.4.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.29",
+    "apexcharts": "^3.50.0",
+    "vue-easy-lightbox": "^1.19.0",
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue3-perfect-scrollbar": "^2.0.0",
+    "yup": "^1.4.0",
+    "flowbite": "^2.3.0",
+    "flowbite-datepicker": "^1.3.0",
+    "overlayscrollbars": "^2.10.0",
+    "overlayscrollbars-vue": "^0.5.9",
+    "pinia": "^2.1.7",
+    "tailwind-merge": "^2.3.0",
+    "vite-svg-loader": "^4.0.0",
+    "tailwindcss": "^3.4.4"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
