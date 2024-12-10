@@ -16,7 +16,7 @@
       </div>
       <input
         v-bind="$attrs"
-        :value="internalValue"
+        :value="modelValue"
         :disabled="disabled"
         :type="type"
         :required="required"
@@ -64,6 +64,7 @@ import { getFBIcon } from '@/utils/getAssets'
 
 interface InputProps {
   disabled?: boolean
+  modelValue?: string | number
   label?: string
   initialValue?: string | number
   required?: boolean
@@ -78,6 +79,7 @@ interface InputProps {
 
 const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
+  modelValue: '',
   label: '',
   initialValue: '',
   required: false,
@@ -90,39 +92,26 @@ const props = withDefaults(defineProps<InputProps>(), {
   step: 1
 })
 
-const emit = defineEmits(['update:value', 'toggleVisibility', 'update:modelValue'])
-
-const internalValue = ref(props.initialValue)
-
-watch(
-  () => props.initialValue,
-  (newValue) => {
-    internalValue.value = newValue
-  }
-)
+const emit = defineEmits(['update:modelValue', 'toggleVisibility'])
 
 const handleInput = (e: Event) => {
   const value = (e.target as HTMLInputElement).value
-  internalValue.value = value
-  emit('update:value', value)
   emit('update:modelValue', value)
 }
 
 const increment = () => {
   if (!props.disabled && !props.readonly && props.type === 'number') {
-    const currentValue = Number(internalValue.value) || 0
+    const currentValue = Number(props.modelValue) || 0
     const newValue = Math.min(currentValue + props.step, props.max)
-    internalValue.value = String(newValue)
-    emit('update:value', newValue)
+    emit('update:modelValue', newValue)
   }
 }
 
 const decrement = () => {
   if (!props.disabled && !props.readonly && props.type === 'number') {
-    const currentValue = Number(internalValue.value) || 0
+    const currentValue = Number(props.modelValue) || 0
     const newValue = Math.max(currentValue - props.step, props.min)
-    internalValue.value = String(newValue)
-    emit('update:value', newValue)
+    emit('update:modelValue', newValue)
   }
 }
 
