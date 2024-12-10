@@ -2,7 +2,7 @@
   @apply p-4 bg-neutral-100 dark:bg-neutral-700 text-left text-neutral-500 dark:text-neutral-400 relative uppercase text-xs font-bold cursor-move;
 }
 .table-body-td {
-  @apply p-4 text-neutral-500 dark:text-neutral-200;
+  @apply p-4 text-neutral-500 dark:text-neutral-200 font-normal text-sm font-inter;
 }
 .hoverable-row {
   @apply group-hover:bg-neutral-100 dark:group-hover:bg-neutral-700 text-left cursor-pointer;
