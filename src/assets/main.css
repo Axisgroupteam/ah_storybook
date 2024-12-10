@@ -1,2 +1,13 @@
 @import './base.css';
 @import '../components/FwbTable/NestedTable/styles/table_styles.css';
+
+@layer base {
+  /* Asegurarse de que la fuente Inter esté disponible */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+}

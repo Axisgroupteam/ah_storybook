@@ -18,7 +18,10 @@ export default {
       },
       colors: ({ colors }) => ({
         gray: colors.neutral
-      })
+      }),
+      fontFamily: {
+        inter: ['Inter', 'sans-serif']
+      }
     }
   },
   plugins: [
