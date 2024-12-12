@@ -99,9 +99,10 @@ export const TableHeadCellX = defineAsyncComponent(
 export const TableBodyX = defineAsyncComponent(
   () => import('./components/FwbTable/FwbTableBody.vue')
 )
-export const TabX = defineAsyncComponent(() => import('./components/FwbTabs/FwbTab.vue'))
-export const TabPaneX = defineAsyncComponent(() => import('./components/FwbTabs/FwbTabPane.vue'))
-export const TabsX = defineAsyncComponent(() => import('./components/FwbTabs/FwbTabs.vue'))
+export { default as TabX } from './components/FwbTabs/FwbTab.vue'
+export { default as TabPaneX } from './components/FwbTabs/FwbTabPane.vue'
+export { default as TabsX } from './components/FwbTabs/FwbTabs.vue'
+
 export const TextareaX = defineAsyncComponent(
   () => import('./components/FwbTextarea/FwbTextarea.vue')
 )
