@@ -2,9 +2,10 @@ import { defineAsyncComponent } from 'vue'
 
 // export ButtonX from './components/FwbButton/FwbButton.vue'
 //export AppSelectDropBox from './components/AppSelectDropBox/presentation/AppSelectDropBox.vue'
-export const DatePickerX = defineAsyncComponent(
-  () => import('./components/DatePicker/DatePicker.vue')
-)
+export { default as DatePickerX } from './components/DatePicker/DatePicker.vue'
+
+export { default as TimePickerX } from './components/TimePicker/TimePicker.vue'
+
 //export Drawer from './components/Drawer/presentation/Drawer.vue'
 export const AccordionX = defineAsyncComponent(
   () => import('./components/FwbAccordion/FwbAccordion.vue')
