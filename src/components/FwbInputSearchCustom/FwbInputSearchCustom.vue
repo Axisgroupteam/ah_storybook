@@ -1,14 +1,15 @@
 <template>
-  <div class="flex flex-col justify-between gap-2 w-full">
+  <div v-if="!hideInput" class="flex flex-col justify-between gap-2 w-full">
     <fwb-input
-      v-model="inputValue"
-      :initial-value="inputValue"
+      :key="objValue"
+      v-model="objValue"
+      :initial-value="objValue"
       :placeholder="`Select ${label}`"
       :label="showLabel ? label : ''"
       :disabled="error ? false : disabled"
       :required="required"
       :readonly="true"
-      :validation-status="validationStatus ? 'error' : ''"
+      :validation-status="props.validationStatus"
       @click="handleClick"
     >
       <template #suffix>
@@ -38,12 +39,12 @@
           </svg>
         </div>
       </template>
-      <template #validationMessage v-if="!open">
-       <p> {{ error }}</p>
+      <template v-if="!open" #validationMessage>
+        <p>{{ error }}</p>
       </template>
     </fwb-input>
   </div>
-  <fwb-modal v-if="open" @close="closeModal">
+  <fwb-modal v-if="open" :scroll-needed-prop="true" @close="closeModal">
     <template #header>
       <div class="flex items-center text-lg text-neutral-900 dark:text-white">
         {{ title }}
@@ -133,7 +134,7 @@
 import FwbInput from '../FwbInput/FwbInput.vue'
 import FwbModal from '../FwbModal/FwbModal.vue'
 import type { InputSize, InputType, ValidationStatus } from '../FwbInput/types'
-import { computed, inject, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import FwbPagination from '../FwbPagination/FwbPagination.vue'
 import Table from './Table.vue'
 
@@ -143,6 +144,7 @@ import FwbSpinner from '../FwbSpinner/FwbSpinner.vue'
 
 interface Props {
   request?: any
+  requestOne?: any
   tableConfig?: any
   maxWidth?: string
   title?: string
@@ -156,11 +158,15 @@ interface Props {
   error?: string
   objectRef?: string
   activeParam?: boolean
+  hideInput?: boolean
   placeHolder?: string
   size?: InputSize
   type?: InputType
   validationStatus?: ValidationStatus
   company: string
+  obj?: any
+  objKey?: string
+  modelValue?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -178,12 +184,17 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   title: 'Title',
   validationStatus: undefined,
-  company: ''
+  company: '',
+  obj: {},
+  objKey: '_id'
 })
 
-const emit = defineEmits(['selected', 'selectedOptionEvt', 'statusList'])
+const emit = defineEmits(['selected', 'selectedOptionEvt', 'statusList', 'update:modelValue'])
+
 const open = ref(false)
 const inputValue = ref('')
+
+const objValue = computed(() => inputValue.value || props.obj[props.valueRef])
 
 const changeLimit = (newPerPage: number) => {
   limit.value = newPerPage
@@ -213,6 +224,9 @@ watch(
   }
 )
 
+onMounted(() => {
+  inputValue.value = props.prevValue ?? ''
+})
 onUnmounted(() => {
   value.value = ''
 })
@@ -239,6 +253,9 @@ const handleSelected = (item: any) => {
 
   open.value = false
   emit('selected', item)
+  if (props.objKey) {
+    emit('update:modelValue', item[props.objKey])
+  }
 }
 
 watch(inputValue, (v) => {
@@ -264,6 +281,28 @@ const handleClick = () => {
 const handleKeyPressEnter = () => {
   request()
 }
+
+watch(
+  [
+    computed(() => props.requestOne),
+    computed(() => props.modelValue),
+    computed(() => props.obj),
+    computed(() => props.objKey)
+  ],
+  async ([requestOne, modelValue, obj, objKey]) => {
+    console.log({ obj })
+    if (requestOne && modelValue && obj && objKey && obj[objKey] !== modelValue) {
+      const resp = await requestOne(modelValue)
+      if (resp) {
+        emit('selected', resp)
+      }
+    }
+  }
+)
+
+defineExpose({
+  handleOpen
+})
 </script>
 
 <style></style>
