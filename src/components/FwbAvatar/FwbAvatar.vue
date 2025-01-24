@@ -128,9 +128,7 @@
           class="px-4 overflow-hidden w-[200px] py-4 items-center flex gap-2 border-b border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium last:text-red-500 dark:last:text-red-500 last:hover:text-red-500 dark:last:hover:text-red-500"
           @click="handleMenuClick(option.link)"
         >
-          <div class="w-4 h-4 flex">
-            <component :is="getFBIcon(option.icon)" fill="currentColor" />
-          </div>
+          <IconWrapper :name="option.icon" fill="currentColor" size="14" />
           <span class="cursor-pointer text-ellipsis truncate whitespace-nowrap">{{
             option.label
           }}</span>
