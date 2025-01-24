@@ -9,8 +9,6 @@
         ]"
         >{{ label }} <span v-if="required" class="text-red-500"> *</span></span
       >
-        {{ label }} <span class="text-red-500" v-if="required"> *</span>
-      </span>
     </label>
     <div
       ref="target"
@@ -60,7 +58,7 @@
           }"
         >
           <li
-            v-for="(header) in 1"
+            v-for="header in 1"
             :key="header"
             class="px-2 py-2 whitespace-nowrap flex gap-2 justify-start items-center hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer rounded-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium w-full"
           >
