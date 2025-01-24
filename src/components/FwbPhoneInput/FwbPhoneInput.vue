@@ -154,20 +154,9 @@ const handleContainerClick = () => {
   }
 }
 
-const emit = defineEmits(['update:modelValue'])
-
-const handleInput = (e: Event) => {
-  emit('update:modelValue', (e.target as HTMLInputElement).value)
-}
-
 onClickOutside(target, () => (bordered.value = false))
 
 const { labelClasses } = useInputClasses(props.size, props.disabled, props.validationStatus)
-
-const icons = reactive({
-  usa: computed(() => getFBIcon('usa')),
-  caret: computed(() => getFBIcon('caret-down'))
-})
 
 const validationWrapperClasses = computed(() =>
   twMerge(
