@@ -36,7 +36,9 @@
               : ''
           ]"
         >
-          <component
+          <IconWrapper
+            name="upload"
+            size="20"
             class="text-neutral-500 dark:text-neutral-400 mb-2"
             :class="[
               disabled ? '!text-neutral-400 dark:!text-neutral-500' : '',
@@ -44,7 +46,6 @@
                 ? 'text-sm text-red-600 border-red-500 dark:text-red-500'
                 : ''
             ]"
-            :is="getFBIcon('upload')"
           />
           <div v-if="!model">
             <div
