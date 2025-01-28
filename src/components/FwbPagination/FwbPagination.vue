@@ -202,7 +202,7 @@ const emit = defineEmits<{
 interface IPaginationProps {
   modelValue?: number
   totalPages?: number
-  //perPage?: number;
+  perPage?: number
   totalItems?: number
   layout?: PaginationLayout
   showIcons?: boolean
@@ -219,14 +219,7 @@ const visible = ref(false)
 const handleToogle = (value: boolean) => {
   visible.value = value
 }
-
-const perPage = ref(10)
-
 const perPagesArray = [10, 25, 50, 100]
-
-watch(perPage, (newVal) => {
-  emit('per-page-changed', perPage.value)
-})
 
 const props = withDefaults(defineProps<IPaginationProps>(), {
   modelValue: 1,
@@ -255,6 +248,19 @@ defineSlots<{
   end: any
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }>()
+
+const perPage = ref(props.perPage)
+
+watch(
+  () => props.perPage,
+  (newVal) => {
+    perPage.value = newVal
+  }
+)
+watch(perPage, (newVal) => {
+  emit('per-page-changed', perPage.value)
+})
+
 function setPage(index: number) {
   emit('update:model-value', index)
   emit('page-changed', index)
