@@ -251,14 +251,13 @@ defineSlots<{
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }>()
 
-const perPage = ref(props.perPage)
-
-watch(
-  () => props.perPage,
-  (newVal) => {
-    perPage.value = newVal
+const perPage = computed({
+  get: () => props.perPage,
+  set: (value) => {
+    emit('update:perPage', value)
+    emit('per-page-changed', value)
   }
-)
+})
 
 watch(perPage, (newVal) => {
   emit('per-page-changed', perPage.value)
