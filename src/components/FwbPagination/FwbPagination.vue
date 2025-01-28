@@ -9,12 +9,12 @@
     >
       Rows per page
       <fwb-dropdown
-        :text="perPage.toString"
+        :text="perPage.toString()"
         placement="top"
         class="rounded-lg"
-        @toggleVisibility="handleToogle"
-        :maxItems="4"
+        :max-items="4"
         :scroll="false"
+        @toggle-visibility="handleToogle"
       >
         <template #trigger>
           <FwbButton
@@ -57,7 +57,7 @@
             v-for="page in perPagesArray"
             :key="page"
             class="px-4 py-2 items-start flex gap-2 border-b whitespace-nowrap border-b-neutral-200 dark:border-b-neutral-600 last:border-b-0 hover:bg-neutral-100 hover:dark:bg-neutral-600 cursor-pointer first:rounded-t-lg justify-start last:rounded-b-lg text-neutral-500 hover:text-neutral-900 dark:hover:text-white dark:text-neutral-400 text-sm font-medium"
-            @click="perPage = page"
+            @click="updatePerPage(page)"
           >
             {{ page }}
           </li>
@@ -198,6 +198,7 @@ const emit = defineEmits<{
   'update:model-value': [page: number]
   'page-changed': [page: number]
   'per-page-changed': [perPage: number]
+  'update:perPage': [perPage: number]
 }>()
 interface IPaginationProps {
   modelValue?: number
@@ -219,6 +220,7 @@ const visible = ref(false)
 const handleToogle = (value: boolean) => {
   visible.value = value
 }
+
 const perPagesArray = [10, 25, 50, 100]
 
 const props = withDefaults(defineProps<IPaginationProps>(), {
@@ -257,9 +259,15 @@ watch(
     perPage.value = newVal
   }
 )
+
 watch(perPage, (newVal) => {
   emit('per-page-changed', perPage.value)
 })
+
+function updatePerPage(page: number) {
+  perPage.value = page
+  emit('update:perPage', page)
+}
 
 function setPage(index: number) {
   emit('update:model-value', index)
