@@ -29,7 +29,7 @@
             "
           >
             <span class="">
-              {{ perPage }}
+              {{ perPageValue }}
             </span>
             <template #suffix>
               <div class="w-full flex justify-end">
@@ -251,7 +251,7 @@ defineSlots<{
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }>()
 
-const perPage = computed({
+const perPageValue = computed({
   get: () => props.perPage,
   set: (value) => {
     emit('update:perPage', value)
@@ -259,12 +259,12 @@ const perPage = computed({
   }
 })
 
-watch(perPage, (newVal) => {
-  emit('per-page-changed', perPage.value)
+watch(perPageValue, (newVal) => {
+  emit('per-page-changed', perPageValue.value)
 })
 
 function updatePerPage(page: number) {
-  perPage.value = page
+  perPageValue.value = page
   emit('update:perPage', page)
 }
 
@@ -292,7 +292,7 @@ function goToLastPage() {
 
 const computedTotalPages = computed(() => {
   if (props.totalPages) return props.totalPages
-  return Math.ceil(props.totalItems / perPage.value)
+  return Math.ceil(props.totalItems / perPageValue.value)
 })
 
 const isDecreaseDisabled = computed(() => props.modelValue <= 1)
@@ -341,16 +341,18 @@ const pagesToDisplay = computed(() => {
   return pages
 })
 
-const startItemsCount = computed(() => props.modelValue * perPage.value - perPage.value + 1)
+const startItemsCount = computed(
+  () => props.modelValue * perPageValue.value - perPageValue.value + 1
+)
 const endItemsCount = computed(() => {
-  const count = props.modelValue * perPage.value
+  const count = props.modelValue * perPageValue.value
   if (!props.totalItems) return count
   if (count > props.totalItems) return props.totalItems
   return count
 })
 const computedTotalItems = computed(() => {
   if (props.totalItems) return props.totalItems
-  return computedTotalPages.value * perPage.value
+  return computedTotalPages.value * perPageValue.value
 })
 
 const isFirstPage = computed(() => props.modelValue === 1)
