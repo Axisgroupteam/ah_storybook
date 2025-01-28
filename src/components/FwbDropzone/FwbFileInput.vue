@@ -29,24 +29,19 @@
         @click="handleLabelClick"
       >
         <div
+          class="text-neutral-500 dark:text-neutral-400"
           :class="[
             dropzoneWrapClasses,
             disabled
               ? 'bg-neutral-100 text-neutral-400 dark:text-neutral-500 dark:bg-neutral-700'
+              : '',
+            disabled ? '!text-neutral-400 dark:!text-neutral-500' : '',
+            validationStatus === 'error'
+              ? 'text-sm text-red-600 border-red-500 dark:text-red-500'
               : ''
           ]"
         >
-          <IconWrapper
-            name="upload"
-            size="20"
-            class="text-neutral-500 dark:text-neutral-400 mb-2"
-            :class="[
-              disabled ? '!text-neutral-400 dark:!text-neutral-500' : '',
-              validationStatus === 'error'
-                ? 'text-sm text-red-600 border-red-500 dark:text-red-500'
-                : ''
-            ]"
-          />
+          <IconWrapper name="upload" size="20" class="mb-2" />
           <div v-if="!model">
             <div
               :class="[
@@ -86,6 +81,7 @@ import { getFBIcon } from '@/utils/getAssets'
 import FwbButton from '../FwbButton/FwbButton.vue'
 import { onClickOutside } from '@vueuse/core'
 import { type ValidationStatus, validationStatusMap } from '../FwbInput/types'
+import IconWrapper from '../IconWrapper.vue'
 
 interface FileInputProps {
   dropzone?: boolean
@@ -119,7 +115,7 @@ onClickOutside(target, () => (bordered.value = false))
 
 const dropZoneText = computed(() => {
   if (isArray(props.modelValue)) {
-    return props.modelValue.map((el) => el.name).join(', ')
+    return Array.isArray(props.modelValue) ? props.modelValue.map((el) => el.name).join(', ') : ''
   } else if (props.modelValue instanceof FileList) {
     return Array.from(props.modelValue)
       .map((el) => el.name)
