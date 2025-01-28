@@ -30,6 +30,7 @@
           >
             <span class="">
               {{ perPageValue }}
+              {{ props.perPage }}
             </span>
             <template #suffix>
               <div class="w-full flex justify-end">
