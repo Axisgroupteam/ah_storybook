@@ -66,6 +66,7 @@ export const InputPasswordX = defineAsyncComponent(
 )
 export const ModalX = defineAsyncComponent(() => import('./components/FwbModal/FwbModal.vue'))
 //export FwbNavbar from './components/FwbNavbar/FwbNavbar.vue'
+
 export const PaginationX = defineAsyncComponent(
   () => import('./components/FwbPagination/FwbPagination.vue')
 )

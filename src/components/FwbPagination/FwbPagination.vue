@@ -28,7 +28,7 @@
                 : 'focus:bg-neutral-100 focus:dark:bg-neutral-700 focus:text-neutral-900 focus:dark:text-white'
             "
           >
-            <span class="">
+            <span class="bg-red-500">
               {{ perPageValue }}
               {{ props.perPage }}
             </span>
@@ -201,7 +201,7 @@ const emit = defineEmits<{
   'per-page-changed': [perPage: number]
   'update:perPage': [perPage: number]
 }>()
-interface IPaginationProps {
+export interface IPaginationProps {
   modelValue?: number
   totalPages?: number
   perPage?: number
