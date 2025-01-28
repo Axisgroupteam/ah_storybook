@@ -19,16 +19,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Enable Corepack
-        run: corepack enable
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'yarn'
-      - name: Setup Yarn version
-        run: corepack prepare yarn@4.5.3 --activate
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install --immutable --inline-builds
+        run: pnpm install --frozen-lockfile
       #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
