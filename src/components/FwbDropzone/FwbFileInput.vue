@@ -29,23 +29,19 @@
         @click="handleLabelClick"
       >
         <div
+          class="text-neutral-500 dark:text-neutral-400"
           :class="[
             dropzoneWrapClasses,
             disabled
               ? 'bg-neutral-100 text-neutral-400 dark:text-neutral-500 dark:bg-neutral-700'
+              : '',
+            disabled ? '!text-neutral-400 dark:!text-neutral-500' : '',
+            validationStatus === 'error'
+              ? 'text-sm text-red-600 border-red-500 dark:text-red-500'
               : ''
           ]"
         >
-          <component
-            class="text-neutral-500 dark:text-neutral-400 mb-2"
-            :class="[
-              disabled ? '!text-neutral-400 dark:!text-neutral-500' : '',
-              validationStatus === 'error'
-                ? 'text-sm text-red-600 border-red-500 dark:text-red-500'
-                : ''
-            ]"
-            :is="getFBIcon('upload')"
-          />
+          <IconWrapper name="upload" size="20" class="mb-2" />
           <div v-if="!model">
             <div
               :class="[
@@ -85,6 +81,7 @@ import { getFBIcon } from '@/utils/getAssets'
 import FwbButton from '../FwbButton/FwbButton.vue'
 import { onClickOutside } from '@vueuse/core'
 import { type ValidationStatus, validationStatusMap } from '../FwbInput/types'
+import IconWrapper from '../IconWrapper.vue'
 
 interface FileInputProps {
   dropzone?: boolean

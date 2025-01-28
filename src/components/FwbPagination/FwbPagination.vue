@@ -34,7 +34,7 @@
             <template #suffix>
               <div class="w-full flex justify-end">
                 <svg
-                  :class="visible ? 'rotate-180' : 'rotate-0'"
+                  :class="visible ? 'rotate-0' : 'rotate-180'"
                   class="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
