@@ -1,72 +1,72 @@
 <template>
   <div>
-    <div class="bg-[#171717]/50 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-50" />
+    <div class="bg-[#171717]/50 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-[60]" />
     <div
       ref="modalRef"
-      class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-full md:h-full justify-center items-center flex flex-col"
+      class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] w-full md:inset-0 h-full md:h-full justify-center flex flex-col"
+      :class="
+        position === 'left' ? 'items-start' : position === 'right' ? 'items-end' : 'items-center'
+      "
       tabindex="0"
       @click.self="clickOutside"
       @keyup.esc="closeWithEsc"
     >
       <div
-        :class="`${modalSizeClasses[size]}`"
-        class="relative p-4 w-full h-full flex justify-start items-center max-h-[100%] overflow-hidden"
+        :class="[`${modalSizeClasses[size]}`, size === 'screen' ? 'px-4' : '']"
+        class="relative py-4 w-full h-full flex justify-start items-center max-h-[100%] overflow-hidden"
       >
-        <!-- Modal content -->
         <div ref="modal" class="max-h-full bg-white rounded-lg dark:bg-neutral-800 w-full">
-          <!-- Modal header -->
           <div
             ref="header"
-            class="px-4 pt-4 rounded-t flex justify-between items-center text-lg text-neutral-900 dark:text-white"
+            class="px-4 pt-4 rounded-t flex justify-between items-center text-lg text-neutral-900 dark:text-white whitespace-nowrap"
             :class="paddingBottomClass"
           >
             <slot name="header" />
-            <FwbButton color="secondary" square class="border-0" @click="closeModal">
-              <svg
-                class="h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  fill-rule="evenodd"
-                />
-              </svg>
-            </FwbButton>
+
+            <div class="w-full flex justify-end items-center">
+              <FwbButton color="secondary" square class="border-0" @click="closeModal">
+                <svg
+                  class="h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </FwbButton>
+            </div>
           </div>
-          <!-- Modal body -->
-          <!-- Additional content above scrollable area -->
-          <div :class="$slots.bodyHeader ? 'px-4 pb-4' : 'p-0'" ref="bodyHeaderElement">
+
+          <div ref="bodyHeaderElement" :class="$slots.bodyHeader ? 'px-4 pb-4' : 'p-0'">
             <slot name="bodyHeader" />
           </div>
-          <OverlayScrollbarsComponent
-            :options="{
-              scrollbars: {
-                theme: 'os-theme-dark',
-                autoHide: 'leave'
-              },
-              overflow: {
-                x: 'hidden'
-              }
-            }"
-            defer
-          >
+          <PerfectScrollbar v-if="!blockScroll && (scrollNeededProp || needsScrollbar)">
             <div
+              ref="contentRef"
               :class="$slots.header ? '' : 'pt-0'"
               class="p-4 py-0"
-              :style="{
-                maxHeight: $slots.bodyHeader
-                  ? `calc(${height}px - 172px - ${additionalContentHeight}px)`
-                  : `calc(${height}px - 172px`
-              }"
+              :style="contentStyle"
             >
-              <div class="text-neutral-900 dark:text-white">
+              <div class="text-neutral-900 dark:text-white pb-4">
                 <slot name="body" />
               </div>
             </div>
-          </OverlayScrollbarsComponent>
+          </PerfectScrollbar>
+          <div
+            v-else
+            ref="contentRef"
+            :class="$slots.header ? '' : 'pt-0'"
+            class="p-4 py-0"
+            :style="contentStyle"
+          >
+            <div class="text-neutral-900 dark:text-white">
+              <slot name="body" />
+            </div>
+          </div>
           <!-- Modal footer -->
           <div :class="$slots.footer ? 'p-4' : 'p-[34px]'">
             <div v-if="$slots.footer" ref="footer">
@@ -80,32 +80,39 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, type Ref } from 'vue'
+import { computed, nextTick, onMounted, ref, onUnmounted, watch, useSlots } from 'vue'
 import type { ModalSize } from './types'
 import { useWindowSize } from '@vueuse/core'
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import 'overlayscrollbars/overlayscrollbars.css'
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import FwbButton from '../FwbButton/FwbButton.vue'
+import type { Ref } from 'vue'
 
 const modal = ref(null)
 const header = ref(null)
 const footer = ref(null)
 const bodyHeaderElement = ref(null)
 const additionalContentHeight = ref(0)
+const slots = useSlots()
 
 const { height } = useWindowSize()
 
 interface ModalProps {
   notEscapable?: boolean
   persistent?: boolean
+  scrollNeededProp?: boolean
   size?: ModalSize
   paddingBottom?: number
+  position?: 'left' | 'right'
+  blockScroll?: boolean
 }
 
 const props = withDefaults(defineProps<ModalProps>(), {
   notEscapable: false,
-  persistent: false,
-  size: '3xl'
+  persistent: true,
+  scrollNeededProp: false,
+  size: '3xl',
+  position: undefined,
+  blockScroll: false
 })
 
 const paddingBottomClass = computed(() => {
@@ -113,6 +120,7 @@ const paddingBottomClass = computed(() => {
 })
 
 const emit = defineEmits(['close', 'click:outside'])
+
 const modalSizeClasses = {
   xs: 'max-w-xs',
   sm: 'max-w-sm',
@@ -141,32 +149,68 @@ function closeWithEsc() {
   if (!props.notEscapable && !props.persistent) closeModal()
 }
 const modalRef: Ref<HTMLElement | null> = ref(null)
+const isMounted: Ref = ref(false)
 onMounted(() => {
   if (modalRef.value) {
     modalRef.value.focus()
   }
-  // Calculate the height of the additional content
   if (bodyHeaderElement.value) {
     additionalContentHeight.value = (bodyHeaderElement.value as HTMLElement).clientHeight
   }
+  nextTick(() => {
+    checkScrollbarNeeded()
+    isMounted.value = true
+  })
+  window.addEventListener('resize', checkScrollbarNeeded)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScrollbarNeeded)
+})
+
+watch([() => height.value, () => additionalContentHeight.value], () => {
+  nextTick(checkScrollbarNeeded)
+})
+
+const contentRef = ref<HTMLElement | null>(null)
+const needsScrollbar = ref(false)
+
+const contentStyle = computed(() => ({
+  maxHeight: slots.bodyHeader
+    ? `calc(${height.value}px - 172px - ${additionalContentHeight.value}px)`
+    : `calc(${height.value}px - 172px)`
+}))
+
+const checkScrollbarNeeded = () => {
+  if (contentRef.value) {
+    const contentHeight = contentRef.value.scrollHeight
+    const containerHeight = contentRef.value.clientHeight
+    needsScrollbar.value = contentHeight > containerHeight
+  }
+}
+
+// Observar cambios en el contenido del modal
+const observer = new MutationObserver(() => {
+  nextTick(checkScrollbarNeeded)
+})
+
+onMounted(() => {
+  if (contentRef.value) {
+    observer.observe(contentRef.value, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    })
+  }
+})
+
+onUnmounted(() => {
+  observer.disconnect()
 })
 </script>
 
 <style>
-.os-theme-dark {
-  --os-size: 12px;
-  --os-padding-perpendicular: 2px;
-}
-
-.os-scrollbar {
-  --os-handle-bg: rgba(82, 82, 82, 0.4);
-  --os-handle-bg-hover: rgba(82, 82, 82, 0.6);
-  --os-handle-bg-active: rgba(82, 82, 82, 0.7);
-}
-
-:root.dark .os-scrollbar {
-  --os-handle-bg: rgba(163, 163, 163, 0.4);
-  --os-handle-bg-hover: rgba(163, 163, 163, 0.6);
-  --os-handle-bg-active: rgba(163, 163, 163, 0.7);
+.ps {
+  max-height: 100%;
 }
 </style>
