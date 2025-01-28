@@ -14,26 +14,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Añadir pasos de debug
-      - name: List files
-        run: ls -la
-      - name: Check pnpm-lock.yaml
-        run: |
-          if [ -f "pnpm-lock.yaml" ]; then
-            echo "pnpm-lock.yaml exists"
-            cat pnpm-lock.yaml
-          else
-            echo "pnpm-lock.yaml does not exist"
-          fi
       - uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 10.1.0
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
+      # Intenta regenerar el lockfile
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm install --frozen-lockfile
       - uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
