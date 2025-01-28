@@ -1,7 +1,7 @@
 <template>
   <div ref="wrapper" class="inline-flex relative">
     <div class="inline-flex items-center">
-      <fwb-slot-listener @click="onToggle" class="cursor-pointer">
+      <fwb-slot-listener class="cursor-pointer" @click.stop="onToggle">
         <slot name="trigger">
           <fwb-button color="primary" size="xl">
             {{ text }}
@@ -35,22 +35,22 @@
         <fwb-slot-listener>
           <perfect-scrollbar v-if="scroll">
             <div
-              ref="contentWrapper"
               v-if="$slots.default"
+              ref="contentWrapper"
               class="w-full h-full"
               :style="contentWrapperStyle"
-              @click="onToggle"
+              @click.stop="onContentClick"
             >
               <slot />
             </div>
           </perfect-scrollbar>
           <div v-else>
             <div
-              ref="contentWrapper"
               v-if="$slots.default"
+              ref="contentWrapper"
               class="w-full h-full"
               :style="contentWrapperStyle"
-              @click="onToggle"
+              @click.stop="onContentClick"
             >
               <slot />
             </div>
@@ -107,6 +107,7 @@ const props = withDefaults(
     maxItems?: number
     secMaxItems?: number
     scroll?: boolean
+    autoClose?: boolean
   }>(),
   {
     placement: 'bottom',
@@ -118,7 +119,8 @@ const props = withDefaults(
     resizable: false,
     maxItems: 3,
     secMaxItems: 4,
-    scroll: true
+    scroll: true,
+    autoClose: true
   }
 )
 
@@ -142,7 +144,9 @@ const contentWrapperStyle = computed(() => {
   if (props.type === 'secondary') {
     style.maxHeight = `${modalHeight.value - resizeHandleHeight}px`
   } else {
-    style.maxHeight = `${modalHeight.value - (props.resizable && isResizable.value ? resizeHandleHeight : 0)}px`
+    style.maxHeight = `${
+      modalHeight.value - (props.resizable && isResizable.value ? resizeHandleHeight : 0)
+    }px`
   }
   style.paddingBottom = props.resizable && isResizable.value ? `${resizeHandleHeight}px` : '0'
   return style
@@ -158,7 +162,7 @@ watch(
 )
 
 watch(
-  () => slots.default?.(),
+  () => slots.default?.({}),
   () => {
     nextTick(() => {
       tryResetModalSize()
@@ -170,9 +174,11 @@ watch(
 const onToggle = () => {
   visible.value = !visible.value
   emit('toggleVisibility', visible.value)
-  nextTick(() => {
-    resetModalSize()
-  })
+  if (visible.value) {
+    nextTick(() => {
+      resetModalSize()
+    })
+  }
 }
 
 const startResize = (e: MouseEvent) => {
@@ -197,20 +203,28 @@ const stopResize = () => {
 }
 
 const resetModalSize = () => {
-  if (contentWrapper.value) {
+  if (!contentWrapper.value) {
+    console.warn('Dropdown container is not available.')
+    return
+  }
+
+  nextTick(() => {
     let items: HTMLCollection
 
     if (
+      contentWrapper.value &&
       contentWrapper.value.children.length === 1 &&
       contentWrapper.value.children[0].tagName.toLowerCase() === 'ul'
     ) {
       items = contentWrapper.value.children[0].children
-    } else {
+    } else if (contentWrapper.value) {
       items = contentWrapper.value.children
+    } else {
+      console.warn('contentWrapper is undefined.')
+      return
     }
 
     const itemCount = items.length
-    console.log(itemCount)
 
     if (itemCount === 0) {
       console.warn('No elements found to calculate dropdown height.')
@@ -255,9 +269,7 @@ const resetModalSize = () => {
 
     modalHeight.value = minHeight.value
     initialHeight.value = minHeight.value
-  } else {
-    console.warn('Dropdown container is not available.')
-  }
+  })
 }
 
 const tryResetModalSize = () => {
@@ -299,10 +311,16 @@ onClickOutside(wrapper, () => {
   emit('toggleVisibility', false)
 })
 
-defineExpose({
-  onToggle,
-  resetModalSize
-});
+const onContentClick = (event: MouseEvent) => {
+  // Comprueba si el clic fue directamente en el contenedor o en un elemento del slot
+  if (event.target === event.currentTarget) {
+    // Si el clic fue en el contenedor, no hacemos nada
+    event.stopPropagation()
+  } else if (props.autoClose) {
+    // Si el clic fue en un elemento del slot, cerramos el dropdown
+    onToggle()
+  }
+}
 </script>
 
 <style scoped>

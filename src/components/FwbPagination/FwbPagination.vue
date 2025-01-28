@@ -10,6 +10,7 @@
       Rows per page
       <fwb-dropdown
         :text="perPage.toString()"
+        type="primary"
         placement="top"
         class="rounded-lg"
         :max-items="4"
@@ -28,9 +29,8 @@
                 : 'focus:bg-neutral-100 focus:dark:bg-neutral-700 focus:text-neutral-900 focus:dark:text-white'
             "
           >
-            <span class="bg-red-500">
+            <span class="">
               {{ perPageValue }}
-              {{ props.perPage }}
             </span>
             <template #suffix>
               <div class="w-full flex justify-end">
