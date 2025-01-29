@@ -12,18 +12,19 @@
     <template v-else-if="variant === 'counter'">
       <span v-if="count > 999"> +999 </span>
       <span v-else>
-        {{ count }}
+        {{ countPlus ? "+" + count : count }}
       </span>
     </template>
     <template v-else-if="variant === 'indicator'">
       <!-- El indicador es un círculo vacío, así que no necesita contenido -->
     </template>
+
     <div
       v-if="closable && variant === 'default'"
-      @click="$emit('close')"
       class="p-0.5 rounded-sm cursor-pointer"
       :class="closeButtonClasses"
       aria-label="Remove"
+      @click="$emit('close')"
     >
       <IconWrapper name="close" size="8" />
     </div>
@@ -31,34 +32,38 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
-import type { BadgeSize, BadgeType, BadgeVariant } from './types'
-import { useBadgeClasses } from './composables/useBadgeClasses'
-import IconWrapper from '../IconWrapper.vue'
+import { computed, useSlots } from "vue";
+import type { BadgeSize, BadgeType, BadgeVariant } from "./types";
+import { useBadgeClasses } from "./composables/useBadgeClasses";
+import IconWrapper from '@/components/IconWrapper.vue'
 
 interface IBadgeProps {
-  type?: BadgeType
-  size?: BadgeSize
-  href?: string | null
-  variant?: BadgeVariant
-  count?: number
-  closable?: boolean
+  type?: BadgeType;
+  size?: BadgeSize;
+  href?: string | null;
+  variant?: BadgeVariant;
+  count?: number;
+  countPlus?: boolean;
+  closable?: boolean;
 }
 
 const props = withDefaults(defineProps<IBadgeProps>(), {
-  type: 'primary',
-  size: 'xs',
+  type: "primary",
+  size: "xs",
   href: null,
-  variant: 'default',
+  variant: "default",
   count: 0,
-  closable: false
-})
+  countPlus: false,
+  closable: false,
+});
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(["close"]);
 
-const slots = useSlots()
-const isContentEmpty = computed(() => !slots.default)
-const wrapperType = computed(() => (props.href ? 'a' : 'span'))
+const slots = useSlots();
+const isContentEmpty = computed(() => !slots.default);
+const wrapperType = computed(() => (props.href ? "a" : "span"));
 
-const { badgeClasses, closeButtonClasses } = useBadgeClasses(props, { isContentEmpty })
+const { badgeClasses, closeButtonClasses } = useBadgeClasses(props, {
+  isContentEmpty,
+});
 </script>
