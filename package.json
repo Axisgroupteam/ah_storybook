@@ -1,6 +1,6 @@
 {
   "name": "@exeditec/vue-tailwind-components",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "type": "module",
   "description": "A vue tailwind components library for fast development",
   "files": [
