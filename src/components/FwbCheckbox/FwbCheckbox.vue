@@ -1,17 +1,20 @@
 <template>
-  <label class="flex gap-3 items-center justify-start">
+  <label class="flex gap-3 items-center justify-start w-min">
     <input
       v-model="model"
-      class="bg-neutral"
-      :class="[checkboxClasses, customClass ? customClass : '']"
+      :class="[
+        checkboxClasses,
+        customClass || '',
+        model ? 'dark:!bg-red-600' : 'dark:!bg-neutral-700'
+      ]"
       :disabled="disabled"
       type="checkbox"
-      @change="toggleRing"
-      :style="{
-        boxShadow: ring ? '' : 'none'
-      }"
+      :style="{ boxShadow: ring ? '' : 'none' }"
+      @input="toggleRing"
     />
-    <span v-if="label" :class="labelClasses">{{ label }}</span>
+    <span v-if="label" :class="labelClasses" class="truncate" @click="toggle">
+      {{ label }}
+    </span>
     <slot />
   </label>
 </template>
@@ -26,6 +29,7 @@ interface CheckboxProps {
   modelValue?: boolean
   customClass?: string
 }
+
 const props = withDefaults(defineProps<CheckboxProps>(), {
   disabled: false,
   label: '',
@@ -33,32 +37,24 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   customClass: ''
 })
 
+const emit = defineEmits(['update:modelValue'])
 const ring = ref(false)
 
-const toggleRing = () => {
-  ring.value = !ring.value
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val)
+})
+
+const toggle = () => {
+  model.value = !model.value
 }
 
-watch(ring, (newValue) => {
-  if (newValue) {
-    setTimeout(() => {
-      ring.value = false
-    }, 200)
-  }
-})
-
-const emit = defineEmits(['update:modelValue'])
-const model = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  }
-})
+const toggleRing = () => {
+  ring.value = true
+  setTimeout(() => (ring.value = false), 200)
+}
 
 const classes = computed(() => useCheckboxClasses(props.disabled))
-
 const checkboxClasses = computed(() => classes.value.checkboxClasses.value)
 const labelClasses = computed(() => classes.value.labelClasses.value)
 </script>
