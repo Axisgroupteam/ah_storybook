@@ -1,9 +1,9 @@
 <template>
   <div ref="wrapper" class="inline-flex relative">
     <div class="inline-flex items-center">
-      <fwb-slot-listener class="cursor-pointer" @click.stop="onToggle">
+      <fwb-slot-listener @click="onToggle">
         <slot name="trigger">
-          <fwb-button color="primary" size="xl">
+          <FwbButton>
             {{ text }}
             <template #suffix>
               <svg
@@ -21,271 +21,61 @@
                 />
               </svg>
             </template>
-          </fwb-button>
+          </FwbButton>
         </slot>
       </fwb-slot-listener>
     </div>
     <transition :name="transitionName">
-      <div
-        v-if="visible"
-        ref="content"
-        :class="[contentClasses, 'overflow-hidden']"
-        :style="[contentStyles, { height: `${modalHeight}px` }]"
-      >
-        <fwb-slot-listener>
-          <perfect-scrollbar v-if="scroll">
-            <div
-              v-if="$slots.default"
-              ref="contentWrapper"
-              class="w-full h-full"
-              :style="contentWrapperStyle"
-              @click.stop="onContentClick"
-            >
-              <slot />
-            </div>
-          </perfect-scrollbar>
-          <div v-else>
-            <div
-              v-if="$slots.default"
-              ref="contentWrapper"
-              class="w-full h-full"
-              :style="contentWrapperStyle"
-              @click.stop="onContentClick"
-            >
-              <slot />
-            </div>
-          </div>
+      <div v-if="visible" ref="content" :class="[contentClasses]" :style="contentStyles">
+        <fwb-slot-listener @click="onHide">
+          <slot />
         </fwb-slot-listener>
-        <div
-          v-if="resizable && isResizable"
-          ref="resizeHandle"
-          :class="[
-            'w-full cursor-ns-resize absolute left-0 py-2 bottom-0 flex justify-center items-center bg-neutral-50 dark:bg-neutral-800'
-          ]"
-          @mousedown="startResize"
-        >
-          <div class="bg-neutral-400 w-[64px] h-[6px] rounded-lg"></div>
-        </div>
       </div>
     </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, onUnmounted, watch, nextTick, useSlots } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import type { DropdownPlacement } from './types'
+import { useDropdownClasses } from './composables/useDropdownClasses'
 import FwbButton from '../FwbButton/FwbButton.vue'
 import FwbSlotListener from '@/utils/FwbSlotListener/FwbSlotListener.vue'
-import { useDropdownClasses } from './composables/useDropdownClasses'
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
-
-const emit = defineEmits(['toggleVisibility'])
 
 const visible = ref(false)
-const modalHeight = ref(0)
-const minHeight = ref(0)
-const maxHeight = ref(0)
-const isResizing = ref(false)
-const startY = ref(0)
-const startHeight = ref(0)
-const initialHeight = ref(0)
-const content = ref<HTMLDivElement>()
-const wrapper = ref<HTMLDivElement>()
-const contentWrapper = ref<HTMLDivElement>()
-const resizeHandle = ref<HTMLDivElement>()
+const onHide = () => {
+  if (props.closeInside) visible.value = false
+}
+const onToggle = () => (visible.value = !visible.value)
 
 const props = withDefaults(
   defineProps<{
     placement?: DropdownPlacement
-    type: 'primary' | 'secondary'
     text?: string
     transition?: string
     closeInside?: boolean
     alignToEnd?: boolean
-    resizable?: boolean
-    maxItems?: number
-    secMaxItems?: number
-    scroll?: boolean
-    autoClose?: boolean
   }>(),
   {
     placement: 'bottom',
     text: '',
     transition: '',
     closeInside: false,
-    alignToEnd: false,
-    type: 'primary',
-    resizable: false,
-    maxItems: 3,
-    secMaxItems: 4,
-    scroll: true,
-    autoClose: true
+    alignToEnd: false
   }
 )
 
-const { contentClasses, contentStyles } = useDropdownClasses({
-  placement: toRef(props, 'placement'),
-  alignToEnd: toRef(props, 'alignToEnd'),
-  visible,
-  contentRef: content,
-  type: toRef(props, 'type')
-})
+const emit = defineEmits<{
+  show: []
+  hide: []
+}>()
 
-const isResizable = computed(() => {
-  return maxHeight.value > minHeight.value
-})
-
-const slots = useSlots()
-
-const contentWrapperStyle = computed(() => {
-  const style: { [key: string]: string } = {}
-  const resizeHandleHeight = props.resizable ? 24 : 0
-  if (props.type === 'secondary') {
-    style.maxHeight = `${modalHeight.value - resizeHandleHeight}px`
+watch(visible, (isVisible: boolean) => {
+  if (isVisible) {
+    emit('show')
   } else {
-    style.maxHeight = `${
-      modalHeight.value - (props.resizable && isResizable.value ? resizeHandleHeight : 0)
-    }px`
-  }
-  style.paddingBottom = props.resizable && isResizable.value ? `${resizeHandleHeight}px` : '0'
-  return style
-})
-
-watch(
-  () => props.text,
-  () => {
-    nextTick(() => {
-      tryResetModalSize()
-    })
-  }
-)
-
-watch(
-  () => slots.default?.(),
-  () => {
-    nextTick(() => {
-      tryResetModalSize()
-    })
-  },
-  { deep: true }
-)
-
-const onToggle = () => {
-  visible.value = !visible.value
-  emit('toggleVisibility', visible.value)
-  if (visible.value) {
-    nextTick(() => {
-      resetModalSize()
-    })
-  }
-}
-
-const startResize = (e: MouseEvent) => {
-  if (!props.resizable) return
-  isResizing.value = true
-  startY.value = e.clientY
-  startHeight.value = modalHeight.value
-  document.addEventListener('mousemove', resize)
-  document.addEventListener('mouseup', stopResize)
-}
-
-const resize = (e: MouseEvent) => {
-  if (!isResizing.value || !props.resizable) return
-  const diff = e.clientY - startY.value
-  modalHeight.value = Math.max(minHeight.value, Math.min(maxHeight.value, startHeight.value + diff))
-}
-
-const stopResize = () => {
-  isResizing.value = false
-  document.removeEventListener('mousemove', resize)
-  document.removeEventListener('mouseup', stopResize)
-}
-
-const resetModalSize = () => {
-  if (!contentWrapper.value) {
-    console.warn('Dropdown container is not available.')
-    return
-  }
-
-  nextTick(() => {
-    let items: HTMLCollection
-
-    if (
-      contentWrapper.value.children.length === 1 &&
-      contentWrapper.value.children[0].tagName.toLowerCase() === 'ul'
-    ) {
-      items = contentWrapper.value.children[0].children
-    } else {
-      items = contentWrapper.value.children
-    }
-
-    const itemCount = items.length
-
-    if (itemCount === 0) {
-      console.warn('No elements found to calculate dropdown height.')
-      return
-    }
-
-    const resizeHandleHeight = props.resizable ? 24 : 0
-    const padding = props.type === 'secondary' ? 24 : 0
-    const maxVisibleItems =
-      props.type === 'primary'
-        ? props.maxItems
-          ? itemCount > props.maxItems
-            ? props.maxItems
-            : props.maxItems + 1
-          : 3
-        : props.secMaxItems
-          ? itemCount > props.maxItems
-            ? props.maxItems
-            : props.maxItems + 1
-          : 4
-
-    let totalItemHeight = 0
-    let visibleItemsHeight = 0
-    for (let i = 0; i < itemCount; i++) {
-      const item = items[i] as HTMLElement
-      if (!(item instanceof HTMLElement)) {
-        console.warn(`Element at index ${i} is not a valid HTMLElement.`)
-        continue
-      }
-      const itemHeight = item.getBoundingClientRect().height
-      totalItemHeight += itemHeight
-      if (i < maxVisibleItems) {
-        visibleItemsHeight += itemHeight
-      }
-    }
-
-    const fullContentHeight = totalItemHeight + padding + resizeHandleHeight
-    const initialContentHeight = visibleItemsHeight + padding + resizeHandleHeight
-
-    minHeight.value = initialContentHeight
-    maxHeight.value = fullContentHeight
-
-    modalHeight.value = minHeight.value
-    initialHeight.value = minHeight.value
-  })
-}
-
-const tryResetModalSize = () => {
-  if (visible.value) {
-    resetModalSize()
-  }
-}
-
-onUnmounted(() => {
-  document.removeEventListener('mousemove', resize)
-  document.removeEventListener('mouseup', stopResize)
-})
-
-watch(visible, (newValue) => {
-  if (newValue) {
-    nextTick(() => {
-      resetModalSize()
-    })
-  } else {
-    modalHeight.value = initialHeight.value
+    emit('hide')
   }
 })
 
@@ -301,25 +91,24 @@ const transitionName = computed(() => {
   return props.transition
 })
 
+const content = ref<HTMLDivElement>()
+const wrapper = ref<HTMLDivElement>()
+
+const { contentClasses, contentStyles } = useDropdownClasses({
+  placement: toRef(props, 'placement'),
+  alignToEnd: toRef(props, 'alignToEnd'),
+  visible,
+  contentRef: content
+})
+
 onClickOutside(wrapper, () => {
   if (!visible.value) return
   visible.value = false
-  emit('toggleVisibility', false)
 })
-
-const onContentClick = (event: MouseEvent) => {
-  // Comprueba si el clic fue directamente en el contenedor o en un elemento del slot
-  if (event.target === event.currentTarget) {
-    // Si el clic fue en el contenedor, no hacemos nada
-    event.stopPropagation()
-  } else if (props.autoClose) {
-    // Si el clic fue en un elemento del slot, cerramos el dropdown
-    onToggle()
-  }
-}
 </script>
 
 <style scoped>
+/* transitions */
 .to-bottom-enter-active,
 .to-bottom-leave-active,
 .to-left-enter-active,
@@ -331,6 +120,7 @@ const onContentClick = (event: MouseEvent) => {
   transition: all 250ms;
 }
 
+/* to top */
 .to-top-enter-active,
 .to-top-leave-to {
   opacity: 0;
@@ -342,6 +132,7 @@ const onContentClick = (event: MouseEvent) => {
   transform: translateY(0);
 }
 
+/* to right */
 .to-right-enter-active,
 .to-right-leave-to {
   opacity: 0;
@@ -353,6 +144,7 @@ const onContentClick = (event: MouseEvent) => {
   transform: translateX(0);
 }
 
+/* to bottom */
 .to-bottom-enter-active,
 .to-bottom-leave-to {
   opacity: 0;
@@ -364,6 +156,7 @@ const onContentClick = (event: MouseEvent) => {
   transform: translateY(0);
 }
 
+/* to left */
 .to-left-enter-active,
 .to-left-leave-to {
   opacity: 0;
@@ -373,121 +166,5 @@ const onContentClick = (event: MouseEvent) => {
 .to-left-enter-to {
   opacity: 1;
   transform: translateX(0);
-}
-
-.ps {
-  overflow: hidden !important;
-  overflow-anchor: none;
-  -ms-overflow-style: none;
-  touch-action: auto;
-  -ms-touch-action: auto;
-}
-
-.ps__rail-x {
-  display: none;
-  opacity: 0;
-  transition:
-    background-color 0.2s linear,
-    opacity 0.2s linear;
-  -webkit-transition:
-    background-color 0.2s linear,
-    opacity 0.2s linear;
-  height: 15px;
-  bottom: 0;
-  position: absolute;
-}
-
-.ps__rail-y {
-  display: none;
-  opacity: 0;
-  transition:
-    background-color 0.2s linear,
-    opacity 0.2s linear;
-  -webkit-transition:
-    background-color 0.2s linear,
-    opacity 0.2s linear;
-  width: 15px;
-  right: 0;
-  position: absolute;
-}
-
-.ps--active-x > .ps__rail-x,
-.ps--active-y > .ps__rail-y {
-  display: block;
-}
-
-.ps:hover > .ps__rail-x,
-.ps:hover > .ps__rail-y,
-.ps--focus > .ps__rail-x,
-.ps--focus > .ps__rail-y,
-.ps--scrolling-x > .ps__rail-x,
-.ps--scrolling-y > .ps__rail-y {
-  opacity: 0.6;
-}
-
-.ps .ps__rail-x:hover,
-.ps .ps__rail-y:hover,
-.ps .ps__rail-x:focus,
-.ps .ps__rail-y:focus,
-.ps .ps__rail-x.ps--clicking,
-.ps .ps__rail-y.ps--clicking {
-  background-color: transparent;
-  opacity: 0.9;
-}
-
-.ps__thumb-x {
-  @apply bg-neutral-400;
-  border-radius: 6px;
-  transition:
-    background-color 0.2s linear,
-    height 0.2s ease-in-out;
-  -webkit-transition:
-    background-color 0.2s linear,
-    height 0.2s ease-in-out;
-  height: 6px;
-  bottom: 2px;
-  position: absolute;
-}
-
-.ps__thumb-y {
-  @apply bg-neutral-400;
-  border-radius: 6px;
-  transition:
-    background-color 0.2s linear,
-    width 0.2s ease-in-out;
-  -webkit-transition:
-    background-color 0.2s linear,
-    width 0.2s ease-in-out;
-  width: 6px;
-  right: 2px;
-  position: absolute;
-}
-
-.ps__rail-x:hover > .ps__thumb-x,
-.ps__rail-x:focus > .ps__thumb-x,
-.ps__rail-x.ps--clicking .ps__thumb-x {
-  @apply bg-neutral-500;
-}
-
-.ps__rail-y:hover > .ps__thumb-y,
-.ps__rail-y:focus > .ps__thumb-y,
-.ps__rail-y.ps--clicking .ps__thumb-y {
-  @apply bg-neutral-500;
-}
-
-@supports (-ms-overflow-style: none) {
-  .ps {
-    overflow: auto !important;
-  }
-}
-
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  .ps {
-    overflow: auto !important;
-  }
-}
-
-.ps {
-  position: relative;
 }
 </style>

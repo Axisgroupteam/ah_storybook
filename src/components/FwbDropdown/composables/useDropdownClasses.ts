@@ -1,13 +1,9 @@
-// useDropdownClasses.ts
 import { computed, nextTick, ref, type Ref, watch } from 'vue'
 import classNames from 'classnames'
 import type { DropdownAlignment, DropdownPlacement } from '../types'
 
-const primaryDropdownClasses =
-  'absolute z-[100] divide-y divide-transparent rounded-lg dark:bg-neutral-700 bg-neutral-50 shadow-md border border-neutral-200 dark:border-neutral-600 '
-
-const secondaryDropdownClasses =
-  'absolute z-10 p-3 bg-neutral-50 rounded-lg dark:bg-neutral-700 shadow-md'
+const defaultDropdownClasses =
+  'absolute z-10 bg-neutral-50 rounded-lg shadow-md dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600'
 
 const defaultGapInPx = 8
 
@@ -23,15 +19,11 @@ export type UseDropdownClassesProps = {
   contentRef: Ref<HTMLDivElement | undefined>
   visible: Ref<boolean>
   alignToEnd: Ref<boolean>
-  type: Ref<'primary' | 'secondary'>
 }
 
-const placementCalculators: Record<
-  DropdownPlacement,
-  (triggerRect: DOMRect, contentRect: DOMRect) => string
-> = {
-  bottom(triggerRect: DOMRect, contentRect: DOMRect): string {
-    return `top: ${triggerRect.height + defaultGapInPx}px; ;`
+const placementCalculators: Record<DropdownPlacement, (rect: DOMRect) => string> = {
+  bottom(rect: DOMRect): string {
+    return `bottom: -${rect.height + defaultGapInPx}px;`
   },
   left(rect: DOMRect): string {
     return `left: -${rect.width + defaultGapInPx}px;`
@@ -40,7 +32,7 @@ const placementCalculators: Record<
     return `right: -${rect.width + defaultGapInPx}px;`
   },
   top(rect: DOMRect): string {
-    return `bottom: ${rect.height + defaultGapInPx}px;`
+    return `top: -${rect.height + defaultGapInPx}px;`
   }
 }
 
@@ -55,14 +47,12 @@ export function useDropdownClasses(props: UseDropdownClassesProps): {
   const placementStyles = ref('')
 
   const calculatePlacementClasses = () => {
-    const triggerElement = props.contentRef.value?.previousElementSibling as HTMLElement
-    const triggerRect = triggerElement?.getBoundingClientRect()
-    const contentRect = props.contentRef.value?.getBoundingClientRect()
-    if (!triggerRect || !contentRect) {
+    const boundingRect = props.contentRef.value?.getBoundingClientRect()
+    if (!boundingRect) {
       placementStyles.value = ''
       return
     }
-    placementStyles.value = placementCalculators[props.placement.value](triggerRect, contentRect)
+    placementStyles.value = placementCalculators[props.placement.value](boundingRect)
   }
 
   // Watch for changes in the content element, and recalculate placement classes
@@ -89,10 +79,7 @@ export function useDropdownClasses(props: UseDropdownClassesProps): {
     if (props.alignToEnd.value) {
       placement = `${placement}_reverse`
     }
-    return classNames(
-      props.type.value === 'primary' ? primaryDropdownClasses : secondaryDropdownClasses,
-      placementDropdownAlignmentClasses[placement]
-    )
+    return classNames(defaultDropdownClasses, placementDropdownAlignmentClasses[placement])
   })
 
   return {
