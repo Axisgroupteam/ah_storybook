@@ -122,3 +122,7 @@ export const ExpandableTableX = defineAsyncComponent(
   () => import('./components/FwbTable/NestedTable/ExpandableTable.vue')
 )
 export const ButtonX = defineAsyncComponent(() => import('./components/FwbButton/FwbButton.vue'))
+
+export const FwbCarouselX = defineAsyncComponent(
+  () => import('./components/FwbCarousel/FwbCarousel.vue')
+)
