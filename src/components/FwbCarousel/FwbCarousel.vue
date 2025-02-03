@@ -367,7 +367,7 @@ import 'cropperjs/dist/cropper.css'
 
 const { width, height } = useWindowSize()
 
-interface PictureItem {
+export interface PictureItem {
   src: string
   alt: string
 }
