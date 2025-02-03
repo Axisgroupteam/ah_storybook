@@ -70,7 +70,7 @@
         class="absolute top-1/2 left-4 transform -translate-y-1/2"
       >
         <span>
-          <component :is="getFBIcon('chevron-left-carousel')" />
+          <IconWrapper name="chevron-left-carousel" size="16" />
           <span class="hidden">Previous</span>
         </span>
       </FwbButton>
@@ -82,7 +82,7 @@
         class="absolute top-1/2 right-4 transform -translate-y-1/2"
       >
         <span>
-          <component :is="getFBIcon('chevron-right-carousel')" />
+          <IconWrapper name="chevron-right-carousel" size="16" />
           <span class="hidden">Next</span>
         </span>
       </FwbButton>
@@ -364,6 +364,7 @@ import { debounce } from 'lodash-es'
 import { useWindowSize } from '@vueuse/core'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
+import IconWrapper from '../IconWrapper.vue'
 
 const { width, height } = useWindowSize()
 
