@@ -123,6 +123,7 @@ export const ExpandableTableX = defineAsyncComponent(
 )
 export const ButtonX = defineAsyncComponent(() => import('./components/FwbButton/FwbButton.vue'))
 
-export const FwbCarouselX = defineAsyncComponent(
+export const CarouselX = defineAsyncComponent(
   () => import('./components/FwbCarousel/FwbCarousel.vue')
 )
+export type { PictureItem } from './components/FwbCarousel/FwbCarousel.vue'
