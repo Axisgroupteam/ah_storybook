@@ -70,7 +70,7 @@
         class="absolute top-1/2 left-4 transform -translate-y-1/2"
       >
         <span>
-          <IconWrapper name="chevron-left-carousel" size="16" />
+          <IconWrapper name="chevron-left-carousel" size="24" />
           <span class="hidden">Previous</span>
         </span>
       </FwbButton>
@@ -82,7 +82,7 @@
         class="absolute top-1/2 right-4 transform -translate-y-1/2"
       >
         <span>
-          <IconWrapper name="chevron-right-carousel" size="16" />
+          <IconWrapper name="chevron-right-carousel" size="24" />
           <span class="hidden">Next</span>
         </span>
       </FwbButton>

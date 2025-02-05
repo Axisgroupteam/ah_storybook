@@ -127,3 +127,4 @@ export const CarouselX = defineAsyncComponent(
   () => import('./components/FwbCarousel/FwbCarousel.vue')
 )
 export type { PictureItem } from './components/FwbCarousel/FwbCarousel.vue'
+export type { Image } from './components/FwbGallery/FwbGallery.vue'
